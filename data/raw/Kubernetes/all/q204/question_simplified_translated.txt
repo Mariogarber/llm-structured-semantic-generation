@@ -1,0 +1,1 @@
+创建一个 k8s ReplicationController 的 YAML。在端口 8000 上部署一个 alpine（最新版本）的 pod，使用 "while true; do sleep 10; done" 保持 alpine 的运行。

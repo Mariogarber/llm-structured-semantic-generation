@@ -1,0 +1,1 @@
+在 Kubernetes 集群中，您想创建一个 StorageClass，仅在特定区域（"us-central-1a" 和 "us-central-1b"）中提供 Persistent Volumes。您的 provisioner 是 kubernetes.io/gce-pd，并且您想使用 WaitForFirstConsumer 卷绑定模式。您将如何创建这样的 StorageClass？

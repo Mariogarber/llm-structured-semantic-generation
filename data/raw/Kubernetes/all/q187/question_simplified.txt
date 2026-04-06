@@ -1,0 +1,12 @@
+Refer to all key-value pairs of the config file named special-configs to define the environment variable of the Pod. Use the following YAML:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+   name: config-pod-1
+spec:
+   containers:
+     - name: test-container
+       image: mirror.gcr.io/library/busybox:latest
+       command: [ "/bin/sh", "-c", "env" ]
+```

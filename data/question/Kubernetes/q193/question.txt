@@ -1,0 +1,2 @@
+Please write a k8s YAML file to create a ReplicaSet that brings up 3 replicas, each running image "gcr.io/google_samples/gb-frontend:v3". 
+All potential names should be "frontend" and labels should be "tier: frontend".

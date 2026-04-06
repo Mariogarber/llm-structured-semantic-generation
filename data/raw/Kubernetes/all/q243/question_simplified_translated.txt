@@ -1,0 +1,1 @@
+生成一个名为 frontend-service 的 Service 的 K8S YAML，公开端口 80，并针对具有标签 app: frontend 的 pods。

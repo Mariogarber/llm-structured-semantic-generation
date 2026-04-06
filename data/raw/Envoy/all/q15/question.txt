@@ -1,0 +1,15 @@
+Can you provide a YAML configuration for an Envoy setup that adheres to the following requirements?
+It should have a listener that listens on the IP 0.0.0.0 and port 10000. For this listener, include a filter chain with the envoy.filters.network.http_connection_manager.
+In the filter configuration:
+Set the codec to automatically detect its type.
+Use ingress_http as the prefix for statistics.
+Enable access logging to standard output.
+Add a routing configuration with the name local_route. Inside this, create a virtual host called www that matches any domain. 
+This virtual host should include CORS and CSRF configurations that are fully enabled. 
+Also, specify several different routes that each have specific CSRF settings.
+Add an additional HTTP filter for CORS and CSRF with particular configurations.
+Finally, set up a cluster named generic_service that uses STRICT_DNS for its type and have a ROUND_ROBIN load-balancing policy.
+This cluster should point to a service at an address labeled service and port 8080.
+Also, include an admin section that listens on IP 0.0.0.0 and port 8001.
+The stat_prefix should be set as ingress_http.
+Your response should be structured appropriately in YAML format. Please ensure it adheres to the YAML formatting standards.

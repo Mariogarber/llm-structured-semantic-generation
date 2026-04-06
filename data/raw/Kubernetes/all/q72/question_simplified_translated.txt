@@ -1,0 +1,46 @@
+假设您的集群中有以下 Secret 可用：
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-pass
+type: Opaque
+data:
+  password: bXlwYXNzd29yZA==
+```
+将 MySQL 部署修改为使用密码的 secret "mysql-pass"。添加环境变量 MYSQL_DATABASE 和 MYSQL_USER，值为 "wordpress"。
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-mysql
+  labels:
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: mysql
+    spec:
+      containers:
+      - image: mysql:8.0
+        name: mysql
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_DATABASE
+          value: wordpress
+        - name: MYSQL_USER
+          value: wordpress
+        envFrom:
+        - secretRef:
+            name: mysql-pass
+```

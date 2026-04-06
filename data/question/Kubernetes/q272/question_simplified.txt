@@ -1,0 +1,16 @@
+Deploy 2 replicas of nginx using a StatefulSet. Container uses image registry.k8s.io/nginx-slim:0.8, mounts volume at /usr/share/nginx/html with 1Gi storage and ReadWriteOnce access mode.
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: nginx
+```

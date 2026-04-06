@@ -1,0 +1,1 @@
+Create a Kubernetes CronJob YAML that runs every minute. The job should use a busybox container to output the value of the environment variable CRON_NAME. Name the CronJob "env-job" and set the environment variable's value to CronTest.

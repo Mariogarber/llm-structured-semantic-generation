@@ -1,0 +1,7 @@
+Can you help me configure a Pod in a Kubernetes cluster that meet the following requirements?
+- Use an image named registry.k8s.io/pause.
+- Name the Pod selinuxoptions2.
+- Add a container named container1 and set its SELinux options to have a level of examplelevel and a type of container_init_t.
+- Add an init container named initcontainer1 and set its SELinux options to have a type of container_kvm_t.
+- The Pod should also have a Security Context at the Pod level, with the SELinux options set to type container_t.
+- Use these command in the main container: ["/bin/sh", "-c", "sleep 600"]

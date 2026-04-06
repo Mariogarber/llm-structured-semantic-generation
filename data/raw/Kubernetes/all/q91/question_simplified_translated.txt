@@ -1,0 +1,1 @@
+配置 Kubernetes 中的分析仪仪表板（ana-ing）的入口。服务名称：ana-dash，端口：8085。通过路径 /dashboard 访问。提供 YAML 配置。

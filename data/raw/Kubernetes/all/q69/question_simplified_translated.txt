@@ -1,0 +1,9 @@
+提供一个完整的 YAML，使用 nginx 镜像进行 Kubernetes 部署，并使用 app: nginx-label 对 pod 进行标记。该部署应该有 3 个副本。
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-dp
+spec:
+  replicas: 3
+```

@@ -1,0 +1,28 @@
+将 terminationGracePeriodSeconds 设置为 1800 并将 imagePullPolicy 设置为 Always 添加到 StatefulSet YAML 中。还要包括一个具有 IPC_LOCK 能力的 securityContext。
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-cassandra
+  labels:
+    app: my-cassandra
+spec:
+  serviceName: cassandra
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-cassandra
+  template:
+    metadata:
+      labels:
+        app: my-cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: gcr.io/google-samples/cassandra:v13
+        env:
+          - name: MAX_HEAP_SIZE
+            value: 512M
+          - name: HEAP_NEWSIZE
+            value: 100M
+```

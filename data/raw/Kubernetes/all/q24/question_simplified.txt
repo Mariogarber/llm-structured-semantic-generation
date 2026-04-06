@@ -1,0 +1,19 @@
+Mount host directory /var/log/nginx to nginx container at /var/log/nginx in the given DaemonSet YAML.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-hostpath
+spec:
+  selector:
+    matchLabels:
+      app: ds-hostpath
+  template:
+    metadata:
+      labels:
+        app: ds-hostpath
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```

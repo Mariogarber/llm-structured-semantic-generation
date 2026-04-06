@@ -1,0 +1,12 @@
+部署一个名为 sim-pod 的 Pod，使用 Redis 镜像，并在 Pod 配置的开头附加 Kubernetes Secret sim-secret。在容器中将本地卷挂载到 /mnt/local。
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sim-secret
+type: Opaque
+data:
+  username: 
+  password: 
+```
+提供 Pod 配置。

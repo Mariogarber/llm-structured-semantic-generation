@@ -1,0 +1,18 @@
+Please help add both readiness and liveness probe to this Pod that uses TCP sockets. 
+Both should attempt to connect to the goproxy container on port 8080.
+The readiness probe should probe every 6 seconds and wait 3 seconds before performing the first probe.
+The liveness probe should probe every 10 seconds and wait 5 seconds before performing the first probe.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goproxy
+  labels:
+    app: goproxy
+spec:
+  containers:
+  - name: goproxy
+    image: registry.k8s.io/goproxy:0.1
+    ports:
+    - containerPort: 8080
+```

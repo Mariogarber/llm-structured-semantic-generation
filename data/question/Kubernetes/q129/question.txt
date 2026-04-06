@@ -1,0 +1,4 @@
+Construct a yaml file for Kubernetes to define a PersistentVolume named "nfs-backup-volume" and a PersistentVolumeClaim 
+named "nfs-backup-volume-claim", both using the "manual" storage class and a "ReadWriteMany" access mode. They should be 
+tied to an NFS server "my-nfs-server" at path "/my/nfs/" and allocate exactly 1Gi of storage, with the claim selectively 
+targeting the volume using the label "volume: nfs-backup-volume".

@@ -1,0 +1,1 @@
+Create a headless k8s Service named state-metrics in kube-system ns. Expose 2 ports: HTTP metrics on port 8080 and telemetry on port 8081. Service labels: app.kubernetes.io/component: exporter, app.kubernetes.io/name: state-metrics, app.kubernetes.io/version: 2.9.3.

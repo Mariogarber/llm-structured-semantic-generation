@@ -1,0 +1,4 @@
+Please provide me with the Kubernetes ConfigMap configuration for the game-demo application.
+It specifies the initial number of lives for a player is "3", the ui_properties_file_name is "user-interface.properties", 
+The game.properties specifies the params of 2 object: enemy and player. the types of enemies in the game are 'aliens,monsters'.
+the maximum-lives a player can have is 5.

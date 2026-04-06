@@ -1,0 +1,2 @@
+Create a Kubernetes Ingress YAML file to route all the incoming HTTP traffic on path / to an Nginx service named nginx-svc in the default namespace. 
+The service (my-ing) listens on port 443.

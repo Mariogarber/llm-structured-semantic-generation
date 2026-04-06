@@ -1,0 +1,1 @@
+我想要设置一个名为 "fluentd-elasticsearch" 的 DaemonSet yaml，其中的 Pod 标记为 "name: fluentd-elasticsearch"，并使用镜像 "quay.io/fluentd_elasticsearch/fluentd:v2.5.2"。

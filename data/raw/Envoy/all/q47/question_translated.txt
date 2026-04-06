@@ -1,0 +1,65 @@
+这是我正在使用的当前 Envoy 配置：
+现在我正在尝试将名为 'lua_filter_with_custom_name_0' 的 Lua 过滤器集成到我们的 Envoy 配置中。我想利用我们拥有的自定义 Lua 库 'lib.mylibrary'，并调用它的 'foobar' 函数。当请求到达时，过滤器应该使用此函数添加一个名为 'foo' 的新标头，其值由 'foobar' 返回。我对嵌入 Lua 代码和正确引用我们的库有些不确定。
+你能填写 [TO COMPLETE] 部分并提供完整的 YAML 吗？
+
+```
+static_resources:
+  listeners:
+  - name: main
+    address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          codec_type: AUTO
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/multiple/lua/scripts"
+                route:
+                  cluster: web_service
+                typed_per_filter_config:
+                  lua_filter_with_custom_name_1:
+                    "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.LuaPerRoute
+                    source_code:
+                      inline_string: |
+                        function envoy_on_response(response_handle)
+                          response_handle:headers():add("header_key_1", "header_value_1")
+                        end
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: web_service
+          http_filters:
+          - [TO COMPLETE]
+          - name: lua_filter_with_custom_name_1
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+  clusters:
+  - name: web_service
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: web_service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: web_service
+                port_value: 8080
+```

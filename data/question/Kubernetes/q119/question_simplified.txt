@@ -1,0 +1,1 @@
+Craft a yaml for a k8s LimitRange. Set min/max storage limits for a PVC to 1Gi/2Gi.

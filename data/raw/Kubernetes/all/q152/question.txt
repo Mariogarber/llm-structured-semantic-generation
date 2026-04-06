@@ -1,0 +1,3 @@
+Write a Kubernetes YAML configuration for a Pod (spread-pod) that uses the latest nginx image and configures two single topologySpreadConstraints entries.
+The first constraint should use a maxSkew of 2, use kubernetes.io/hostname for the topologyKey, and set whenUnsatisfiable to DoNotSchedule.
+The second one should use a maxSkew of 1 and a topologyKey of topology.kubernetes.io/zone. If the pod doesn't satisfy the spread constraint, the scheduler to still schedule it while prioritizing nodes that minimize the skew.

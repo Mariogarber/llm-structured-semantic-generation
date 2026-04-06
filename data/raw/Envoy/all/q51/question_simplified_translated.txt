@@ -1,0 +1,8 @@
+使用以下配置组合一个 Envoy 配置：
+- 监听器在 0.0.0.0:8000 上接收入站流量
+- Zipkin 追踪器将跟踪数据以 HTTP_JSON 格式发送到 '/api/v2/spans' 的 Jaeger 收集器，禁用共享跨度上下文
+- 编解码器：AUTO，统计前缀：'ingress_http'
+- 虚拟主机匹配任何域，路由匹配任何前缀并转发到 'local_service' 集群，装饰器操作为 'checkStock'
+- 'local_service' 集群将流量引导到 127.0.0.1:8080
+- 'jaeger' 集群指向端口 9411 上的 Jaeger 实例
+- 管理地址：0.0.0.0，端口：8001

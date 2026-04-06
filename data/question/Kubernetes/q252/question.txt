@@ -1,0 +1,2 @@
+Create a Kubernetes Service that listens on port 80 and forwards traffic to port 9376. 
+Name this service svc-n-ep. Also, create a manual Endpoints resource that associates the Service with an IP address 192.0.2.42 on port 9376.

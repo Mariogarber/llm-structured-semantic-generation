@@ -1,0 +1,4 @@
+Write a DaemonSet YAML file that deploys a container using the busybox image, pod labeled with "ds-liveness-probe". The container should 
+continuously print "Alive" every 10 seconds. Implement a liveness probe that checks for the existence of a file "/tmp/healthy" in the 
+container. The probe should start after a delay of 5 seconds and check every 5 seconds.
+

@@ -1,0 +1,15 @@
+提供 Envoy 跨站点设置的 YAML 配置：
+- 监听器：IP 0.0.0.0，端口 10000
+- 过滤器链：envoy.filters.network.http_connection_manager
+- 编解码器：自动检测类型
+- 统计前缀：'ingress_http'
+- 访问日志：stdout
+- 路由配置：'local_route'
+- 虚拟主机：'www' 适用于所有域名，根路径路由到 'generic_service'
+- 用于路由的 HTTP 过滤器
+- 集群：'generic_service'
+- 类型：STRICT_DNS，负载均衡：ROUND_ROBIN
+- 负载分配：服务 IP 标记为 'service'，端口 8080
+- 统计前缀：'ingress_http'
+
+请提供符合格式标准的 YAML 响应。

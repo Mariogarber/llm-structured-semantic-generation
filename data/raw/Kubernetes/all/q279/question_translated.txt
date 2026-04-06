@@ -1,0 +1,14 @@
+创建一个 Kubernetes PersistentVolumeClaim 和一个使用此 PVC 的 Pod，满足以下要求：
+(1) PVC 应请求 1Gi 的存储空间。
+(2) Pod 应运行最新的 Nginx 容器。
+(3) PVC 应挂载到 Nginx 容器的 /usr/share/nginx/html 目录。
+(4) 在 StorageClass 中使用 volumeBindingMode: WaitForFirstConsumer 来延迟绑定，直到 Pod 被调度。
+(5) Pod 应具有节点选择器，指定它在具有标签 kubernetes.io/hostname: minikube 的节点上运行。
+我已经为 StorageClass 编写了基本的 YAML。
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: my-sc
+provisioner: kubernetes.io/aws-ebs
+```

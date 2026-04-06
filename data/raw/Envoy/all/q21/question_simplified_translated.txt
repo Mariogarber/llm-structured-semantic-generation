@@ -1,0 +1,50 @@
+提供 Envoy 路由 YAML 用于出口流量。统计前缀：egress_http。路由配置：service2_route。虚拟主机：service2，任何域名。路由前缀：/trace/2，集群：service2。使用操作 decorate：checkStock。
+
+```
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+    traffic_direction: INBOUND
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          tracing:
+          [TO COMPLETE]
+          codec_type: auto
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: service2
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: local_service
+                decorator:
+                  operation: checkStock
+          http_filters:
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+  clusters:
+  - name: local_service
+    type: strict_dns
+    lb_policy: round_robin
+    load_assignment:
+      cluster_name: local_service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: 127.0.0.1
+                port_value: 8080
+```

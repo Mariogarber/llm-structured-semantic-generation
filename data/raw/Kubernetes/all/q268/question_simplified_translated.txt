@@ -1,0 +1,21 @@
+修改给定的 K8S YAML 配置，以包含一个 Pod 反亲和规则，防止多个 ZooKeeper Pod 被调度到同一节点上。同时，在端口 2181 上为 ZooKeeper 服务设置存活探针和就绪探针。
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zk
+spec:
+  serviceName: zk-hs
+  replicas: 3
+  selector:
+    matchLabels:
+      app: zk
+  template:
+    metadata:
+      labels:
+        app: zk
+    spec:
+      containers:
+      - name: zookeeper
+        image: registry.k8s.io/kubernetes-zookeeper:1.0-3.4.10
+```

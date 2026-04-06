@@ -1,0 +1,2 @@
+写一个 Kubernetes 的 YAML 文件来创建一个 Pod，它作为一个 HTTP 服务器运行单个容器。
+该容器应该使用镜像 gcr.io/kuar-demo/kuard-amd64:blue，并通过 TCP 暴露端口 8080。

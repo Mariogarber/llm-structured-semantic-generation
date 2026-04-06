@@ -1,0 +1,5 @@
+你能为 Kubernetes ReplicationController 创建一个 YAML 配置文件吗？该配置文件应该部署 5 个 pod 副本。每个 pod 应具备以下特点：
+- 启用主机网络和主机 PID
+- 运行 alpine 镜像的特权容器（名称：agent）
+- 将四个主机卷（/dev、/proc、/usr）挂载到容器内的 /host/[相应路径]。所有卷都应为只读。
+- 你可以使用 "while true; do sleep 10; done" 使它们保持运行。

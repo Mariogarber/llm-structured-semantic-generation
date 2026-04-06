@@ -1,0 +1,1 @@
+Create a headless Service, nginx, to publish the IP addresses of 2 Pods in a StatefulSet, web. Each container runs the latest nginx image, uses port 80 named "web", and has a volume named "www". Write the YAML to configure both the Service and the StatefulSet in a single file.

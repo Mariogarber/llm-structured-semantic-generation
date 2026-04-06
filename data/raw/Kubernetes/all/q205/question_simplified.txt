@@ -1,0 +1,5 @@
+Create a YAML for a k8s ReplicationController deploying 5 replicas of a pod. Each pod should have:
+- Host network and host PID enabled
+- Privileged container running alpine image (name: agent)
+- Four host volumes (/dev, /proc, /usr) mounted into /host/[corresponding-path] inside the container. All should be read-only.
+- Use "while true; do sleep 10; done" to keep them alive.

@@ -1,0 +1,4 @@
+Create a DaemonSet configuration. This DaemonSet should run the latest nginx image labeled as "app: kube-registry-modified" 
+and expose a registry service on port 80 (with hostPort 5000). The environment variables REGISTRY_HOST and REGISTRY_PORT 
+should be set to "kube-registry-modified.svc.cluster.local" and "5000" respectively. Ensure the CPU request is set to 100m 
+and memory request is set to 50Mi.

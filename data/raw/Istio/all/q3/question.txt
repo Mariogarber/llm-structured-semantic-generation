@@ -1,0 +1,3 @@
+I need a Istio destination rule YAML for the bookinfo application's ratings service in the prod namespace. 
+This rule had specific port-level settings, where traffic on port 80 was load balanced using the LEAST_REQUEST strategy and on port 9080 it was ROUND_ROBIN. 
+Please provide me the entire YAML configuration for this. The name is bookinfo-ratings-port.

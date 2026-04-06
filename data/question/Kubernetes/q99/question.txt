@@ -1,0 +1,3 @@
+In Kubernetes, create an Ingress resource called "fruit-ing".
+It should have an annotation to rewrite the target URL path to "/". 
+It should have two different paths: (a) Requests with the path prefix /apple should be directed to a service named "apple-svc" on port 4567. (b) Requests with the path prefix /banana should be directed to a service named "banana-svc" on port 6789.

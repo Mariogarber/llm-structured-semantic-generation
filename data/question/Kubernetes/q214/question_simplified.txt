@@ -1,0 +1,1 @@
+Craft a yaml file for a ClusterRoleBinding named "read-secrets-global". Grant the "manager" group permission using the "secret-reader" ClusterRole.

@@ -1,0 +1,3 @@
+I need to set up a Kubernetes PersistentVolume with a capacity of 1Gi that uses the Filesystem volume mode. 
+It should support multiple nodes writing to or reading from it at the same time. This volume will connect to an NFS server. 
+Can you help me create a configuration for it where the NFS server's IP address is 255.0.255.0 and the desired path on the NFS server is /desired/path/in/nfs?

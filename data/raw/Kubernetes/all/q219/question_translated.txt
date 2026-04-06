@@ -1,0 +1,1 @@
+请编写一个 Kubernetes YAML 文件，创建一个名为 my-rb 的 RoleBinding，将 read 角色绑定到服务账户 read-sa。

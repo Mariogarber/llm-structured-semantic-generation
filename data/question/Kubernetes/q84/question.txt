@@ -1,0 +1,3 @@
+Please write a k8s YAML file to create a deployment that brings up 3 nginx Pod replicas. 
+Please use the latest nginx image. 
+The deployment and pods should be labeled with "app: nginx".

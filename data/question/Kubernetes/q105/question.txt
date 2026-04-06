@@ -1,0 +1,21 @@
+Here is a K8S Job configuration. Modify it to simulate a software bug in a container.
+Specifically, you want the Job to fail if any pod's main container exits with a status code of 42. If a pod fails, Kubernetes should retry the task up to 3 times before giving up.
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: failjob
+spec:
+  completions: 4
+  parallelism: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: main
+        image: alpine
+        command:
+        - "sh"
+        - "-c"
+        - "sleep 5"
+```

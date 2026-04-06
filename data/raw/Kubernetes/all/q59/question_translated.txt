@@ -1,0 +1,19 @@
+这是一个 Kubernetes YAML 文件。请增强 DaemonSet，以便它只在具有标签 kubernetes.io/os: linux 的节点上调度 Pod。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds
+spec:
+  selector:
+    matchLabels:
+      name: my-ds
+  template:
+    metadata:
+      labels:
+        name: my-ds
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+```

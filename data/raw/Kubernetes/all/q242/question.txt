@@ -1,0 +1,4 @@
+Create a Kubernetes Service with the following features: It is named svc-master. 
+Its labels include "app: redis", "role: master", and "tier: backend". 
+It is exposed as a NodePort and is assigned with an IP 10.96.0.2. 
+It has two ports, 6379 for Redis and 9121 for metrics.

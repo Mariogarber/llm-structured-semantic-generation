@@ -1,0 +1,1 @@
+在 Kubernetes 中，我想要为 "example.com" 组和版本 "v1" 下的复数形式为 "myresources" 的 "MyResources" 配置一个 "CustomResourceDefinition"。

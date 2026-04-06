@@ -1,0 +1,10 @@
+一个 Tomcat 应用已在 Kubernetes 集群中创建。
+给定以下 YAML，请帮我配置入口路由：
+域名是 foo.bar.com。使用域名和 secretName: secret-https 设置 TLS 配置。
+选择服务名为 tomcat-svc，端口为 8080。
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+   name: tomcat-https
+```

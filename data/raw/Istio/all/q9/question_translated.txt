@@ -1,0 +1,1 @@
+我需要一个 Istio YAML，允许通过 TCP 的 22 端口将出口流量发送到特定的 GitHub IP 地址 13.229.188.59/32。虽然我知道它在规则中没有被主动使用，但主机名类似于 dummy.github.com。位置设置为 MESH_EXTERNAL。请为此提供完整的 YAML 配置。

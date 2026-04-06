@@ -1,0 +1,9 @@
+Provide a complete YAML for a Kubernetes deployment using the nginx image and labeling the pods with app: nginx-label. The deployment should have 3 replicas.
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-dp
+spec:
+  replicas: 3
+```

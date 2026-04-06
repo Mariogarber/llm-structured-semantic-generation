@@ -1,0 +1,1 @@
+写一个定义名为 'example' 的 k8s job 的 YAML，使用最新的 python 镜像打印 "OK"，并在 10 秒后自动终止。

@@ -1,0 +1,22 @@
+Write a YAML to demonstrate Persistent Volume function. First Pod writes a message to /mnt/volume/message.txt. After deleting it, the second Pod can still read and print that message using the same Persistent Volume. Assume /data directory exists and storage volume is 50MB. Use the following Pod manifest:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: local-pvc-pod-1
+spec:
+  containers:
+  - name: my-container
+    image: alpine
+    command:
+    - "/bin/sh"
+    - "-c"
+    - "echo 'It is persistent!' > /mnt/volume/message.txt; while true; do sleep 10; done"
+    volumeMounts:
+    - name: my-storage
+      mountPath: /mnt/volume
+  volumes:
+  - name: my-storage
+    persistentVolumeClaim:
+      claimName: local-pvc
+```

@@ -1,0 +1,36 @@
+Provide detailed config for listeners section in Envoy setup. Use envoy.filters.network.http_connection_manager filter with typed_config specifying HttpConnectionManager. Set codec to auto-detect. Label statistics prefix as 'ingress_http'. Include routing config 'local_route' with virtual host 'backend' catering to all domains. Two routes: /service/1 to cluster 'service1' and /service/2 to cluster 'service2'. Add two HTTP filters: envoy.filters.http.cache with specific CacheConfig and SimpleHttpCacheConfig, and envoy.filters.http.router. Ensure config structure and YAML formatting standards are respected.
+
+```
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+
+  clusters:
+  - name: service1
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service1
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service1
+                port_value: 8080
+  - name: service2
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service2
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service2
+                port_value: 8080
+```

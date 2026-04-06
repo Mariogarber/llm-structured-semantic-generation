@@ -1,0 +1,10 @@
+Create a PV named pv1 with GID annotation 1234. Use the spec template:
+```
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data"
+```

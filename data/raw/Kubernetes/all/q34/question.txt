@@ -1,0 +1,2 @@
+Craft a DaemonSet yaml named "hostalias-daemonset" with Pods labeled "app: hostalias-daemonset". These Pods should use 
+host aliases to map the IP "10.1.2.3" to the hostname "myapp.local", utilize the busybox image, and run for an hour.

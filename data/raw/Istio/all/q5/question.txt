@@ -1,0 +1,5 @@
+Please set up an Istio Gateway configuration within the some-config-namespace. Specifically:
+I'd like to name the gateway my-gateway.
+It should select the app labeled my-gateway-controller.
+I need it to listen on port 80 using the HTTP protocol with the port name as http.
+For host configurations, I want it to cater to all services in the ns1 namespace and specifically to the foo.bar.com service in the ns2 namespace. How can I achieve this?

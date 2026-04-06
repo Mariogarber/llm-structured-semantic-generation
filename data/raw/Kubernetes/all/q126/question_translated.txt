@@ -1,0 +1,17 @@
+给定以下定义 PersistentVolume 的 YAML，请帮我确保该卷仅限于 "topology.kubernetes.io/zone" 中的节点。
+区域是 `us-central1-a` 和 `us-central1-b`。
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-volume
+spec:
+  capacity:
+    storage: 50Gi
+  storageClassName: storage-test-volume
+  accessModes:
+    - ReadWriteOnce
+  gcePersistentDisk:
+    pdName: my-data-disk
+    fsType: ext4
+```

@@ -1,0 +1,9 @@
+这是一个不完整的 Kubernetes 部署定义的 YAML。请提供一个完整的部署定义，使用 nginx 镜像，并使用 app: nginx-label 标记 pod。
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-dp
+spec:
+  replicas: 3
+```

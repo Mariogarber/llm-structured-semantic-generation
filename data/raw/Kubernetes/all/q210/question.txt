@@ -1,0 +1,2 @@
+Compose a yaml file in Kubernetes that defines a ResourceQuota named "pods-cluster-services" with a unique feature, specifying that it applies 
+to PriorityClasses with the value "cluster-services" in the scopeSelector.

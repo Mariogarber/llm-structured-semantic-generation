@@ -1,0 +1,2 @@
+I have a question related to Kubernetes YAML:
+Create a ConfigMap named database-config that contains the following key-values: DB_HOST=database-host, DB_PORT=5432.

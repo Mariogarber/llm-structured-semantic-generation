@@ -1,0 +1,3 @@
+请创建一个 Kubernetes ReplicationController 的 YAML 文件。
+它使用 Docker 镜像 alpine（最新版本）部署一个 Pod 的单个副本。
+该 Pod 应该暴露端口 8000。您可以使用 "while true; do sleep 10; done" 来保持 alpine 的运行。

@@ -1,0 +1,3 @@
+Please create a k8s pod that runs a container (gcr.io/kuar-demo/kuard-amd64:blue). 
+Configure a liveness probe for the container that checks the /healthy endpoint on port 8080. 
+The liveness probe should have no initial delay and a period of 3 seconds.

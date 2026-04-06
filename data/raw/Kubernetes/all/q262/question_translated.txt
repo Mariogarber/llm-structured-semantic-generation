@@ -1,0 +1,2 @@
+在 Kubernetes 中，配置一个名为 anno-sys-sa 的 Service Account 在 kube-system 命名空间中。
+添加一个注释 example.com/description: "This is an annotated SA in kube-system"。

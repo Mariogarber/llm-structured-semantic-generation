@@ -1,0 +1,10 @@
+我需要为 WordPress 容器提供持久存储。下面是持久卷声明的基本配置：
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-pv-claim
+  labels:
+    app: wordpress
+```
+你能帮我完成 YAML，请求一个大小为 2Gi 的存储和 ReadWriteOnce 访问权限吗？

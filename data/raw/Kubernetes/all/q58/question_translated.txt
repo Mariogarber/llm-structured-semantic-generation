@@ -1,0 +1,2 @@
+创建一个 DaemonSet，并且只在具有本地固态（SSD）存储的节点上运行守护进程 Pod。
+具体来说，DaemonSet 的名称为 ssd-driver。它只在具有标签 ssd: "true" 的节点上调度 Pod。容器应该使用最新的 nginx 镜像。

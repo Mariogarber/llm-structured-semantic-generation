@@ -1,0 +1,1 @@
+Create a yaml for a k8s ClusterRole named "cluster-role-simple" granting permissions to "get", "watch", and "list" secrets in the core API group.

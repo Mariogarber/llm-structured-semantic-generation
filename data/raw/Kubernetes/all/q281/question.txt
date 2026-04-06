@@ -1,0 +1,2 @@
+Could you help me create a Kkubernetes YAML file? I need a StorageClass to provision local volumes. 
+These volumes should be provisioned on nodes with the label storage: local. I want to delay the binding and provisioning of a PersistentVolume until a Pod using the PersistentVolumeClaim is created.

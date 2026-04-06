@@ -1,0 +1,30 @@
+给定以下已部署的 PersistentVolume 和 PersistentVolumeClaim：
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+```
+请编写一个 YAML 文件，首先定义一个 Service，然后定义一个 Deployment。该 Deployment 使用端口 3306 上的最新映像运行单个 MySQL 实例，环境为 MYSQL_ROOT_PASSWORD=password。Deployment 还应该为 /var/lib/mysql 定义一个卷挂载，然后创建一个与现有卷匹配的 PersistentVolumeClaim。该 Service 只是在其端口上公开部署。所有潜在名称定为 mysql，标签定为 app:mysql。

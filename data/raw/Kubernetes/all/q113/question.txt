@@ -1,0 +1,2 @@
+Write a parallel job with 10 work queue in k8s, each printing OK using lastest python. 
+The name of the app should be example. Delete everything 5 seconds after finished.

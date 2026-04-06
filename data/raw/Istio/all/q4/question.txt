@@ -1,0 +1,3 @@
+I need an Istio destination rule YAML tailored specifically for workloads with the label app: ratings. The traffic policy was set for ROUND_ROBIN load balancing.
+Additionally, there was a specific port-level setting for port 31443 where we had mutual TLS enabled, using the credential named client-credential.
+Please provide me the entire YAML configuration for this. The name is configure-client-mtls-dr-with-workloadselector.

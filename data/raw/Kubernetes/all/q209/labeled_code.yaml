@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: object-counts
+spec:
+  hard:
+    secrets: "10"
+    services: "10"
+    services.loadbalancers: "2"

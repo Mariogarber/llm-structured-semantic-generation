@@ -1,0 +1,1 @@
+Create a k8s YAML defining a Pod with 2 containers: nginx and debian. They share data using a Kubernetes volume. Debian writes a message to "/pod-data" and nginx serves that message at "/usr/share/nginx/html" via HTTP.

@@ -1,0 +1,2 @@
+Create a basic Kubernetes DaemonSet that deploys an nginx container on every node. 
+The DaemonSet should run in the kube-system namespace.

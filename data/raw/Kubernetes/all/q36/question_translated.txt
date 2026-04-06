@@ -1,0 +1,4 @@
+编写一个 yaml 文件来创建一个 k8s DaemonSet。这个 DaemonSet 应该运行包含两个容器的 Pod：
+1. 第一个容器名为 "container-1"，应该使用 busybox 镜像，并每 10 秒执行一次命令来打印 'Container 1 Running'。
+2. 第二个容器名为 "container-2"，也应该使用 busybox 镜像，并每 15 秒执行一次命令来打印 'Container 2 Running'。
+此外，请确保 Pod 的元数据包含一个键为 "name"，值为 "ds-multi-container" 的标签。

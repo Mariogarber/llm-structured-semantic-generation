@@ -1,0 +1,4 @@
+请为 game-demo 应用提供 Kubernetes ConfigMap 的配置。
+它指定了玩家的初始生命值为 "3"，ui_properties_file_name 为 "user-interface.properties"，
+game.properties 指定了 2 个对象的参数：enemy 和 player。游戏中的敌人类型有 'aliens,monsters'。
+玩家可以拥有的最大生命值为 5。

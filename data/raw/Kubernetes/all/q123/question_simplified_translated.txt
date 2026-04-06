@@ -1,0 +1,13 @@
+在 LimitRange YAML 中定义对 Pod 类型的约束，将其最大 CPU 限制为 150m，内存限制为 250Mi。使用以下 YAML：
+```
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: request-limits
+spec:
+  limits:
+    - type: Container
+      defaultRequest:
+        cpu: 100m
+        memory: 200Mi
+```

@@ -1,0 +1,1 @@
+写一个名为 "pods-cluster-services" 的 Kubernetes ResourceQuota 的 yaml，具有一个独特的特性。它适用于 scopeSelector 中值为 "cluster-services" 的 PriorityClasses。

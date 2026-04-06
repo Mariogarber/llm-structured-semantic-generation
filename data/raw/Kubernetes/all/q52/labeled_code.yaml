@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds-w-init
+spec:
+  selector:
+    matchLabels:
+      name: my-ds-w-init
+  template:
+    metadata:
+      labels:
+        name: my-ds-w-init
+    spec:
+      initContainers:
+      - name: init-busybox
+        image: busybox
+        command: ["sh", "-c", "echo 'Hello from Init' > /var/shared-data/hello.txt"]
+        volumeMounts:
+        - name: shared-data
+          mountPath: /var/shared-data
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+        - name: shared-data
+          mountPath: /var/shared-data
+      volumes:
+      - name: shared-data
+        emptyDir: {}

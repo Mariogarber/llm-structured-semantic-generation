@@ -1,0 +1,1 @@
+提供一个使用 Fedora 基础镜像的 Pod YAML，无限运行，使用 2Mi 的 huge pages，限制为 100Mi。请求和限制内存为 100Mi，并将 huge pages 挂载到 /hugepages。

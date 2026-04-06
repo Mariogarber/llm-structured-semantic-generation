@@ -1,0 +1,2 @@
+I want to configure a Kubernetes DaemonSet that deploys an nginx container on every node and tolerates running on master and control-plane nodes. 
+I also want to add a rolling update strategy that allows only one pod to be unavailable during the update.

@@ -1,0 +1,1 @@
+Create a k8s YAML for a Pod running a single container as an HTTP server. Container uses image gcr.io/kuar-demo/kuard-amd64:blue and exposes port 8080.

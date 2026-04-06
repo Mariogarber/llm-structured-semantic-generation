@@ -1,0 +1,18 @@
+Given the following YAML definitions, please help me create a PersistentVolume:
+1. This PersistentVolume labeled as local storage type and named mysql-pv-volume.
+2. Same storage type as pvc and have an access mode of 'ReadWriteOnce'.
+3. The storage capacity should be 15Gi.
+4. The pods created from this PersistentVolume should use a directory "/mnt/data" on the host machine for storage.
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+```

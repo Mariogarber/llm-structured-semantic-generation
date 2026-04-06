@@ -1,0 +1,1 @@
+写一个 yaml 文件来创建一个名为 "hello" 的 k8s 作业，并使用最新的 python 镜像打印 "Hello world!"。

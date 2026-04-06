@@ -1,0 +1,3 @@
+Configure a Kubernetes Service of type ClusterIP, named etcd-discovery (label: etcd). 
+The service should expose a TCP port 2379 and target the same port on the Pods. 
+No node port should be specified. Also, there should be no client IP-based session affinity.

@@ -1,0 +1,4 @@
+You are asked to provide a durable storage solution for a Kubernetes application. 
+Create a StorageClass (fast-storage) using the stanfard provisioner. 
+No specific storage backend details are required. After creating the StorageClass, create a PersistentVolumeClaim which is named app-pvc and requests 100 Mega Bytes of storage from fast-storage. 
+It can be mounted as read-write by a single node.

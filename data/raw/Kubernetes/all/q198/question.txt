@@ -1,0 +1,13 @@
+In the given YAML for a ReplicaSet that deploys pods running the latest nginx image, I want to specify an environment variable named "ENV_VAR" with the 
+value "custom_value" inside each pod. Additionally, ensure that the pods are labeled with the "app: nginx-env" label.
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset-env
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-env
+```

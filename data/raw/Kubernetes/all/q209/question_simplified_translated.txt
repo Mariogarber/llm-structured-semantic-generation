@@ -1,0 +1,1 @@
+在 k8s 中为资源配额命名为 "object-counts" 的 yaml 中，使用特定限制：Secrets 为 10，Services 为 10，'services' 类别中的 LoadBalancer Services 为 2。

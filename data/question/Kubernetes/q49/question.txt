@@ -1,0 +1,27 @@
+Given the following YAML that created a DaemonSet, I need to also create a Service for it. The Service should:
+1. Have a name of `exporter-modified` labeled to select the component named `exporter-modified`.
+2. Expose a port named `exporter-modified` on port 9445 using the TCP protocol.
+3. Be of type `NodePort`.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: exporter-modified
+spec:
+  selector:
+    matchLabels:
+      component: exporter-modified
+  template:
+    metadata:
+      labels:
+        component: exporter-modified
+    spec:
+      containers:
+      - image: nginx:latest
+        name: exporter-modified
+        ports:
+        - name: nginx-container
+          containerPort: 9445
+          hostPort: 9445
+      hostNetwork: true
+```

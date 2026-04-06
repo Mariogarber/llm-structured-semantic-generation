@@ -1,0 +1,1 @@
+Deploy NGINX web server as a StatefulSet with 3 replicas. Each pod should have a persistent volume claim using minikube's default storage class "standard". Define StatefulSet and headless service in YAML. Use image k8s.gcr.io/nginx-slim:0.8.

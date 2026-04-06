@@ -1,0 +1,1 @@
+在 "test3" 命名空间中创建一个名为 "testadminbinding" 的 RoleBinding 的 Kubernetes yaml。该 RoleBinding 应该授予来自 "test" 命名空间的 "myaccount" ServiceAccount "cluster-admin" ClusterRole 的权限。

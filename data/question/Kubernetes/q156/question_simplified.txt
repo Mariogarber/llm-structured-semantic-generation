@@ -1,0 +1,7 @@
+Configure a Pod in a Kubernetes cluster with the following requirements:
+- Use the image registry.k8s.io/pause.
+- Name the Pod selinuxoptions2.
+- Add a container named container1 with SELinux options: level=examplelevel, type=container_init_t.
+- Add an init container named initcontainer1 with SELinux options: type=container_kvm_t.
+- Set the Pod's Security Context at the Pod level with SELinux options: type=container_t.
+- Use the command "/bin/sh -c sleep 600" in the main container.

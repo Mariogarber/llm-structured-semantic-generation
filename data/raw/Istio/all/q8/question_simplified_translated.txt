@@ -1,0 +1,1 @@
+写一个 Istio YAML，用于公开在启用 Istio 的 pod 中执行 `apt-get upgrade` 和 `apt-get install` 命令所需的主机。对象名称应为 "make-aptget-work"。

@@ -1,0 +1,1 @@
+创建一个 k8s YAML，用于运行一个作为 HTTP 服务器的单个容器的 Pod。容器使用镜像 gcr.io/kuar-demo/kuard-amd64:blue，并公开端口 8080。

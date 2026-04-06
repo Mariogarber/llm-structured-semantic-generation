@@ -1,0 +1,1 @@
+Deploy a database app using latest mongo DB image. Deployment labeled 'db', 5 replicas with RollingUpdate strategy. Name deployment mongo-deploy, label app:db.

@@ -1,0 +1,16 @@
+你被要求部署一个暴露在互联网上的 WordPress 服务。
+我已经写了服务的基本配置。
+你能完成配置，确保 WordPress 服务使用 LoadBalancer（端口：80）暴露在互联网上吗？
+此外，我不确定我现有的部分是否没有错误。如果有错误，请帮忙纠正。
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  select:
+    app: wordpress
+    tier: frontend
+```

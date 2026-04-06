@@ -1,0 +1,1 @@
+请创建一个名为 simple-job-demo 的 Kubernetes YAML 作业，使用 Docker 镜像 devopscube/kubernetes-job-demo:latest。该作业应该使用参数 50 执行容器的 ENTRYPOINT。该作业应该带有一个标签 jobgroup:simpledemo。

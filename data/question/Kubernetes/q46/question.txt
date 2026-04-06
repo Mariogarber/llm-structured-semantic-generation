@@ -1,0 +1,21 @@
+Given the following YAML that creates a DaemonSet, please help me with the following:
+1. Set the termination grace period for the pod to 60 seconds.
+2. Use the service account named 'default'.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-grace-serviceaccount
+spec:
+  selector:
+    matchLabels:
+      name: ds-grace-serviceaccount
+  template:
+    metadata:
+      labels:
+        name: ds-grace-serviceaccount
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```

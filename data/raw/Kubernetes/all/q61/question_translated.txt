@@ -1,0 +1,36 @@
+修改现有的 DaemonSet 以满足以下要求：
+- 为容器设置 CPU 限制为 500m ，内存限制为 100Mi 。
+- 在容器中将一个名为 shared-data 的卷挂载到 /var/shared-data 。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds
+spec:
+  selector:
+    matchLabels:
+      name: my-ds
+  template:
+    metadata:
+      labels:
+        name: my-ds
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: nginx
+        image: nginx
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+```
+请提供整个 YAML 配置。

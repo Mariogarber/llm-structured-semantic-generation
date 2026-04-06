@@ -1,0 +1,1 @@
+Create a k8s DaemonSet with nginx:latest image, labeled "app: debug-agent". Expose container port 10027 with liveness probe on "/healthz". Mount Docker socket at "/var/run/docker.sock" within the container.

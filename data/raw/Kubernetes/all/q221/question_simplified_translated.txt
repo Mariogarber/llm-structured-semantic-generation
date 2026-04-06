@@ -1,0 +1,1 @@
+创建一个名为 "secret-creator-deletor" 的 k8s ClusterRole 的 yaml，具有创建和删除 secrets 的能力。

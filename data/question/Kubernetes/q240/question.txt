@@ -1,0 +1,23 @@
+Given the following YAML, please help me create a service with load balancer that uses the nginx selector, exposed on port 80.
+It should be accessible via browser.
+```
+apiVersion: apps/v1                                                                                                     
+kind: Deployment                                                                                                        
+metadata:                                                                                                               
+  name: nginx-deployment                                                                                                
+spec:                                                                                                                   
+  replicas: 3                                                                                                           
+  selector:                                                                                                             
+    matchLabels:                                                                                                        
+      app: nginx                                                                                                        
+  template:                                                                                                             
+    metadata:                                                                                                           
+      labels:                                                                                                           
+        app: nginx                                                                                                      
+    spec:                                                                                                               
+      containers:                                                                                                       
+      - name: nginx-container                                                                                           
+        image: nginx:latest                                                                                             
+        ports:                                                                                                          
+        - containerPort: 80
+```

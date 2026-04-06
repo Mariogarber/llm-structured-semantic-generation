@@ -1,0 +1,69 @@
+这是我目前正在使用的 Envoy 配置：
+现在我想要在我们的 Envoy 配置中使用 Zipkin tracer 来配置跟踪。我想要将跟踪数据发送到我们的 Jaeger 服务。接受 span 的 Jaeger 服务的端点应该是 '/api/v2/spans'。我希望确保 span 上下文不被共享。对于发送到端点的数据格式，我考虑使用 HTTP_JSON。
+你能提供完整的 YAML 配置，填写 [TO COMPLETE] 部分吗？
+
+```
+node:
+  cluster: front-proxy
+
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+    traffic_direction: OUTBOUND
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          generate_request_id: true
+          tracing:
+            [TO COMPLETE]
+          codec_type: AUTO
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: backend
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: service1
+                decorator:
+                  operation: checkAvailability
+          http_filters:
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+          use_remote_address: true
+  clusters:
+  - name: service1
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service1
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service1
+                port_value: 8000
+  - name: jaeger
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: jaeger
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: jaeger
+                port_value: 9411
+```

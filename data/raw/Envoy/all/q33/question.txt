@@ -1,0 +1,10 @@
+You are tasked with defining a Envoy configuration for a system that manages network resources. Consider the following requirements:
+There should be a collection of static resources.
+Within these static resources, specify a listener named "mysql_listener" that listens on a socket address of any IP with a port of 1999.
+This listener should have a filter chain with two filters:
+The first filter should be for the MySQL proxy with a specific type and a stat prefix of "egress_mysql".
+The second filter should be for the TCP proxy with a specific type. It should also have a stat prefix and be associated with a cluster named "mysql_cluster".
+Define a cluster within the static resources named "mysql_cluster". This cluster should use STRICT_DNS as its type.
+For the cluster's load assignment, specify an endpoint that points to a socket address with the hostname "mysql" and port 3306.
+Additionally, there's an admin section. The admin interface should be available on a socket address of any IP and port 8001.
+Can you define a YAML file based on the above requirements?

@@ -1,0 +1,1 @@
+写一个 k8s LimitRange 的 yaml。为 PVC 设置最小/最大存储限制为 1Gi/2Gi。

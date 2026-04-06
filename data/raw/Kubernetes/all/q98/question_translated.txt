@@ -1,0 +1,2 @@
+创建一个 Kubernetes Ingress YAML 文件，将所有进入的 HTTP 流量路由到默认命名空间中名为 nginx-svc 的 Nginx 服务的路径 / 上。
+该服务 (my-ing) 监听端口 443。

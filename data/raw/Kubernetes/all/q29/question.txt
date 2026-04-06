@@ -1,0 +1,6 @@
+I am given the challenge to define a DaemonSet Kubernetes YAML configuration to achieve the following:
+The pod template should have a label named ds-env-vars and there should be a single container named ds-env-container that:
+1. Utilizes the busybox image.
+2. Every 10 seconds, it should echo a message stored in an environment variable named GREETING_MESSAGE.
+3. This environment variable, GREETING_MESSAGE, should have the value "Hello from the environment variable!"
+My task is to craft the YAML configuration that sets up this specific environment.

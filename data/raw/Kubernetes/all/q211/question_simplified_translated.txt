@@ -1,0 +1,1 @@
+创建一个名为 "cluster-role-simple" 的 k8s ClusterRole 的 yaml，授予核心 API 组中的 "get"、"watch" 和 "list" secrets 的权限。

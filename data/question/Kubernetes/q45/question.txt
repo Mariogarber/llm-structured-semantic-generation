@@ -1,0 +1,2 @@
+Craft a DaemonSet yaml named "nodeselector-daemonset" where Pods are labeled "app: nodeselector-daemonset". Ensure 
+the Pods run only on nodes with the label "disktype=ssd" and utilize the busybox image.

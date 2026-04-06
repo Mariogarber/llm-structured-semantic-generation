@@ -1,0 +1,1 @@
+创建一个无头服务，名为nginx，用于发布StatefulSet中2个Pod的IP地址，名为web。每个容器运行最新的nginx镜像，使用端口80，名称为"web"，并有一个名为"www"的卷。编写一个YAML文件来配置服务和StatefulSet。

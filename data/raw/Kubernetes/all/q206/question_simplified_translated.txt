@@ -1,0 +1,1 @@
+配置一个名为 redis-replica 的 Kubernetes 复制控制器，标签为 app: redis，role: replica 和 tier: backend。该控制器管理 2 个副本，并使用具有相同标签的 pod 模板。pod 模板包含一个名为 replica 的容器，使用最新的 redis 镜像。容器的资源请求为 cpu: 200m 和 memory: 200 MB。它还有一个名为 GET_HOSTS_FROM 的环境变量设置为 env，并公开端口 6380。提供配置的 YAML 文件。

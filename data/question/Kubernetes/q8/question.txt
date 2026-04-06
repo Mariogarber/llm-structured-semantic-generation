@@ -1,0 +1,1 @@
+Please write a yaml file for k8s cronjob that prints 'OK' every minute using the latest ubuntu image. The name of the job has to be 'example'. Then modify it to run at the begining of every month instead.

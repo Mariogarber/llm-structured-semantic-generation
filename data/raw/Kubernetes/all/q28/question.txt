@@ -1,0 +1,25 @@
+Given the following YAML that creates a DaemonSet, I need to set up a liveness probe for this container. 
+The liveness probe should execute a command to check the presence of the /tmp/healthy file. It should 
+start 5 seconds after the container has started and repeat every 5 seconds.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-liveness-probe
+spec:
+  selector:
+    matchLabels:
+      name: ds-liveness-probe
+  template:
+    metadata:
+      labels:
+        name: ds-liveness-probe
+    spec:
+      containers:
+      - name: ds-liveness-container
+        image: busybox
+        args:
+        - /bin/sh
+        - -c
+        - touch /tmp/healthy; sleep 5; rm -f /tmp/healthy; sleep 600
+```

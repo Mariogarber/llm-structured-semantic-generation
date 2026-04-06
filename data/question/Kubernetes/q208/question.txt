@@ -1,0 +1,3 @@
+Create a yaml file to set resource quotas named "object-counts" in Kubernetes with the following specific limits: 
+10 for ConfigMaps, 4 for PersistentVolumeClaims, 
+4 for Pods, and 20 for ReplicationControllers.

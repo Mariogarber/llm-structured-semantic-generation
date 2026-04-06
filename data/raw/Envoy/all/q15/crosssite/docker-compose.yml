@@ -1,0 +1,19 @@
+services:
+
+  front-envoy:
+    build:
+      context: .
+      dockerfile: ../Dockerfile
+    depends_on:
+      service:
+        condition: service_healthy
+    ports:
+    - "${PORT_CROSS:-8002}:10000"
+
+  service:
+    build:
+      context: ../python
+      target: aiohttp-service
+    volumes:
+    - ./service.py:/code/service.py
+    - ../index.html:/code/index.html

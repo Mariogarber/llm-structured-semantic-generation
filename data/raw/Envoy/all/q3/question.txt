@@ -1,0 +1,6 @@
+Can you provide a YAML configuration that defines three distinct caching behaviors for responses? 
+The first section should indicate a response that remains valid for a specific duration before it needs refreshing. 
+In this section, also include a header where you're free to choose its value. 
+The second section should capture a response that is meant to be private and shouldn't be cached by intermediaries like Envoy. 
+Finally, the third section should detail a response that, while cacheable, mandates revalidation upon every subsequent request. 
+Ensure all headers and configurations mirror these described behaviors.

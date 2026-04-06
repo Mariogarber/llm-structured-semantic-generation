@@ -1,0 +1,1 @@
+Configure a k8s deployment (nginx-deploy-2) to schedule only on nodes with SSD disk type using node affinity. Use label app:web and image nginx as an example.

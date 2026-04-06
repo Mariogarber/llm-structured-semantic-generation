@@ -1,0 +1,16 @@
+What is the correct Kubernetes job YAML configuration to handle Pod failures when pulling an image "alpineee"? Use the Pod failure policy to stop the Job after 3 retries.
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: failjob-config
+spec:
+  completions: 4
+  parallelism: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: main
+        image: alpineee
+```

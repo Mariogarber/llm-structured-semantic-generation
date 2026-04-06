@@ -1,0 +1,1 @@
+创建一个带有 nginx:latest 镜像的 k8s DaemonSet，标记为 "app: debug-agent"。在容器上暴露端口 10027，并在 "/healthz" 上进行活跃探测。在容器内挂载 Docker socket 到 "/var/run/docker.sock"。

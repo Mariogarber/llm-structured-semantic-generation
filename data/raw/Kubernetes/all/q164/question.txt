@@ -1,0 +1,12 @@
+Given this simple pod, Please help me grant 2 privileges to the process.
+The 2 privileges I want is allowing manipulation of system clock and allowing modification of routing tables.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo-3
+spec:
+  containers:
+  - name: sec-ctx-3
+    image: gcr.io/google-samples/node-hello:1.0
+```

@@ -1,0 +1,1 @@
+写一个名为 my-service 的 Service，它优先选择双栈 IP，匹配具有标签 app.kubernetes.io/name: MyApp 的 pod，并使用 TCP 协议在端口 80 上公开它们。

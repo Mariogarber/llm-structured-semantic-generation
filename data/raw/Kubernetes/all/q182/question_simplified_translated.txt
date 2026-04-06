@@ -1,0 +1,12 @@
+写一个名为 Secret-dotfiles-pod 的 Pod，将 Secret dotfile-secret 挂载到名为 Secret-volume 的卷中。
+该卷应包含一个名为 .secret-file 的文件。
+容器 dotfile-test-container 应在路径 /etc/secret-volume/.secret-file 中包含此文件。
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dotfile-secret
+data:
+  .secret-file: dmFsdWUtMg0KDQo=
+---
+```

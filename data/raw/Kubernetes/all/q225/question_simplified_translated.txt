@@ -1,0 +1,12 @@
+将 ServiceAccount 名为 "myaccount" 的 subjects 添加到 RoleBinding 中。ServiceAccount 应该属于 "test" 命名空间，并且具有 "ServiceAccount" 类型。现有的 YAML 如下所示：
+```
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: testadminbinding
+  namespace: test3
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: ""
+```

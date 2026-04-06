@@ -1,0 +1,15 @@
+Provide YAML config for Envoy cross-site setup:
+- Listener: IP 0.0.0.0, port 10000
+- Filter chain: envoy.filters.network.http_connection_manager
+- Codec: auto-detect type
+- Statistics prefix: 'ingress_http'
+- Access logging: stdout
+- Routing config: 'local_route'
+- Virtual host: 'www' for all domains, route to 'generic_service' for root path
+- HTTP filter for routing
+- Cluster: 'generic_service'
+- Type: STRICT_DNS, load balancing: ROUND_ROBIN
+- Load assignment: service IP labeled as 'service', port 8080
+- Stat prefix: 'ingress_http'
+
+Please provide the YAML response adhering to formatting standards.

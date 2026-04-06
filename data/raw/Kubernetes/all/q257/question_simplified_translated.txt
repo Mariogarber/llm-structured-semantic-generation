@@ -1,0 +1,17 @@
+如何在一个命名空间中定义一个服务，使其链接到在另一个命名空间中运行的 Pod，而容器内部的代码不需要知道服务的位置？
+```
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: service-x
+  namespace: namespace-a
+subsets:
+  - addresses:
+      - targetRef:
+          kind: Service
+          namespace: namespace-b
+          name: service-x
+          apiVersion: v1
+    ports:
+      - port: 80
+```

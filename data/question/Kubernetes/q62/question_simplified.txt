@@ -1,0 +1,27 @@
+Create a ConfigMap named nginx-config with data key: value and mount it into the container at path /etc/nginx/config.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds
+spec:
+  selector:
+    matchLabels:
+      name: my-ds
+  template:
+    metadata:
+      labels:
+        name: my-ds
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+        - name: shared-data
+          mountPath: /var/shared-data
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+```

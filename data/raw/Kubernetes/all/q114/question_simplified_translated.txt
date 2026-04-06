@@ -1,0 +1,1 @@
+创建一个名为 "example" 的 k8s job 的 yaml，使用最新的 python 镜像。该 job 应该运行命令 "print('OK'); error" 来打印 OK 并模拟一个错误。将最大 pod 失败重启计数设置为 1。

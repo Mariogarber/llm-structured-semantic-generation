@@ -1,0 +1,1 @@
+Create a YAML for an Indexed Job in a k8s cluster. Job needs 5 completions, parallel pods. Each Pod runs an init container to write an item (foo, bar, baz, qux, xyz) to a file based on its index. Main container reads the file and reverses the item's characters.

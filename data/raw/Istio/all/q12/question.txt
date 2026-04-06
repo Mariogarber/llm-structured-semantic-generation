@@ -1,0 +1,58 @@
+Please provide me with an Istio configuration for a VirtualService to enable the upgrade to Websocket for incoming traffic.
+There is already a Kubernetes Service, a Deployment and a Ingress Gateway listed below.
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: tornado
+  labels:
+    app: tornado
+    service: tornado
+spec:
+  ports:
+  - port: 8888
+    name: http
+  selector:
+    app: tornado
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tornado
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tornado
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: tornado
+        version: v1
+    spec:
+      containers:
+      - name: tornado
+        image: hiroakis/tornado-websocket-example
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8888
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: tornado
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - tornado-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: tornado
+      weight: 100
+```

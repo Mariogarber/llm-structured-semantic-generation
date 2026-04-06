@@ -1,0 +1,20 @@
+将给定的 DaemonSet YAML 添加一个 nodeSelector，以确保 Pod 仅在标记为 "disktype=ssd" 的节点上运行。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nodeselector-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: nodeselector-daemonset
+  template:
+    metadata:
+      labels:
+        app: nodeselector-daemonset
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"]
+```

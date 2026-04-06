@@ -1,0 +1,4 @@
+Create a StorageClass named dynamic-sc in Kubernetes with the following specs:
+- Type: "gp2"
+- Reclaim Policy: "Retain"
+- volumeBindingMode: "Immediate"

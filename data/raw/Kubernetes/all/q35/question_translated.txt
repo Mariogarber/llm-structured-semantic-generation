@@ -1,0 +1,23 @@
+鉴于以下的 Kubernetes 结构，我希望您能将 Service Account 的使用纳入到 DaemonSet 中。以下是我需要的具体内容：
+1. 创建一个具有唯一标识符的 Service Account。
+2. 在 DaemonSet 的定义中使用上述 Service Account，该 DaemonSet 应该有一个容器，每隔 10 秒钟连续打印一个特定的消息。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-service-account-set
+spec:
+  selector:
+    matchLabels:
+      name: ds-service-account-set
+  template:
+    metadata:
+      labels:
+        name: ds-service-account-set
+    spec:
+      containers:
+      - name: ds-service-account-container
+        image: busybox
+        command: [ "sh", "-c", "while true; do echo 'Running with service account'; sleep 10; done" ]
+```
+请提供完整的 YAML 配置。

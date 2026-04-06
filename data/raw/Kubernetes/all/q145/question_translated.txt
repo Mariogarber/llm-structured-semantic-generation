@@ -1,0 +1,2 @@
+创建一个 Kubernetes Pod，使用最新的镜像运行一个带有 Nginx 服务器的容器，并公开端口 80。
+Pod 的名称应为 "nginx-server"。

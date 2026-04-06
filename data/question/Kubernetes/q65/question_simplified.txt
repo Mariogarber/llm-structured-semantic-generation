@@ -1,0 +1,1 @@
+Design a DaemonSet YAML binding container port 80 to node port 30080. Deploy container with "nginx:latest" image. Pod template labeled "app: ds-hostport".

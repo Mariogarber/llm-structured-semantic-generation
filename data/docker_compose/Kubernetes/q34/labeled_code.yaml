@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hostalias-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: hostalias-daemonset
+  template:
+    metadata:
+      labels:
+        app: hostalias-daemonset
+    spec:
+      hostAliases: 
+      - ip: "10.1.2.3"
+        hostnames: # *
+        - "myapp.local"
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"] # *

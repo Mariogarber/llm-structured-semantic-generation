@@ -1,0 +1,17 @@
+修改现有的 K8s ClusterRole YAML 如下：(a) 将 "services" 动词限制为 "get"；(b) 在 "batch" apiGroup 中删除 "jobs" 权限；(c) 在 "" apiGroup 中添加 "watch" 权限，用于 configmaps。给定：
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: existing-clusterrole
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["create", "delete"]
+```

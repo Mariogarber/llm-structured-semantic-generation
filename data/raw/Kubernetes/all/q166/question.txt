@@ -1,0 +1,4 @@
+I need your help to create a k8s pod (alias-pod) that meets the following requirements:
+1. It should not restart automatically.
+2. It should have two host aliases: IP address 127.0.0.1 should resolve to hostnames example.local and sample.local; IP address 10.1.2.3 should resolve to hostnames example.remote and sample.remote.
+3. The Pod should run a container based on the busybox:1.35 image and should execute the cat command to display the /etc/hosts file.

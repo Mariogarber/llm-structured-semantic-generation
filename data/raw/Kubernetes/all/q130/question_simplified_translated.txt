@@ -1,0 +1,1 @@
+创建一个 Kubernetes PV，容量为 1Gi，文件系统卷模式，支持多个节点进行读写。连接到 IP 255.0.255.0 的 NFS 服务器，路径为 /desired/path/in/nfs。

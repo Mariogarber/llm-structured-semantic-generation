@@ -1,0 +1,1 @@
+创建一个名为 ms-account 的 ServiceAccount 用于一个新的微服务。通过创建一个 Role 和 RoleBinding，授予对默认命名空间中所有 pod 的 get 和 list 访问权限。

@@ -1,0 +1,56 @@
+Here is the current Envoy config I'm working with:
+```
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+    traffic_direction: INBOUND
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          tracing:
+          [TO COMPLETE]
+          codec_type: auto
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: service2
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: local_service
+                decorator:
+                  operation: checkStock
+          http_filters:
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+  clusters:
+  - name: local_service
+    type: strict_dns
+    lb_policy: round_robin
+    load_assignment:
+      cluster_name: local_service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: 127.0.0.1
+                port_value: 8080
+```
+I'm working on configuring an Envoy route for egress traffic. I need it to have the following specifications:
+The stat prefix should be set to egress_http.
+The route configuration should be named service2_route.
+Under virtual hosts, there should be just one named service2 that accepts any domain.
+I want a single route to match requests with a prefix of /trace/2 and direct them to a cluster named service2.
+Additionally, for tracing purposes, I'd like to decorate this route with an operation named checkStock.
+Can you provide the completed YAML by filling in the [TO COMPLETE] part?

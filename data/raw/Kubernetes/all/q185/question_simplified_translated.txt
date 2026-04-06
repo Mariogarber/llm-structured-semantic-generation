@@ -1,0 +1,1 @@
+创建一个 Pod，其中包含一个名为 memory-demo-ctr 的容器，使用镜像 polinux/stress。容器请求 10MiB 内存，并将其限制为 20MiB。压力类型是虚拟内存，压力为 15M 内存，持续 1 秒。

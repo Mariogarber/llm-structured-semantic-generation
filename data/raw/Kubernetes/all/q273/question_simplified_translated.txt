@@ -1,0 +1,1 @@
+部署一个带有3个副本的 StatefulSet 的 NGINX web 服务器。每个 pod 应该使用 minikube 的默认存储类 "standard" 创建一个持久卷声明。在 YAML 中定义 StatefulSet 和无头服务。使用镜像 k8s.gcr.io/nginx-slim:0.8。

@@ -1,0 +1,18 @@
+设置一个具有3个并行 pod 的 Kubernetes Job（example-job）。Pods 应该使用 DNS 进行通信。为 DNS 解析创建一个无头服务（headless-svc）。Pods 应该使用它们的 DNS 名称相互 ping。在作业的容器中使用 bash:latest 镜像。
+```
+for i in 0 1 2
+do
+  gotStatus="-1"
+  wantStatus="0"             
+  while [ $gotStatus -ne $wantStatus ]
+  do                                       
+    ping -c 1 example-job-${i}.headless-svc > /dev/null 2>&1
+    gotStatus=$?                
+    if [ $gotStatus -ne $wantStatus ]; then
+      echo "Failed to ping pod example-job-${i}.headless-svc, retrying in 1 second..."
+      sleep 1
+    fi
+  done                                                         
+  echo "Successfully pinged pod: example-job-${i}.headless-svc"
+done
+```

@@ -1,0 +1,18 @@
+In the given Kubernetes ReplicaSet YAML, I need to ensure that the specified under the "containers" section has a readiness probe configured. This 
+readiness probe should perform an HTTP GET request to the path "/" on port 80 of the container. Please describe the specific configuration for the 
+readiness probe.
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+```

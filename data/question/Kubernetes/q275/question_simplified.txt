@@ -1,0 +1,1 @@
+Create a k8s StatefulSet named my-cassandra with 3 replicas. Set app label to my-cassandra. Env vars: MAX_HEAP_SIZE=512M, HEAP_NEWSIZE=100M. Use image gcr.io/google-samples/cassandra:v13. Provide YAML.

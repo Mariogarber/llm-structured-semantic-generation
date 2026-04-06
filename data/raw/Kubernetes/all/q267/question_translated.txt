@@ -1,0 +1,13 @@
+创建一个使用滚动更新策略和有序就绪的 Pod 管理策略的 ZooKeeper 集群的 Kubernetes StatefulSet。
+此外，指定一个 Pod Disruption Budget，在自愿中断期间只允许一个 Pod 不可用。
+使用镜像 registry.k8s.io/kubernetes-zookeeper:1.0-3.4.10，并为 StatefulSet 和 Pod Disruption Budget 设置标签 app: zk。
+基本的 YAML 如下所示：
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zk
+spec:
+  serviceName: zk-hs
+  replicas: 3
+```

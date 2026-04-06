@@ -1,0 +1,15 @@
+Add liveness probe to Pod using HTTP GET requests. Probe every 3s, wait 3s before first probe. Kubelet sends GET request to container's server on port 8080. If /healthz returns success, container is considered alive. If failure, kubelet restarts it.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-http
+spec:
+  containers:
+  - name: liveness
+    image: registry.k8s.io/liveness
+    args:
+    - /server
+```

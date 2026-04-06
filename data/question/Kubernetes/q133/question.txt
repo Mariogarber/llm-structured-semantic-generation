@@ -1,0 +1,10 @@
+I need to provide persistent storage to a WordPress container. A base configuration of the persistent volume claim is given below:
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-pv-claim
+  labels:
+    app: wordpress
+```
+Can you help me complete the YAML to request a storage size of 2Gi and ReadWriteOnce access?

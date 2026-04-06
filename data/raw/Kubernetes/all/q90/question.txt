@@ -1,0 +1,10 @@
+A Tomcat application has been created in the Kubernetes cluster. 
+Given the following YAML, please help me config the ingress routing:
+The domain name is foo.bar.com. Set up the TLS configuration with domain name, and secretName: secret-https. 
+Select the service name tomcat-svc, and the port is 8080.
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+   name: tomcat-https
+```

@@ -1,0 +1,12 @@
+Specify "ENV_VAR" with value "custom_value" in each pod of the ReplicaSet deploying pods running the latest nginx image. Label the pods with "app: nginx-env".
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset-env
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-env
+```

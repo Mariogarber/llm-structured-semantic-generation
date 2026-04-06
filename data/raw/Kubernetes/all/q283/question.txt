@@ -1,0 +1,4 @@
+You are responsible for setting up dynamic storage provisioning in a Kubernetes cluster hosted on Google Cloud. 
+You need to create a StorageClass (local) using the k8s.io/minikube-hostpath provisioner. 
+Then you can create a PersistentVolumeClaim (claim1) using the "local" SC with an access mode of ReadWriteOnce and a requested storage size of 3Gi.
+Define a StorageClass and a PersistentVolumeClaim in YAML format.

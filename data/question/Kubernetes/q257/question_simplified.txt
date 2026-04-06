@@ -1,0 +1,17 @@
+How can I define a service in one namespace that links to a Pod running in another namespace without the code inside the container needing to know about the location of the service?
+```
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: service-x
+  namespace: namespace-a
+subsets:
+  - addresses:
+      - targetRef:
+          kind: Service
+          namespace: namespace-b
+          name: service-x
+          apiVersion: v1
+    ports:
+      - port: 80
+```

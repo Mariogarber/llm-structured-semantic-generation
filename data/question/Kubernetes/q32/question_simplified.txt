@@ -1,0 +1,57 @@
+Create a ConfigMap with specific data and use it in a DaemonSet to continuously print the data every 10 seconds. Use the following DaemonSet structure:
+
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-configmap-volume
+spec:
+  selector:
+    matchLabels:
+      name: ds-configmap-volume
+  template:
+    metadata:
+      labels:
+        name: ds-configmap-volume
+    spec:
+      containers:
+      - name: ds-configmap-container
+        image: busybox
+        command: [ "sh", "-c", "while true; do cat /config/config-data.txt; sleep 10; done" ]
+        volumeMounts:
+        - mountPath: /config
+          name: config-volume
+      volumes:
+      - name: config-volume
+        configMap:
+          name: ds-configmap
+```
+
+Create a ConfigMap and use it in a DaemonSet to continuously print data every 10 seconds. DaemonSet structure:
+
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-configmap-volume
+spec:
+  selector:
+    matchLabels:
+      name: ds-configmap-volume
+  template:
+    metadata:
+      labels:
+        name: ds-configmap-volume
+    spec:
+      containers:
+      - name: ds-configmap-container
+        image: busybox
+        command: [ "sh", "-c", "while true; do cat /config/config-data.txt; sleep 10; done" ]
+        volumeMounts:
+        - mountPath: /config
+          name: config-volume
+      volumes:
+      - name: config-volume
+        configMap:
+          name: ds-configmap
+```

@@ -1,0 +1,40 @@
+我有一个 Deployment，使用以下清单将其公开为 Service。请创建一个 HorizontalPodAutoscaler，根据平均 CPU 利用率自动调整 Pod 的数量。平均 CPU 利用率目标应为 50%，副本数应在 2 到 10 之间。
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-apache
+spec:
+  selector:
+    matchLabels:
+      run: php-apache
+  template:
+    metadata:
+      labels:
+        run: php-apache
+    spec:
+      containers:
+      - name: php-apache
+        image: registry.k8s.io/hpa-example
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-apache
+  labels:
+    run: php-apache
+spec:
+  ports:
+  - port: 80
+  selector:
+    run: php-apache
+```
+
+请使用上述 YAML 创建一个名为 php-apache-hpa 的 HorizontalPodAutoscaler。

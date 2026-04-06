@@ -1,0 +1,15 @@
+Kubernetes assigns an IP address for each container, but how can I acquire the IP address from a container in the Pod? I couldn't find the way from documentations.
+ I'm going to run Aerospike cluster in Kubernetes. and the config files need its own IP address. And I'm attempting to use confd to set the hostname. I would use the environment variable if it was set.
+Specifically, what are the environment variables that can be accessed within a Kubernetes pod, and how can I retrieve the pod's name, namespace, and IP address using these variables?
+```
+apiVersion: v1
+kind: Pod
+metadata:
+   name: config-pod-1
+spec:
+   containers:
+     - name: test-container
+       image: mirror.gcr.io/library/busybox:latest
+       command: [ "/bin/sh", "-c", "env" ]
+```
+Please provide the full YAML after modification.

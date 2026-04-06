@@ -1,0 +1,21 @@
+Given the following YAML, I need to add an environment variable inside the container specification. This environment 
+variable should be named GREETING_MESSAGE and have the value "Hello from the environment variable!".
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-env-vars
+spec:
+  selector:
+    matchLabels:
+      name: ds-env-vars
+  template:
+    metadata:
+      labels:
+        name: ds-env-vars
+    spec:
+      containers:
+      - name: ds-env-container
+        image: busybox
+        command: [ "sh", "-c", "while true; do echo $GREETING_MESSAGE; sleep 10; done" ]
+```

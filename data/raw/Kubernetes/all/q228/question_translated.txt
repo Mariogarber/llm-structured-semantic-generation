@@ -1,0 +1,2 @@
+请为 K8s 编写一个 Secret，以便当它被挂载到一个卷中时，该卷将包含一个名为 .secret-file 的单个文件。
+文件的内容是 dmFsdWUtMg0KDQo=。

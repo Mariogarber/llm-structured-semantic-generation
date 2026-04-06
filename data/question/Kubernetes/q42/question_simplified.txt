@@ -1,0 +1,1 @@
+Create a k8s DaemonSet labeled "app: hellods-modified". Use latest nginx image with termination grace period of 30s. Run infinite loop sleeping for 5s. Set CPU request to 100m and memory request to 200Mi.

@@ -1,0 +1,17 @@
+Add two containers to the DaemonSet:
+- Container 1: busybox image, continuously echo 'Container 1 Running' every 10 seconds.
+- Container 2: busybox image, continuously echo 'Container 2 Running' every 15 seconds.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-multi-container
+spec:
+  selector:
+    matchLabels:
+      name: ds-multi-container
+  template:
+    metadata:
+      labels:
+        name: ds-multi-container
+```

@@ -1,0 +1,5 @@
+Can you create a YAML configuration file for a Kubernetes ReplicationController that deploys 5 replicas of a pod? Each pod should have:
+- A host network and host PID enabled
+- A privileged container running the alpine image (name: agent)
+- Four host volumes (/dev, /proc, /usr) mounted into /host/[corresponding-path] inside the container. All should be read-only.
+- You can use "while true; do sleep 10; done" to keep them alive.

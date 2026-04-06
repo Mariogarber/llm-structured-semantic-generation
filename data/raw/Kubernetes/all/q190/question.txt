@@ -1,0 +1,15 @@
+Given the following YAML, suppose there are 2 Secrets for username and password, created by local files, with names "user" and "pass".
+Please create a Pod running a container that mounts the Secret to the same path of local files, using the projected volume.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-projected-volume
+spec:
+  containers:
+  - name: test-projected-volume
+    image: busybox:1.28
+    args:
+    - sleep
+    - "86400"
+```

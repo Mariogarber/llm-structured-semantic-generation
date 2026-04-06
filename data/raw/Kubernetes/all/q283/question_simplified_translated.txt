@@ -1,0 +1,1 @@
+在 GCP 上的 Kubernetes 集群中设置动态存储供应。使用 k8s.io/minikube-hostpath provisioner 创建一个 StorageClass（local）。使用 "local" SC 创建一个 PersistentVolumeClaim（claim1），访问模式为 ReadWriteOnce，请求的存储大小为 3Gi。提供 StorageClass 和 PersistentVolumeClaim 的 YAML。

@@ -1,0 +1,3 @@
+In Kubernetes, I want to set up an ingress rule (ana-ing) for an analytics dashboard. 
+The service behind this dashboard is named ana-dash and runs on port 8085. 
+The dashboard should be accessible via the path /dashboard. How to configure the ingress using YAML?

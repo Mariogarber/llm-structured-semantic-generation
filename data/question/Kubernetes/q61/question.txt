@@ -1,0 +1,35 @@
+Modify the existing DaemonSet to meet the following requirements:
+- Set a CPU limit of 500m and a memory limit of 100Mi for the container.
+- Mount a volume named shared-data to /var/shared-data in the container.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds
+spec:
+  selector:
+    matchLabels:
+      name: my-ds
+  template:
+    metadata:
+      labels:
+        name: my-ds
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: nginx
+        image: nginx
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+```

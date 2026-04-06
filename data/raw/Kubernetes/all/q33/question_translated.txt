@@ -1,0 +1,4 @@
+我有一个 Kubernetes 配置，我需要为 DaemonSet 使用 Service Account。请帮我编写一个 YAML 定义，满足以下要求：
+1. 创建一个名为 "ds-service-account" 的 Service Account。定义一个使用上述 Service Account 的 DaemonSet。
+2. 在这个 DaemonSet 中，应该有一个容器运行 busybox 镜像。该容器应该每隔 10 秒连续打印消息 "Running with service account"。
+3. Pod 应该具有标签 "ds-service-account-set"。

@@ -1,0 +1,12 @@
+Provide a short K8s YAML to fix the issue of "secrets "secret-sa-sample" not found" when trying to get or describe the secret "secret-sa-sample".
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-sa-sample
+  annotations:
+    kubernetes.io/service-account.name: "sa-name"
+type: kubernetes.io/service-account-token
+data:
+  extra: YmFyCg==     
+```

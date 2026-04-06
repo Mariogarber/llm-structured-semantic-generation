@@ -1,0 +1,8 @@
+Imagine you are configuring a Kubernetes replication controller. 
+It is called redis-replica, with labels app: redis, role: replica, and tier: backend. 
+The replication controller manages 2 replicas and uses a pod template with the same labels as above.
+The pod template contains a container called replica and uses the latest redis image. 
+Resource requests for the container is cpu: 200m and memory: 200 MB. 
+The container has an environment variable GET_HOSTS_FROM set to env. 
+The container also exposes port 6380.
+Please provide me with the configuration YAML file.

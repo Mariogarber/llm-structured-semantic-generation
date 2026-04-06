@@ -1,0 +1,21 @@
+请帮我为 Pod 中的所有容器指定安全设置。
+对于 Pod 中的任何容器，所有进程都以用户 ID 1000 运行；任何容器内的所有进程的主组 ID 是 3000。
+容器的所有进程也是附加组 ID 2000 的一部分。
+容器的所有进程不能获得比其父进程更多的特权。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo
+spec:
+  volumes:
+  - name: sec-ctx-vol
+    emptyDir: {}
+  containers:
+  - name: sec-ctx-demo
+    image: busybox:1.28
+    command: [ "sh", "-c", "sleep 1h" ]
+    volumeMounts:
+    - name: sec-ctx-vol
+      mountPath: /data/demo
+```

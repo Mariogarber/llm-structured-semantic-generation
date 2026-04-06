@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: test-rc
+  labels:
+    app: test-rc
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: test-pod
+    spec:
+      containers:
+      - name: test
+        image: alpine:latest
+        command: ["sh", "-c", "while true; do sleep 10; done"]
+        ports:
+        - containerPort: 8000

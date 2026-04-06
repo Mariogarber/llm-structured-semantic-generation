@@ -1,0 +1,1 @@
+创建一个名为 "mysec" 的 Kubernetes Secret，其中包含键值对：username=admin 和 password=secret123。

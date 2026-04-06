@@ -1,0 +1,3 @@
+请创建一个 Pod，其中包含一个容器。容器将请求 10 MiB 的内存，并将内存限制为 20 MiB。
+具体来说，Pod 的名称是 memory-demo，容器的名称是 memory-demo-ctr，镜像是 polinux/stress。
+压力类型是虚拟内存压力。要压力的内存量为 15 M。压力持续时间为 1 秒。

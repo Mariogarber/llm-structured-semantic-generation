@@ -1,0 +1,1 @@
+写一个 yaml 来定义 Kubernetes LimitRange，指定 PersistentVolumeClaim 的最小和最大存储限制分别为 1Gi 和 2Gi。

@@ -1,0 +1,2 @@
+Create a DaemonSet and only run the daemon pods on nodes that have local solid state (SSD) storage. 
+Specifically, the DaemonSet is named ssd-driver. It schedules pods only on nodes that have the label ssd: "true". The container should use the latest nginx image.

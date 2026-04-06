@@ -1,0 +1,3 @@
+请编写一个 k8s YAML 文件来创建一个部署（Deployment），以启动一个 Redis Pod。
+请使用镜像 "docker.io/redis:6.0.5"。
+部署和 Pod 应该带有标签 "app: redis"。

@@ -1,0 +1,5 @@
+我想创建一个无头服务 nginx，用于发布 StatefulSet web 中 2 个 Pod 的 IP 地址。
+每个容器应该运行最新的 nginx 映像，并使用名为 "web" 的端口 80。
+卷应该命名为 "www"。
+我应该如何编写配置服务和 StatefulSet 的 yaml？
+你可以将它们连接到一个文件中。

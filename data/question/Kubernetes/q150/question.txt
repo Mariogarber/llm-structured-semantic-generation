@@ -1,0 +1,2 @@
+You want to create a Kubernetes Pod that uses an optional Secret for mounting a volume. How would you create the manifest files for the Pod? 
+The Pod should use the image redis, and the volume should be mounted at /etc/foo (read only). Do not create the secret.

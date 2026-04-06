@@ -1,0 +1,17 @@
+调试给定的 YAML 并修改它，使其只在失败时重新启动。以下是修正后的 YAML：
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello
+spec:
+  template:
+    metadata:
+      name: hello
+    spec:
+      containers:
+      - name: hello
+        image: python:latest
+        command: ["python",  "-c", "print('Hello world!')"]
+      restartPolicy: Always
+```

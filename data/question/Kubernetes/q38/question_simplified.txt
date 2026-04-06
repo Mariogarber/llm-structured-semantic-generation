@@ -1,0 +1,1 @@
+Create a yaml for a k8s DaemonSet. Pods have 2 containers: "container-main" with busybox image running "while true; do echo 'Main container'; sleep 10; done", and "container-sidecar" with busybox image running "while true; do ps aux; sleep 15; done". Both containers share the same process namespace. Pod metadata has label "name: ds-share-process-ns".

@@ -1,0 +1,1 @@
+Write a DaemonSet YAML file deploying a container with busybox image, labeled "ds-liveness-probe". Container prints "Alive" every 10s. Implement a liveness probe checking "/tmp/healthy" file existence. Probe starts after 5s delay and checks every 5s.

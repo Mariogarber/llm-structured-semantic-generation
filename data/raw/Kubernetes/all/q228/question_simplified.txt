@@ -1,0 +1,1 @@
+Write a K8s Secret that mounts as a volume with a single file named .secret-file. The file content is base64-encoded.

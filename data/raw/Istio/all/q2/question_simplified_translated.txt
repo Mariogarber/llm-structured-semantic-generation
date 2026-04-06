@@ -1,0 +1,1 @@
+为 prod ns 中 bookinfo 应用的评分 service 写一个 Istio DestinationRule YAML。 主要流量用 LEAST_REQUEST lb，子集“testversion”使用标签 v3 和 ROUND_ROBIN lb 策略。 DestinationRule 名称为 bookinfo-ratings-2。

@@ -1,0 +1,20 @@
+Complete the YAML by filling in the [TO COMPLETE] part to provide a listener on port 10000 for managing WebSocket connections. The goal is to have statistics on this traffic, specifically prefixed with 'ingress_ws_to_ws'. All domain traffic should be accommodated, with traffic having a '/' prefix directed to the cluster 'service_ws'. Utilize default filters for handling the WebSocket upgrade and subsequent routing.
+```
+static_resources:
+  listeners:
+  - [TO COMPLETE]
+
+  clusters:
+  - name: service_ws
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service_ws
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service-ws
+                port_value: 80
+```

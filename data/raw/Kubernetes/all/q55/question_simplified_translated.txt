@@ -1,0 +1,1 @@
+创建一个基本的 Kubernetes DaemonSet，在 kube-system 命名空间的每个节点上部署一个 nginx 容器。

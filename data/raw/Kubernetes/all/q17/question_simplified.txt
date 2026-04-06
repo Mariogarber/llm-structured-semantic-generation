@@ -1,0 +1,20 @@
+Specify a host alias for the DaemonSet named hostalias-daemonset. Use the IP address "10.1.2.3" and set the hostname as "myapp.local".
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hostalias-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: hostalias-daemonset
+  template:
+    metadata:
+      labels:
+        app: hostalias-daemonset
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"]
+```

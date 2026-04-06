@@ -1,0 +1,18 @@
+Please help modify this simple Pod below so that it have 2 Init Containers. 
+The first is named init-myservice. It waits for Service: myservice to start. 
+The second is named init-myservice. It waits for Service: mydb to start. 
+Once both Init containers have started, the Pod will start the application container named myapp-container in the spec section.
+All containers use image: busybox:1.28.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app.kubernetes.io/name: MyApp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+```

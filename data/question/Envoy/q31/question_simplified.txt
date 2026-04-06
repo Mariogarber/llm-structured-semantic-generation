@@ -1,0 +1,10 @@
+Create YAML config for Envoy proxy for Kafka. Features:
+- Proxy listens on all interfaces on a specific port for Kafka clients.
+- Config contains 2 filters:
+  a. Kafka broker filter with specific stat prefix.
+  b. TCP proxy filter with its own stat prefix, routes to specified cluster.
+- Define cluster with name and properties:
+  a. Cluster type based on DNS resolution, round-robin load balancing.
+  b. Cluster associated with Kafka server's client listener. Specify address and port.
+- Set up admin interface on all interfaces, separate port.
+Draft YAML config based on above specifications.

@@ -1,0 +1,5 @@
+Can you create a Kubernetes Pod based on the following requirements? 
+- The pod runs a container using the image "gcr.io/google-samples/hello-app:1.0".
+- The container exposes port 8080 over TCP.
+- The container requests 0.25 CPU and 128 MB of memory.
+- The container has a limit of 0.5 CPU and 256 MB of memory.

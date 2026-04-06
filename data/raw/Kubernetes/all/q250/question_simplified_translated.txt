@@ -1,0 +1,13 @@
+使用 LoadBalancer（端口：80）将 WordPress 服务部署到公网。修正现有配置：
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  select:
+    app: wordpress
+    tier: frontend
+```

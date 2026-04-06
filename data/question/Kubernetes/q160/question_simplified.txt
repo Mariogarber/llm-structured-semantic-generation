@@ -1,0 +1,12 @@
+Deploy a pod named sim-pod with a single container named sim-container using the Redis image. Attach the Kubernetes Secret sim-secret at the beginning of the Pod configuration. Mount the local volume at /mnt/local in the container.
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sim-secret
+type: Opaque
+data:
+  username: 
+  password: 
+```
+Provide the Pod configuration.

@@ -1,0 +1,17 @@
+Here is a headless service manifest for an nginx application.
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: nginx
+```
+Now you need to deploy 2 replicas of nginx using a StatefulSet. The container should use the image registry.k8s.io/nginx-slim:0.8 and mount a volume at /usr/share/nginx/html. The volume should have 1Gi of storage and access mode ReadWriteOnce.

@@ -1,0 +1,1 @@
+请写一个 YAML 文件，用于创建一个 Kubernetes 的 CronJob，使用最新的 Ubuntu 镜像，每分钟打印 'OK'。作业的名称必须为 'example'。

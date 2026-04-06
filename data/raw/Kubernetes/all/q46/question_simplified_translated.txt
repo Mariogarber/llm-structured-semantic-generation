@@ -1,0 +1,19 @@
+将终止优雅期设置为60秒，并在以下的DaemonSet YAML中使用服务账户'default'。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-grace-serviceaccount
+spec:
+  selector:
+    matchLabels:
+      name: ds-grace-serviceaccount
+  template:
+    metadata:
+      labels:
+        name: ds-grace-serviceaccount
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```

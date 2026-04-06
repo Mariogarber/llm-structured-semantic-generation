@@ -1,0 +1,24 @@
+给定以下创建 DaemonSet 的 YAML，我需要为此容器设置一个活动探针。
+活动探针应执行一个命令来检查 /tmp/healthy 文件的存在。它应该在容器启动后的 5 秒钟开始，并每 5 秒钟重复一次。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-liveness-probe
+spec:
+  selector:
+    matchLabels:
+      name: ds-liveness-probe
+  template:
+    metadata:
+      labels:
+        name: ds-liveness-probe
+    spec:
+      containers:
+      - name: ds-liveness-container
+        image: busybox
+        args:
+        - /bin/sh
+        - -c
+        - touch /tmp/healthy; sleep 5; rm -f /tmp/healthy; sleep 600
+```

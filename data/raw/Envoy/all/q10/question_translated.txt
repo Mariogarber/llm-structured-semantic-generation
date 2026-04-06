@@ -1,0 +1,24 @@
+这是我正在使用的当前 Envoy 配置：
+```
+static_resources:
+  listeners:
+  - [TO COMPLETE]
+
+  clusters:
+  - name: service_ws
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service_ws
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service-ws
+                port_value: 80
+```
+现在我需要一个监听器在端口10000上，用于管理WebSocket连接。我的目标是对这个流量进行统计，具体以 'ingress_ws_to_ws' 为前缀。
+在路由方面，应该适应所有域名流量，以 '/' 为前缀的流量应该被定向到 'service_ws' 集群。
+对于 WebSocket 升级和后续路由的实际处理，我计划使用默认过滤器。
+你能填写 [TO COMPLETE] 部分，提供完成的 YAML 吗？

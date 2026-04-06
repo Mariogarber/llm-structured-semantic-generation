@@ -1,0 +1,19 @@
+Set up port configuration to expose nginx container on port 80 within the container and map it to port 30080 on the host. Use the following YAML:
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-hostport
+spec:
+  selector:
+    matchLabels:
+      app: ds-hostport
+  template:
+    metadata:
+      labels:
+        app: ds-hostport
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```

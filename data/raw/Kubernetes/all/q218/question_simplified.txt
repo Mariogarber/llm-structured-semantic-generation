@@ -1,0 +1,20 @@
+Create a ServiceAccount named sample-sa in kube-system ns. Also create a ClusterRoleBinding named sample-clusterrolebinding in the same ns. This ClusterRoleBinding should bind the ClusterRole named sample-clusterrole to the ServiceAccount sample-sa. Use the provided manifests for ServiceAccount and ClusterRole.
+```
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sample-sa
+  namespace: kube-system
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: buggy-clusterrole
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]
+```

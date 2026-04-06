@@ -1,0 +1,7 @@
+提供 Envoy 前端设置的 YAML 配置：
+- static_resources: 监听器绑定到 0.0.0.0:10000
+- listener: 过滤器链使用 envoy.filters.network.http_connection_manager 过滤器，使用 HttpConnectionManager 自动检测编解码器类型，状态前缀为 'ingress_http'
+- 访问日志: envoy.access_loggers.stdout，使用指向 StdoutAccessLog 的类型化配置
+- 路由配置: 'local_route'，虚拟主机 'services' 为所有域名提供服务，路由匹配前缀 / 将流量定向到集群 'frontend_service'
+- filters 部分: 使用 envoy.filters.http.cors 过滤器处理 CORS 请求，envoy.filters.http.router 过滤器
+- clusters 部分: 集群 'frontend_service' 使用 STRICT_DNS，ROUND_ROBIN 负载均衡策略，负载分配指向 frontend-service:8080。

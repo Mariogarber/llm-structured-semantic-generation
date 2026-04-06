@@ -1,0 +1,3 @@
+Create a Kubernetes YAML file that defines a Pod with two containers. One container should be an nginx container, and the other should be a debian container. They should share data using a Kubernetes volume. 
+Your task is to make sure that the debian container writes a message to a file and that the nginx container can serve that message when accessed via HTTP.
+Use "/usr/share/nginx/html" for nginx's path and "/pod-data" for debain's.

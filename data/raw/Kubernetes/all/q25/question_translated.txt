@@ -1,0 +1,1 @@
+创建一个 DaemonSet，其 Pod 的标签为 "name: priority"，使用最新的 nginx 镜像。确保由该 DaemonSet 创建的 Pod 被赋予 "system-cluster-critical" 优先级类别。

@@ -1,0 +1,8 @@
+起草一个 Envoy 配置，具体规格如下：
+- 在 IP 0.0.0.0 和端口 10000 上设置 Listener。
+- 使用 AUTO 编解码器和 'ingress_http' 统计前缀的 HTTP 连接管理器。
+- 将以 '/service/1' 为前缀的请求路由到 'service1' 集群，并镜像到 'service1-mirror'。
+- 将以 '/service/2' 为前缀的请求路由到 'service2' 集群，并根据 'x-mirror-cluster' 头部动态镜像。
+- 响应所有域名的虚拟主机。
+- 'service1' 和 'service1-mirror' 集群为 STRICT_DNS 类型，ROUND_ROBIN 负载均衡，指向端口 8080 上的服务。
+- 'service2' 集群为 STRICT_DNS 类型，ROUND_ROBIN 负载均衡，指向端口 8080 上的服务。

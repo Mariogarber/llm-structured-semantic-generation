@@ -1,0 +1,7 @@
+Provide a YAML for Envoy setup with specs:
+Listen on 0.0.0.0:8000.
+Use the http_connection_manager filter with codec type AUTO and stat prefix service_envoy_1.
+Route config named local_route with a virtual host "backend" that accepts any domain.
+In the virtual host, route with prefix /service/1 should forward to the service1 cluster.
+The service1 cluster should be STRICT_DNS type, use ROUND_ROBIN load balancing, and point to endpoint service1:8080.
+Admin interface should be on 0.0.0.0:8001.

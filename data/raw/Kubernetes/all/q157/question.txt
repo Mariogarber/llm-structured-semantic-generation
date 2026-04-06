@@ -1,0 +1,2 @@
+Write a Kubernetes YAML file to create a Pod that runs a single container as a HTTP server. 
+The container should use the image gcr.io/kuar-demo/kuard-amd64:blue and expose port 8080 over TCP.

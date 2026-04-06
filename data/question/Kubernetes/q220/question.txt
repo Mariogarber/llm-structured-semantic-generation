@@ -1,0 +1,1 @@
+Craft a yaml definition for a Kubernetes ClusterRole named "restricted-psp-user" that grants permissions to use a specific PodSecurityPolicy named 'restricted'.

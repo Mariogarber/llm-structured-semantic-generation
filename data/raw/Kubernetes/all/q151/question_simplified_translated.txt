@@ -1,0 +1,1 @@
+写一个名为 my-scheduled-pod 的 k8s Pod 清单，调度门 example.com/foo 和 example.com/bar。使用镜像 registry.k8s.io/pause:3.6。

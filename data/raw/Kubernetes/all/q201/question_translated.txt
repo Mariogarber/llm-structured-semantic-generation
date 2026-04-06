@@ -1,0 +1,1 @@
+你能写一个 YAML 文件吗？它描述了一个 Kubernetes ReplicaSet 对象，该对象运行一个 Pod（app: kuard-pod），使用 Kubernetes Up and Run 演示（image: "gcr.io/kuar-demo/kuard-amd64:blue"）。具体来说，我希望 Kubernetes 仅在本地不存在镜像时才拉取该镜像。

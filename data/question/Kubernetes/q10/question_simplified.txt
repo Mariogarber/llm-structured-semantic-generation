@@ -1,0 +1,4 @@
+Schedule a periodic k8s job to run the script every 1 minute. Script runs on nginx and does not allow concurrent executions.
+```
+/bin/sh -c "sleep 65"
+```

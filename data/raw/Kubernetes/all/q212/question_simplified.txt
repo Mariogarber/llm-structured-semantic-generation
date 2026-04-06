@@ -1,0 +1,1 @@
+Create a yaml for a k8s RoleBinding in the dev namespace named "read-secrets". Bind user "dave" to ClusterRole "secret-reader" under rbac.authorization.k8s.io api group.

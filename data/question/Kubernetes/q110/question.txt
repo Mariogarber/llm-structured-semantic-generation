@@ -1,0 +1,1 @@
+Write a yaml file to create two k8s job with name "hello-job-1" and "hello-job-2", and print "Hello world!" using python 3.9 for each of them.

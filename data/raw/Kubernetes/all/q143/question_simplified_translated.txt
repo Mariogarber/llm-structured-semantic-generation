@@ -1,0 +1,17 @@
+我可以在 YAML 配置文件中按顺序运行多个命令吗？如果第一个命令 "/bin/echo \"${MESSAGE}\"" 成功，我需要运行 "/bin/echo \"${MESSAGE}\ again\""。以下是 YAML 配置：
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec: 
+  restartPolicy: Never
+  containers:
+  - name: hello
+    image: "ubuntu:14.04"
+    env:
+    - name: MESSAGE
+      value: "hello world"
+    command: ["/bin/sh","-c"]
+    args: ["/bin/echo \"${MESSAGE}\""]
+```

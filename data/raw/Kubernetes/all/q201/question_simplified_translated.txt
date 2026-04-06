@@ -1,0 +1,1 @@
+写一个 Kubernetes ReplicaSet 对象的 YAML，运行一个 pod（app: kuard-pod），使用镜像 "gcr.io/kuar-demo/kuard-amd64:blue"。指定 Kubernetes 只在本地不存在镜像时才拉取镜像。

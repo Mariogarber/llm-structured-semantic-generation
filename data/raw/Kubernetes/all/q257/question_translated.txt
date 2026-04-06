@@ -1,0 +1,24 @@
+请帮我找到一种方法，在一个命名空间中定义一个服务，该服务链接到在另一个命名空间中运行的 Pod。
+我知道在运行在 namespace-a 中的 Pod 中，可以通过在集群 DNS 中引用它作为 service-x.namespace-b.svc.cluster.local 来访问在 namespace-b 中定义的 service-x。
+但是，我不想让容器内的代码知道 service-x 的位置。
+也就是说，我希望代码只需查找 service-x，然后能够访问它。
+以下是我的第一个版本的代码。它在 namespace-a 中定义了一个没有选择器的 service-x 服务（因为我要选择的 POD 不在 namespace-a 中）。
+它还在 namespace-b 中定义了一个名为 service-x 的服务。
+但是它未能在 namespace-a 中定义一个指向 service-x 的 Endpoints 对象。
+请帮我找到一种更有效和简洁的方法来实现它。
+```
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: service-x
+  namespace: namespace-a
+subsets:
+  - addresses:
+      - targetRef:
+          kind: Service
+          namespace: namespace-b
+          name: service-x
+          apiVersion: v1
+    ports:
+      - port: 80
+```

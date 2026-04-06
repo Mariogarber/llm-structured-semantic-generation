@@ -1,0 +1,1 @@
+配置一个 k8s 部署（nginx-deploy-2），只在具有 SSD 磁盘类型的节点上进行调度，使用节点亲和性。以标签 app:web 和镜像 nginx 为例。

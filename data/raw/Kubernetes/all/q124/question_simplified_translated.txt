@@ -1,0 +1,1 @@
+创建一个包含最小/最大临时存储为1Gi/5Gi的LimitRange的yaml文件。

@@ -1,0 +1,2 @@
+Please write a Service named my-service2 that selects pods with the label app.kubernetes.io/name: MyApp. 
+It should expose port 80 with TCP protocol, target port 49152, and be accessible via the IP address 198.51.100.32.

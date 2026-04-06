@@ -1,0 +1,16 @@
+This is an incorrect kubernetes job YAML file since there is not an image "alpineee". Please use the Pod failure policy to avoid unnecessary Pod retries. For example, stop Job if there is any issue with pulling the specified image. You can set the number of retries to 3.
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: failjob-config
+spec:
+  completions: 4
+  parallelism: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: main
+        image: alpineee
+```

@@ -1,0 +1,3 @@
+Write a yaml for a DaemonSet named "initcontainer" with Pods labeled "app: initcontainer". It should use an init 
+container named "init-myservice" with the busybox image to echo "Initializing..." and sleep for 2 seconds. The 
+main container should also use the busybox image and sleep for 3600 seconds.

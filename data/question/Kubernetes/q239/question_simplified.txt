@@ -1,0 +1,13 @@
+What is the correct way to create an SSH authentication Secret for storing an SSH private key in Kubernetes YAML?
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ssh-secret
+type: ssh-auth
+stringData:
+  ssh-privatekey: |
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    exampleSSHPrivateKey1234=
+    -----END OPENSSH PRIVATE KEY-----
+```

@@ -1,0 +1,16 @@
+Create a YAML file for a Deployment called custom-deploy. The Deployment should use the nginx:latest image, have 1 replica, and expose port 80. 
+Additionally, set the terminationGracePeriodSeconds to 10 seconds and add a preStop lifecycle hook that executes a command to sleep for 20 seconds.
+A Service configuration is provided as follow. Just attach it to the beginning of your answer.
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+```

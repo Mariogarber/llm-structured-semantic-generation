@@ -1,0 +1,46 @@
+在这个 Kubernetes 清单中，副本集无法成功创建 3 个副本，而是会有一组非同质的未运行 mongoDB 的 Pod。您将如何修改这两个 Pod，以确保它们不与以下 RS 冲突？
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod1
+  labels:
+    tier: backend
+spec:
+  containers:
+  - name: hello1
+    image: gcr.io/google-samples/hello-app:2.0
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod2
+  labels:
+    tier: backend
+spec:
+  containers:
+  - name: hello2
+    image: gcr.io/google-samples/hello-app:1.0
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: backend
+  labels:
+    app: database
+    tier: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: backend
+  template:
+    metadata:
+      labels:
+        tier: backend
+    spec:
+      containers:
+      - name: db-container
+        image: mongo:latest
+```

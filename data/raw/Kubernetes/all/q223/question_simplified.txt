@@ -1,0 +1,12 @@
+Create a RoleBinding named "my-role-binding" in the default namespace, binding user "my-user" to Role "my-role". Role "my-role" grants permission to "get" pods.
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: my-role
+  namespace: default
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get"]
+```

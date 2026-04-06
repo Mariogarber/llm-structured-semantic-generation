@@ -1,0 +1,2 @@
+Craft a yaml file to define a Kubernetes `LimitRange`. Containers within the cluster should have a default CPU request of 100m and 
+a memory request of 200Mi. Any Pod created should not exceed a maximum CPU usage of 150m or a memory usage of 250Mi.

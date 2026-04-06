@@ -1,0 +1,98 @@
+你正在增强一个现有的 Envoy 代理配置。作为扩展的一部分，你需要引入一个具有以下特征的额外监听器：
+该监听器应该绑定到地址 0.0.0.0 的端口 9901。
+它应该有一个名为 local_route 的路由配置，将请求路由到名为 backend 的虚拟主机，该虚拟主机接受任何域名。
+在虚拟主机内，配置一个与监控统计相关的特定前缀的路由，并将请求定向到预定义的集群。
+在该监听器上实现针对纯文本数据关联的内容类型的 HTTP 压缩。确保压缩针对具有特定压缩参数的文本内容进行优化。
+最后，该监听器应该配备一个路由器过滤器。
+
+```
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 10000
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: backend
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: service
+          http_filters:
+          - name: envoy.filters.http.compressor
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.compressor.v3.Compressor
+              response_direction_config:
+                common_config:
+                  min_content_length: 100
+                  content_type:
+                  - application/json
+                disable_on_etag_header: true
+              compressor_library:
+                name: text_optimized
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.compression.gzip.compressor.v3.Gzip
+                  memory_level: 3
+                  window_bits: 10
+          - name: envoy.filters.http.decompressor
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.decompressor.v3.Decompressor
+              decompressor_library:
+                name: upload
+                typed_config:
+                  "@type": "type.googleapis.com/envoy.extensions.compression.gzip.decompressor.v3.Gzip"
+                  window_bits: 9
+                  chunk_size: 8192
+                  # If this ratio is set too low, then body data will not be decompressed completely.
+                  max_inflate_ratio: 1000
+              response_direction_config:
+                common_config:
+                  enabled:
+                    default_value: false
+                    runtime_key: response_decompressor_enabled
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+  clusters:
+  - name: envoy-stats
+    connect_timeout: 0.25s
+    type: STATIC
+    load_assignment:
+      cluster_name: envoy-stats
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: 127.0.0.1
+                port_value: 9901
+  - name: service
+    connect_timeout: 0.25s
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service
+                port_value: 8080
+admin:
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 9901
+```

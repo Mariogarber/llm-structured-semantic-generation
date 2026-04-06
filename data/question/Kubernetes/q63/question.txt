@@ -1,0 +1,3 @@
+I need a DaemonSet yaml with the name "dnsconfig" using the latest nginx image. It should have 
+a "dnsConfig" with a nameserver of "8.8.8.8" and a search domain of "mydomain.com". The Pod 
+template should be labeled with "app: dnsconfig".

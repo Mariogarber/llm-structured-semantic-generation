@@ -1,0 +1,15 @@
+Add entries to hosts file: resolve foo.local, bar.local to 127.0.0.1 and foo.remote, bar.remote to 10.1.2.3 in the following YAML for a Pod:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostaliases-pod
+spec:
+  containers:
+  - name: cat-hosts
+    image: busybox:1.28
+    command:
+    - cat
+    args:
+    - "/etc/hosts"
+```

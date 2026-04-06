@@ -1,0 +1,22 @@
+修改给定的 K8s YAML，在部署成功初始化后运行命令 "mkdir tt"。提供完整修改后的 YAML 文件。
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.16.1
+        ports:
+        - containerPort: 80
+```

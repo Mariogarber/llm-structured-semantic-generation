@@ -1,0 +1,1 @@
+Create a K8s Service manifest for an external LoadBalancer exposing an app on pods labeled "app=webapp". App listens on port 8080, expose on external LB port 80.

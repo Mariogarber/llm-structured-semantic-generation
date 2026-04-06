@@ -1,0 +1,1 @@
+写一个 k8s cronjob 的 YAML，每分钟打印 'OK' 并使用最新的 ubuntu 镜像休眠 80 秒。作业名称为 'example'。如果前一个 cronjob 仍在运行，则不要运行。

@@ -1,0 +1,5 @@
+定义 Envoy 配置以进行网络资源管理。要求：
+- 静态资源使用 "mysql_listener" 监听 IP:1999。
+- 监听器有两个过滤器：MySQL 代理（类型，统计前缀 "egress_mysql"）和 TCP 代理（类型，统计前缀，集群 "mysql_cluster"）。
+- 定义 "mysql_cluster"，类型为 STRICT_DNS，负载分配到端口 3306 上的 "mysql"。
+- 管理界面在 IP:8001 上。提供上述要求的 YAML 文件。

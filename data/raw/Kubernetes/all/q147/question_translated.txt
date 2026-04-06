@@ -1,0 +1,3 @@
+配置一个 K8s Pod，使其使用 ConfigMap 在其容器内创建一个只读文件。
+该 Pod 使用 busybox 作为其容器，并在启动后休眠 1200 秒。
+ConfigMap 可以包含一个名为 my-config 的数据，其值为 "It is read-only."。

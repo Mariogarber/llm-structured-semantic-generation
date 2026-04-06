@@ -1,0 +1,1 @@
+Write Envoy config YAML for TCP passthrough for WSS service. Listen on 0.0.0.0:10000, forward TCP traffic without inspection. Tag metrics with 'wss_passthrough' prefix. Backend service 'service-wss' on port 443. Use STRICT_DNS for service discovery and ROUND_ROBIN load balancing.

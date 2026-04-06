@@ -1,0 +1,9 @@
+You have a Kubernetes Secret described as follow. Please create a Pod named secret-dotfiles-pod that is supposed to mount this secret at /etc/secret-volume. It runs a container using the image registry.k8s.io/busybox.
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: normal-secret
+data:
+  secret-file: dmFsdWUtMgo=
+```

@@ -1,0 +1,2 @@
+I want to configure a Kubernetes Pod that sets the kernel.shm_rmid_forced sysctl parameter to "0". 
+Use the image registry.k8s.io/pause for the container (pause).

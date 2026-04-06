@@ -1,0 +1,19 @@
+设置端口配置，将 nginx 容器在容器内部暴露在端口 80，并将其映射到主机上的端口 30080。使用以下 YAML：
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-hostport
+spec:
+  selector:
+    matchLabels:
+      app: ds-hostport
+  template:
+    metadata:
+      labels:
+        app: ds-hostport
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```

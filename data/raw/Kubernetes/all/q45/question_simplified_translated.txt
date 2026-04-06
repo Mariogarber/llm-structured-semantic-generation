@@ -1,0 +1,1 @@
+写一个名为 "nodeselector-daemonset" 的 DaemonSet yaml，Pods 标记为 "app: nodeselector-daemonset"。Pods 应该只在具有标签 "disktype=ssd" 的节点上运行，并使用 busybox 镜像。

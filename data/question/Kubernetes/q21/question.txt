@@ -1,0 +1,20 @@
+Given the following YAML for a DaemonSet, please assist me in setting up node affinity to ensure 
+that it only runs on nodes with a specific field "key-name" that has the value "value-name".
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+spec:
+  selector:
+    matchLabels:
+      name: fluentd-elasticsearch
+  template:
+    metadata:
+      labels:
+        name: fluentd-elasticsearch
+    spec:
+      containers:
+      - image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+        name: fluentd-elasticsearch
+```

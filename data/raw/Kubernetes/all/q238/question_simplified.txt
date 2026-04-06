@@ -1,0 +1,1 @@
+Generate a k8s YAML for a Secret (my-sec) for basic auth. Use "harry" and "verysecret" as example username and password.

@@ -1,0 +1,3 @@
+I'm working on setting up an Envoy proxy to perform TCP passthrough for our WSS service. I want to listen on 0.0.0.0 and port 10000, and simply forward all the TCP traffic without inspecting the data. For monitoring purposes, I'd like to tag the metrics for this traffic with the 'wss_passthrough' stat prefix.
+The backend service I'm forwarding traffic to is identified by the DNS name 'service-wss' and it's listening on port 443. I'm planning to utilize STRICT_DNS for service discovery and apply a ROUND_ROBIN strategy for load balancing.
+Can you help me write the Envoy configuration YAML for these requirements?

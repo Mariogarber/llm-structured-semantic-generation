@@ -1,0 +1,1 @@
+设计一个 DaemonSet 的 YAML，将容器端口 80 绑定到节点端口 30080。使用 "nginx:latest" 镜像部署容器。Pod 模板标记为 "app: ds-hostport"。

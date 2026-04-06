@@ -1,0 +1,1 @@
+请创建一个 Kubernetes Service 的清单，用于创建一个外部 LoadBalancer，以公开在具有标签 "app=webapp" 的 pod 上运行的应用程序。该应用程序监听端口 8080，并且您希望在外部负载均衡器上的端口 80 上公开它。

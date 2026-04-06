@@ -1,0 +1,20 @@
+Given the following YAML for a DaemonSet named initcontainer, please help me add an initialization container named "init-myservice" with the image busybox.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: initcontainer
+spec:
+  selector:
+    matchLabels:
+      app: initcontainer
+  template:
+    metadata:
+      labels:
+        app: initcontainer
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"]
+```

@@ -1,0 +1,1 @@
+Create a k8s Ingress YAML to route incoming HTTP traffic on path / to an Nginx service named nginx-svc in the default namespace. Service (my-ing) listens on port 443.

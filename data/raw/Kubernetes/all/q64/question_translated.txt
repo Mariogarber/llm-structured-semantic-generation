@@ -1,0 +1,1 @@
+编写一个 yaml 文件来创建一个名为 "fluentd-elasticsearch" 的 Kubernetes DaemonSet，该 DaemonSet 使用镜像 "quay.io/fluentd_elasticsearch/fluentd:v2.5.2"。确保 DaemonSet 的 pod 仅在具有特定字段 "key-name" 设置为值 "value-name" 的节点上调度。

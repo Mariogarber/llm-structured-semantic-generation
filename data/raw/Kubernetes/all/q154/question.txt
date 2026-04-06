@@ -1,0 +1,2 @@
+In Kubernetes, create a Pod (cap-pod) that adds specific Linux capabilities for its main container. 
+Use the image registry.k8s.io/pause. The capabilities to add are AUDIT_WRITE and CHOWN.

@@ -1,0 +1,5 @@
+在 some-config-namespace 中设置一个 Istio Gateway 配置，具体规格如下：
+- 将网关命名为 my-gateway。
+- 选择标记为 my-gateway-controller 的应用。
+- 使用 HTTP 协议在端口 80 上进行监听，端口名称为 http。
+- 对于主机配置，适用于 ns1 命名空间中的所有服务，特别适用于 ns2 命名空间中的 foo.bar.com 服务。

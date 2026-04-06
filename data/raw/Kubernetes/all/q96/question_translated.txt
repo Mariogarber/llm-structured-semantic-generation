@@ -1,0 +1,20 @@
+我有这个 YAML：
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-ingress
+annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: test-app
+              servicePort: 5000
+```
+执行时会报错：
+Error from server (BadRequest): error when creating "f.yaml": Ingress in version "v1" cannot be handled as a Ingress: strict decoding error: unknown field "annotations", unknown field "spec.rules[0].http.paths[0].backend.serviceName", unknown field "spec.rules[0].http.paths[0].backend.servicePort"
+请调试它使其有效。请提供整个 YAML。

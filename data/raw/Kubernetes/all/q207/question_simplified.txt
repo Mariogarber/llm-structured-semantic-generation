@@ -1,0 +1,1 @@
+Create a YAML defining a ResourceQuota named "pods-high" with CPU limit 1000, memory limit 200Gi, and max pods 10, all in high priority class.

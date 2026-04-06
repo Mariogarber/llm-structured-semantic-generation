@@ -1,0 +1,25 @@
+为了演示持久卷的功能，您可以编写一个 YAML 文件来向第一个 Pod 写入一条消息。在删除该 Pod 后，仍然可以使用相同的持久卷在第二个 Pod 中读取和打印该消息。假设节点上存在 /data 目录，并且存储卷为 50 MB。您可以基于以下 Pod 的清单进行扩展：
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: local-pvc-pod-1
+spec:
+  containers:
+  - name: my-container
+    image: alpine
+    command:
+    - "/bin/sh"
+    - "-c"
+    - "echo 'It is persistent!' > /mnt/volume/message.txt; while true; do sleep 10; done"
+    volumeMounts:
+    - name: my-storage
+      mountPath: /mnt/volume
+  volumes:
+  - name: my-storage
+    persistentVolumeClaim:
+      claimName: local-pvc
+```
+
+请注意，您需要创建一个 PersistentVolumeClaim（PVC）来与该 Pod 中的持久卷进行匹配。

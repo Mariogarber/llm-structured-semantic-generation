@@ -1,0 +1,18 @@
+鉴于以下 YAML 定义，请帮我创建一个 PersistentVolume：
+1. 这个 PersistentVolume 标记为本地存储类型，命名为 mysql-pv-volume。
+2. 与 pvc 相同的存储类型，并具有 'ReadWriteOnce' 的访问模式。
+3. 存储容量应为 15Gi。
+4. 从此 PersistentVolume 创建的 Pod 应在主机上使用 "/mnt/data" 目录进行存储。
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+```

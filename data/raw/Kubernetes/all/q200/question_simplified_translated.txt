@@ -1,0 +1,1 @@
+创建一个 k8s ReplicaSet 的 YAML。确保始终运行两个 nginx pods (app: nginx-rs-pod, env: dev)。Pods 为 nginx 服务器公开端口 80。

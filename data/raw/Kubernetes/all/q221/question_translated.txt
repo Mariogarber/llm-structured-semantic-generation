@@ -1,0 +1,2 @@
+写一个 yaml 文件来定义一个 Kubernetes ClusterRole，该角色具有在集群内创建和删除 secrets 的能力。
+ClusterRole 的名称应为 "secret-creator-deletor"。

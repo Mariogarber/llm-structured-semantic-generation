@@ -1,0 +1,8 @@
+定义 rbac.authorization.k8s.io API 组下的主体 "dave"。将用户与相同的 API 组中的 ClusterRole "secret-reader" 关联起来。使用提供的 YAML：
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-secrets
+  namespace: development
+```

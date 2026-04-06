@@ -1,0 +1,23 @@
+我有一个 Kubernetes 部署，其中有 4 个 Pod，每个 Pod 都有一个 nginx 容器（下面提供了示例）。你能创建一个服务，使它们能够相互通信吗？请将以下清单添加到您的 YAML 开头。
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx-deploy
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: my-nginx
+  template:
+    metadata:
+      labels:
+        app: my-nginx
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+```
+请提供完整的 YAML 配置。

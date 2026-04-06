@@ -1,0 +1,19 @@
+将 `tolerations` 与键 `node-role.kubernetes.io/master` 添加到 `fluentd-elasticsearch` 的 `DaemonSet` YAML 中，以允许在主节点上进行调度。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+spec:
+  selector:
+    matchLabels:
+      name: fluentd-elasticsearch
+  template:
+    metadata:
+      labels:
+        name: fluentd-elasticsearch
+    spec:
+      containers:
+        - image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+          name: fluentd-elasticsearch
+```

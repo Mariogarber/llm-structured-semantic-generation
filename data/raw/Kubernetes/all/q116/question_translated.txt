@@ -1,0 +1,1 @@
+请写一个 YAML 文件，使用最新的 Ubuntu 镜像连续 ping google.com，并将 activeDeadlineSeconds 设置为 10。作业的名称必须为 'example'。您可能需要先安装 iputils。

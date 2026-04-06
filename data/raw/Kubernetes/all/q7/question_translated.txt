@@ -1,0 +1,2 @@
+请为 k8s cronjob 编写一个 yaml 文件，每分钟打印 'OK' 并使用最新的 ubuntu 镜像睡眠 80 秒。
+作业的名称必须为 'example'。如果前一个 cronjob 仍在运行，请不要运行。

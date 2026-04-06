@@ -1,0 +1,53 @@
+Here is the current Envoy config I'm working with:
+```
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 10000
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: service
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: local_service
+          http_filters:
+          - [TO COMPLETE]
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+  clusters:
+  - name: local_service
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: local_service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: backend
+                port_value: 8080
+
+admin:
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 10001
+```
+Now I need to configure an HTTP RBAC filter. My primary goal is to deny requests that have a 'referer' header matching a specific pattern. Specifically, I want to block requests where the 'referer' matches the pattern 'https?://(www.)?envoyproxy.io/docs/envoy.*'. If a request doesn't have a 'referer' header that matches this pattern, I'd like to allow it. For logging and diagnostics, I'd like to tag denied requests with the name 'illegal-referer' and for the requests that are allowed, I'd like to tag them with 'all-pass'.
+Can you provide the completed YAML by filling in the [TO COMPLETE] part?

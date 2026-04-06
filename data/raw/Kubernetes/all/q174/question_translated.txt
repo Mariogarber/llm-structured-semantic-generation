@@ -1,0 +1,1 @@
+请创建一个名为 "nginx-select-pod" 的 pod，使用 "nginx" 镜像，并且该 pod 将被调度到具有 disktype=ssd 标签的节点上。

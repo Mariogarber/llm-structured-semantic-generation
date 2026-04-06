@@ -1,0 +1,3 @@
+如何使用最新的mongo DB镜像部署数据库应用程序？
+部署应该被标记为'db'，并且使用RollingUpdate策略确切地有5个副本。
+部署可以命名为mongo-deploy，并且标记为app:db。

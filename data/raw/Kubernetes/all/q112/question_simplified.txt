@@ -1,0 +1,1 @@
+Write a YAML defining a k8s job named 'example' that uses the latest python image to print "OK" and automatically terminates after 10 seconds.

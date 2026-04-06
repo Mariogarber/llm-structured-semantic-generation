@@ -1,0 +1,4 @@
+在 Kubernetes 中，我想要动态分配持久存储卷。底层存储系统的提供者是 "kubernetes.io/aws-ebs"。如何创建一个名为 dynamic-sc 的 StorageClass，具有以下规格？
+- 存储类型应为 "gp2"。
+- 动态分配的卷的回收策略应为 "Retain"。
+- 将 volumeBindingMode 设置为 "Immediate"，以便在创建 PersistentVolumeClaim 时立即启用动态分配。

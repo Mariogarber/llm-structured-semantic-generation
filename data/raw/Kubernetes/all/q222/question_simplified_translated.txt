@@ -1,0 +1,1 @@
+写一个定义在默认命名空间中授予“get”pods权限的k8s角色“my-role”的yaml。还要使用角色绑定“my-role-binding”将此角色绑定到用户“my-user”。用户应属于rbac.authorization.k8s.io apiGroup。

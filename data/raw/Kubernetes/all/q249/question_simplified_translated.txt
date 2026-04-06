@@ -1,0 +1,10 @@
+扩展MySQL服务的YAML，将容器暴露在端口3306上。
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-mysql
+  labels:
+    app: wordpress
+...
+```

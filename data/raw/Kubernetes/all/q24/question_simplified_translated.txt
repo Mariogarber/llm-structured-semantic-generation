@@ -1,0 +1,19 @@
+将给定的 DaemonSet YAML 中的主机目录 /var/log/nginx 挂载到 nginx 容器的 /var/log/nginx。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-hostpath
+spec:
+  selector:
+    matchLabels:
+      app: ds-hostpath
+  template:
+    metadata:
+      labels:
+        app: ds-hostpath
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```

@@ -1,0 +1,33 @@
+给定这段代码，我发现存储请求是1,073,741,824字节。如何将其设置为1,000,000,000字节？
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pg-db-storage
+spec:
+  serviceName: "pg-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pg-db
+  template:
+    metadata:
+      labels:
+        app: pg-db
+    spec:
+      containers:
+      - name: postgresql
+        image: postgres:latest
+        volumeMounts:
+        - name: pgdata
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: pgdata
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
+```
+请提供整个 YAML 配置。

@@ -1,0 +1,1 @@
+Can you use YAML to configure in Kubernetes a PodDisruptionBudget my-pdb for the application with label app=my-app that allows a maximum of 1 pod to be unavailable.

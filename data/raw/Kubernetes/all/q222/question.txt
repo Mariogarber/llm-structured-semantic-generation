@@ -1,0 +1,3 @@
+Write a yaml file to define a Kubernetes role named "my-role" in the default namespace that grants permission to "get" pods. 
+Additionally, bind this role to a user named "my-user" using a role binding named "my-role-binding". 
+The user should belong to the rbac.authorization.k8s.io apiGroup.

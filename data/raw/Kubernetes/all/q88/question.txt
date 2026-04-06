@@ -1,0 +1,1 @@
+Create a k8s HorizontalPodAutoscaler YAML that automatically scales the number of pods in a deployment called "simple-web-app" based on average CPU utilization. The average CPU utilization target should be 60%, and the number of replicas should be between 1 and 10.

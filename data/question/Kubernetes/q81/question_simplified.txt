@@ -1,0 +1,29 @@
+Write a YAML defining a Service & Deployment. Deployment runs a MySQL instance on port 3306, env MYSQL_ROOT_PASSWORD=password, volume mount /var/lib/mysql, creates a matching PersistentVolumeClaim. Service exposes the deployment on its port. Using names "mysql" & labels "app: mysql".
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+```

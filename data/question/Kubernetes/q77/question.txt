@@ -1,0 +1,2 @@
+How do I configure a k8s deployment (nginx-deploy-2) that should only be scheduled on nodes that have a disk type of SSD. 
+Use node affinity to accomplish this. As an example, app:web can be used as label and nginx can be used as image.

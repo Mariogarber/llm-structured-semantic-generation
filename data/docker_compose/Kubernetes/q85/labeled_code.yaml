@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard-deploy
+  labels:
+    app: kuard
+spec:
+  selector:
+    matchLabels:
+      app: test
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+      - name: my-kuard
+        image: gcr.io/kuar-demo/kuard-amd64:2
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi

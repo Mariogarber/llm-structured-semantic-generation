@@ -1,0 +1,19 @@
+给定这个 YAML：
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello
+spec:
+  template:
+    metadata:
+      name: hello
+    spec:
+      containers:
+      - name: hello
+        image: python:latest
+        command: ["python",  "-c", "print('Hello world!')"]
+      restartPolicy: Always
+```
+在执行时出现错误。此外，我想修改它，使其只在失败时重新启动。
+请在调试后提供整个 YAML。

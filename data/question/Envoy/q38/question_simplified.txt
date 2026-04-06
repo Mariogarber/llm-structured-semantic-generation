@@ -1,0 +1,8 @@
+Draft an Envoy configuration with the following specifications:
+- Listener setup on IP 0.0.0.0 and port 10000.
+- HTTP connection manager with AUTO codec and 'ingress_http' stat prefix.
+- Routing for requests with prefix '/service/1' to cluster 'service1' and mirror to 'service1-mirror'.
+- Routing for requests with prefix '/service/2' to cluster 'service2' and dynamic mirror based on 'x-mirror-cluster' header.
+- Virtual host that responds to all domains.
+- Clusters 'service1' and 'service1-mirror' of STRICT_DNS type, ROUND_ROBIN load balancing, pointing to services on port 8080.
+- Cluster 'service2' of STRICT_DNS type, ROUND_ROBIN load balancing, pointing to service on port 8080.

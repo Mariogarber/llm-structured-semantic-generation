@@ -1,0 +1,1 @@
+提供一个允许通过 TCP 在端口 22 上将 egress 流量发送到 GitHub IP 13.229.188.59/32 的 Istio YAML。主机 dummy.github.com 并未被主动使用。位置为 MESH_EXTERNAL。

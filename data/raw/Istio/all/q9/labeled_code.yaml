@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: github-tcp
+spec:
+  hosts:
+  - dummy.github.com
+  addresses:
+  - "13.229.188.59/32"
+  ports:
+  - name: tcp
+    number: 22
+    protocol: tcp
+  location: MESH_EXTERNAL

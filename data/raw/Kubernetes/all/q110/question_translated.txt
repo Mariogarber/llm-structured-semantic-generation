@@ -1,0 +1,1 @@
+写一个 yaml 文件来创建两个 k8s 作业，名称分别为 "hello-job-1" 和 "hello-job-2"，并使用 Python 3.9 分别打印 "Hello world!"。

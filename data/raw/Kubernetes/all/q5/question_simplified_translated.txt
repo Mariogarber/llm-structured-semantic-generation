@@ -1,0 +1,1 @@
+写一个 k8s cronjob 的 YAML，使用最新的 ubuntu 镜像每分钟打印 'OK'。作业名称为 'example'。

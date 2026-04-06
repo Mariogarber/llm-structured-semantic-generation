@@ -1,0 +1,1 @@
+Create a Kubernetes PV with 1Gi capacity, Filesystem volume mode, supporting multiple nodes for read/write. Connect to NFS server at IP 255.0.255.0, path /desired/path/in/nfs.

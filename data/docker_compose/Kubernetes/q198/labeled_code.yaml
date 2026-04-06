@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset-env
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-env
+  template:
+    metadata:
+      labels:
+        app: nginx-env
+    spec:
+      containers:
+      - name: nginx-container-env
+        image: nginx:latest
+        env:
+        - name: ENV_VAR
+          value: "custom_value"

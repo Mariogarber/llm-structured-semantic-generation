@@ -1,0 +1,2 @@
+请写一个 k8s 的 YAML 文件来创建一个 ReplicaSet，它启动 3 个副本，每个副本运行的镜像是 "gcr.io/google_samples/gb-frontend:v3"。
+所有潜在名称应为 "frontend"，标签应为 "tier: frontend"。

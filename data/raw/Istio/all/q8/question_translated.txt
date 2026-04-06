@@ -1,0 +1,4 @@
+请写一个 Istio YAML，公开用于使用 apt-get 安装软件包所需的主机。
+应用此文件后，启用 Istio 的 pod（配置了 apt-get）将能够执行 `apt-get upgrade` 和 `apt-get install`。如果未安装此软件，可能会出现 "404 Not Found"。
+对象的名称是 "make-aptget-work"。
+请提供整个 YAML。

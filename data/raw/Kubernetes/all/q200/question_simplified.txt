@@ -1,0 +1,1 @@
+Create a k8s ReplicaSet YAML. Ensure two nginx pods (app: nginx-rs-pod, env: dev) are always running. Pods expose port 80 for nginx server.

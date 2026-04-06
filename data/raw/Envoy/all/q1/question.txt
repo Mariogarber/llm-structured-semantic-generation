@@ -1,0 +1,6 @@
+Can you create a YAML file with three main sections that define different caching behaviors for responses processed through Envoy? 
+The first section should describe a response that stays valid for one minute, but you'll need to correct the caching time as it's currently not aligned with the description. 
+For the second section, indicate that the response is private and should not be cached by Envoy at all. 
+In the third section, specify that the response may be cached, but needs to be revalidated with each subsequent request. 
+Also, you have the freedom to choose any value for the 'custom-header' in the first section. 
+Make sure the headers are correctly configured to achieve these functionalities.

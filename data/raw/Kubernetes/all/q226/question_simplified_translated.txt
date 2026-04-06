@@ -1,0 +1,1 @@
+创建一个 k8s 的 yaml，用于在 'test2' 命名空间中定义 Role 'testadmin'，该 Role 具有对所有资源、动词和 API 组的权限。同时，在同一命名空间中创建 RoleBinding 'testadminbinding'，将 Role 关联到 'test2' 命名空间中的 ServiceAccount 'myaccount'。

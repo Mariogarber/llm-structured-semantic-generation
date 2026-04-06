@@ -1,0 +1,1 @@
+创建一个名为 "hostalias-daemonset" 的 DaemonSet yaml，其标记为 "app: hostalias-daemonset"。Pods 应该使用主机别名将 IP "10.1.2.3" 映射到主机名 "myapp.local"。使用 busybox 镜像，并运行一个小时。

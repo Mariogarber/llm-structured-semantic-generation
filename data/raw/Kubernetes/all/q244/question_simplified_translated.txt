@@ -1,0 +1,1 @@
+创建一个名为 state-metrics 的 headless k8s Service，在 kube-system ns 中。公开两个端口：端口 8080 上的 HTTP metrics 和端口 8081 上的 telemetry。Service 标签：app.kubernetes.io/component: exporter, app.kubernetes.io/name: state-metrics, app.kubernetes.io/version: 2.9.3。

@@ -1,0 +1,13 @@
+In Kubernetes, an application requires a specific group ID (GID) for access controls. To ensure that this GID is used by any Pod that consumes the PersistentVolume, I decide to annotate the PersistentVolume with this GID. Create a PersistentVolume definition with the following specifications:
+- Name of the volume: pv1
+- The GID annotation: 1234
+Simply use the following spec template:
+```
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data"
+```

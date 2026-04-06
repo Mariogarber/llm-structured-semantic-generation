@@ -1,0 +1,1 @@
+Create a K8s StorageClass (test-sc) for AWS EBS (provisioner: kubernetes.io/aws-ebs). Storage type: gp2. Reclaim policy: Retain. Volume expansion allowed. Mount option: debug. Volume binding mode: Immediate.

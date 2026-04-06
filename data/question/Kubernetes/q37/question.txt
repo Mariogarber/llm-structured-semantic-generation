@@ -1,0 +1,18 @@
+Given the below YAML representing a DaemonSet, please assist in implementing the following requirements:
+Add two containers to the DaemonSet:
+    - The first container, named "container-1", should use the busybox image and execute a command to continuously echo 'Container 1 Running' every 10 seconds.
+    - The second container, named "container-2", should also utilize the busybox image and execute a command to continuously echo 'Container 2 Running' every 15 seconds.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-multi-container
+spec:
+  selector:
+    matchLabels:
+      name: ds-multi-container
+  template:
+    metadata:
+      labels:
+        name: ds-multi-container
+```

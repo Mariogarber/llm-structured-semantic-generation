@@ -1,0 +1,20 @@
+将以下 Kubernetes Job 配置修改为使集群完全忽略任何状态码为 0 的失败的 pod。您不希望作业失败或重试此类 pod。其他 pod 应继续执行。
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ignored-failjob
+spec:
+  completions: 4
+  parallelism: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: main
+        image: alpine
+        command:
+        - "sh"
+        - "-c"
+        - "sleep 5"
+```

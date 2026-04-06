@@ -1,0 +1,5 @@
+我在 minikube 上有一个 Service Account（kettle）。创建一个 Deployment（kettle）和一个 PersistentVolumeClaim（kettle-data）。
+Deployment 有一个副本（kettle）。在 Deployment 中使用 SA kettle。将 Pod 标记为键为 app，值为 kettle。
+Deployment 应该有一个容器（kettle）。使用镜像 busybox。
+容器应该有两个环境变量：DEPLOYMENT 的值为 prod；SUBSCRIPTION_PATH 的值为 local-subscription。容器应该在 /data 处挂载一个卷，来自 PVC kettle-data。
+容器运行命令："/bin/sh -c sleep 600"。

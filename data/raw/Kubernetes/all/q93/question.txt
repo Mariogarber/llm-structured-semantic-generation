@@ -1,0 +1,1 @@
+Please write an Ingress YAML file that defines a rule for the host foo.bar.com to forward traffic on the /bar path to service1 on port 9090 and another rule for any subdomain of foo.com to forward traffic on the /foo path to service2 on port 9091.

@@ -1,0 +1,1 @@
+在 Kubernetes 中编写一个 yaml 文件来定义名为 "object-counts" 的资源配额，具体限制如下：Secrets 限制为 10 个，Services 限制为 10 个，'services' 类别中的 LoadBalancer Services 限制为 2 个。

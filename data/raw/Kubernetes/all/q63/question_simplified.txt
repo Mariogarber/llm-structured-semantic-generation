@@ -1,0 +1,1 @@
+Create a DaemonSet yaml named "dnsconfig" with the latest nginx image. Include a "dnsConfig" with nameserver "8.8.8.8" and search domain "mydomain.com". Label the Pod template with "app: dnsconfig".

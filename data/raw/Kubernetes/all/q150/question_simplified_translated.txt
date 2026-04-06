@@ -1,0 +1,1 @@
+创建一个 Kubernetes Pod 的清单文件，使用 redis 镜像。将卷挂载到 /etc/foo（只读）。

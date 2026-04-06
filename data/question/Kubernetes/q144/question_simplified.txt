@@ -1,0 +1,23 @@
+Specify security settings for all Containers in the pod. Containers in the Pod should have the following settings:
+- All processes run with user ID 1000.
+- Primary group ID for all processes within any containers of the Pod is 3000.
+- All processes of the container are part of the supplementary group ID 2000.
+- All processes of the container cannot gain more privileges than its parent process.
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo
+spec:
+  volumes:
+  - name: sec-ctx-vol
+    emptyDir: {}
+  containers:
+  - name: sec-ctx-demo
+    image: busybox:1.28
+    command: [ "sh", "-c", "sleep 1h" ]
+    volumeMounts:
+    - name: sec-ctx-vol
+      mountPath: /data/demo
+```

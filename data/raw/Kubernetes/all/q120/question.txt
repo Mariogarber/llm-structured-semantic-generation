@@ -1,0 +1,2 @@
+Design a yaml configuration to define a LimitRange in Kubernetes. The configuration should set the maximum memory limit 
+for any Pod to "1Gi" and, for any container that doesn't explicitly specify a memory limit, default it to "256Mi".

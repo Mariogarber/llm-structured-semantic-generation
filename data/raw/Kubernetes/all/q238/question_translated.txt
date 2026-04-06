@@ -1,0 +1,3 @@
+你能生成一个 Kubernetes 的 YAML 文件来配置一个 Secret（名为 my-sec）吗？
+它应该用于基本身份验证。
+以 "harry" 和 "verysecret" 作为示例的用户名和密码。

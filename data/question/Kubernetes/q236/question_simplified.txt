@@ -1,0 +1,9 @@
+Create a Pod named secret-dotfiles-pod that mounts the Kubernetes Secret normal-secret at /etc/secret-volume. The Pod should run a container using the image registry.k8s.io/busybox.
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: normal-secret
+data:
+  secret-file: dmFsdWUtMgo=
+```

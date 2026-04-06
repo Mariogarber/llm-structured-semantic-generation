@@ -1,0 +1,17 @@
+Create a PVC named `mysql-pv-claim` from the given YAML. Set access mode to `ReadWriteOnce` and request storage of `10Gi`.
+```
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+```

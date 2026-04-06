@@ -1,0 +1,1 @@
+在 dev 命名空间中创建一个名为 "read-secrets" 的 k8s RoleBinding 的 yaml。将用户 "dave" 绑定到 rbac.authorization.k8s.io api 组下的 ClusterRole "secret-reader"。

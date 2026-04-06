@@ -1,0 +1,27 @@
+创建一个名为 nginx-config 的 ConfigMap，其中包含数据键: 值，并将其挂载到容器的路径 /etc/nginx/config。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds
+spec:
+  selector:
+    matchLabels:
+      name: my-ds
+  template:
+    metadata:
+      labels:
+        name: my-ds
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+        - name: shared-data
+          mountPath: /var/shared-data
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+```

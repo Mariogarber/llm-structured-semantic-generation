@@ -1,0 +1,6 @@
+I'm setting up an Envoy proxy for one of our services, and I've got a few specific requirements.
+The listener should be set up to listen on 0.0.0.0 at port 10000, handling INBOUND traffic.
+For the traffic passing through, I want to enable OpenTelemetry-based tracing, and the traces should be forwarded to an OpenTelemetry collector cluster 'opentelemetry_collector'. The collector is accessible at 'opentelemetry' on port 4317 and uses HTTP/2 for communication. The timeout for this should be 0.250s. And for the traces, they should identify this service as 'envoy-2'.
+The HTTP traffic should be managed with an AUTO codec and the 'ingress_http' stat prefix.
+For routing, I want to direct any traffic with a '/' prefix to a cluster 'service_cluster2', which resolves to the 'service-2' on port 8080 using STRICT_DNS and a ROUND_ROBIN load balancing policy. The operations on this route should be tagged with 'routeToService2' for tracing purposes.
+Given all of this, can you provide me with a comprehensive Envoy configuration that would fulfill these requirements?

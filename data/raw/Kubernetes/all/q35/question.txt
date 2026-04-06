@@ -1,0 +1,22 @@
+Given the Kubernetes structure below, I'd like you to incorporate the utilization of a Service Account for the DaemonSet. Here are the specifics I need:
+1. Create a Service Account with a unique identifier.
+2. Use the above Service Account in a DaemonSet definition, the DaemonSet should have a container that continuously prints a specific message every 10 seconds.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-service-account-set
+spec:
+  selector:
+    matchLabels:
+      name: ds-service-account-set
+  template:
+    metadata:
+      labels:
+        name: ds-service-account-set
+    spec:
+      containers:
+      - name: ds-service-account-container
+        image: busybox
+        command: [ "sh", "-c", "while true; do echo 'Running with service account'; sleep 10; done" ]
+```

@@ -1,0 +1,15 @@
+给 Pod 添加一个使用 HTTP GET 请求的活跃探针。每 3 秒探测一次，在第一次探测之前等待 3 秒。Kubelet 在端口 8080 上向容器的服务器发送 GET 请求。如果 /healthz 返回成功，则认为容器是活动的。如果失败，kubelet 将重新启动它。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-http
+spec:
+  containers:
+  - name: liveness
+    image: registry.k8s.io/liveness
+    args:
+    - /server
+```

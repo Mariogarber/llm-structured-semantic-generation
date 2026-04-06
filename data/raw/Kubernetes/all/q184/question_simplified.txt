@@ -1,0 +1,10 @@
+Add 2 containers to the pod "two-containers" with shared volume "shared-data". 
+1st container: nginx-container, runs nginx server with latest nginx image, mount path /usr/share/nginx/html. 
+2nd container: debian-container, based on latest debian image, mount path /pod-data. 
+2nd container runs "echo Hello from the debian container > /pod-data/index.html" and terminates.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: two-containers
+```

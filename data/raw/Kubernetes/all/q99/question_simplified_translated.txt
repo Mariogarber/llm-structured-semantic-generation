@@ -1,0 +1,1 @@
+创建一个名为 "fruit-ing" 的 Kubernetes Ingress 资源，使用 URL 路径重写注释为 "/"。包括两个路径：(a) /apple 应该路由到端口 4567 上的 "apple-svc"。(b) /banana 应该路由到端口 6789 上的 "banana-svc"。

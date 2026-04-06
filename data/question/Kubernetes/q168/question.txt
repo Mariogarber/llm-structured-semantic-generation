@@ -1,0 +1,3 @@
+How can you configure a Pod so that it uses values from a ConfigMap in its container's command arguments?
+Specifically, you can use the busybox image to create the container of the pod (sleep-pod) and sleep for 100 seconds. 
+The duration argument (SLEEP_TIME) comes from the config map (my-config).

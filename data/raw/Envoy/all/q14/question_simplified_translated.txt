@@ -1,0 +1,1 @@
+写一个 Envoy 配置的 YAML，用于 WSS 服务的 TCP 透传。在 0.0.0.0:10000 上监听，无需检查即可转发 TCP 流量。将指标标记为 'wss_passthrough' 前缀。后端服务 'service-wss' 在端口 443 上。使用 STRICT_DNS 进行服务发现和 ROUND_ROBIN 负载均衡。

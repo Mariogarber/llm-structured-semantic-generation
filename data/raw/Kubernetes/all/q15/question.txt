@@ -1,0 +1,16 @@
+Given the following YAML, please help me define the containers named "fluentd-elasticsearch" with image "quay.io/fluentd_elasticsearch/fluentd:v2.5.2" for this DaemonSet.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+spec:
+  selector:
+    matchLabels:
+      name: fluentd-elasticsearch
+  template:
+    metadata:
+      labels:
+        name: fluentd-elasticsearch
+    spec:
+```

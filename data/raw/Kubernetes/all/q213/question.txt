@@ -1,0 +1,9 @@
+Given the provided YAML, please help me define the subject for the user named "dave" under the rbac.authorization.k8s.io API 
+group. Additionally, ensure that this user is associated with a ClusterRole named "secret-reader" in the same api group.
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-secrets
+  namespace: development
+```

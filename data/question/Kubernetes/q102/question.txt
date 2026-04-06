@@ -1,0 +1,19 @@
+Given this YAML:
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello
+spec:
+  template:
+    metadata:
+      name: hello
+    spec:
+      containers:
+      - name: hello
+        image: python:latest
+        command: ["python",  "-c", "print('Hello world!')"]
+      restartPolicy: Always
+```
+It has error when being executed. Besides, I'd like to modify it so that it will restart only when it fails.
+Please provide the entire YAML after debugging.

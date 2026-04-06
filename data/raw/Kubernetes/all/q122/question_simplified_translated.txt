@@ -1,0 +1,1 @@
+写一个 k8s LimitRange yaml。 容器的 CPU/Mem 默认为 100m/200Mi，pod 最大为 150m/250Mi。

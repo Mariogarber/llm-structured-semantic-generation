@@ -1,0 +1,1 @@
+Create a k8s Pod (cap-pod) with main container using image registry.k8s.io/pause. Add Linux capabilities AUDIT_WRITE and CHOWN.

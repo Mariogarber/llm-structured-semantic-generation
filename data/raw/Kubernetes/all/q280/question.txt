@@ -1,0 +1,1 @@
+In a Kubernetes cluster, you want to create a StorageClass that provisions Persistent Volumes only in specific zones: "us-central-1a" and "us-central-1b". Your provisioner is kubernetes.io/gce-pd, and you want to use the WaitForFirstConsumer volume binding mode. How would you create such a StorageClass?

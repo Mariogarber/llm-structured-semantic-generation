@@ -1,0 +1,1 @@
+Create a yaml for a k8s LimitRange named "limits-test" with min/max resource constraints for a container. Max CPUs: 2, min CPUs: 100m, memory: 100Mi-500Mi.

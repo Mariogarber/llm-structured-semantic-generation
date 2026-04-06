@@ -1,0 +1,1 @@
+Create a YAML for a k8s ClusterRole with permissions: pods (get, list, watch), nodes (get, list), services (get, watch).

@@ -1,0 +1,1 @@
+创建一个运行容器（gcr.io/kuar-demo/kuard-amd64:blue）的 k8s pod。为容器配置一个 liveness 探针，检查端口 8080 上的 /healthy 端点。liveness 探针没有初始延迟，周期为 3 秒。

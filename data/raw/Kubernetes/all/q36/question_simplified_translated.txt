@@ -1,0 +1,1 @@
+创建一个 k8s DaemonSet 的 yaml。Pods 包含 2 个容器："container-1" 使用 busybox 镜像，每 10 秒回显 'Container 1 Running'，"container-2" 使用 busybox 镜像，每 15 秒回显 'Container 2 Running'。Pod 元数据具有标签 "name: ds-multi-container"。

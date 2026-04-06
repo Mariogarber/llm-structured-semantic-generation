@@ -1,0 +1,10 @@
+You have a Kubernetes Secret described as follow. Please create a Pod named secret-dotfiles-pod that is supposed to mount this secret at /etc/secret-volume. It runs a container using the image registry.k8s.io/busybox.
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dotfile-secret
+data:
+  .secret-file: dmFsdWUtMgo=
+```
+In this way, the secret data is stored in a dotfile, and thus is hidden from the output of "ls -l".

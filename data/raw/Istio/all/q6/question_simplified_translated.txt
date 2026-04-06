@@ -1,0 +1,1 @@
+为 TLS 启用的入口设置 Istio Gateway 配置。名称为 my-tls-ingress。选择 my-tls-ingressgateway 应用。使用 HTTPS 协议在端口 443 上作为 https 进行监听。接受来自任何主机的请求。使用 tls-cert 凭据的 SIMPLE 模式。

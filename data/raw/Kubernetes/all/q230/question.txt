@@ -1,0 +1,2 @@
+How do you create a k8s Bootstrap Token Secret? You can use abcdef as the token ID and 0123456789abcdef as the token secret. 
+The expiration time is 23:59:00 on September, 21, 2023, UTC. The token can be used for both authentication and signing.

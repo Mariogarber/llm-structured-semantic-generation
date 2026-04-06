@@ -1,0 +1,1 @@
+Configure a service account in Kubernetes named simple-sa.

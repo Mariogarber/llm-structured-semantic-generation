@@ -1,0 +1,29 @@
+将以下 Kubernetes StatefulSet 更新为具有用于 Cassandra 集群的 StorageClass。StorageClass 应命名为 "fast"，提供程序为 "k8s.io/minikube-hostpath"。对于 PersistentVolumeClaim，请确保请求 100 MB 存储，并具有 ReadWriteOnce 访问模式。
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-cassandra
+  labels:
+    app: my-cassandra
+spec:
+  serviceName: cassandra
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-cassandra
+  template:
+    metadata:
+      labels:
+        app: my-cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: gcr.io/google-samples/cassandra:v13
+        env:
+          - name: MAX_HEAP_SIZE
+            value: 512M
+          - name: HEAP_NEWSIZE
+            value: 100M
+```
+请将其更新为具有名为 "fast" 的 StorageClass，提供程序为 "k8s.io/minikube-hostpath"。对于 PersistentVolumeClaim，请确保请求 100 MB 存储，并具有 ReadWriteOnce 访问模式。

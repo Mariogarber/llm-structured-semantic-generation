@@ -1,0 +1,1 @@
+配置一个名为 "glusterfs-pv" 的 PV yaml，使用 "manual-gluster" 存储类，由 Glusterfs 集群支持，端点为 "glusterfs-cluster"，路径为 "/myvol"。

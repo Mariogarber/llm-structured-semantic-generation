@@ -1,0 +1,7 @@
+Configure a Pod in a K8s cluster. The Pod (sysctls2) uses the image registry.k8s.io/pause to build its container (container1).
+Addtionally, set the following sysctl parameters at the Pod level:
+    kernel.shm_rmid_forced: "0"
+    net.ipv4.ip_local_port_range: "1024 65535"
+    net.ipv4.tcp_syncookies: "0"
+    net.ipv4.ping_group_range: "1 0"
+    net.ipv4.ip_unprivileged_port_start: "1024"

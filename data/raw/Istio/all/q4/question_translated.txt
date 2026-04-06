@@ -1,0 +1,3 @@
+我需要一个专门为具有标签 app: ratings 的工作负载定制的 Istio destination rule YAML。流量策略设置为 ROUND_ROBIN 负载均衡。
+此外，还有一个特定的端口级设置，用于端口 31443，我们启用了双向 TLS，使用名为 client-credential 的凭据。
+请为此提供完整的 YAML 配置。名称为 configure-client-mtls-dr-with-workloadselector。

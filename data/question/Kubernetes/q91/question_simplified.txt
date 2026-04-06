@@ -1,0 +1,1 @@
+Configure ingress for analytics dashboard (ana-ing) in Kubernetes. Service name: ana-dash, port: 8085. Accessible via path /dashboard. Provide YAML configuration.

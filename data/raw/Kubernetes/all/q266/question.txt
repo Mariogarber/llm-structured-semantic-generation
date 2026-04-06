@@ -1,0 +1,30 @@
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-cassandra
+  labels:
+    app: my-cassandra
+spec:
+  serviceName: cassandra
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-cassandra
+  template:
+    metadata:
+      labels:
+        app: my-cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: gcr.io/google-samples/cassandra:v13
+        env:
+          - name: MAX_HEAP_SIZE
+            value: 512M
+          - name: HEAP_NEWSIZE
+            value: 100M
+```
+With the above k8s YAML, can you add more aspects to make it more comprehensive?
+Adjust the termination grace period to 1800s. Ask it to always pull the image.
+Provide a security context to add IPC_LOCK capability.

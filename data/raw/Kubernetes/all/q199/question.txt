@@ -1,0 +1,2 @@
+Compose a YAML file to deploy a Kubernetes ReplicaSet named 'busybox-replicaset' with 2 replicas, utilizing the latest busybox image. 
+The pods created by this ReplicaSet should execute the 'sleep 3600' command.

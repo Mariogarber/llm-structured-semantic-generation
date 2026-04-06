@@ -1,0 +1,21 @@
+我们可以在不使用 CronJob 的情况下自动删除已完成的 Jobs 吗？修改这个 YAML，保留 0 个已完成的 jobs 和 2 个失败的 jobs。
+```
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
+```

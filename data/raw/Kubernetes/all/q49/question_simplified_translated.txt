@@ -1,0 +1,24 @@
+创建一个给定的 DaemonSet YAML 的 Service。该 Service 应该被命名为 `exporter-modified`，并且标记为选择名为 `exporter-modified` 的组件。它应该使用 TCP 协议公开端口 9445，并且类型为 `NodePort`。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: exporter-modified
+spec:
+  selector:
+    matchLabels:
+      component: exporter-modified
+  template:
+    metadata:
+      labels:
+        component: exporter-modified
+    spec:
+      containers:
+      - image: nginx:latest
+        name: exporter-modified
+        ports:
+        - name: nginx-container
+          containerPort: 9445
+          hostPort: 9445
+      hostNetwork: true
+```

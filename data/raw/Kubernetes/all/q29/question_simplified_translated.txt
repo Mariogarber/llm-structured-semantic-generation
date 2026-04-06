@@ -1,0 +1,1 @@
+定义一个 DaemonSet 的 YAML 配置，其中 pod 模板具有标签 ds-env-vars。容器 ds-env-container 使用 busybox 镜像，并每 10 秒钟回显 GREETING_MESSAGE。GREETING_MESSAGE 的值是 "Hello from the environment variable!"。

@@ -1,0 +1,1 @@
+请创建一个名为 "hostpath-pv" 的 PersistentVolume yaml，容量为 10Gi。StorageClassName 为 "manual"。该卷应使用 "manual" 存储类，并利用主机的本地目录 "/mnt/data"。

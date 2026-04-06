@@ -1,0 +1,2 @@
+你想创建一个使用可选 Secret 来挂载卷的 Kubernetes Pod。你会如何创建 Pod 的清单文件？
+Pod 应该使用 redis 镜像，并且卷应该挂载在 /etc/foo（只读）。不要创建 secret。

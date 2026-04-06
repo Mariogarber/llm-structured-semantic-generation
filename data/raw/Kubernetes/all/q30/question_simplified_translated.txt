@@ -1,0 +1,20 @@
+在给定的 YAML 中，将一个名为 GREETING_MESSAGE 的 env 变量添加到容器规范中。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-env-vars
+spec:
+  selector:
+    matchLabels:
+      name: ds-env-vars
+  template:
+    metadata:
+      labels:
+        name: ds-env-vars
+    spec:
+      containers:
+      - name: ds-env-container
+        image: busybox
+        command: [ "sh", "-c", "while true; do echo $GREETING_MESSAGE; sleep 10; done" ]
+```

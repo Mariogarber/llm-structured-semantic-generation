@@ -1,0 +1,3 @@
+Craft a yaml file to define a k8s DaemonSet named "ds-hostpath". The DaemonSet should employ the latest version of the nginx image. 
+The DaemonSet's metadata must be labeled with "app: ds-hostpath". Furthermore, nginx logs need to be mounted to the node's 
+/var/log/nginx directory.Ensure using the DirectoryOrCreate option for this purpose.

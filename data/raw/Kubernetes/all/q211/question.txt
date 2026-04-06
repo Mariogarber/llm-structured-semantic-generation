@@ -1,0 +1,1 @@
+Write a yaml file to define a Kubernetes ClusterRole named "cluster-role-simple" that grants permissions to "get", "watch", and "list" secrets in the core API group.

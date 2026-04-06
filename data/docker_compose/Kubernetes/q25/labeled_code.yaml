@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: priority
+spec:
+  selector:
+    matchLabels:
+      name: priority
+  template:
+    metadata:
+      labels:
+        name: priority
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+      priorityClassName: system-cluster-critical

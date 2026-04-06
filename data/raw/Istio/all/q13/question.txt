@@ -1,0 +1,3 @@
+Would you please provide me with the Istio configuration for the reviews service where:
+Traffic specifically from an end-user with the header value jason for end-user should be routed to the v2 subset of the reviews service.
+All other traffic, by default, should be routed to the v1 subset of the reviews service.

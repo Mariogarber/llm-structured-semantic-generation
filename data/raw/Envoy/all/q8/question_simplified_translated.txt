@@ -1,0 +1,48 @@
+提供一个在端口10000上的出站监听器的YAML，其中包含自动检测的编解码器类型和唯一的请求ID。集成Zipkin跟踪，通过HTTP_JSON格式将跟踪分派到'zipkin'集群，使用'/api/v2/spans'。在统计信息中使用'ingress_http'前缀。将'/trace/1'路由到标记为'routeToEnvoy1'的'envoy_cluster1'，将'/trace/2'路由到标记为'routeToEnvoy2ViaEnvoy1'的'envoy_cluster2'。将请求中的'x-b3-traceid'和'x-request-id'头附加到响应中。[TO COMPLETE]
+
+```
+node:
+  cluster: envoy-proxy-front
+
+static_resources:
+  listeners:
+  - [TO COMPLETE]
+
+  clusters:
+  - name: envoy_cluster1
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: envoy_cluster1
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: envoy-1
+                port_value: 10000
+  - name: envoy_cluster2
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: envoy_cluster2
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: envoy-1
+                port_value: 10001
+  - name: zipkin
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: zipkin
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: zipkin
+                port_value: 9411
+```

@@ -1,0 +1,23 @@
+给定以下创建 DaemonSet 的 YAML，请帮我完成以下操作：
+1. 将 Pod 的终止优雅期设置为 60 秒。
+2. 使用名为 'default' 的服务账户。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-grace-serviceaccount
+spec:
+  selector:
+    matchLabels:
+      name: ds-grace-serviceaccount
+  template:
+    metadata:
+      labels:
+        name: ds-grace-serviceaccount
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```
+
+请提供相应的配置。

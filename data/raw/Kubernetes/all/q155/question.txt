@@ -1,0 +1,2 @@
+Write me a k8s YAML for a Pod where the main container has specific SELinux options set. 
+The level should be somevalue and the type should be container_init_t. Use the image redis.

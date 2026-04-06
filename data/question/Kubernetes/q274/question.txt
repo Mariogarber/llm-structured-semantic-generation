@@ -1,0 +1,5 @@
+Create the YAML file for deploying an NGINX web server in a Kubernetes cluster (e.g., minikube). The application should be deployed as a StatefulSet with the following specifications:
+- The StatefulSet should have 2 replicas.
+- Each pod in the StatefulSet should have a minimum readiness delay of 10 seconds.
+- Use the NGINX image k8s.gcr.io/nginx-slim:0.16.
+- The pods should be accessible through a headless service.

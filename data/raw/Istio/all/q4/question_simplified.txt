@@ -1,0 +1,1 @@
+Provide Istio DestinationRule YAML for workloads with label app: ratings. Traffic policy is ROUND_ROBIN load balancing. Port 31443 has mutual TLS enabled with credential client-credential. YAML name is configure-client-mtls-dr-with-workloadselector.

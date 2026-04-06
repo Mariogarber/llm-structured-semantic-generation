@@ -1,0 +1,1 @@
+Write a YAML manifest for a stateful set named "zk" with 3 replicas. The corresponding service name is zk-hs. Include a security context that runs the pod as user 1000 and file system group as 1000. Define a volume claim for each pod that requests 1Gi storage with ReadWriteOnce access mode. Use the image registry.k8s.io/kubernetes-zookeeper:1.0-3.4.10.

@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: example
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: example
+            image: ubuntu:latest
+            command: ["bash", "-c", "echo 'OK'; sleep 80"]
+          restartPolicy: OnFailure
+  concurrencyPolicy: Forbid

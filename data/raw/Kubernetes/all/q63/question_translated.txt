@@ -1,0 +1,1 @@
+我需要一个名为 "dnsconfig" 的 DaemonSet yaml，使用最新的 nginx 镜像。它应该有一个 "dnsConfig"，其中的 nameserver 是 "8.8.8.8"，搜索域是 "mydomain.com"。Pod 模板应该带有 "app: dnsconfig" 的标签。

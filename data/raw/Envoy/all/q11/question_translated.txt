@@ -1,0 +1,11 @@
+你能为 Envoy 前端设置提供一个 YAML 配置吗？满足以下要求：
+它应该有 static_resources，其中包括绑定到地址 0.0.0.0 和端口 10000 的监听器。
+在监听器内部，引入一个使用 envoy.filters.network.http_connection_manager 过滤器的过滤器链。
+过滤器的类型配置应设置为使用具有自动检测编解码器类型的 HttpConnectionManager。还应该有一个标记为 'ingress_http' 的 stat 前缀。
+配置访问日志使用 envoy.access_loggers.stdout，并将相关类型的配置指向 StdoutAccessLog。
+在路由配置中创建一个名为 'local_route' 的路由配置，其中应该有一个名为 'services' 的虚拟主机。这个虚拟主机应该适用于所有域，并定义一个匹配前缀 / 的路由，将流量定向到名为 frontend_service 的集群。
+过滤器部分应包括两个 HTTP 过滤器：
+一个用于处理 CORS 请求，使用 envoy.filters.http.cors 过滤器和相关的类型配置。
+另一个名为 envoy.filters.http.router 的过滤器，具有适当的类型配置。
+最后，clusters 部分应定义一个名为 frontend_service 的集群。该集群应使用 STRICT_DNS，具有 ROUND_ROBIN 的负载均衡策略，并且具有指向地址 frontend-service 和端口 8080 的负载分配。
+stat_prefix 应设置为 ingress_http。

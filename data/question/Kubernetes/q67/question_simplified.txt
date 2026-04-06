@@ -1,0 +1,1 @@
+Write a k8s YAML for a deployment creating a redis Pod using image "docker.io/redis:6.0.5". Label the deployment and pods as "app: redis".

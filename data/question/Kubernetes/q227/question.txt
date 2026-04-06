@@ -1,0 +1,14 @@
+Given the following YAML that defines a role with wildcards for its permissions, please help me create a RoleBinding in the 
+namespace 'test2' that binds this role to a service account named 'myaccount' also in the 'test2' namespace. The RoleBinding 
+should be named 'testadminbinding'.
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: test2
+  name: testadmin
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+```

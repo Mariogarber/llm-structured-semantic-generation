@@ -1,0 +1,22 @@
+Modify the provided k8s YAML file to increase the number of replicas by two and set the CPU request to 0.1 and memory request to 100MB. Here is the modified YAML:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard-deploy
+  labels:
+    app: kuard
+spec:
+  selector:
+    matchLabels:
+      app: test
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+      - name: my-kuard
+        image: gcr.io/kuar-demo/kuard-amd64:2
+```

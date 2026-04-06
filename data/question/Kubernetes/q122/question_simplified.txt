@@ -1,0 +1,1 @@
+Create a yaml for a k8s LimitRange. Containers CPU/Mem default to 100m/200Mi, pods max to 150m/250Mi.

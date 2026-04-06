@@ -1,0 +1,1 @@
+为了基本身份验证，使用特定类型的 Kubernetes YAML 创建一个名为 secret-basic-auth 的 Secret。使用明文数据，它会自动转换为 base64。凭据是用户名：admin和密码：t0p-Secret。

@@ -1,0 +1,1 @@
+写一个运行镜像 "gcr.io/google_samples/gb-frontend:v3" 的 ReplicaSet 的 k8s YAML，使用 3 个副本。使用名称 "frontend" 和标签 "tier: frontend"。

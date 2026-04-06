@@ -1,0 +1,2 @@
+Please write a Service named my-service that prefers dual-stack IPs, 
+matches pods with the label app.kubernetes.io/name: MyApp, and exposes them on port 80 using TCP protocol.

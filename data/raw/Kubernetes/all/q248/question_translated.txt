@@ -1,0 +1,5 @@
+写一个 Kubernetes YAML 清单来创建名为 my-service 的 Service。
+它的 clusterIP 明确设置为 10.96.0.164。
+IP 地址族为 IPv4，并使用 SingleStack IP 地址族策略。
+它使用 TCP 在端口 80 上公开，并将目标端口设置为 9376。
+它应该选择具有标签 app.kubernetes.io/name: MyApp 的 Pod。会话亲和性为 None。

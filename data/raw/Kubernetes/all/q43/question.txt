@@ -1,0 +1,3 @@
+Design a Kubernetes DaemonSet and Service configuration. The DaemonSet,  labeled as "component: exporter-modified", 
+should run the latest nginx image. This DaemonSet should expose port 9445 on the host network. Additionally, create 
+a Service in the same namespace that maps to this DaemonSet using a NodePort with tcp.

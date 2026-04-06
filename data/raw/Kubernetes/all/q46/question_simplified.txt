@@ -1,0 +1,19 @@
+Set termination grace period to 60s and use service account 'default' in the following DaemonSet YAML:
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-grace-serviceaccount
+spec:
+  selector:
+    matchLabels:
+      name: ds-grace-serviceaccount
+  template:
+    metadata:
+      labels:
+        name: ds-grace-serviceaccount
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```

@@ -1,0 +1,19 @@
+鉴于以下名为 dnsconfig 的 DaemonSet 的 YAML，请帮我通过添加一个 nameserver "8.8.8.8" 来配置它的 DNS。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: dnsconfig
+spec:
+  selector:
+    matchLabels:
+      app: dnsconfig
+  template:
+    metadata:
+      labels:
+        app: dnsconfig
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```

@@ -1,0 +1,4 @@
+I need to create a Kubernetes Secret resource that will be used as a service account token. I've named the secret secret-sa-sample. 
+I also want to tie this secret to a service account named sa-name using an appropriate annotation. 
+Additionally, I have some extra data with a key extra and its original value is 'bar' and base64 encoded value is 'YmFyCg=='. 
+Could you help me craft the correct YAML configuration for this?

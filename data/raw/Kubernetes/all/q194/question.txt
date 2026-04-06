@@ -1,0 +1,45 @@
+In this Kubernetes manifest, the replicaset cannot successfully create 3 replicas and instead will have a non-homogenous set of Pods not running mongoDB. How would you modify the two pods to make sure they do not conflict with the following RS?
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod1
+  labels:
+    tier: backend
+spec:
+  containers:
+  - name: hello1
+    image: gcr.io/google-samples/hello-app:2.0
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod2
+  labels:
+    tier: backend
+spec:
+  containers:
+  - name: hello2
+    image: gcr.io/google-samples/hello-app:1.0
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: backend
+  labels:
+    app: database
+    tier: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: backend
+  template:
+    metadata:
+      labels:
+        tier: backend
+    spec:
+      containers:
+      - name: db-container
+        image: mongo:latest
+```

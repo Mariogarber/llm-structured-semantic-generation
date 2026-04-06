@@ -1,0 +1,20 @@
+Add an init container named "install" with the image "busybox:1.28" to the pod. The init container should mount the shared volume to "/work-dir" and terminate after executing "wget -O /work-dir/index.html http://info.cern.ch".
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-demo
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: workdir
+      mountPath: /usr/share/nginx/html
+  dnsPolicy: Default
+  volumes:
+  - name: workdir
+    emptyDir: {}
+```

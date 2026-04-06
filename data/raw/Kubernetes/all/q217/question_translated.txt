@@ -1,0 +1,19 @@
+你有一个如下所示的 k8s ClusterRole 清单。你能修复其中的任何错误吗？使用 "get" 作为默认的动词。
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: buggy-clusterrole
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["got", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["services"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["create", "delete", "delete"]
+```

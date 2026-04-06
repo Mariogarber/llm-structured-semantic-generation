@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: example
+spec:
+  template:
+    spec:
+      containers:
+      - name: python # *
+        image: python:latest
+        command: ["python"]
+        args: ["-c", "print('OK')"]
+      restartPolicy: Never
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 10

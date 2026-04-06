@@ -1,0 +1,1 @@
+Create a yaml for a k8s ClusterRole named "secret-creator-deletor" with the capability to create and delete secrets.

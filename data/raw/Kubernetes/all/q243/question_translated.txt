@@ -1,0 +1,1 @@
+我们需要一个名为 frontend-service 的 Service，它公开端口 80，并将目标定为具有标签 app: frontend 的 pod。请帮我生成一个 K8S 的 YAML 文件。

@@ -1,0 +1,24 @@
+How can you add resource constraints to the following example? Request 150Mi of memory and 100m CPU, and limit the memory usage to 200Mi.
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deploy-2
+  labels:
+    app: db
+spec:
+  selector:
+    matchLabels:
+      app: db
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: mongo
+        image: mongo
+```

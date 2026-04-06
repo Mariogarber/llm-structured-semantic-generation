@@ -1,0 +1,1 @@
+Write a yaml file to create an Indexed Job for k8s that echos JOB_COMPLETION_INDEX using 'docker.io/library/bash' image. The name of the job should be example, and the completions and parallelism should be set to 3 as well.

@@ -1,0 +1,37 @@
+我正在运行一个使用 ReplicaSet 管理前端 pod 的 Web 应用程序。为了处理流量峰值，我决定实现水平 Pod 自动缩放。然而，当前的 HPA 和 RS 配置并没有按预期工作。HPA 没有对 ReplicaSet 进行自动缩放。
+
+以下是现有的 YAML 配置：
+
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend-app
+  template:
+    metadata:
+      labels:
+        app: frontend-app
+    spec:
+      containers:
+      - name: frontend-container
+        image: nginx:latest
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend-scaler
+spec:
+  scaleTargetRef:
+    kind: ReplicaSet
+    name: frontend
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+```
+
+我应该如何修改这些资源，以确保 HPA 可以成功地扩展前端 ReplicaSet？

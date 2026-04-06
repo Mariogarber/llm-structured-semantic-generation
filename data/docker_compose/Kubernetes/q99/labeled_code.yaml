@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fruit-ing
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /apple
+        pathType: Prefix
+        backend:
+          service:
+            name: apple-svc
+            port:
+              number: 4567
+      - path: /banana
+        pathType: Prefix
+        backend:
+          service:
+            name: banana-svc
+            port:
+              number: 6789

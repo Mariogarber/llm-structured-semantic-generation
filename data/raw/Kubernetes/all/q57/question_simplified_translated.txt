@@ -1,0 +1,1 @@
+配置一个 Kubernetes DaemonSet，在每个节点上都有一个 nginx 容器，容忍 master 和 control-plane 节点。添加滚动更新策略，最多 1 个不可用的 pod。

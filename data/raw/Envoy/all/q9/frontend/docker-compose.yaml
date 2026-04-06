@@ -1,0 +1,19 @@
+services:
+
+  front-envoy:
+    build:
+      context: .
+      dockerfile: ../Dockerfile
+    depends_on:
+      frontend-service:
+        condition: service_healthy
+    ports:
+    - "${PORT_PROXY:-8000}:10000"
+
+  frontend-service:
+    build:
+      context: ../python
+      target: aiohttp-service
+    volumes:
+    - ./service.py:/code/service.py
+    - ./index.html:/code/index.html

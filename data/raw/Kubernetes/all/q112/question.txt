@@ -1,0 +1,2 @@
+Please write a yaml file for k8s that print "OK" using the latest python image, and automatically terminate the job after 10 seconds. 
+The name of the job has to be 'example'.

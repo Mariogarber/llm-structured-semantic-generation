@@ -1,0 +1,1 @@
+I have a requirement to define a PersistentVolume Kubernetes yaml named "gce-pv" that leverages a GCE persistent disk named "gce-disk-name" formatted with ext4.

@@ -1,0 +1,6 @@
+请为我们启用 TLS 的入口设置一个 Istio Gateway 配置。
+具体来说，将网关命名为 my-tls-ingress。
+确保它专门选择 my-tls-ingressgateway 应用。
+配置它在端口 443 上监听，名称为 https，并使用 HTTPS 协议。
+确保它对来自任何主机的请求都是开放的（比如使用通配符）。
+至于 TLS 设置，我想使用 SIMPLE 模式，并使用名为 tls-cert 的凭据。

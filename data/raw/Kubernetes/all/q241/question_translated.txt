@@ -1,0 +1,3 @@
+我正在尝试在我们的 Kubernetes 集群上公开一个 Kafka broker。
+我想设置一个名为 broker-0 的 NodePort Service，将 broker 的端口 9093 公开到节点的端口 30093。
+你能帮我创建一个配置，以便将目标定为具有标签 kafka-set-component 设置为 kafka-0 的 pod 吗？

@@ -1,0 +1,2 @@
+配置一个类型为 ClusterIP 的 Kubernetes Service，名称为 etcd-discovery（标签为 etcd）。
+将 TCP 端口 2379 暴露出来，目标是 Pod 上的相同端口。没有指定节点端口。没有基于客户端 IP 的会话亲和性。

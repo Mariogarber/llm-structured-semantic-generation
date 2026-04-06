@@ -1,0 +1,3 @@
+How can you configure a Pod to set environment variables for its container from a ConfigMap?
+Specifically, you can use the busybox image to create the container of the pod (env-pod) and print the two environment variables from the config map (my-config).
+I can add a "sleep 1200" to make it alive.

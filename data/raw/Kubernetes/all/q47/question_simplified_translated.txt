@@ -1,0 +1,22 @@
+给定一个 DaemonSet 的 YAML，请协助完成以下操作：
+1. 将容器端口设置为 `10027`。
+2. 添加一个活跃探针，检查端口 `10027` 上的 `/healthz` 端点。
+3. 将主机上的 Docker socket 挂载到容器中的路径 `"/var/run/docker.sock"`。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: debug-agent
+spec:
+  selector:
+    matchLabels:
+      app: debug-agent
+  template:
+    metadata:
+      labels:
+        app: debug-agent
+    spec:
+      containers:
+      - image: nginx:latest
+        name: debug-agent
+```

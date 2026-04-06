@@ -1,0 +1,10 @@
+This is an incomplete Kubernetes deployment definition in YAML. 
+Please provide a complete one that uses the nginx image and labels the pods with app: nginx-label.
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-dp
+spec:
+  replicas: 3
+```

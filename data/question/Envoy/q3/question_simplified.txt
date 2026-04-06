@@ -1,0 +1,4 @@
+Provide a YAML config defining 3 caching behaviors for responses. 
+1st section: response valid for specific duration, include header with chosen value. 
+2nd section: private response, not cached by intermediaries like Envoy. 
+3rd section: cacheable response, requires revalidation on every subsequent request. Headers and configs should reflect these behaviors.

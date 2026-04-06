@@ -1,0 +1,1 @@
+你能否使用 YAML 在 Kubernetes 中配置一个 PodDisruptionBudget（名为 my-pdb）来为标签为 app=my-app 的应用程序设置最多允许 1 个 Pod 不可用的限制？

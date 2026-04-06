@@ -1,0 +1,4 @@
+我需要创建一个 Kubernetes Secret 资源，它将用作服务账户令牌。我已经将该 secret 命名为 secret-sa-sample。
+我还想将此 secret 与名为 sa-name 的服务账户关联起来，使用适当的注释。
+此外，我还有一些额外的数据，其中键为 extra，原始值为 'bar'，base64 编码值为 'YmFyCg=='。
+你能帮我制作正确的 YAML 配置吗？

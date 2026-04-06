@@ -1,0 +1,114 @@
+这是我正在使用的当前 Envoy 配置：
+现在我正在配置一个名为 'opentelemetry_collector' 的 Envoy 集群，将跟踪数据转发到我们的 OpenTelemetry 收集器。我希望该集群使用 STRICT_DNS 解析，并且对于负载均衡，我认为 ROUND_ROBIN 应该工作得很好。
+重要的是，上游应该专门使用 HTTP/2 通信协议。OpenTelemetry 收集器的目标端点是端口 4317 上的 'opentelemetry'。
+你能填写 [TO COMPLETE] 部分并提供完整的 YAML 吗？
+
+```
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 10000
+    traffic_direction: INBOUND
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          tracing:
+            provider:
+              name: envoy.tracers.opentelemetry
+              typed_config:
+                "@type": type.googleapis.com/envoy.config.trace.v3.OpenTelemetryConfig
+                grpc_service:
+                  envoy_grpc:
+                    cluster_name: opentelemetry_collector
+                  timeout: 0.250s
+                service_name: envoy-1
+          codec_type: AUTO
+          stat_prefix: ingress_http
+          http_filters:
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+          route_config:
+            name: service1_route
+            virtual_hosts:
+            - name: service1
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: service_cluster1
+                decorator:
+                  operation: routeToService1
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 10001
+    traffic_direction: OUTBOUND
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          tracing:
+            provider:
+              name: envoy.tracers.opentelemetry
+              typed_config:
+                "@type": type.googleapis.com/envoy.config.trace.v3.OpenTelemetryConfig
+                grpc_service:
+                  envoy_grpc:
+                    cluster_name: opentelemetry_collector
+                  timeout: 0.250s
+                service_name: envoy-1
+          codec_type: AUTO
+          stat_prefix: egress_http
+          http_filters:
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+          route_config:
+            name: envoy2_route
+            virtual_hosts:
+            - name: envoy2
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: envoy_cluster2
+                decorator:
+                  operation: routeToEnvoy2
+
+  clusters:
+  - name: service_cluster1
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service_cluster1
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service-1
+                port_value: 8080
+  - name: envoy_cluster2
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: envoy_cluster2
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: envoy-2
+                port_value: 10000
+  - [TO COMPLETE]
+```

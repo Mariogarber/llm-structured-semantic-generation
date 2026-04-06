@@ -1,0 +1,1 @@
+创建一个 DaemonSet YAML，将节点的 "/var/log/nginx" 目录挂载到容器的相同路径上。使用 "nginx:latest" 镜像，并使用 "app: ds-hostpath" 标记 Pod 模板。

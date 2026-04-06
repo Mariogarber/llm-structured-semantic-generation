@@ -1,0 +1,17 @@
+Can I run multiple commands sequentially in a YAML config file? If the first command "/bin/echo \"${MESSAGE}\"" succeeds, I need to run "/bin/echo \"${MESSAGE}\ again\"". Here is the YAML configuration:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec: 
+  restartPolicy: Never
+  containers:
+  - name: hello
+    image: "ubuntu:14.04"
+    env:
+    - name: MESSAGE
+      value: "hello world"
+    command: ["/bin/sh","-c"]
+    args: ["/bin/echo \"${MESSAGE}\""]
+```

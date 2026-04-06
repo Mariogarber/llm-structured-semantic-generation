@@ -1,0 +1,1 @@
+你能提供一个 Kubernetes Ingress YAML 配置的示例吗？该配置应该指定一个名为 StorageBucket 的自定义资源。所需的配置应使用 networking.k8s.io/v1 API 版本，元数据名称为 ingress-resource-backend。此外，规范应该有一个默认后端，指向名为 static-assets 的资源，并且有一个将路径为 /icons 的流量路由到名为 icon-assets 的另一个资源的规则。

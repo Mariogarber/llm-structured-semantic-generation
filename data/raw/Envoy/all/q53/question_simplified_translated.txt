@@ -1,0 +1,1 @@
+设置 Envoy 代理以使用 STRICT_DNS 和 MAGLEV lb 策略将流量路由到 Redis 集群。侦听器位于端口 1999，将所有流量路由到 DNS 名称为 'redis' 端口 6379 的 'redis_cluster'。Redis 代理过滤器具有 5 秒超时，统计前缀为 'egress_redis'。在所有网络接口上包含端口 8001 的管理界面。

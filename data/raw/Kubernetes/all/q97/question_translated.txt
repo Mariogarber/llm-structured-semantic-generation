@@ -1,0 +1,4 @@
+你能帮我创建一个 Kubernetes Ingress 的 YAML 配置文件来满足以下要求吗：
+- 将所有进入的 HTTP 流量路由到名为 svc-1 的服务，该服务监听端口 8080，并且路径为 /app1。
+- 将所有进入的 HTTP 流量路由到名为 svc-2 的服务，该服务监听端口 9090，并且路径为 /app2。
+- 对于进入的 HTTPS 流量，使用名为 example-tls 的 TLS 密钥来终止 SSL。

@@ -1,0 +1,1 @@
+Provide Istio DestinationRule YAML for bookinfo app's ratings service in prod ns. Main traffic uses LEAST_REQUEST lb, subset testversion uses labels v3 and ROUND_ROBIN lb strategy. DestinationRule name is bookinfo-ratings-2.

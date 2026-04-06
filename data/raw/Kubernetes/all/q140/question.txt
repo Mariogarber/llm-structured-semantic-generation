@@ -1,0 +1,4 @@
+Create a YAML file that defines a PersistentVolume named "test-volume" in Kubernetes, specifying the storage class as "storage-test-volume". This volume should be 
+backed by a GCE Persistent Disk. The capacity of this volume is set at 50Gi and should be accessible in `ReadWriteOnce` mode. Additionally, the volume should have 
+node affinity to ensure it's only available to nodes located in either the `us-central1-a` or `us-central1-b` zones, key is "topology.kubernetes.io/zone". Remember 
+to consider this as an example of regional persistent disk configuration in GCE.

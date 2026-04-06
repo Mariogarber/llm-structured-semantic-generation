@@ -1,0 +1,19 @@
+Given the following YAML for a DaemonSet named dnsconfig, please help me configure its DNS by adding a nameserver "8.8.8.8".
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: dnsconfig
+spec:
+  selector:
+    matchLabels:
+      app: dnsconfig
+  template:
+    metadata:
+      labels:
+        app: dnsconfig
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```

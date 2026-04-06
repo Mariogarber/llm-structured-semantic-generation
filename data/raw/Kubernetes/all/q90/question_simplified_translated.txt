@@ -1,0 +1,7 @@
+在 Kubernetes 集群中为 Tomcat 应用程序配置入口路由，使用以下 YAML：
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+   name: tomcat-https
+```

@@ -1,0 +1,1 @@
+Please create an pod with "nginx" image named "nginx-select-pod" that will get scheduled on a node that has a disktype=ssd label.

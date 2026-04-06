@@ -1,0 +1,1 @@
+创建一个名为redis的Pod的YAML。Pod运行一个单独的容器，使用redis镜像。使用emptyDir卷挂载到/data/redis，即使容器重新启动，也会在整个Pod的生命周期中保持持久化。

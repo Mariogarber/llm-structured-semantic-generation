@@ -1,0 +1,1 @@
+创建一个使用镜像 registry.k8s.io/pause 的 k8s Pod（cap-pod），主容器添加 Linux 权限 AUDIT_WRITE 和 CHOWN。

@@ -1,0 +1,17 @@
+在给定的 Kubernetes ReplicaSet YAML 中，我需要确保在 "containers" 部分指定的容器中配置了就绪探针。该就绪探针应该对容器的端口 80 上的路径 "/" 执行一个 HTTP GET 请求。请描述就绪探针的具体配置。
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+```
+请确保在 "containers" 部分指定的容器中添加 readinessProbe 部分，并设置 httpGet 的路径为 "/"，端口为 80。另外，还需要设置 initialDelaySeconds 和 periodSeconds 来定义就绪探针的延迟和检查间隔。

@@ -1,0 +1,4 @@
+写一个 YAML 文件来配置一个名为 "nginx" 的无头 Service 和一个名为 "web" 的 StatefulSet。
+Service 应该发布 StatefulSet 中 2 个 Pod 的 IP 地址。
+所有的 Pod 应该并行启动或终止。
+每个容器应该使用最新的 nginx 镜像，在端口 80 上运行，命名为 "web"，并有一个名为 "www" 的卷。

@@ -1,0 +1,1 @@
+Create a deployment with 5 replicas and a liveness probe using HTTP GET on path / and port 80. Probe starts 5 seconds after container starts and runs every 5 seconds. Use nginx as the container image.

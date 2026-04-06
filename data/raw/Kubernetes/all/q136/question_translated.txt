@@ -1,0 +1,1 @@
+我想要配置一个名为 "glusterfs-pv" 的 PersistentVolume 的 yaml。这个卷应该使用 "manual-gluster" 存储类，并由一个 Glusterfs 集群支持。使用端点 "glusterfs-cluster" 和路径 "/myvol"。

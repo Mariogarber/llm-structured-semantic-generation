@@ -1,0 +1,22 @@
+Modify the given K8s YAML to run the command "mkdir tt" after successful initialization of the deployment. Provide the entire modified YAML file.
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.16.1
+        ports:
+        - containerPort: 80
+```

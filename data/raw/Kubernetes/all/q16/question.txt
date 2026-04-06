@@ -1,0 +1,20 @@
+Given the YAML describing a DaemonSet for `fluentd-elasticsearch`, Add the necessary `tolerations` to allow the DaemonSet to be 
+scheduled on master nodes. Ensure that the specific "key" used to identify master nodes is `node-role.kubernetes.io/master`.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+spec:
+  selector:
+    matchLabels:
+      name: fluentd-elasticsearch
+  template:
+    metadata:
+      labels:
+        name: fluentd-elasticsearch
+    spec:
+      containers:
+        - image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+          name: fluentd-elasticsearch
+```

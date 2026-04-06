@@ -1,0 +1,22 @@
+给定以下 DaemonSet 的 YAML，请帮助我设置节点亲和性，以确保它仅在具有特定字段 "key-name" 值为 "value-name" 的节点上运行。
+
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+spec:
+  selector:
+    matchLabels:
+      name: fluentd-elasticsearch
+  template:
+    metadata:
+      labels:
+        name: fluentd-elasticsearch
+    spec:
+      containers:
+      - image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+        name: fluentd-elasticsearch
+```
+
+请为此提供完整的 YAML 配置。

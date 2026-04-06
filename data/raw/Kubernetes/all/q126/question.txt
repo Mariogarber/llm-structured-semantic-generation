@@ -1,0 +1,17 @@
+Given the following YAML that defines a PersistentVolume, please help me ensure that the volume is restricted to nodes in "topology.kubernetes.io/zone". 
+The zones are `us-central1-a` and `us-central1-b`.
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-volume
+spec:
+  capacity:
+    storage: 50Gi
+  storageClassName: storage-test-volume
+  accessModes:
+    - ReadWriteOnce
+  gcePersistentDisk:
+    pdName: my-data-disk
+    fsType: ext4
+```

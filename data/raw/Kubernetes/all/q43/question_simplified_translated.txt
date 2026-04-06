@@ -1,0 +1,1 @@
+设计一个 k8s DaemonSet 和 Service。DaemonSet 标记为 "component: exporter-modified"，运行最新的 nginx 镜像，在主机网络上暴露端口 9445。在同一命名空间中，使用 NodePort 和 tcp 将 Service 映射到 DaemonSet。

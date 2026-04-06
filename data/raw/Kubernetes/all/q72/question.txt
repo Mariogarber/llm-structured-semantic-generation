@@ -1,0 +1,37 @@
+Assume you have the following Secret available in your cluster:
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-pass
+type: Opaque
+data:
+  password: bXlwYXNzd29yZA==
+```
+How would you modify the following MySQL deployment to use this secret for the MySQL passwords? Please also add environment variables MYSQL_DATABASE and MYSQL_USER, both with value "wordpress".
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-mysql
+  labels:
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: mysql
+    spec:
+      containers:
+      - image: mysql:8.0
+        name: mysql
+        ports:
+        - containerPort: 3306
+```

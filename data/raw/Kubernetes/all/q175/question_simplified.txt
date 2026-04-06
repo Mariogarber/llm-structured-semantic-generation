@@ -1,0 +1,1 @@
+Create a pod named "nginx-select-pod" with the "nginx" image. Prefer scheduling the pod on a node with the label disktype=ssd or disktype=nas, with a preference weight of 1.

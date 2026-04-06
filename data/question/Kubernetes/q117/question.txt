@@ -1,0 +1,1 @@
+Please write a yaml file for k8s that calculate the first 1000 digits of the pi using the latest perl image. The name of the job has to be 'example'. It should use only one cpu cores and 512MB of memory.

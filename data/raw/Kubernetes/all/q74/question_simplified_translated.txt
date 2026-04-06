@@ -1,0 +1,1 @@
+使用最新的mongo DB镜像部署一个数据库应用。使用RollingUpdate策略，标记为'db'的Deployment，5个副本。Deployment名称为mongo-deploy，标签为app:db。

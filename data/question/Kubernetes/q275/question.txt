@@ -1,0 +1,4 @@
+Create a Kubernetes StatefulSet named my-cassandra, with a label app set to my-cassandra as well. 
+The StatefulSet should have 3 replicas. 
+It has two environment variables: (1) MAX_HEAP_SIZE set to "512M"; and (2) HEAP_NEWSIZE set to "100M". 
+You can get the image from here: gcr.io/google-samples/cassandra:v13. Provide the YAML file.

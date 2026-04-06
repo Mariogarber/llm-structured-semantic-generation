@@ -1,0 +1,1 @@
+创建一个定义了两个容器（nginx和debian）的k8s Pod的YAML。它们使用Kubernetes卷共享数据。Debian将一条消息写入“/pod-data”，nginx通过HTTP在“/usr/share/nginx/html”上提供该消息。

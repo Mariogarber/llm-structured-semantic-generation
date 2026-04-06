@@ -1,0 +1,19 @@
+Configure DNS for DaemonSet dnsconfig by adding nameserver "8.8.8.8". Given:
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: dnsconfig
+spec:
+  selector:
+    matchLabels:
+      app: dnsconfig
+  template:
+    metadata:
+      labels:
+        app: dnsconfig
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```

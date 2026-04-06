@@ -1,0 +1,1 @@
+Create a k8s ReplicaSet (backend) for a database. Label it with app:database and tier:backend. Set replicas to 2. Use a label selector to target Pods with tier:backend. In the Pod template, label the Pods with tier:backend. Use a single container (db-container) with image mongo:latest.

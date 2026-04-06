@@ -1,0 +1,12 @@
+Create a RoleBinding named 'testadminbinding' in the 'test2' namespace, binding the 'testadmin' role to the 'myaccount' service account in the same namespace.
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: test2
+  name: testadmin
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+```

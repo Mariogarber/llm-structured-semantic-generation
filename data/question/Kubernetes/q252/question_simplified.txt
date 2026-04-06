@@ -1,0 +1,1 @@
+Create a k8s Service listening on port 80, forwarding to port 9376. Name: svc-n-ep. Create a manual Endpoints resource associating the Service with IP 192.0.2.42 on port 9376.

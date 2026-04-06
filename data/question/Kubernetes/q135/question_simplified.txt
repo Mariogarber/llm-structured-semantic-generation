@@ -1,0 +1,1 @@
+Define a PV yaml named "nfs-pv" with 10Gi capacity. Use "manual-nfs" storage class and NFS server at "10.108.211.55" with path "/var/nfs".

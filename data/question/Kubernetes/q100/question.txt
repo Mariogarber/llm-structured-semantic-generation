@@ -1,0 +1,1 @@
+Write a yaml file to create a k8s job with name "hello" and print "Hello world!" using the latest python image.

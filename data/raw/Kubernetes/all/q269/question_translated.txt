@@ -1,0 +1,5 @@
+写一个名为 "zk"（ZooKeeper）的 StatefulSet 的 YAML 文件。
+相应的服务名为 zk-hs，有 3 个副本。
+请包含一个安全上下文，将 pod 作为用户 1000 运行，并将文件系统组设置为 1000。
+此外，为每个 pod 定义一个卷索取，请求 1Gi 存储，并使用 ReadWriteOnce 访问模式。
+使用镜像 registry.k8s.io/kubernetes-zookeeper:1.0-3.4.10。

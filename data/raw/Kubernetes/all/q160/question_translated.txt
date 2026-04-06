@@ -1,0 +1,13 @@
+我正在管理一个 Kubernetes 集群。我想部署一个模拟与存储集群通信的 pod。该 pod 应该被命名为 sim-pod，并包含一个名为 sim-container 的单个容器，使用 Redis 镜像。我还有一个名为 sim-secret 的 Kubernetes Secret，其中包含用户名和密码信息。将此本地卷挂载到容器中的 /mnt/local。
+请使用用户名 "simulated" 和密码 "secret" 完成以下 Secret 配置。给我 Pod 配置，并在开头附上该 Secret。
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sim-secret
+type: Opaque
+data:
+  username: 
+  password: 
+```
+请提供完整的 Pod 配置，并在开头附上该 Secret。

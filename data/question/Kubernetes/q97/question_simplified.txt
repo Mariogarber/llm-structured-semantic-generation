@@ -1,0 +1,1 @@
+Create a Kubernetes Ingress YAML manifest to route HTTP traffic on /app1 to svc-1 on port 8080, route HTTP traffic on /app2 to svc-2 on port 9090, and terminate SSL for incoming HTTPS traffic using TLS secret example-tls.

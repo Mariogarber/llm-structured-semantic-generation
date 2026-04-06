@@ -1,0 +1,14 @@
+请帮忙修改下面这个简单的 Pod，使其具有一个受众为 vault 的令牌，并且有效期为 601 秒。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-token
+spec:
+  containers:
+  - image: nginx
+    name: nginx-token
+    volumeMounts:
+    - mountPath: /var/run/secrets/tokens
+      name: vault-token
+```

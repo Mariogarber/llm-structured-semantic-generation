@@ -1,0 +1,16 @@
+请在 hosts 文件中添加额外的条目。
+具体来说，请将 foo.local、bar.local 解析为 127.0.0.1，将 foo.remote、bar.remote 解析为 10.1.2.3。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostaliases-pod
+spec:
+  containers:
+  - name: cat-hosts
+    image: busybox:1.28
+    command:
+    - cat
+    args:
+    - "/etc/hosts"
+```

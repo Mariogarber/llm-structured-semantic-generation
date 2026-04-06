@@ -1,0 +1,1 @@
+写一个名为 'busybox-replicaset' 的 k8s ReplicaSet 的 YAML，有 2 个副本，使用最新的 busybox 镜像。Pod 执行 'sleep 3600' 命令。

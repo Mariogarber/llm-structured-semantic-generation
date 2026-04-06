@@ -1,0 +1,6 @@
+请使用以下规格配置一个 Kubernetes ReplicaSet（myrs）：
+1. RS 应管理 3 个 Pod 副本。
+2. Pod 应具有标签 app 设置为 my-app，标签 tier 设置为 backend。
+3. RS 还应使用基于集合的选择器，仅选择具有标签 env 值为 dev 或 qa 的 Pod。
+4. Pod 模板应指定在 dev 环境中运行的最新 nginx 映像的单个容器。
+5. 容器应公开端口 80。

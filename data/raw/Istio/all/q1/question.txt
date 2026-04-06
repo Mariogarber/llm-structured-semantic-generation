@@ -1,0 +1,3 @@
+I'm working with the bookinfo application in our Istio setup. 
+I recall there was a DestinationRule specifically for the ratings service in the prod namespace, which ensures traffic is load balanced using the LEAST_REQUEST strategy. 
+Please provide me the exact configuration for that. The name of DestinationRule is bookinfo-ratings.

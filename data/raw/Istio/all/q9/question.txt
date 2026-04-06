@@ -1,0 +1,4 @@
+I need a Istio YAML for allowing egress traffic to a specific GitHub IP address 13.229.188.59/32 over port 22 using TCP. 
+The host was something like dummy.github.com, though I know it wasn't actively used in the rule. 
+The location was set to MESH_EXTERNAL. 
+Please provide me the entire YAML configuration for this.

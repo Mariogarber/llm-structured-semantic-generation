@@ -1,0 +1,1 @@
+Write a k8s Pod manifest with name my-scheduled-pod, scheduling gates example.com/foo and example.com/bar. Use image registry.k8s.io/pause:3.6.

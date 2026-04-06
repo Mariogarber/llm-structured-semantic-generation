@@ -1,0 +1,1 @@
+帮我创建一个名为 "parallel-job-demo" 的 K8s 任务，使用 Docker 镜像 devopscube/kubernetes-job-demo:latest。该任务应该在 4 个 Pod 上运行，并且并行运行 2 个 Pod。每个 Pod 应该使用参数 "25" 执行。给该任务打上一个标签 jobgroup: paralleldemo。

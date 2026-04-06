@@ -1,0 +1,5 @@
+Create a k8s Pod with the following requirements: 
+- Image: "gcr.io/google-samples/hello-app:1.0"
+- Expose port 8080 TCP
+- CPU request: 0.25, Memory request: 128MB
+- CPU limit: 0.5, Memory limit: 256MB

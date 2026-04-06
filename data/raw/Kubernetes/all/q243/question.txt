@@ -1,0 +1,1 @@
+We need a Service named frontend-service that exposes port 80 and targets pods with the label app: frontend. Please help me generate a K8S YAML file for this.

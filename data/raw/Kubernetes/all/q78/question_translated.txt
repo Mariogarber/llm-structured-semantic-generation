@@ -1,0 +1,35 @@
+给定以下已部署的 redis leader：
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-leader
+  labels:
+    app: redis
+    role: leader
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: leader
+        tier: backend
+    spec:
+      containers:
+      - name: leader
+        image: "docker.io/redis:6.0.5"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 6379
+```
+请编写一个 k8s YAML 文件，使其具有高可用性，并通过部署 2 个 redis followers 来满足流量需求。
+请使用镜像 "gcr.io/google_samples/gb-redis-follower:v2"。
+部署和 pod 应该带有 "app: redis"，"role: follower" 和 "tier: backend" 标签。

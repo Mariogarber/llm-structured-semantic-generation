@@ -1,0 +1,1 @@
+在 Kubernetes 中创建一个 StorageClass，使用 provisioner kubernetes.io/gce-pd，使用 WaitForFirstConsumer 卷绑定模式，并且只在 "us-central-1a" 和 "us-central-1b" 区域提供 Persistent Volumes。

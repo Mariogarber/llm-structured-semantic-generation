@@ -1,0 +1,2 @@
+创建一个 Kubernetes StorageClass（test-sc）用于 AWS EBS（提供程序为 kubernetes.io/aws-ebs）。
+存储类型应为 gp2。回收策略应设置为 Retain。允许卷扩展。它应该使用挂载选项 debug。卷绑定模式应设置为 Immediate。

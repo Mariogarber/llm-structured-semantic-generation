@@ -1,0 +1,22 @@
+I have a Kubernetes deployment of 4 pods each having one nginx container (example provided below). Can you create a service so that they are able to talk with each other? Add the following manifest to the beginning of your YAML.
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx-deploy
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: my-nginx
+  template:
+    metadata:
+      labels:
+        app: my-nginx
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+```

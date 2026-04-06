@@ -1,0 +1,20 @@
+为名为hostalias-daemonset的DaemonSet指定一个主机别名。使用IP地址"10.1.2.3"，并将主机名设置为"myapp.local"。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hostalias-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: hostalias-daemonset
+  template:
+    metadata:
+      labels:
+        app: hostalias-daemonset
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"]
+```

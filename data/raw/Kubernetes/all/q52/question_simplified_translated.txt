@@ -1,0 +1,25 @@
+修改现有的 DaemonSet，通过使用 busybox 镜像添加 Init 容器。Init 容器创建 /var/shared-data/hello.txt 文件，内容为 "Hello from Init"。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds
+spec:
+  selector:
+    matchLabels:
+      name: my-ds
+  template:
+    metadata:
+      labels:
+        name: my-ds
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+        - name: shared-data
+          mountPath: /var/shared-data
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+```

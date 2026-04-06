@@ -1,0 +1,32 @@
+Write a k8s YAML to make redis leader highly available and meet traffic demands by deploying 2 redis followers. Use image "gcr.io/google_samples/gb-redis-follower:v2". Deployment and pods should be labeled with "app: redis", "role: follower", and "tier: backend".
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-leader
+  labels:
+    app: redis
+    role: leader
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: leader
+        tier: backend
+    spec:
+      containers:
+      - name: leader
+        image: "docker.io/redis:6.0.5"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 6379
+```

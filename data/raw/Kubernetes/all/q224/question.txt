@@ -1,0 +1,2 @@
+Craft a Kubernetes yaml to set up a RoleBinding named "testadminbinding" in the "test3" namespace. This RoleBinding should 
+grant the "myaccount" ServiceAccount from the "test" namespace the permissions of the "cluster-admin" ClusterRole.

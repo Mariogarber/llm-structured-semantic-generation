@@ -1,0 +1,1 @@
+Provide Istio YAML for allowing egress traffic to GitHub IP 13.229.188.59/32 on port 22 using TCP. Host dummy.github.com is not actively used. Location is MESH_EXTERNAL.

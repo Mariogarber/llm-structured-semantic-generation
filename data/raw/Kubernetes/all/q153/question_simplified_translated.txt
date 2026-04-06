@@ -1,0 +1,14 @@
+将此 Pod 修改为具有 2 个 Init Containers。第一个名为 init-myservice，等待 Service: myservice 启动。第二个名为 init-mydb，等待 Service: mydb 启动。一旦两个 Init containers 启动，Pod 将启动名为 myapp-container 的应用程序容器。所有容器都使用 image: busybox:1.28。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app.kubernetes.io/name: MyApp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+```

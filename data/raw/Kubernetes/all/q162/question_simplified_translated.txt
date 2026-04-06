@@ -1,0 +1,5 @@
+创建一个满足以下要求的 k8s Pod：
+- 镜像："gcr.io/google-samples/hello-app:1.0"
+- 暴露端口 8080 TCP
+- CPU 请求：0.25，内存请求：128MB
+- CPU 限制：0.5，内存限制：256MB

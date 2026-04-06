@@ -1,0 +1,3 @@
+Imagine that you want to create a Pod but the organization's policy mandates that the Pod should adhere to specific security guidelines. 
+The Pod must use the runtime's default secure computing mode to restrict system calls and prevent any form of privilege escalation. 
+How would you define such a Pod? You can use an HTTP echo server for testing purposes. 

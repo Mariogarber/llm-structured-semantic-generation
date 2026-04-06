@@ -1,0 +1,1 @@
+在 Kubernetes 集群中部署 NGINX web 服务器的 YAML（例如，minikube）。使用 2 个副本的 StatefulSet，10 秒的就绪延迟，NGINX 镜像为 k8s.gcr.io/nginx-slim:0.16。通过无头服务访问 Pod。

@@ -1,0 +1,1 @@
+Create a yaml for a k8s job named "example" using the latest python image. The job should run the command "print('OK'); error" to print OK and simulate an error. Set the maximum pod failure restart count to 1.

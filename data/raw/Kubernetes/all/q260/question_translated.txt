@@ -1,0 +1,16 @@
+给定这个 YAML：
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-sa-sample
+  annotations:
+    kubernetes.io/service-account.name: "sa-name"
+type: kubernetes.io/service-account-token
+data:
+  extra: YmFyCg==     
+```
+在 minikube 上执行时，报告 "secret/secret-sa-sample created"。
+但是当我尝试获取或描述它时，报告：
+"Error from server (NotFound): secrets "secret-sa-sample" not found"。
+我听说要修复它，我需要一个在另一个 kind 中的短 K8s YAML。你能提供吗？

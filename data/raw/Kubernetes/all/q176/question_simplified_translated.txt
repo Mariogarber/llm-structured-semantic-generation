@@ -1,0 +1,20 @@
+添加一个名为 "install" 的 init container 到 pod 中，使用镜像 "busybox:1.28"。该 init container 应该将共享卷挂载到 "/work-dir"，并在执行 "wget -O /work-dir/index.html http://info.cern.ch" 后终止。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-demo
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: workdir
+      mountPath: /usr/share/nginx/html
+  dnsPolicy: Default
+  volumes:
+  - name: workdir
+    emptyDir: {}
+```

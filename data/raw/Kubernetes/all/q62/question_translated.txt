@@ -1,0 +1,27 @@
+我已经附上了一个配置了 DaemonSet 的 k8s YAML 文件。你能帮我创建一个名为 nginx-config 的 ConfigMap，其中包含数据键值对 key: value，并将此 ConfigMap 挂载到路径 /etc/nginx/config 中的容器中吗？谢谢！
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds
+spec:
+  selector:
+    matchLabels:
+      name: my-ds
+  template:
+    metadata:
+      labels:
+        name: my-ds
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+        - name: shared-data
+          mountPath: /var/shared-data
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+```

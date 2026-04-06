@@ -1,0 +1,62 @@
+这是我正在使用的当前 Envoy 配置：
+我正在尝试在我的 Envoy 配置中使用 Jaeger 设置分布式跟踪。我希望通过插件动态加载跟踪提供程序，并且插件库路径应为 /usr/local/lib/libjaegertracing_plugin.so。对于 Jaeger 配置：
+服务名称应设置为 front-proxy。
+我想使用常量采样策略，即每个跟踪都进行采样。
+Jaeger 代理的地址应设置为 jaeger:6831。
+您能为我配置跟踪标头吗？具体而言，我需要将调试标头设置为 jaeger-debug-id，将行李标头设置为 jaeger-baggage，并且任何以 uberctx- 为前缀的行李标头。
+最后，对于行李限制，我不希望在初始化失败时拒绝行李，并且我不需要指定主机端口。
+您能通过填写 [TO COMPLETE] 部分来提供完成的 YAML 吗？
+
+```
+node:
+  cluster: front-proxy
+
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+    traffic_direction: OUTBOUND
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          generate_request_id: true
+          tracing:
+          [TO COMPLETE]
+          codec_type: auto
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: backend
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: service1
+                decorator:
+                  operation: checkAvailability
+          http_filters:
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+          use_remote_address: true
+  clusters:
+  - name: service1
+    type: strict_dns
+    lb_policy: round_robin
+    load_assignment:
+      cluster_name: service1
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service1
+                port_value: 8000
+```

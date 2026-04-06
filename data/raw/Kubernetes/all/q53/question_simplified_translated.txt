@@ -1,0 +1,1 @@
+定义一个 DaemonSet 的 YAML，使用标签 fluentd-logging，并在 kube-system 命名空间中运行它。镜像使用 quay.io/fluentd_elasticsearch/fluentd:v2.5.2，名称为 fluentd-worker。

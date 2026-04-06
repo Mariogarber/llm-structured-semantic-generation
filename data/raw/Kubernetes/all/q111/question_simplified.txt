@@ -1,0 +1,11 @@
+Configure a Kubernetes job manifest (YAML) to create a job with kube-job- as a prefix. Label the job with "jobgroup: jexample" and use the following spec:
+```
+spec:
+  template:
+    spec:
+      containers:
+      - name: my-container
+        image: busybox
+        command: ["echo", "Hello from the job"]
+      restartPolicy: OnFailure
+```

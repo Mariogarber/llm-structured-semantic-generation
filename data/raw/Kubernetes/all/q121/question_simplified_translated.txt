@@ -1,0 +1,1 @@
+创建一个名为 "limits-test" 的 k8s LimitRange 的 yaml，为容器设置资源的最小/最大约束。最大 CPU：2，最小 CPU：100m，内存：100Mi-500Mi。

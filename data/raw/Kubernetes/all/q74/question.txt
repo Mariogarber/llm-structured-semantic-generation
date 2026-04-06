@@ -1,0 +1,3 @@
+How can you deploy a database application using the latest mongo DB image? 
+The deployment should be labeled as 'db' and have exactly 5 replicas using a RollingUpdate strategy.
+The deployment can be named mongo-deploy and labeled as app:db.

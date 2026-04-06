@@ -1,0 +1,12 @@
+I wanted to create a k8s secret configuration with a simple username-password pair, but failed. 
+Please give me the correct YAML.
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysec
+type: Opaque
+data:
+  username: admin
+  password: secret
+```

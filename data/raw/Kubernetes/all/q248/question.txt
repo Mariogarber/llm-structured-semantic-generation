@@ -1,0 +1,5 @@
+Write a Kubernetes YAML manifest to create a Service called my-service. 
+It has a clusterIP explicitly set to 10.96.0.164. 
+The IP family is IPv4 and uses a SingleStack IP family policy. 
+It exposes port 80 and target port 9376 with TCP. 
+It should select pods with the label app.kubernetes.io/name: MyApp. The session affinity is None.

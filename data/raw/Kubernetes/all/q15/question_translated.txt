@@ -1,0 +1,17 @@
+鉴于以下 YAML，请帮我为此 DaemonSet 定义名为 "fluentd-elasticsearch" 的容器，其镜像为 "quay.io/fluentd_elasticsearch/fluentd:v2.5.2"。
+
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+spec:
+  selector:
+    matchLabels:
+      name: fluentd-elasticsearch
+  template:
+    metadata:
+      labels:
+        name: fluentd-elasticsearch
+    spec:
+```

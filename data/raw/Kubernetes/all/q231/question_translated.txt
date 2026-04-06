@@ -1,0 +1,12 @@
+我想创建一个带有简单的用户名和密码对的 k8s 密钥配置，但是失败了。请给我正确的 YAML。
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysec
+type: Opaque
+data:
+  username: admin
+  password: secret
+```

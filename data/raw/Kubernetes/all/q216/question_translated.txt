@@ -1,0 +1,18 @@
+你有一个现有的 Kubernetes ClusterRole。该角色具有以下 YAML 配置：
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: existing-clusterrole
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["create", "delete"]
+```
+你的任务是按以下方式修改它：(a) 将 "services" 的权限更改为仅 "get"；(b) 删除 "batch" apiGroup 中 "jobs" 的权限；(c) 添加对 "" apiGroup 中 "watch" configmaps 的权限。

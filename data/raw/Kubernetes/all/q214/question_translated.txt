@@ -1,0 +1,2 @@
+写一个 yaml 文件来建立一个名为 "read-secrets-global" 的 Kubernetes ClusterRoleBinding。
+这个角色绑定应该使用 "secret-reader" ClusterRole 授予 "manager" 组权限。

@@ -1,0 +1,1 @@
+Create a YAML defining a PV named "mysql-pv-volume" in k8s. Storage class "manual", capacity 15Gi, access mode "ReadWriteOnce", mounted from host dir "/mnt/data". Also define a PVC requesting 10Gi storage with same class and access mode.

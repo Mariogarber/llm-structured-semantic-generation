@@ -1,0 +1,3 @@
+Compose a yaml file to create a Kubernetes DaemonSet named "fluentd-elasticsearch" which utilizes the 
+image "quay.io/fluentd_elasticsearch/fluentd:v2.5.2". Ensure the DaemonSet pods are scheduled only on 
+nodes with a specific field "key-name" set to the value "value-name".

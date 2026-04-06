@@ -1,0 +1,23 @@
+Please help add a init container to this pod so that The init container runs to completion before the application container starts.
+For the init container, its name is install, image is busybox:1.28.
+The init container mounts the shared volume to the /work-dir directory
+The init container will terminate after execute "wget -O /work-dir/index.html http://info.cern.ch".
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-demo
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: workdir
+      mountPath: /usr/share/nginx/html
+  dnsPolicy: Default
+  volumes:
+  - name: workdir
+    emptyDir: {}
+```

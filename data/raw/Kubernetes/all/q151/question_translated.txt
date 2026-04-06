@@ -1,0 +1,1 @@
+写一个 Kubernetes Pod 的清单。Pod 的名称是 my-scheduled-pod，并且具有调度门 example.com/foo 和 example.com/bar。镜像应该是 registry.k8s.io/pause:3.6。

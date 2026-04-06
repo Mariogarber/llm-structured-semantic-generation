@@ -1,0 +1,1 @@
+为 "test3" 命名空间中的 RoleBinding "testadminbinding" 创建一个 k8s yaml。授予来自 "test" 命名空间的 "myaccount" SA "cluster-admin" CR 权限。

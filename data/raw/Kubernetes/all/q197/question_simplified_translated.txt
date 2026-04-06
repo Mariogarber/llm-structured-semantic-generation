@@ -1,0 +1,16 @@
+描述给定的 ReplicaSet YAML 的就绪探针配置。探针应该对容器的端口80执行一个HTTP GET请求到“/”。
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+```

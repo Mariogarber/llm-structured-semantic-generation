@@ -1,0 +1,16 @@
+在 Kubernetes 中，应用程序需要一个特定的组 ID（GID）用于访问控制。为了确保任何使用 PersistentVolume 的 Pod 使用该 GID，我决定使用该 GID 注释 PersistentVolume。请使用以下规范模板创建一个 PersistentVolume 定义：
+
+- 卷的名称：pv1
+- GID 注释：1234
+
+只需使用以下规范模板：
+
+```
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data"
+```

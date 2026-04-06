@@ -1,0 +1,1 @@
+Create a Kubernetes Secret named secret-sa-sample for a service account sa-name. Include extra data with key extra and values 'bar' and 'YmFyCg=='.

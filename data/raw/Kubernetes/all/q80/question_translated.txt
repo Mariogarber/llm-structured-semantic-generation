@@ -1,0 +1,23 @@
+给定以下应用的部署：
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.16.1
+        ports:
+        - containerPort: 80
+```
+请编写一个新的 YAML 文件来更新部署，通过增加副本数量来扩展应用程序至 4 个。

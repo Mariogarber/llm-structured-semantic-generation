@@ -1,0 +1,1 @@
+写一个 Ingress YAML，将 /foo 路由到 service1:4200，将 /bar 路由到 service2:8080。

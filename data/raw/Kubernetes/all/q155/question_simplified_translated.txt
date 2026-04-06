@@ -1,0 +1,1 @@
+写一个带有 SELinux 选项的 k8s Pod 的 YAML。主容器应该具有 level=somevalue 和 type=container_init_t。使用 image=redis。

@@ -1,0 +1,1 @@
+Create a yaml for k8s to define a PersistentVolume named "nfs-backup-volume" and a PersistentVolumeClaim named "nfs-backup-volume-claim". Use "manual" storage class and "ReadWriteMany" access mode. Tie them to NFS server "my-nfs-server" at path "/my/nfs/" and allocate 1Gi storage. Claim selectively targets the volume using label "volume: nfs-backup-volume".

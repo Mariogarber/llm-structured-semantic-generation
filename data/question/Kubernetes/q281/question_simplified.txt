@@ -1,0 +1,1 @@
+Create a YAML for a k8s StorageClass to provision local volumes. Volumes provisioned on nodes with label storage: local. Delay binding and provisioning of PersistentVolume until a Pod using the PersistentVolumeClaim is created.

@@ -1,0 +1,2 @@
+Write a yaml file to create a k8s job with name "example" and run "print('OK'); error" using the latest python image to print OK and simulate error. 
+It should automatically restart itself if pod failure happens for a max of 1 times.

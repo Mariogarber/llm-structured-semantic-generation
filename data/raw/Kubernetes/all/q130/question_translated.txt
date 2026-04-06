@@ -1,0 +1,1 @@
+我需要设置一个容量为1Gi的 Kubernetes PersistentVolume，使用文件系统卷模式。它应该支持多个节点同时对其进行写入或读取。该卷将连接到一个 NFS 服务器。你能帮我创建一个配置吗？其中 NFS 服务器的 IP 地址是 255.0.255.0，NFS 服务器上的目标路径是 /desired/path/in/nfs。

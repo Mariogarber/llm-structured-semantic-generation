@@ -1,0 +1,6 @@
+我正在为我们的一个服务设置 Envoy 代理，并且有一些特定的要求。
+监听器应该设置为在 0.0.0.0 的 10000 端口上监听 INBOUND 流量。
+对于通过的流量，我想启用基于 OpenTelemetry 的跟踪，并且跟踪应该转发到一个名为 'opentelemetry_collector' 的 OpenTelemetry 收集器集群。该收集器在端口 4317 上通过 HTTP/2 进行通信，并且超时时间应为 0.250s。对于这些跟踪，它们应该将此服务标识为 'envoy-2'。
+HTTP 流量应该使用 AUTO 编解码器和 'ingress_http' 统计前缀进行管理。
+对于路由，我想将任何以 '/' 前缀开头的流量定向到一个名为 'service_cluster2' 的集群，该集群使用 STRICT_DNS 和 ROUND_ROBIN 负载均衡策略解析到端口 8080 上的 'service-2'。此路由上的操作应该使用 'routeToService2' 进行标记以进行跟踪。
+鉴于所有这些，你能为我提供一个满足这些要求的全面的 Envoy 配置吗？

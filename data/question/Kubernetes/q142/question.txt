@@ -1,0 +1,19 @@
+Given the following YAML that defines a PersistentVolume, please help me specify a specific NFS path and server for the volume source. 
+The path should be `/tmp` and the server's address should be `172.17.0.2`.
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv0001
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: slow
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+```

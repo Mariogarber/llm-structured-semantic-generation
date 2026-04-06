@@ -1,0 +1,7 @@
+Please help me creating a Kubernetes YAML configuration to achieve the following:
+Define a ConfigMap with the name ds-configmap that contains a single data entry with a key named config-data.txt and the value "This is data from the configmap."
+Create a DaemonSet named ds-configmap-volume that uses the aforementioned ConfigMap. This DaemonSet should have the following specifications:
+The pod template should be labeled with the name ds-configmap-volume. It should consist of a single container named ds-configmap-container that:
+1. Uses the busybox image.
+2. Continuously reads the content from the config-data.txt file located at the /config mount path every 10 seconds.
+3. The config-data.txt from the ConfigMap should be mounted to the container at the /config path using a volume named config-volume.

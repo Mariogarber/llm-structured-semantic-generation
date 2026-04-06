@@ -1,0 +1,1 @@
+使用 YAML 配置 Kubernetes 中名为 my-pdb 的 PodDisruptionBudget (PDB)，为具有标签 app=my-app 的应用程序允许最多 1 个 pod 不可用。

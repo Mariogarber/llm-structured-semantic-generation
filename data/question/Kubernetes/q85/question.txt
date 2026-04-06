@@ -1,0 +1,22 @@
+Here is a k8s YAML file. Could you modify it so that (1) it keeps two more replicas than before, and (2) it requests 0.1 CPU and 100MB of memory.
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard-deploy
+  labels:
+    app: kuard
+spec:
+  selector:
+    matchLabels:
+      app: test
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+      - name: my-kuard
+        image: gcr.io/kuar-demo/kuard-amd64:2
+```

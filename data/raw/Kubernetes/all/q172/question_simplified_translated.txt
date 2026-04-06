@@ -1,0 +1,15 @@
+为 Pod 添加 readiness 和 liveness 探针，使用 TCP sockets。探针连接到端口 8080 上的 goproxy 容器。 readiness 探针每 6 秒探测一次，在第一次探测之前等待 3 秒。 liveness 探针每 10 秒探测一次，在第一次探测之前等待 5 秒。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goproxy
+  labels:
+    app: goproxy
+spec:
+  containers:
+  - name: goproxy
+    image: registry.k8s.io/goproxy:0.1
+    ports:
+    - containerPort: 8080
+```

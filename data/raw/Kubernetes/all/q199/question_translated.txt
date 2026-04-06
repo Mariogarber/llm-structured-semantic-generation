@@ -1,0 +1,1 @@
+编写一个 YAML 文件来部署一个名为 'busybox-replicaset' 的 Kubernetes ReplicaSet，使用最新的 busybox 镜像。由该 ReplicaSet 创建的 Pod 应该执行 'sleep 3600' 命令。

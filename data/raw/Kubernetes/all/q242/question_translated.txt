@@ -1,0 +1,4 @@
+创建一个具有以下特性的 Kubernetes Service：它的名称是 svc-master。
+它的标签包括 "app: redis"，"role: master" 和 "tier: backend"。
+它以 NodePort 的方式暴露，并分配了 IP 地址 10.96.0.2。
+它有两个端口，Redis 使用 6379 端口，指标使用 9121 端口。

@@ -1,0 +1,23 @@
+修改 k8s DaemonSet 配置文件：
+(1) 添加存活探针：在端口 80 上进行 HTTP GET 请求，路径为 /
+(2) 添加就绪探针：在端口 80 上进行 HTTP GET 请求，路径为 /，初始延迟为 5 秒，超时时间为 1 秒。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds
+spec:
+  selector:
+    matchLabels:
+      name: my-ds
+  template:
+    metadata:
+      labels:
+        name: my-ds
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: nginx
+        image: nginx
+```

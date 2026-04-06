@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: dnsconfig
+spec:
+  selector:
+    matchLabels:
+      app: dnsconfig
+  template:
+    metadata:
+      labels:
+        app: dnsconfig
+    spec:
+      dnsConfig:
+        nameservers:
+        - 8.8.8.8
+        searches:
+        - mydomain.com
+      containers:
+      - name: nginx
+        image: nginx:latest

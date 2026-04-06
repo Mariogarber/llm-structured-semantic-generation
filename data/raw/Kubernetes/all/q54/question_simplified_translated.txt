@@ -1,0 +1,1 @@
+写一个名为 "initcontainer" 的 DaemonSet 的 yaml，其 Pod 标记为 "app: initcontainer"。它应该使用名为 "init-myservice" 的 init container，使用 busybox 镜像来回显 "Initializing..." 并休眠 2 秒。主容器也应使用 busybox 镜像并休眠 3600 秒。

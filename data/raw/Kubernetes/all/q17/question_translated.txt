@@ -1,0 +1,21 @@
+给定以下名为 hostalias-daemonset 的 DaemonSet 的 YAML，请帮我为 Pod 指定一个主机别名。
+别名的 IP 地址是 "10.1.2.3"，主机名应为 "myapp.local"。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hostalias-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: hostalias-daemonset
+  template:
+    metadata:
+      labels:
+        app: hostalias-daemonset
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"]
+```

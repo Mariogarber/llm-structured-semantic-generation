@@ -1,0 +1,19 @@
+Can you fix errors in this k8s ClusterRole manifest? Use "get" as the default verbs.
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: buggy-clusterrole
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["got", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["services"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["create", "delete", "delete"]
+```

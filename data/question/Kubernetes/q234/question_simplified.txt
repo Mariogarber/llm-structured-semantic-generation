@@ -1,0 +1,22 @@
+The following yaml creates a Kubernetes secret for mysql.
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  key: MYSQL_KEY
+type: Opaque
+data:  
+  mysql-root-password: 11111
+  mysql-user: a
+  mysql-password: 11111
+```
+get the following error:
+Error from server (BadRequest): error when creating "STDIN": Secret in version "v1" cannot be handled as a Secret: json: cannot unmarshal number into Go struct field Secret.data of type []uint8
+How to fix it?
+Here are some command line records for reference: 
+$ echo "11111" | base64 
+$ MTExMTEK
+$ echo "a" | base64    
+$ YQo=
+Please provide the modified entire valid YAML.

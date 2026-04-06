@@ -1,0 +1,1 @@
+请创建一个 Kubernetes ReplicaSet YAML。它确保始终有两个 nginx pod（标记为 app: nginx-rs-pod 和 env: dev）在运行。这些 pod 在端口 80 上公开，其中 nginx 服务器监听。

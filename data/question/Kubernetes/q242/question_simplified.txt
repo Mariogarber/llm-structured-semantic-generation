@@ -1,0 +1,1 @@
+Create a k8s Service named svc-master with labels "app: redis", "role: master", "tier: backend". Expose as NodePort with IP 10.96.0.2. Ports: 6379 for Redis, 9121 for metrics.

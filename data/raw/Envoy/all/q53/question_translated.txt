@@ -1,0 +1,1 @@
+我正在使用 STRICT_DNS 和 MAGLEV 负载均衡策略设置 Envoy 代理，将流量路由到 Redis 集群。侦听器应在所有网络接口上侦听端口 1999，并将所有流量路由到名为 'redis_cluster' 的 Redis 集群。Redis 集群应使用端口 6379 上的 DNS 名称 'redis' 进行解析。此外，Redis 代理过滤器的操作超时应为 5 秒，统计前缀为 'egress_redis'。你能为我提供完整的 Envoy 配置 YAML 吗？包括在所有网络接口上侦听端口 8001 的管理界面？

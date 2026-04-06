@@ -1,0 +1,1 @@
+Compose a yaml for resource quotas named "object-counts" in k8s with specific limits: 10 for Secrets, 10 for Services, and 2 for LoadBalancer Services in the 'services' category.

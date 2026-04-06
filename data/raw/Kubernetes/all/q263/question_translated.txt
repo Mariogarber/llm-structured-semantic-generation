@@ -1,0 +1,2 @@
+我有一个与 k8s 相关的问题：
+在您的集群中正在部署一个新的微服务，它需要自己的服务账户。创建一个 ServiceAccount 并将其命名为 ms-account。创建完 ServiceAccount 后，请通过创建适当的 Role 和 RoleBinding，确保它被授予对默认命名空间中所有 Pod 的 get 和 list 访问权限。

@@ -1,0 +1,4 @@
+写一个 yaml 文件来创建一个 k8s DaemonSet。这个 DaemonSet 应该包含两个容器的 Pod：
+1. 第一个容器名为 "container-main"，应使用 busybox 镜像，并运行命令 "while true; do echo 'Main container'; sleep 10; done"。
+2. 第二个容器名为 "container-sidecar"，也应使用 busybox 镜像，并执行命令 "while true; do ps aux; sleep 15; done"。
+这两个容器必须共享相同的进程命名空间。此外，请确保 Pod 的元数据包含一个键为 "name"，值为 "ds-share-process-ns" 的标签。

@@ -1,0 +1,1 @@
+Provide Istio config for reviews service. Route traffic from end-user with header value jason to v2 subset. Default route for all other traffic is v1 subset.

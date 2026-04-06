@@ -1,0 +1,3 @@
+Create a pod named "lifecycle-demo" with the "nginx" image. Include full lifecycle. 
+Create a file /usr/share/message with the line "Hello from the postStart handler". 
+Ensure nginx shuts down gracefully by executing "nginx -s quit; while killall -0 nginx; do sleep 1; done" after it stops.

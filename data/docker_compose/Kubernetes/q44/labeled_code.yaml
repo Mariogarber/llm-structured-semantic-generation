@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-registry-proxy-modified # *
+spec:
+  selector:
+    matchLabels:
+      app: kube-registry-modified
+  template:
+    metadata:
+      labels:
+        app: kube-registry-modified
+    spec:
+      containers:
+      - name: kube-registry-proxy-modified # *
+        image: nginx:latest 
+        resources:
+          limits:
+            cpu: 100m
+            memory: 50Mi
+        env:
+        - name: REGISTRY_HOST
+          value: kube-registry-modified.svc.cluster.local
+        - name: REGISTRY_PORT
+          value: "5000"
+        ports:
+        - name: registry # *
+          containerPort: 80
+          hostPort: 5000

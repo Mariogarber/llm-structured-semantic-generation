@@ -1,0 +1,6 @@
+Design a Kubernetes yaml file for a DaemonSet with the following specifications:
+1. The template metadata label the pods with the name "fluentd-elasticsearch".
+2. It should contain a single container named "fluentd-elasticsearch" that uses the image quay.io/fluentd_elasticsearch/fluentd:v2.5.2.
+3. This container should have specific resource requirements:
+    - Set a memory limit of 200Mi.
+    - Request 100m of CPU and 200Mi of memory.

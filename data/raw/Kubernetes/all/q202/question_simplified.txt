@@ -1,0 +1,1 @@
+Configure a Kubernetes ReplicaSet (myrs) with 3 Pod replicas. Pods have labels app=my-app and tier=backend. Use a set-based selector to select Pods with label env=dev or env=qa. Pod template has a single container running the latest nginx image in the dev environment, exposing port 80.

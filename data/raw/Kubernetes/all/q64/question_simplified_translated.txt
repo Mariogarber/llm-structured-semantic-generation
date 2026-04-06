@@ -1,0 +1,1 @@
+创建一个名为 "fluentd-elasticsearch" 的 k8s DaemonSet 的 yaml，使用镜像 "quay.io/fluentd_elasticsearch/fluentd:v2.5.2"。Pods 应该在具有 "key-name"="value-name" 的节点上调度。

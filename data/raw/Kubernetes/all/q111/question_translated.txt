@@ -1,0 +1,11 @@
+如何配置 Kubernetes 作业清单（YAML），以便每次运行清单时都会创建一个以 kube-job- 为前缀的作业？使用 "jobgroup: jexample" 标记作业，并使用以下示例作为规范。
+```
+spec:
+  template:
+    spec:
+      containers:
+      - name: my-container
+        image: busybox
+        command: ["echo", "Hello from the job"]
+      restartPolicy: OnFailure
+```

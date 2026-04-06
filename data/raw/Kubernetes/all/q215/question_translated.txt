@@ -1,0 +1,4 @@
+创建一个 YAML 配置，用于允许 Kubernetes ClusterRole 具有以下权限：
+- 对于 pods，应允许 get、list 和 watch。
+- 对于 nodes，应允许 get 和 list。
+- 对于 services，应允许 get 和 watch。

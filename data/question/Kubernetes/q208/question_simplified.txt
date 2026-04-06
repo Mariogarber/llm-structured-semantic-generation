@@ -1,0 +1,1 @@
+Create a yaml for resource quotas named "object-counts" in k8s with limits: 10 ConfigMaps, 4 PVCs, 4 Pods, 20 ReplicationControllers.

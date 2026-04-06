@@ -1,0 +1,25 @@
+鉴于以下创建了一个 DaemonSet 的 YAML，请帮我：
+1. 向规范中添加两个容器。第一个容器应命名为 "container-main"，使用 busybox 镜像，并执行命令 "while true; do echo 'Main container'; sleep 10; done"。第二个容器应命名为 "container-sidecar"，同样使用 "busybox" 镜像，并执行命令 "while true; do ps aux; sleep 15; done"。
+2. 通过将适当的字段设置为 true，确保此 DaemonSet 中的容器共享相同的进程命名空间。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-share-process-ns
+spec:
+  selector:
+    matchLabels:
+      name: ds-share-process-ns
+  template:
+    metadata:
+      labels:
+        name: ds-share-process-ns
+    spec:
+      containers:
+      - name: container-main
+        image: busybox
+        command: [ "sh", "-c", "while true; do echo 'Main container'; sleep 10; done" ]
+      - name: container-sidecar
+        image: busybox
+        command: [ "sh", "-c", "while true; do ps aux; sleep 15; done" ]
+```

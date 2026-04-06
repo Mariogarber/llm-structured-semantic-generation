@@ -1,0 +1,20 @@
+请帮我为 Pod 中的所有容器指定安全设置。
+请将拥有该卷的组 ID 设置为 1234，从而可以对其进行写入。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo-2
+spec:
+  volumes:
+  - name: sec-ctx-vol
+    emptyDir: {}
+  containers:
+  - name: sec-ctx-demo
+    image: busybox:1.28
+    command: [ "sh", "-c", "sleep 1h" ]
+    volumeMounts:
+    - name: sec-ctx-vol
+      mountPath: /data/demo
+```
+请提供整个 YAML。

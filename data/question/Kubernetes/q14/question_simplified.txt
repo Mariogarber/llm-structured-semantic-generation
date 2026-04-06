@@ -1,0 +1,6 @@
+Design a DaemonSet YAML with the following specs:
+1. Pods labeled "fluentd-elasticsearch".
+2. Single container named "fluentd-elasticsearch" using image quay.io/fluentd_elasticsearch/fluentd:v2.5.2.
+3. Container resource requirements:
+   - Memory limit: 200Mi.
+   - CPU request: 100m, Memory request: 200Mi.

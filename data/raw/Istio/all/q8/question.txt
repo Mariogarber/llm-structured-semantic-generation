@@ -1,0 +1,5 @@
+Please write a istio YAML that exposes the hosts needed for installing packages with apt-get.
+After applying this file, Istio-enabled pods (configured apt-get) be able to execute
+`apt-get upgrade` and `apt-get install`.  If this is not installed you may get "404  Not Found".
+The name of the object is "make-aptget-work".
+Please provide the entire YAML.

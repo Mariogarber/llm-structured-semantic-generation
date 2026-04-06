@@ -1,0 +1,1 @@
+创建一个标记为 "name: ds-grace-serviceaccount" 的 DaemonSet YAML，使用最新的 nginx 镜像。Pods 应该有一个终止优雅期为 60 秒，并使用 "default" 服务账户。

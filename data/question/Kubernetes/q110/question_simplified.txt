@@ -1,0 +1,1 @@
+Create a yaml for 2 k8s jobs named "hello-job-1" and "hello-job-2". Each job should print "Hello world!" using Python 3.9.

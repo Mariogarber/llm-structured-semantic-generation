@@ -1,0 +1,3 @@
+I'm trying to set up an Envoy proxy for UDP traffic. I want it to listen on address 0.0.0.0 and port 10000. Any UDP packets it receives, I'd like it to forward them to our backend service identified by the DNS name 'service-udp' on port 5005. For service discovery, I want to use STRICT_DNS and for load balancing, I'm thinking ROUND_ROBIN would be best.
+Furthermore, I'd like to tag the metrics related to this traffic with a 'service' stat prefix for easier monitoring. Also, I need an admin interface on 0.0.0.0 at port 10001 to manage and monitor the Envoy instance.
+Can you help me draft an appropriate Envoy configuration for these requirements?

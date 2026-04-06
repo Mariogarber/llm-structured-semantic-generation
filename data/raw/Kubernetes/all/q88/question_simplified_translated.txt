@@ -1,0 +1,1 @@
+创建一个 k8s HPA YAML，用于 "simple-web-app" 部署。根据平均 CPU 利用率（目标：60%）自动缩放 pod，副本数量范围为 1 到 10。

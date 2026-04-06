@@ -1,0 +1,9 @@
+Complete the YAML to request a 2Gi storage size and ReadWriteOnce access for the WordPress container's persistent volume claim:
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-pv-claim
+  labels:
+    app: wordpress
+```

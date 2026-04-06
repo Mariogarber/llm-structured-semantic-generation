@@ -1,0 +1,4 @@
+Please set up a backend Envoy YAML. It has two services. 
+The first service relies on a Dockerfile located in a parent directory, and when launching, should verify that the second service is healthy. This service should also dynamically map ports, defaulting to 8002 for the backend and 8003 for statistics if not provided, while linking to 10000 and 8001 within the container, respectively.
+The second service builds using a context in a python directory one level up. During its operation, it should reflect any changes made to a local service.py file by mapping it to /code/service.py within its container.
+The stat_prefix should be set as ingress_http.

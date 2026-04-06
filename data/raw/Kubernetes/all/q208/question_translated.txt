@@ -1,0 +1,5 @@
+创建一个名为 "object-counts" 的 yaml 文件，在 Kubernetes 中设置资源配额，具体限制如下：
+ConfigMaps 的限制为 10 个，
+PersistentVolumeClaims 的限制为 4 个，
+Pods 的限制为 4 个，
+ReplicationControllers 的限制为 20 个。

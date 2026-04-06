@@ -1,0 +1,5 @@
+创建一个 YAML 文件，在 Kubernetes 集群中部署一个 NGINX Web 服务器（例如，minikube）。该应用程序应作为一个 StatefulSet 部署，具有以下规格：
+- StatefulSet 应该有 2 个副本。
+- StatefulSet 中的每个 Pod 应该有一个最小的就绪延迟时间为 10 秒。
+- 使用 NGINX 镜像 k8s.gcr.io/nginx-slim:0.16。
+- Pod 应该通过一个无头服务进行访问。

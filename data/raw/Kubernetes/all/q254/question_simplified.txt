@@ -1,0 +1,1 @@
+Write a Service named my-service that uses a LoadBalancer type, prefers dual-stack with an emphasis on IPv4, matches pods with the label app.kubernetes.io/name: MyApp, and exposes them on port 80 using TCP protocol.

@@ -1,0 +1,1 @@
+为 Kubernetes ClusterRole "restricted-psp-user" 创建一个 yaml 定义，该角色授予使用名为 'restricted' 的特定 PodSecurityPolicy 的权限。

@@ -1,0 +1,1 @@
+Can you create a simple k8s DaemonSet that deploys an nginx container on every node?

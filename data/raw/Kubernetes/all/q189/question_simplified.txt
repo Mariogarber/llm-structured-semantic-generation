@@ -1,0 +1,1 @@
+Create a YAML for a pod named redis. Pod runs a single container with image redis. Use emptyDir volume mounted at /data/redis, persisting throughout the pod's life even if containers are restarted.

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: exporter-modified
+spec:
+  selector:
+    matchLabels:
+      component: exporter-modified
+  template:
+    metadata:
+      labels:
+        component: exporter-modified
+    spec:
+      containers:
+      - image: nginx:latest 
+        name: exporter-modified
+        ports:
+        - name: nginx-container 
+          containerPort: 9445
+          hostPort: 9445
+      hostNetwork: true
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: exporter-modified # *
+  labels:
+    component: exporter-modified
+spec:
+  ports:
+    - name: exporter-modified # *
+      port: 9445
+      protocol: TCP
+  selector:
+    component: exporter-modified
+  type: NodePort

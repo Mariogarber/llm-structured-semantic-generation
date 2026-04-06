@@ -1,0 +1,1 @@
+Provide a Pod YAML with Fedora base image, running indefinitely, using 2Mi huge pages with a limit of 100Mi. Request and limit memory to 100Mi, and mount huge pages volume to /hugepages.

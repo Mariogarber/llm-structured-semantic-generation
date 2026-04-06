@@ -1,0 +1,6 @@
+Please configure a Kubernetes ReplicaSet (myrs) with the following specifications:
+1. The RS should manage 3 Pod replicas.
+2. Pods should have a label app set to my-app and a label tier set to backend.
+3. The RS should also use a set-based selector to only select Pods that have the label env with values either dev or qa.
+4. The Pod template should specify a single container running the latest nginx image in the dev environment.
+5. The container should expose port 80.

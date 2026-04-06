@@ -1,0 +1,1 @@
+在 k8s 中创建一个名为 "object-counts" 的资源配额的 yaml，限制为：10 个 ConfigMaps，4 个 PVCs，4 个 Pods，20 个 ReplicationControllers。

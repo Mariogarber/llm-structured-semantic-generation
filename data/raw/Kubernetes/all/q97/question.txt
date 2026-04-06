@@ -1,0 +1,4 @@
+Can you help me create a Kubernetes Ingress YAML manifest to meet the following requirements:
+- Route all incoming HTTP traffic on path /app1 to a service named svc-1 listening on port 8080.
+- Route all incoming HTTP traffic on path /app2 to a service named svc-2 listening on port 9090.
+- Terminate SSL for incoming HTTPS traffic using a TLS secret named example-tls.

@@ -1,0 +1,1 @@
+Create a k8s HPA YAML for "simple-web-app" deployment. Autoscale pods based on avg CPU utilization (target: 60%), with replicas ranging from 1 to 10.

@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-job-1
+spec:
+  template:
+    spec:
+      containers:
+      - name: hello-container-1
+        image: python:3.9
+        command: ["python", "-c", "print('Hello world')"]
+      restartPolicy: Never
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-job-2
+spec:
+  template:
+    spec:
+      containers:
+      - name: hello-container-2
+        image: python:3.9
+        command: ["python", "-c", "print('Hello world')"]
+      restartPolicy: Never

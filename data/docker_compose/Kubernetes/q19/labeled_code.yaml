@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: initcontainer
+spec:
+  selector:
+    matchLabels:
+      app: initcontainer
+  template:
+    metadata:
+      labels:
+        app: initcontainer
+    spec:
+      initContainers: 
+      - name: init-myservice
+        image: busybox
+        command: ['sh', '-c', 'echo Initializing... && sleep 2']
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"]

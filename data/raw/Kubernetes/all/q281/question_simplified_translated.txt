@@ -1,0 +1,1 @@
+创建一个 k8s StorageClass 的 YAML，用于提供本地卷。在带有标签 storage: local 的节点上提供卷。延迟绑定和提供 PersistentVolume，直到创建使用 PersistentVolumeClaim 的 Pod。

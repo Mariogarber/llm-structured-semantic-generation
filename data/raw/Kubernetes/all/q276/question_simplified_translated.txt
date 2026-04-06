@@ -1,0 +1,28 @@
+将现有的 StatefulSet YAML 中的容器端口 7000 暴露为节点内部端口，并将端口 9042 暴露为 cql。
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-cassandra
+  labels:
+    app: my-cassandra
+spec:
+  serviceName: cassandra
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-cassandra
+  template:
+    metadata:
+      labels:
+        app: my-cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: gcr.io/google-samples/cassandra:v13
+        env:
+          - name: MAX_HEAP_SIZE
+            value: 512M
+          - name: HEAP_NEWSIZE
+            value: 100M
+```

@@ -1,0 +1,1 @@
+Create YAML defining a DaemonSet with a Service Account named "ds-service-account". The DaemonSet should have a container running the busybox image, continuously printing the message "Running with service account" every 10 seconds. The Pod should have labels as "ds-service-account-set".

@@ -1,0 +1,3 @@
+I want to set up a DaemonSet yaml named "fluentd-elasticsearch" where Pods are labeled "name: fluentd-elasticsearch". 
+They should tolerate scheduling on nodes labeled "node-role.kubernetes.io/master" with effect "NoSchedule" and use the 
+image "quay.io/fluentd_elasticsearch/fluentd:v2.5.2".

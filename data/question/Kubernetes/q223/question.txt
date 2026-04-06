@@ -1,0 +1,14 @@
+Given the following YAML which sets up RBAC permissions in Kubernetes, please create a RoleBinding for a user. This RoleBinding should be 
+named "my-role-binding" in the default namespace, binding a user named "my-user" under the rbac.authorization.k8s.io apiGroup to a Role 
+named "my-role". The associated Role "my-role" grants permission to "get" pods.
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: my-role
+  namespace: default
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get"]
+```

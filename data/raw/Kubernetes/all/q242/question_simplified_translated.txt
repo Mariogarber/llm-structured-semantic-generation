@@ -1,0 +1,1 @@
+创建一个名为 svc-master 的 k8s Service，标签为 "app: redis"，"role: master"，"tier: backend"。使用 IP 10.96.0.2 作为 NodePort 暴露。端口：Redis 使用 6379，metrics 使用 9121。

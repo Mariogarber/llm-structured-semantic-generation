@@ -1,0 +1,1 @@
+Create a Kubernetes Secret named "mysec" with key-value pairs: username=admin and password=secret123.

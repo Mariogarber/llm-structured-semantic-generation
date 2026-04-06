@@ -1,0 +1,1 @@
+创建一个在 k8s 集群中的 Indexed Job 的 YAML。Job 需要 5 个完成，使用并行的 pods。每个 Pod 运行一个 init container，根据其索引将一个项目（foo，bar，baz，qux，xyz）写入文件。主容器读取文件并反转项目的字符。

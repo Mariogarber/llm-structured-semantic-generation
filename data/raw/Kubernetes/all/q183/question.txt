@@ -1,0 +1,20 @@
+Please help me specify security settings for all Containers in the pod. 
+Please set the group ID as 1234 that owns the volume, and thus who can write to it.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo-2
+spec:
+  volumes:
+  - name: sec-ctx-vol
+    emptyDir: {}
+  containers:
+  - name: sec-ctx-demo
+    image: busybox:1.28
+    command: [ "sh", "-c", "sleep 1h" ]
+    volumeMounts:
+    - name: sec-ctx-vol
+      mountPath: /data/demo
+```
+Please provide the entire YAML.

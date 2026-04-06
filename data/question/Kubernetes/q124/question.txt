@@ -1,0 +1,2 @@
+Write a yaml file to establish a LimitRange that ensures a minimum and maximum ephemeral storage for a container, 
+where the minimum storage is 1Gi and the maximum storage is 5Gi.

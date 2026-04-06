@@ -1,0 +1,22 @@
+lease modify the provided Job YAML to include a mechanism that specifies an action to take when the main container exits with a specific exit code, in this case, 42. 
+The desired action is to make the entire job fail when this specific exit code is encountered.
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-pod-failure-policy-failjob
+spec:
+  completions: 8
+  parallelism: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: main
+        image: docker.io/library/bash:5
+        command: ["bash"]
+        args:
+        - -c
+        - echo "Hello world! I'm going to exit with 42 to simulate a software bug." && sleep 10 && exit 42
+  backoffLimit: 6
+```

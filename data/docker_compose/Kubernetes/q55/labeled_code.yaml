@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-daemon
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: nginx-daemon
+  template:
+    metadata:
+      labels:
+        name: nginx-daemon
+    spec:
+      containers:
+      - name: nginx
+        image: nginx

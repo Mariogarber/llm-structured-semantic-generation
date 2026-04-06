@@ -1,0 +1,12 @@
+鉴于以下定义了角色权限通配符的 YAML，请帮我在命名空间 'test2' 中创建一个 RoleBinding，将此角色绑定到名为 'myaccount' 的服务账号，该账号也在 'test2' 命名空间中。RoleBinding 应该被命名为 'testadminbinding'。
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: test2
+  name: testadmin
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+```

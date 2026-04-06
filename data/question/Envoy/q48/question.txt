@@ -1,0 +1,62 @@
+Here is the current Envoy config I'm working with:
+```
+static_resources:
+  listeners:
+  - name: main
+    address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          codec_type: AUTO
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains:
+              - "*"
+              routes:
+              - [TO COMPLETE]
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: web_service
+          http_filters:
+          - name: lua_filter_with_custom_name_0
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+              default_source_code:
+                inline_string:
+                  local mylibrary = require("lib.mylibrary")
+
+                  function envoy_on_request(request_handle)
+                    request_handle:headers():add("foo", mylibrary.foobar())
+                  end
+          - name: lua_filter_with_custom_name_1
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+  clusters:
+  - name: web_service
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: web_service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: web_service
+                port_value: 8080
+```
+Now I'm trying to configure a specific route in our Envoy setup. For any requests with the prefix '/multiple/lua/scripts', I want them directed to our 'web_service' cluster. Additionally, once the response is processed, I want to run a Lua script using the 'lua_filter_with_custom_name_1' filter. This script should add a new header, specifically 'header_key_1' with the value 'header_value_1'. I'm struggling to get the right config, especially with the inline Lua function.
+Can you provide the completed YAML by filling in the [TO COMPLETE] part?

@@ -1,0 +1,4 @@
+创建一个名为 my-cassandra 的 Kubernetes StatefulSet，同时将标签 app 设置为 my-cassandra。
+StatefulSet 应该有 3 个副本。
+它有两个环境变量：(1) MAX_HEAP_SIZE 设置为 "512M"；(2) HEAP_NEWSIZE 设置为 "100M"。
+你可以从这里获取镜像：gcr.io/google-samples/cassandra:v13。提供 YAML 文件。

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: debug-agent 
+spec:
+  selector:
+    matchLabels:
+      app: debug-agent
+  template:
+    metadata:
+      labels:
+        app: debug-agent
+    spec:
+      containers:
+      - image: nginx:latest 
+        name: debug-agent 
+        ports:
+        - containerPort: 10027
+        livenessProbe: 
+          httpGet:
+            path: /healthz
+            port: 10027
+        volumeMounts:
+        - name: docker # *
+          mountPath: "/var/run/docker.sock"
+      volumes:
+      - name: docker # *
+        hostPath:
+          path: /var/run/docker.sock

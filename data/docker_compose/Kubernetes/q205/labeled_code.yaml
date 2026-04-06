@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: test-2
+  labels:
+    app: test-2
+spec:
+  replicas: 5
+  selector:
+    app: agent-test
+  template:
+    metadata:
+      labels:
+        app: agent-test
+    spec:
+      volumes:
+      - name: dev-vol
+        hostPath:
+          path: /dev
+      - name: proc-vol
+        hostPath:
+          path: /proc
+      - name: usr-vol
+        hostPath:
+          path: /usr
+      hostNetwork: true
+      hostPID: true
+      containers:
+      - name: agent
+        image: alpine
+        command: ["sh", "-c", "while true; do sleep 10; done"]
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /host/dev
+          name: dev-vol
+          readOnly: true
+        - mountPath: /host/proc
+          name: proc-vol
+          readOnly: true
+        - mountPath: /host/usr
+          name: usr-vol
+          readOnly: true

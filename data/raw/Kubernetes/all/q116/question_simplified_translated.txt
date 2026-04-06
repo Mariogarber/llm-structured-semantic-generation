@@ -1,0 +1,1 @@
+写一个名为 'example' 的 k8s job 的 yaml，使用最新的 ubuntu 镜像连续 ping google.com。将 activeDeadlineSeconds 设置为 10。如果需要，安装 iputils。

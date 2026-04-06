@@ -1,0 +1,1 @@
+创建一个名为 "ds-hostpath" 的 k8s DaemonSet 的 yaml。使用最新的 nginx 镜像。使用 "app: ds-hostpath" 标签标记 DaemonSet 的元数据。使用 DirectoryOrCreate 选项将 nginx 日志挂载到节点的 /var/log/nginx 目录。

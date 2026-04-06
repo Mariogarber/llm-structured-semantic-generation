@@ -1,0 +1,1 @@
+创建一个名为 broker-0 的 NodePort Service，将 Kafka broker 的端口 9093 暴露在节点的端口 30093 上。以标签 kafka-set-component=kafka-0 定位目标 pod。

@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ssd-driver
+spec:
+  selector:
+    matchLabels:
+      app: ssd-driver-pod
+  template:
+    metadata:
+      labels:
+        app: ssd-driver-pod
+    spec:
+      nodeSelector:
+        ssd: "true"
+      containers:
+      - name: nginx
+        image: nginx:latest

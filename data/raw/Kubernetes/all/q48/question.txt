@@ -1,0 +1,22 @@
+Given the following YAML that created a DaemonSet, I need your assistance to:
+1. Use arguments `["while true; do sleep 5; done"]` for the container.
+2. Define the resource requests for the container, ensuring it requests 100m CPU and 200Mi memory.
+3. Set a termination grace period of 30 seconds for the pods.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hellods-modified
+spec:
+  selector:
+    matchLabels:
+      app: hellods-modified
+  template:
+    metadata:
+      labels:
+        app: hellods-modified
+    spec:
+      containers:
+      - name: hellods-modified
+        image: nginx:latest
+```

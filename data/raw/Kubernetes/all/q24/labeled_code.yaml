@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-hostpath
+spec:
+  selector:
+    matchLabels:
+      app: ds-hostpath
+  template:
+    metadata:
+      labels:
+        app: ds-hostpath
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        volumeMounts:
+        - name: nginx-logs
+          mountPath: /var/log/nginx
+      volumes:
+      - name: nginx-logs
+        hostPath:
+          path: /var/log/nginx
+          type: DirectoryOrCreate

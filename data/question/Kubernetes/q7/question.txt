@@ -1,0 +1,2 @@
+Please write a yaml file for k8s cronjob that prints 'OK' every minute and sleep 80 seconds using the latest ubuntu image. 
+The name of the job has to be 'example'. Do not run if the previous cronjob is still running.

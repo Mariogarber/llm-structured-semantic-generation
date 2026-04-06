@@ -1,0 +1,19 @@
+Please help add a liveness probe to this Pod using HTTP GET requests. 
+It should probe every 3 seconds and wait 3 seconds before performing the first probe.
+To perform a probe, the kubelet sends an HTTP GET request to the server that is running in the container and listening on port 8080. 
+If the handler for the server's /healthz path returns a success code, the kubelet considers the container to be alive and healthy. 
+If the handler returns a failure code, the kubelet kills the container and restarts it.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-http
+spec:
+  containers:
+  - name: liveness
+    image: registry.k8s.io/liveness
+    args:
+    - /server
+```

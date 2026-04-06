@@ -1,0 +1,19 @@
+为 pod 中的所有容器指定安全设置。将拥有卷并能够写入它的组 ID 设置为 1234。使用以下 YAML：
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo-2
+spec:
+  volumes:
+  - name: sec-ctx-vol
+    emptyDir: {}
+  containers:
+  - name: sec-ctx-demo
+    image: busybox:1.28
+    command: [ "sh", "-c", "sleep 1h" ]
+    volumeMounts:
+    - name: sec-ctx-vol
+      mountPath: /data/demo
+```

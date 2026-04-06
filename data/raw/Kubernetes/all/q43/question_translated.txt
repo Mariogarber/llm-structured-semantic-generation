@@ -1,0 +1,1 @@
+设计一个 Kubernetes DaemonSet 和 Service 的配置。该 DaemonSet 标记为 "component: exporter-modified"，应该运行最新的 nginx 镜像。该 DaemonSet 应该在主机网络上公开端口 9445。此外，在同一命名空间中创建一个 Service，使用 tcp 的 NodePort 映射到该 DaemonSet。

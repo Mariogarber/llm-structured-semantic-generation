@@ -1,0 +1,7 @@
+为 Envoy 设置提供 YAML 和规范：
+在 0.0.0.0:8000 上收听。
+使用编解码器类型为 AUTO 且 stat 前缀为 service_envoy_1 的 http_connection_manager 过滤器。
+名为 local_route 的路由配置，带有接受任何域的虚拟主机“后端”。
+在虚拟主机中，前缀为 /service/1 的路由应转发到 service1 集群。
+service1 集群应为 STRICT_DNS 类型，使用 ROUND_ROBIN 负载平衡，并指向端点 service1:8080。
+管理界面应位于 0.0.0.0:8001。

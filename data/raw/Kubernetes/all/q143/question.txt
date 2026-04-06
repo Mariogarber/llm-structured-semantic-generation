@@ -1,0 +1,18 @@
+Given the following YAML that can run the command in a yaml config file.
+I want to run more than one command sequencially, specifically, if and when the first command "/bin/echo \"${MESSAGE}\"" succeed, I need to run "/bin/echo \"${MESSAGE}\ again"".
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec: 
+  restartPolicy: Never
+  containers:
+  - name: hello
+    image: "ubuntu:14.04"
+    env:
+    - name: MESSAGE
+      value: "hello world"
+    command: ["/bin/sh","-c"]
+    args: ["/bin/echo \"${MESSAGE}\""]
+```

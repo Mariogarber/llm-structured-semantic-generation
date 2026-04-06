@@ -1,0 +1,30 @@
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-cassandra
+  labels:
+    app: my-cassandra
+spec:
+  serviceName: cassandra
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-cassandra
+  template:
+    metadata:
+      labels:
+        app: my-cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: gcr.io/google-samples/cassandra:v13
+        env:
+          - name: MAX_HEAP_SIZE
+            value: 512M
+          - name: HEAP_NEWSIZE
+            value: 100M
+```
+请问，能否在上述的 Kubernetes YAML 中添加更多细节，使其更全面？
+将终止优雅期调整为 1800 秒。要求始终拉取镜像。
+提供一个安全上下文以添加 IPC_LOCK 功能。

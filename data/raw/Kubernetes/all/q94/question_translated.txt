@@ -1,0 +1,1 @@
+请为 foo.bar.com 编写一个 Ingress YAML 文件，将 /foo 路径上的流量路由到端口为 4200 的 service1，将 /bar 路径上的流量路由到端口为 8080 的 service2。

@@ -1,0 +1,1 @@
+在 Kubernetes 中配置一个名为 simple-sa 的服务账户。

@@ -1,0 +1,8 @@
+想象一下，您正在配置一个 Kubernetes 复制控制器。
+它被称为 redis-replica，具有标签 app: redis，role: replica 和 tier: backend。
+复制控制器管理 2 个副本，并使用与上述相同的标签的 pod 模板。
+pod 模板包含一个名为 replica 的容器，并使用最新的 redis 映像。
+容器的资源请求为 cpu: 200m 和 memory: 200 MB。
+容器有一个名为 GET_HOSTS_FROM 的环境变量设置为 env。
+容器还公开端口 6380。
+请为我提供配置 YAML 文件。

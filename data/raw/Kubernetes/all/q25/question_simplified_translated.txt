@@ -1,0 +1,1 @@
+创建一个使用最新的nginx镜像的标记为"name: priority"的DaemonSet。Pods应该具有"system-cluster-critical"优先级类。

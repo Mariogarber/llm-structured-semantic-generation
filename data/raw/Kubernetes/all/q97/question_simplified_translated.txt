@@ -1,0 +1,1 @@
+创建一个 Kubernetes Ingress YAML 清单，将 /app1 上的 HTTP 流量路由到端口 8080 上的 svc-1，将 /app2 上的 HTTP 流量路由到端口 9090 上的 svc-2，并使用 TLS 密钥 example-tls 终止传入的 HTTPS 流量。

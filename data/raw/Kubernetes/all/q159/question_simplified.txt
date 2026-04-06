@@ -1,0 +1,1 @@
+Configure a Pod (sysctls2) in a K8s cluster using the image registry.k8s.io/pause for container1. Set the following sysctl parameters at the Pod level: kernel.shm_rmid_forced: "0", net.ipv4.ip_local_port_range: "1024 65535", net.ipv4.tcp_syncookies: "0", net.ipv4.ping_group_range: "1 0", net.ipv4.ip_unprivileged_port_start: "1024".

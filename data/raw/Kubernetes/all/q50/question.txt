@@ -1,0 +1,26 @@
+Given the following YAML that created a DaemonSet, I need to:
+1. Define an environment variable named `REGISTRY_HOST` in the Pod, with the value set to `kube-registry-modified.svc.cluster.local`.
+2. Define another environment variable named `REGISTRY_PORT`, with the value set to "5000".
+3. Ensure that the container exposes a port named `registry` on container port 80 and should map to the host's port 5000.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-registry-proxy-modified
+spec:
+  selector:
+    matchLabels:
+      app: kube-registry-modified
+  template:
+    metadata:
+      labels:
+        app: kube-registry-modified
+    spec:
+      containers:
+      - name: kube-registry-proxy-modified
+        image: nginx:latest
+        resources:
+          limits:
+            cpu: 100m
+            memory: 50Mi
+```

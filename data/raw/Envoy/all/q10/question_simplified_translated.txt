@@ -1,0 +1,20 @@
+使用 YAML 完成以下部分，为管理 WebSocket 连接提供一个在端口 10000 上的监听器。目标是对此流量进行统计，具体以 'ingress_ws_to_ws' 为前缀。应该适应所有域流量，以 '/' 为前缀的流量应该被定向到集群 'service_ws'。使用默认过滤器来处理 WebSocket 升级和后续路由。
+```
+static_resources:
+  listeners:
+  - [TO COMPLETE]
+
+  clusters:
+  - name: service_ws
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service_ws
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service-ws
+                port_value: 80
+```

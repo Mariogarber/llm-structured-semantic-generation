@@ -1,0 +1,1 @@
+生成一个用于基本身份验证的 k8s Secret（my-sec）的 YAML。使用 "harry" 和 "verysecret" 作为示例用户名和密码。

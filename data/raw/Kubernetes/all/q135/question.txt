@@ -1,0 +1,1 @@
+I need to define a PersistentVolume yaml named "nfs-pv", a capacity of 10Gi. The volume should use the "manual-nfs" storage class and utilize an NFS server located at "10.108.211.55" with a path of "/var/nfs".

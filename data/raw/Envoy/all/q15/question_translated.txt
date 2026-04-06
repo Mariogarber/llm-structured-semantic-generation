@@ -1,0 +1,15 @@
+你能为 Envoy 设置提供一个 YAML 配置吗？该配置应满足以下要求：
+它应该有一个监听器，监听 IP 地址为 0.0.0.0，端口为 10000。对于该监听器，包括一个使用 envoy.filters.network.http_connection_manager 的过滤器链。
+在过滤器配置中：
+将编解码器设置为自动检测其类型。
+使用 ingress_http 作为统计信息的前缀。
+启用将访问日志记录到标准输出。
+添加一个名为 local_route 的路由配置。在其中，创建一个名为 www 的虚拟主机，匹配任何域名。
+该虚拟主机应包括完全启用的 CORS 和 CSRF 配置。
+此外，指定几个具有特定 CSRF 设置的不同路由。
+添加一个额外的 HTTP 过滤器，用于 CORS 和 CSRF，具有特定的配置。
+最后，设置一个名为 generic_service 的集群，使用 STRICT_DNS 作为其类型，并具有 ROUND_ROBIN 的负载均衡策略。
+该集群应指向一个标记为 service 和端口为 8080 的地址的服务。
+还要包括一个管理部分，监听 IP 地址为 0.0.0.0，端口为 8001。
+stat_prefix 应设置为 ingress_http。
+请以适当的 YAML 格式结构化您的响应。请确保它符合 YAML 格式化标准。

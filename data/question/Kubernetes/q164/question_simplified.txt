@@ -1,0 +1,11 @@
+Grant 2 privileges to the process in this simple pod. The privileges are manipulating the system clock and modifying routing tables.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo-3
+spec:
+  containers:
+  - name: sec-ctx-3
+    image: gcr.io/google-samples/node-hello:1.0
+```

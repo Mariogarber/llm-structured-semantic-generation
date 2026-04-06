@@ -1,0 +1,1 @@
+Please create a Kubernetes Service manifest that creates an external LoadBalancer to expose an application running on pods with the label "app=webapp". The application listens on port 8080, and you want to expose it on the external load balancer on port 80.

@@ -1,0 +1,23 @@
+这是一个 k8s 的 YAML 文件。你能修改它吗，使得 (1) 它比之前多保留两个副本，(2) 请求 0.1 CPU 和 100MB 内存。
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard-deploy
+  labels:
+    app: kuard
+spec:
+  selector:
+    matchLabels:
+      app: test
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+      - name: my-kuard
+        image: gcr.io/kuar-demo/kuard-amd64:2
+```
+请修改这个文件，使其满足以上要求。

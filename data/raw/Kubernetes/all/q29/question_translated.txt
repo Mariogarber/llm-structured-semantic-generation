@@ -1,0 +1,6 @@
+我被要求定义一个 DaemonSet Kubernetes YAML 配置，以实现以下目标：
+Pod 模板应该有一个名为 ds-env-vars 的标签，并且应该有一个名为 ds-env-container 的单个容器，它：
+1. 使用 busybox 镜像。
+2. 每 10 秒钟，它应该回显存储在名为 GREETING_MESSAGE 的环境变量中的消息。
+3. 这个环境变量 GREETING_MESSAGE 应该有值 "Hello from the environment variable!"。
+我的任务是编写设置这个特定环境的 YAML 配置。

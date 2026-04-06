@@ -1,0 +1,64 @@
+Here is the current Envoy config I'm working with:
+```
+static_resources:
+  listeners:
+  - name: main
+    address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          codec_type: AUTO
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/multiple/lua/scripts"
+                route:
+                  cluster: web_service
+                typed_per_filter_config:
+                  lua_filter_with_custom_name_1:
+                    "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.LuaPerRoute
+                    source_code:
+                      inline_string: |
+                        function envoy_on_response(response_handle)
+                          response_handle:headers():add("header_key_1", "header_value_1")
+                        end
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: web_service
+          http_filters:
+          - [TO COMPLETE]
+          - name: lua_filter_with_custom_name_1
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+  clusters:
+  - name: web_service
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: web_service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: web_service
+                port_value: 8080
+```
+Now I'm attempting to integrate a Lua filter named 'lua_filter_with_custom_name_0' into our Envoy configuration. I'd like to leverage a custom Lua library we have, 'lib.mylibrary', and call its 'foobar' function. When a request comes in, the filter should use this function to add a new header named 'foo' with the value returned by 'foobar'. I'm somewhat unsure about embedding the Lua code and referencing our library properly.
+Can you provide the completed YAML by filling in the [TO COMPLETE] part?

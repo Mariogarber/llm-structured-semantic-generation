@@ -1,0 +1,1 @@
+Write a YAML for a k8s cronjob that prints 'OK' every minute using the latest ubuntu image. Job name: 'example'.

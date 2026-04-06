@@ -1,0 +1,1 @@
+Compose a YAML for a k8s ReplicaSet named 'busybox-replicaset' with 2 replicas, using the latest busybox image. Pods execute 'sleep 3600' command.

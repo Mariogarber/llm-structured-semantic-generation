@@ -1,0 +1,20 @@
+给定以下 YAML，我需要在容器内将 nginx 容器公开在端口 80 上，并将其映射到主机上的端口 30080。请帮我设置正确的端口配置。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-hostport
+spec:
+  selector:
+    matchLabels:
+      app: ds-hostport
+  template:
+    metadata:
+      labels:
+        app: ds-hostport
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```
+请帮我设置正确的端口配置。

@@ -1,0 +1,1 @@
+写一个 Kubernetes YAML 配置，用于创建名为 "pv0001" 的 PersistentVolume，存储容量为 5Gi，storageClassName 为 "slow"。PersistentVolume 应该使用 NFS 存储，路径设置为 "/tmp"，服务器地址为 "172.17.0.2"。此外，该卷应以 "Filesystem" 模式运行，访问模式为 "ReadWriteOnce"。当不使用时，PersistentVolume 应遵守 "Recycle" 回收策略，并与 "slow" 存储类关联。不要忘记包括像 "hard" 和 "nfsvers=4.1" 这样的挂载选项。

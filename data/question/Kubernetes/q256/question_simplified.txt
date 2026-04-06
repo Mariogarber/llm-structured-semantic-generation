@@ -1,0 +1,1 @@
+Write a Service YAML for my-service with 3 ports: 'http' (8080->30475), 'metrics' (5555->31261), and 'health' (8085->30013). Expose ports 8089, 5555, and 8443. Selector should match pods with label app: MyApp.

@@ -1,0 +1,4 @@
+你被要求为一个 Kubernetes 应用提供一个持久化存储解决方案。
+使用标准的 provisioner 创建一个 StorageClass（fast-storage）。
+不需要具体的存储后端细节。创建 StorageClass 后，创建一个名为 app-pvc 的 PersistentVolumeClaim，并从 fast-storage 请求 100 兆字节的存储空间。
+它可以由单个节点以读写方式挂载。

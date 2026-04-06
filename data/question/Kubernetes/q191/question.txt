@@ -1,0 +1,1 @@
+Write a K8S YAML configuration: create a NetworkPolicy (deny-all) that denies all incoming traffic to the sample-app pods.

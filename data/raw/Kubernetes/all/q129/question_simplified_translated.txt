@@ -1,0 +1,1 @@
+创建一个 k8s 的 yaml，用于定义一个名为 "nfs-backup-volume" 的 PersistentVolume 和一个名为 "nfs-backup-volume-claim" 的 PersistentVolumeClaim。使用 "manual" 存储类和 "ReadWriteMany" 访问模式。将它们绑定到 NFS 服务器 "my-nfs-server" 的路径 "/my/nfs/"，并分配 1Gi 存储空间。通过标签 "volume: nfs-backup-volume" 有选择地指定声明目标卷。

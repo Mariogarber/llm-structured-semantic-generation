@@ -1,0 +1,21 @@
+给定以下 YAML，我需要在容器规范中添加一个环境变量。这个环境变量应该被命名为 GREETING_MESSAGE，并且其值为 "Hello from the environment variable!"。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-env-vars
+spec:
+  selector:
+    matchLabels:
+      name: ds-env-vars
+  template:
+    metadata:
+      labels:
+        name: ds-env-vars
+    spec:
+      containers:
+      - name: ds-env-container
+        image: busybox
+        command: [ "sh", "-c", "while true; do echo $GREETING_MESSAGE; sleep 10; done" ]
+```
+请问如何在容器规范中添加一个名为 GREETING_MESSAGE 的环境变量，并将其值设置为 "Hello from the environment variable!"？

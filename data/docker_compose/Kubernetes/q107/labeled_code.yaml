@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: failjob-config
+spec:
+  completions: 4
+  parallelism: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: main
+        image: alpineee
+  backoffLimit: 3
+  podFailurePolicy:
+    rules:
+    - action: FailJob
+      onPodConditions:
+      - type: ConfigIssue

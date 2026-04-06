@@ -1,0 +1,1 @@
+在 Kubernetes 中简单配置一个服务账号。你可以称之为 simple-sa。

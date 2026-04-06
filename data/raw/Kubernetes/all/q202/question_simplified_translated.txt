@@ -1,0 +1,1 @@
+配置一个 Kubernetes ReplicaSet（myrs），有 3 个 Pod 副本。Pod 有标签 app=my-app 和 tier=backend。使用基于集合的选择器来选择具有标签 env=dev 或 env=qa 的 Pod。Pod 模板在 dev 环境中运行最新的 nginx 镜像，暴露端口 80。

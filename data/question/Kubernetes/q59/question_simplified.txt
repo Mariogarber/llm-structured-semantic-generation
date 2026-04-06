@@ -1,0 +1,19 @@
+Enhance DaemonSet to schedule pods only on nodes with label kubernetes.io/os: linux.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds
+spec:
+  selector:
+    matchLabels:
+      name: my-ds
+  template:
+    metadata:
+      labels:
+        name: my-ds
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+```

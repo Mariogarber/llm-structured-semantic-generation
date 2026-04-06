@@ -1,0 +1,3 @@
+Write a k8s YAML for a Pod (spread-pod) using latest nginx image, with 2 single topologySpreadConstraints:
+1. maxSkew=2, topologyKey=kubernetes.io/hostname, whenUnsatisfiable=DoNotSchedule.
+2. maxSkew=1, topologyKey=topology.kubernetes.io/zone. If not satisfied, scheduler should prioritize nodes minimizing skew.

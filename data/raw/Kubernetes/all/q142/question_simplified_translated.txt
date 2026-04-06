@@ -1,0 +1,18 @@
+在给定的 PersistentVolume 的 YAML 中，将 NFS 路径指定为 `/tmp`，服务器地址指定为 `172.17.0.2`。
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv0001
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: slow
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+```

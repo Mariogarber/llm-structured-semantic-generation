@@ -1,0 +1,2 @@
+Create a DaemonSet with Pods labeled "name: priority" that uses the latest nginx image. Ensure that the pods created by 
+this DaemonSet are given the "system-cluster-critical" priority class.

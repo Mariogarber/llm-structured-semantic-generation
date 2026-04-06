@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-multi-container
+spec:
+  selector:
+    matchLabels:
+      name: ds-multi-container
+  template:
+    metadata:
+      labels:
+        name: ds-multi-container
+    spec:
+      containers:
+      - name: container-1
+        image: busybox
+        command: [ "sh", "-c", "while true; do echo 'Container 1 Running'; sleep 10; done" ]
+      - name: container-2
+        image: busybox
+        command: [ "sh", "-c", "while true; do echo 'Container 2 Running'; sleep 15; done" ]

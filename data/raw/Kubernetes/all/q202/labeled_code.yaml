@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myrs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+      tier: backend
+    matchExpressions:
+    - key: env
+      operator: In
+      values:
+      - dev
+      - qa
+  template:
+    metadata:
+      labels:
+        app: my-app
+        tier: backend
+        env: dev
+    spec:
+      containers:
+      - name: my-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80

@@ -1,0 +1,3 @@
+Please create a Kubernetes ReplicationController YAML file. 
+It deploys a single replica of a pod using the Docker image alpine (latest). 
+The pod should expose port 8000. You can use "while true; do sleep 10; done" to keep alpine alive.

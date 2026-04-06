@@ -1,0 +1,15 @@
+创建一个标记为本地存储类型的持久卷，名称为mysql-pv-volume，与pvc具有相同的存储类型，并具有'ReadWriteOnce'的访问模式。
+存储容量应为15Gi。使用此持久卷的Pod应在主机机器上使用目录"/mnt/data"进行存储。
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+```

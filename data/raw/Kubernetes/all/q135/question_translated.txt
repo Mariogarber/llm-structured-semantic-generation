@@ -1,0 +1,1 @@
+我需要定义一个名为 "nfs-pv" 的 PersistentVolume yaml，容量为 10Gi。该卷应该使用 "manual-nfs" 存储类，并利用位于 "10.108.211.55" 的 NFS 服务器，路径为 "/var/nfs"。

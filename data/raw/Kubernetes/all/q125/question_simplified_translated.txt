@@ -1,0 +1,1 @@
+创建一个名为 "hostpath-pv" 的 PV yaml，容量为 10Gi。使用 StorageClassName "manual" 和主机的本地目录 "/mnt/data"。

@@ -1,0 +1,25 @@
+Given the following K8s YAML:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.16.1
+        ports:
+        - containerPort: 80
+```
+Please modify it so that it can run specific command "mkdir tt" after initialization of deployment is successful.
+I can do it manually for every pod (with kubectl exec), but this is not very scalable.
+Please write the entire YAML file.

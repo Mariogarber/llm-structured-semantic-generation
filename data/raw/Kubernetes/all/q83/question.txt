@@ -1,0 +1,38 @@
+I am doing a lab about kubernetes in google cloud.
+I have create the YAML file, but when I am trying to deploy it a shell shows me this error:
+error converting YAML to JSON: yaml: line 34: did not find expected key
+original YAML file:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-dep-correct
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+    spec:
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+      - name: php-config
+        configMap:
+          name: php-config
+      containers:
+      - image: php-fpm:7.2
+        name: php
+        ports:
+        - containerPort: 9000
+      - image: nginx:latest
+        name: nginx
+        - containerPort: 80
+      volumes:
+        - name: persistent-storage
+          persistentVolumeClaim:
+            claimName: nfs-pvc
+```
+Please provide the entire valid YAML after debugging.

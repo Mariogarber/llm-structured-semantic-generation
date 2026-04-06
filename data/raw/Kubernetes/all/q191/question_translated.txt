@@ -1,0 +1,1 @@
+写一个 K8S YAML 配置：创建一个 NetworkPolicy（deny-all），拒绝所有对 sample-app pods 的入站流量。

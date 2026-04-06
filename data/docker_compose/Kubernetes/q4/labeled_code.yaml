@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: database-config
+data:
+  DB_HOST: database-host
+  DB_PORT: "5432"

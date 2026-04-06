@@ -1,0 +1,11 @@
+创建一个带有用户名密码对的 k8s Secret YAML。使用以下配置：
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysec
+type: Opaque
+data:
+  username: admin
+  password: secret
+```

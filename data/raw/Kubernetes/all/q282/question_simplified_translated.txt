@@ -1,0 +1,4 @@
+在 Kubernetes 中创建一个名为 dynamic-sc 的 StorageClass，具有以下规格：
+- 类型："gp2"
+- 回收策略："Retain"
+- volumeBindingMode："Immediate"

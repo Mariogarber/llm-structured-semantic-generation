@@ -1,0 +1,1 @@
+创建一个 StorageClass（fast-storage），使用标准的 provisioner。创建一个名为 app-pvc 的 PersistentVolumeClaim，从 fast-storage 请求 100MB 的存储空间。将其作为只读挂载到单个节点上。

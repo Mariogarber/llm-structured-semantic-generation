@@ -1,0 +1,1 @@
+Write an Istio YAML to expose the hosts required for executing `apt-get upgrade` and `apt-get install` commands in Istio-enabled pods. The object name should be "make-aptget-work".

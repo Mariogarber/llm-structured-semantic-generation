@@ -1,0 +1,16 @@
+使用 StatefulSet 部署 2 个 nginx 副本。容器使用 image registry.k8s.io/nginx-slim:0.8，在 /usr/share/nginx/html 挂载一个 1Gi 存储和 ReadWriteOnce 访问模式的卷。
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: nginx
+```

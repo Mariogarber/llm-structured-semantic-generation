@@ -1,0 +1,2 @@
+Craft a yaml file to establish a Kubernetes ClusterRoleBinding named "read-secrets-global". 
+This role binding should grant the "manager" group permission using the "secret-reader" ClusterRole.

@@ -1,0 +1,1 @@
+创建一个名为 "pods-high" 的 ResourceQuota 的 YAML，其中 CPU 限制为 1000，内存限制为 200Gi，最大 pods 数为 10，全部在高优先级类中。

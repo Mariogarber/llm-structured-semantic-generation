@@ -1,0 +1,1 @@
+创建一个名为 secret-sa-sample 的 Kubernetes Secret，用于服务账户 sa-name。包括额外的数据，键为 extra，值为 'bar' 和 'YmFyCg=='。

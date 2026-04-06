@@ -1,0 +1,7 @@
+Configure ingress routing for the Tomcat application in the Kubernetes cluster with the following YAML:
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+   name: tomcat-https
+```

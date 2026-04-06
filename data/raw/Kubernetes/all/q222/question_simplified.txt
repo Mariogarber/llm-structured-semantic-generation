@@ -1,0 +1,3 @@
+Write a yaml defining a k8s role "my-role" in default ns granting "get" pods permission. 
+Also bind this role to user "my-user" using role binding "my-role-binding". 
+User should belong to rbac.authorization.k8s.io apiGroup.

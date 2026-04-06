@@ -1,0 +1,1 @@
+创建一个运行在端口80上的k8s Pod，名称为"nginx-server"，运行Nginx服务器。

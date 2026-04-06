@@ -1,0 +1,15 @@
+Create a PersistentVolume labeled as local storage type named mysql-pv-volume, with the same storage type as pvc and an access mode of 'ReadWriteOnce'. 
+The storage capacity should be 15Gi. Pods using this PersistentVolume should use the directory "/mnt/data" on the host machine for storage.
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+```

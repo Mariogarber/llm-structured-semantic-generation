@@ -1,0 +1,6 @@
+Please set up an Istio Gateway configuration for our TLS-enabled ingress. Specifically,
+Name the gateway as my-tls-ingress.
+Ensure it specifically selects the my-tls-ingressgateway app.
+Configure it to listen on port 443 with the name https and use the HTTPS protocol.
+Make sure it's open to accept requests from any host (like using a wildcard).
+And for the TLS settings, I'd like to use the SIMPLE mode with a credential named tls-cert."

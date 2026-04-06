@@ -1,0 +1,63 @@
+这是我正在使用的当前 Envoy 配置：
+现在我正在尝试在我们的 Envoy 配置中配置一个特定的路由。对于任何以 '/multiple/lua/scripts' 为前缀的请求，我希望将它们定向到我们的 'web_service' 集群。此外，一旦响应被处理，我希望使用 'lua_filter_with_custom_name_1' 过滤器运行一个 Lua 脚本。该脚本应该添加一个新的头部，具体为 'header_key_1'，值为 'header_value_1'。我在获取正确的配置方面遇到了困难，特别是在内联 Lua 函数方面。
+你能填写 [TO COMPLETE] 部分并提供完整的 YAML 配置吗？
+
+```
+static_resources:
+  listeners:
+  - name: main
+    address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          codec_type: AUTO
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains:
+              - "*"
+              routes:
+              - [TO COMPLETE]
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: web_service
+          http_filters:
+          - name: lua_filter_with_custom_name_0
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+              default_source_code:
+                inline_string:
+                  local mylibrary = require("lib.mylibrary")
+
+                  function envoy_on_request(request_handle)
+                    request_handle:headers():add("foo", mylibrary.foobar())
+                  end
+          - name: lua_filter_with_custom_name_1
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+  clusters:
+  - name: web_service
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: web_service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: web_service
+                port_value: 8080
+```

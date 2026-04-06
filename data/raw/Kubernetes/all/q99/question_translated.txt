@@ -1,0 +1,3 @@
+在 Kubernetes 中，创建一个名为 "fruit-ing" 的 Ingress 资源。
+它应该有一个注释来将目标 URL 路径重写为 "/"。
+它应该有两个不同的路径：(a) 路径前缀为 /apple 的请求应该被定向到端口为 4567 的名为 "apple-svc" 的服务。(b) 路径前缀为 /banana 的请求应该被定向到端口为 6789 的名为 "banana-svc" 的服务。

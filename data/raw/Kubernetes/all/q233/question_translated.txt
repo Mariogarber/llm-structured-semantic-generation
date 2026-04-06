@@ -1,0 +1,5 @@
+我正在一个 Kubernetes 项目中工作，我需要设置一个 Secret 来存储基本身份验证凭据。
+我希望这个 Secret 的名称为 secret-basic-auth，并使用专门用于基本身份验证的特定类型。
+我想要使用的凭据是用户名 admin 和密码 t0p-Secret。
+我听说有一种方法可以创建包含明文数据的 Secrets，这些数据会自动转换为 base64。
+你能帮我制作一个满足这个要求的 Kubernetes YAML 配置吗？

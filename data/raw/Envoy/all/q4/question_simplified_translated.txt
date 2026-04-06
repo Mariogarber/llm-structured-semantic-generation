@@ -1,0 +1,85 @@
+提供一个 Envoy 配置的 YAML，监听端口 10000 处理传入的 HTTP 流量。使用自动编解码器检测。使用 Zipkin 追踪器跟踪流量，将数据发送到 '/api/v2/spans' 端点的 'zipkin' 集群，使用 HTTP_JSON 格式。传入的 HTTP 流量的统计数据应该有前缀 'ingress_http'。单个路由配置应将具有前缀 '/' 的请求定向到 'service_cluster1' 集群，并将其标记为 'routeToService1'。填写 [TO COMPLETE] 部分。
+
+```
+node:
+  cluster: envoy-proxy-1
+
+static_resources:
+  listeners:
+  - [TO COMPLETE]
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 10001
+    traffic_direction: OUTBOUND
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          tracing:
+            provider:
+              name: envoy.tracers.zipkin
+              typed_config:
+                "@type": type.googleapis.com/envoy.config.trace.v3.ZipkinConfig
+                collector_cluster: zipkin
+                collector_endpoint: "/api/v2/spans"
+                collector_endpoint_version: HTTP_JSON
+          codec_type: AUTO
+          stat_prefix: egress_http
+          http_filters:
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+          route_config:
+            name: envoy2_route
+            virtual_hosts:
+            - name: envoy2
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: envoy_cluster2
+                decorator:
+                  operation: routeToEnvoy2
+
+  clusters:
+  - name: service_cluster1
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service_cluster1
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service-1
+                port_value: 8080
+  - name: envoy_cluster2
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: envoy_cluster2
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: envoy-2
+                port_value: 10000
+  - name: zipkin
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: zipkin
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: zipkin
+                port_value: 9411
+```

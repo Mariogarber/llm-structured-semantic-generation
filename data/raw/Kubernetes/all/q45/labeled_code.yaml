@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nodeselector-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: nodeselector-daemonset
+  template:
+    metadata:
+      labels:
+        app: nodeselector-daemonset
+    spec:
+      nodeSelector:
+        disktype: ssd
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"]

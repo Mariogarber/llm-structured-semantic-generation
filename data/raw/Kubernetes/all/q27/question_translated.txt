@@ -1,0 +1,1 @@
+写一个 DaemonSet 的 YAML 文件，使用 busybox 镜像部署一个容器，将 Pod 标记为 "ds-liveness-probe"。容器应该每 10 秒连续打印 "Alive"。实现一个活跃探针，检查容器中是否存在文件 "/tmp/healthy"。探针应该在延迟 5 秒后开始，并每 5 秒检查一次。

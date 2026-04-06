@@ -1,0 +1,23 @@
+Add two containers to the DaemonSet: "container-main" with busybox image and command "while true; do echo 'Main container'; sleep 10; done", and "container-sidecar" with busybox image and command "while true; do ps aux; sleep 15; done". Set the appropriate field to true to ensure containers share the same process namespace.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-share-process-ns
+spec:
+  selector:
+    matchLabels:
+      name: ds-share-process-ns
+  template:
+    metadata:
+      labels:
+        name: ds-share-process-ns
+    spec:
+      containers:
+      - name: container-main
+        image: busybox
+        command: [ "sh", "-c", "while true; do echo 'Main container'; sleep 10; done" ]
+      - name: container-sidecar
+        image: busybox
+        command: [ "sh", "-c", "while true; do ps aux; sleep 15; done" ]
+```

@@ -1,0 +1,1 @@
+Define a DaemonSet YAML config with a pod template having label ds-env-vars. Container ds-env-container uses busybox image and echoes GREETING_MESSAGE every 10 seconds. GREETING_MESSAGE value is "Hello from the environment variable!".

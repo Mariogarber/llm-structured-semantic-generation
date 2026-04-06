@@ -1,0 +1,16 @@
+在给定的 YAML 中，请为 ReplicaSet 中名为 "nginx-container-limits" 的最新容器定义资源限制和请求，以控制 CPU 和内存分配。将请求设置为 "64Mi" 内存和 "250m" CPU，将限制设置为 "128Mi" 内存和 "500m" CPU。
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset-limits
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-limits
+  template:
+    metadata:
+      labels:
+        app: nginx-limits
+```

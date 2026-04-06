@@ -1,0 +1,4 @@
+I need to deploy an NGINX web server as a StatefulSet with 3 replicas. 
+Each pod should have a persistent volume claim for storing data, and I want to use minikube's default storage class "standard". 
+How should I define this StatefulSet and its headless service in YAML?
+Image: k8s.gcr.io/nginx-slim:0.8.

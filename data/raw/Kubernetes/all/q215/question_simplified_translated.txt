@@ -1,0 +1,1 @@
+创建一个具有以下权限的 k8s ClusterRole 的 YAML：pods (get, list, watch)，nodes (get, list)，services (get, watch)。

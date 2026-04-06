@@ -1,0 +1,18 @@
+You have an existing Kubernetes ClusterRole. The role has the following YAML configuration:
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: existing-clusterrole
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["create", "delete"]
+```
+Your task is to modify it in the following ways: (a) Change the verbs for "services" to only "get"; (b) Remove permissions for "jobs" in the "batch" apiGroup; (c) Add permissions to "watch" configmaps in the "" apiGroup.

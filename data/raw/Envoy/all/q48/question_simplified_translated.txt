@@ -1,0 +1,61 @@
+提供一个 YAML，用于将前缀 '/multiple/lua/scripts' 的 Envoy 路由指向 'web_service' 集群。在响应后，运行名为 'lua_filter_with_custom_name_1' 的过滤器，使用内联 Lua 函数添加头部 'header_key_1' 和值 'header_value_1'。
+
+```
+static_resources:
+  listeners:
+  - name: main
+    address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          codec_type: AUTO
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains:
+              - "*"
+              routes:
+              - [TO COMPLETE]
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: web_service
+          http_filters:
+          - name: lua_filter_with_custom_name_0
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+              default_source_code:
+                inline_string:
+                  local mylibrary = require("lib.mylibrary")
+
+                  function envoy_on_request(request_handle)
+                    request_handle:headers():add("foo", mylibrary.foobar())
+                  end
+          - name: lua_filter_with_custom_name_1
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+  clusters:
+  - name: web_service
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: web_service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: web_service
+                port_value: 8080
+```

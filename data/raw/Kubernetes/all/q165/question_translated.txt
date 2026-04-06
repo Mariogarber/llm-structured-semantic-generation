@@ -1,0 +1,3 @@
+创建一个 Kubernetes YAML 文件，定义一个包含两个容器的 Pod。一个容器应该是一个 nginx 容器，另一个容器应该是一个 debian 容器。它们应该使用一个 Kubernetes 卷来共享数据。
+你的任务是确保 debian 容器将一条消息写入一个文件，并且当通过 HTTP 访问时，nginx 容器可以提供该消息。
+对于 nginx 的路径，请使用 "/usr/share/nginx/html"，对于 debian 的路径，请使用 "/pod-data"。

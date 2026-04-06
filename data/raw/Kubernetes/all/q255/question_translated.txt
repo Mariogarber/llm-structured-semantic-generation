@@ -1,0 +1,2 @@
+请写一个名为 my-service2 的 Service，它选择具有标签 app.kubernetes.io/name: MyApp 的 pod。
+它应该使用 TCP 协议在端口 80 上公开，目标端口为 49152，并且可以通过 IP 地址 198.51.100.32 访问。

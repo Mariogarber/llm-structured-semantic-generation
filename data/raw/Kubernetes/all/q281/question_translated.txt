@@ -1,0 +1,2 @@
+你能帮我创建一个 Kubernetes YAML 文件吗？我需要一个 StorageClass 来提供本地卷。
+这些卷应该在带有标签 storage: local 的节点上进行配置。我希望在创建使用 PersistentVolumeClaim 的 Pod 之前延迟绑定和配置 PersistentVolume。

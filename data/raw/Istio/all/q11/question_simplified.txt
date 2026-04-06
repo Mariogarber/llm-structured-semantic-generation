@@ -1,0 +1,1 @@
+Provide Istio config for reviews service. Route all traffic to v1 subset of reviews service as default route, without any specific conditions or headers.

@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: configure-client-mtls-dr-with-workloadselector
+spec:
+  host: example.com
+  workloadSelector:
+    matchLabels:
+      app: ratings
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 31443
+      tls:
+        credentialName: client-credential
+        mode: MUTUAL

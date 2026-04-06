@@ -1,0 +1,18 @@
+给定以下可以在 yaml 配置文件中运行命令的 YAML。
+我想要按顺序运行多个命令，具体来说，如果第一个命令 "/bin/echo \"${MESSAGE}\"" 成功，我需要运行 "/bin/echo \"${MESSAGE}\ again""。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec: 
+  restartPolicy: Never
+  containers:
+  - name: hello
+    image: "ubuntu:14.04"
+    env:
+    - name: MESSAGE
+      value: "hello world"
+    command: ["/bin/sh","-c"]
+    args: ["/bin/echo \"${MESSAGE}\""]
+```

@@ -1,0 +1,12 @@
+在部署运行最新的 nginx 镜像的 ReplicaSet 的给定 YAML 中，我想在每个 pod 内指定一个名为 "ENV_VAR" 的环境变量，其值为 "custom_value"。此外，请确保这些 pod 带有 "app: nginx-env" 标签。
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset-env
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-env
+```

@@ -1,0 +1,1 @@
+从 API 中找到 K8s 集群名称是可能的吗？如果不行，提供一个 YAML 文件将其存储在集群中，使用名为 cluster-info 的 configmap，并使用集群名称 foo。

@@ -1,0 +1,1 @@
+创建一个 YAML 文件，在 Kubernetes 中定义一个名为 "test-volume" 的 PersistentVolume，将存储类指定为 "storage-test-volume"。该卷应由 GCE 持久磁盘支持。该卷的容量设置为 50Gi，并且应以 `ReadWriteOnce` 模式访问。此外，该卷应具有节点亲和性，以确保仅对位于 `us-central1-a` 或 `us-central1-b` 区域的节点可用，键为 "topology.kubernetes.io/zone"。请记住，将其视为 GCE 中区域性持久磁盘配置的示例。

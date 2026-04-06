@@ -1,0 +1,2 @@
+Write a Kubernetes Pod manifest. The Pod name is my-scheduled-pod and has scheduling gates example.com/foo and example.com/bar. 
+The image should be registry.k8s.io/pause:3.6.

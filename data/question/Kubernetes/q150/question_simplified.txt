@@ -1,0 +1,1 @@
+Create a Kubernetes Pod manifest file for the redis image. Mount the volume at /etc/foo (read only).

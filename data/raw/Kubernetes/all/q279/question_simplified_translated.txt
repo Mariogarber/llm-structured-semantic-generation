@@ -1,0 +1,14 @@
+创建一个 PVC 和 Pod，满足以下要求：
+(1) PVC 请求 1Gi 存储空间。
+(2) Pod 运行最新的 Nginx 容器。
+(3) PVC 在 Nginx 容器中的 /usr/share/nginx/html 处挂载。
+(4) 在 StorageClass 中使用 volumeBindingMode: WaitForFirstConsumer 延迟绑定。
+(5) Pod 具有节点选择器 kubernetes.io/hostname: minikube。
+StorageClass 的基本 YAML 如下：
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: my-sc
+provisioner: kubernetes.io/aws-ebs
+```

@@ -1,0 +1,7 @@
+Create a k8s YAML for a ConfigMap named ds-configmap with a single data entry: key=config-data.txt, value="This is data from the configmap." 
+Create a DaemonSet named ds-configmap-volume using the above ConfigMap. 
+DaemonSet should have:
+- Pod template labeled ds-configmap-volume.
+- Single container named ds-configmap-container using busybox image.
+- Container continuously reads content from /config/config-data.txt every 10 seconds.
+- Mount config-data.txt from ConfigMap to container at /config using volume config-volume.

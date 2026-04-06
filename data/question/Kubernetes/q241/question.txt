@@ -1,0 +1,3 @@
+I'm trying to expose one of my Kafka brokers on our Kubernetes cluster. 
+I'd like to set up a NodePort Service named broker-0 to expose the broker's port 9093 on the node's port 30093. 
+Can you help me create a configuration that targets pods with the label kafka-set-component set to kafka-0?

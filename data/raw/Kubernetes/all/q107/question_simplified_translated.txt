@@ -1,0 +1,16 @@
+使用 Pod 失败策略在拉取镜像 "alpineee" 时，正确的 Kubernetes Job YAML 配置是什么？在 3 次重试后停止 Job。
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: failjob-config
+spec:
+  completions: 4
+  parallelism: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: main
+        image: alpineee
+```

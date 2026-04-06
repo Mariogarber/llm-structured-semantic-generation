@@ -1,0 +1,16 @@
+You are asked to deploy a WordPress service that is exposed to the Internet. 
+I have already written the base configuration for the service. 
+Can you complete the configuration to ensure the WordPress service is exposed to the Internet using a LoadBalancer (port: 80)? 
+Also I am not sure if my existing part is bug-free. Please help correct them if any.
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  select:
+    app: wordpress
+    tier: frontend
+```

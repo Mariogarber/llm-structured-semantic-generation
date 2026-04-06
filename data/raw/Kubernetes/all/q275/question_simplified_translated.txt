@@ -1,0 +1,1 @@
+创建一个名为 my-cassandra 的 k8s StatefulSet，有 3 个副本。将 app 标签设置为 my-cassandra。环境变量：MAX_HEAP_SIZE=512M，HEAP_NEWSIZE=100M。使用镜像 gcr.io/google-samples/cassandra:v13。提供 YAML。

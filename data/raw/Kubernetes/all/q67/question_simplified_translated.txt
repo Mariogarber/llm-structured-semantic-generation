@@ -1,0 +1,1 @@
+写一个使用镜像 "docker.io/redis:6.0.5" 创建 redis Pod 的 k8s YAML。将部署和 Pod 标记为 "app: redis"。

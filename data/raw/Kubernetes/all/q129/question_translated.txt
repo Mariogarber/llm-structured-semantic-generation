@@ -1,0 +1,1 @@
+构建一个 yaml 文件，用于 Kubernetes 定义一个名为 "nfs-backup-volume" 的 PersistentVolume 和一个名为 "nfs-backup-volume-claim" 的 PersistentVolumeClaim，两者都使用 "manual" 存储类和 "ReadWriteMany" 访问模式。它们应该与 NFS 服务器 "my-nfs-server" 绑定在路径 "/my/nfs/" 上，并分配精确的 1Gi 存储空间，使用标签 "volume: nfs-backup-volume" 有选择地定位声明到卷上。

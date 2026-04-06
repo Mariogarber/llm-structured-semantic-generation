@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sim-secret
+type: Opaque
+data:
+  username: c2ltdWxhdGVk
+  password: c2VjcmV0
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sim-pod
+spec:
+  containers:
+  - name: sim-container
+    image: redis
+    volumeMounts:
+    - mountPath: /mnt/local
+      name: local-volume
+  volumes:
+  - name: local-volume
+    hostPath:
+      path: /tmp/local

@@ -1,0 +1,12 @@
+你有一个描述如下的 Kubernetes Secret。请创建一个名为 secret-dotfiles-pod 的 Pod，它应该在 /etc/secret-volume 处挂载此 Secret。它使用 registry.k8s.io/busybox 镜像运行一个容器。
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dotfile-secret
+data:
+  .secret-file: dmFsdWUtMgo=
+```
+
+通过这种方式，秘密数据存储在一个点文件中，因此在 "ls -l" 的输出中是隐藏的。

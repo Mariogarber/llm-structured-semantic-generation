@@ -1,0 +1,3 @@
+Please create a Pod with one container. The container will request 10 MiB of memory, and memory will be limited to 20 MiB. 
+Specifically, the pod name is memory-demo, container name is memory-demo-ctr, image is polinux/stress.
+The type of stress is virtual memory stress. the amount of memory to be stressed is 15 M. the duration of the stress is 1 second.

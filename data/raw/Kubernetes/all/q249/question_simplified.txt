@@ -1,0 +1,10 @@
+Extend the MySQL service YAML to expose the container on port 3306.
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-mysql
+  labels:
+    app: wordpress
+...
+```

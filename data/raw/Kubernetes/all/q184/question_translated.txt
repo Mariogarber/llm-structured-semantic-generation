@@ -1,0 +1,10 @@
+请帮助在此 pod 中添加两个容器，以便这两个容器共享一个用于它们之间通信的卷。
+共享卷应命名为 shared-data。
+第一个容器名为 nginx-container，运行一个使用最新 nginx 镜像的 nginx 服务器。共享卷的挂载路径是 /usr/share/nginx/html。
+第二个容器名为 debian-container，基于最新的 debian 镜像，并且有一个 /pod-data 挂载路径。第二个容器运行命令 "echo Hello from the debian container > /pod-data/index.html" 然后终止。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: two-containers
+```

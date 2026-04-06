@@ -1,0 +1,5 @@
+I have a Service Account (kettle) on minikube. Create a Deployment (kettle) and a PersistentVolumeClaim (kettle-data).
+The Deployment has one replica (kettle). Use the SA kettle in the Deployment. Label the Pod with the key app and value kettle. 
+The Deployment should have one container (kettle). Use the image busybox. 
+The container should have two environment variables: DEPLOYMENT with the value prod; SUBSCRIPTION_PATH with the value local-subscription. The container should mount a volume at /data from the PVC kettle-data. 
+The container runs the commands: "/bin/sh -c sleep 600".

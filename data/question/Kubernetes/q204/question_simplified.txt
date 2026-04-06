@@ -1,0 +1,1 @@
+Create a k8s ReplicationController YAML. Deploy a single replica of alpine (latest) pod on port 8000. Use "while true; do sleep 10; done" to keep alpine alive.

@@ -1,0 +1,18 @@
+Given the following YAML that defines a PersistentVolume, please help me create a PersistentVolumeClaim named `mysql-pv-claim`. 
+The access mode should be `ReadWriteOnce` and it should request a storage of `10Gi`.
+```
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10i
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+```

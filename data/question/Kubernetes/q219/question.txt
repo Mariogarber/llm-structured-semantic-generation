@@ -1,0 +1,1 @@
+Please write a Kubernetes YAML to create a RoleBinding named my-rb which binds the read role to the service account read-sa.

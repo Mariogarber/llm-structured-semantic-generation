@@ -1,0 +1,19 @@
+给描述 `fluentd-elasticsearch` 的 DaemonSet 的 YAML 添加必要的 `tolerations`，以允许 DaemonSet 在主节点上调度。确保用于标识主节点的特定 "key" 是 `node-role.kubernetes.io/master`。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+spec:
+  selector:
+    matchLabels:
+      name: fluentd-elasticsearch
+  template:
+    metadata:
+      labels:
+        name: fluentd-elasticsearch
+    spec:
+      containers:
+        - image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+          name: fluentd-elasticsearch
+```

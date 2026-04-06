@@ -1,0 +1,1 @@
+Create a k8s YAML for a Service named my-service. ClusterIP is 10.96.0.164, IP family is IPv4 with SingleStack policy. Expose port 80 and target port 9376 with TCP. Select pods with label app.kubernetes.io/name: MyApp. Session affinity is None.

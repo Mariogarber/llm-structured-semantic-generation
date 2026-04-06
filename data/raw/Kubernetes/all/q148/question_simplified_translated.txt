@@ -1,0 +1,20 @@
+你能使用两个 ConfigMap YAML 文件在同一个 busybox Pod 中创建多个文件吗？将它们挂载到 "/etc" 下。
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config1
+data:
+  key1: "value1"
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config2
+data:
+  key2: "value2"
+```
+对于容器命令的一些额外提示：
+```
+["sh", "-c", "sleep 1200"]
+```

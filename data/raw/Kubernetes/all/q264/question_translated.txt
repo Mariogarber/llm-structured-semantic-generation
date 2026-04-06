@@ -1,0 +1,6 @@
+创建一个无头（headless）服务，名为nginx，以发布StatefulSet（名为web）中两个Pod的IP地址。
+特别地，我希望所有Pod并行启动或终止。
+每个容器应运行最新的nginx镜像，并使用名为"web"的80端口。
+卷应该命名为"www"。
+我应该如何编写配置Service和StatefulSet的yaml文件？
+请将它们合并成一个文件。

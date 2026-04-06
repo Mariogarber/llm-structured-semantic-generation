@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: readiness
+spec:
+  selector:
+    matchLabels:
+      name: readiness
+  template:
+    metadata:
+      labels:
+        name: readiness
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5

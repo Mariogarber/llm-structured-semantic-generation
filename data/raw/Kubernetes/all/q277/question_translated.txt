@@ -1,0 +1,33 @@
+请为 Cassandra 集群创建一个 Kubernetes StatefulSet，指定一些资源限制和请求：CPU 限制为 500m；内存限制为 1Gi；CPU 请求为 500m；内存请求为 1Gi。
+
+我已经为您制作了一个半成品的 YAML：
+
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-cassandra
+  labels:
+    app: my-cassandra
+spec:
+  serviceName: cassandra
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-cassandra
+  template:
+    metadata:
+      labels:
+        app: my-cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: gcr.io/google-samples/cassandra:v13
+        env:
+          - name: MAX_HEAP_SIZE
+            value: 512M
+          - name: HEAP_NEWSIZE
+            value: 100M
+```
+
+请为此提供完整的 YAML 配置。

@@ -1,0 +1,57 @@
+这是我正在使用的当前 Envoy 配置：
+我正在配置一个用于出站流量的 Envoy 路由。我需要它具备以下规格：
+stat 前缀应设置为 egress_http。
+路由配置应命名为 service2_route。
+在虚拟主机下，应只有一个名为 service2 的虚拟主机，接受任何域名。
+我希望有一个单独的路由来匹配以 /trace/2 为前缀的请求，并将它们定向到名为 service2 的集群。
+此外，为了跟踪目的，我想用一个名为 checkStock 的操作装饰这个路由。
+你能填写 [TO COMPLETE] 部分，提供完整的 YAML 吗？
+
+```
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+    traffic_direction: INBOUND
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          tracing:
+          [TO COMPLETE]
+          codec_type: auto
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: service2
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: local_service
+                decorator:
+                  operation: checkStock
+          http_filters:
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+  clusters:
+  - name: local_service
+    type: strict_dns
+    lb_policy: round_robin
+    load_assignment:
+      cluster_name: local_service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: 127.0.0.1
+                port_value: 8080
+```

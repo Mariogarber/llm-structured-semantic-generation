@@ -1,0 +1,1 @@
+Configure a CRD for "MyResources" in Kubernetes with group "example.com" and version "v1".

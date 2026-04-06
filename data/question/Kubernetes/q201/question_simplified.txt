@@ -1,0 +1,1 @@
+Write a YAML for a Kubernetes ReplicaSet object running one pod (app: kuard-pod) with the image "gcr.io/kuar-demo/kuard-amd64:blue". Specify that Kubernetes should only pull the image if it doesn't exist locally.

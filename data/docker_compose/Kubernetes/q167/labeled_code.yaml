@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: default-pod
+  labels:
+    app: default-pod
+spec:
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+  - name: alpine
+    image: alpine
+    command: ["/bin/sh", "-c", "unshare --user; sleep 600"]
+    securityContext:
+      allowPrivilegeEscalation: false

@@ -1,0 +1,1 @@
+创建一个名为 database-config 的 ConfigMap，其中包含键值对 DB_HOST=database-host 和 DB_PORT=5432。

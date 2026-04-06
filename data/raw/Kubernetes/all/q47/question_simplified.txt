@@ -1,0 +1,22 @@
+Given the YAML for a DaemonSet, please assist with the following:
+1. Set container port to `10027`.
+2. Add a liveness probe checking `/healthz` endpoint on port `10027`.
+3. Mount Docker socket from host at path `"/var/run/docker.sock"` into the container.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: debug-agent
+spec:
+  selector:
+    matchLabels:
+      app: debug-agent
+  template:
+    metadata:
+      labels:
+        app: debug-agent
+    spec:
+      containers:
+      - image: nginx:latest
+        name: debug-agent
+```

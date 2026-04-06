@@ -1,0 +1,2 @@
+Create a Kubernetes StorageClass (test-sc) for AWS EBS (the provisioner is kubernetes.io/aws-ebs).
+The storage type should be gp2. The reclaim policy should be set to Retain. Volume expansion is allowed. It should use the mount option debug. The volume binding mode should be set to Immediate.

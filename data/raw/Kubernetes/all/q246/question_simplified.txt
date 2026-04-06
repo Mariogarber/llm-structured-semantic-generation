@@ -1,0 +1,22 @@
+Create a service for 4 nginx pods in a Kubernetes deployment. Use the following YAML manifest:
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx-deploy
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: my-nginx
+  template:
+    metadata:
+      labels:
+        app: my-nginx
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+```

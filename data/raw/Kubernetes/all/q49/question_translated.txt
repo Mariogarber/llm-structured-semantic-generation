@@ -1,0 +1,28 @@
+给定以下创建了一个 DaemonSet 的 YAML，我还需要为它创建一个 Service。该 Service 应该：
+1. 有一个名为 `exporter-modified` 的名称，标记为选择名为 `exporter-modified` 的组件。
+2. 使用 TCP 协议，在端口 9445 上公开名为 `exporter-modified` 的端口。
+3. 类型为 `NodePort`。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: exporter-modified
+spec:
+  selector:
+    matchLabels:
+      component: exporter-modified
+  template:
+    metadata:
+      labels:
+        component: exporter-modified
+    spec:
+      containers:
+      - image: nginx:latest
+        name: exporter-modified
+        ports:
+        - name: nginx-container
+          containerPort: 9445
+          hostPort: 9445
+      hostNetwork: true
+```
+请提供完整的 YAML 配置。

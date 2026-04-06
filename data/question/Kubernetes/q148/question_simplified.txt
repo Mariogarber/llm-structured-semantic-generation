@@ -1,0 +1,20 @@
+Can you create multiple files within the same busybox Pod using two ConfigMap YAML files? Mount them under "/etc".
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config1
+data:
+  key1: "value1"
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config2
+data:
+  key2: "value2"
+```
+Some additional hints for container commands:
+```
+["sh", "-c", "sleep 1200"]
+```

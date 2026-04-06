@@ -1,0 +1,1 @@
+Draft an Envoy config for UDP proxy. Listen on 0.0.0.0:10000, forward UDP packets to 'service-udp' on port 5005. Use STRICT_DNS for service discovery and ROUND_ROBIN for load balancing. Tag metrics with 'service' prefix. Admin interface on 0.0.0.0:10001.

@@ -1,0 +1,1 @@
+创建一个名为 "nginx-select-pod" 的 Pod，使用 "nginx" 镜像。优先将 Pod 调度到具有标签 disktype=ssd 或 disktype=nas 的节点上，偏好权重为 1。

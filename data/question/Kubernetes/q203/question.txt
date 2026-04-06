@@ -1,0 +1,3 @@
+Create a Kubernetes ReplicaSet (backend) for a databse use case. Label it with app set to database and tier set to backend. Set the number of replicas to 2. 
+Use a label selector to target Pods labeled with tier: backend.
+Within the Pod template, label the Pods with tier: backend. Use a single container (db-container) that uses the image mongo:latest.

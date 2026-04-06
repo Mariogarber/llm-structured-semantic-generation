@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ds-configmap
+data:
+  config-data.txt: "This is data from the configmap."
+
+---
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-configmap-volume
+spec:
+  selector:
+    matchLabels:
+      name: ds-configmap-volume
+  template:
+    metadata:
+      labels:
+        name: ds-configmap-volume
+    spec:
+      containers:
+      - name: ds-configmap-container
+        image: busybox
+        command: [ "sh", "-c", "while true; do cat /config/config-data.txt; sleep 10; done" ]
+        volumeMounts:
+        - mountPath: /config
+          name: config-volume
+      volumes:
+      - name: config-volume
+        configMap:
+          name: ds-configmap

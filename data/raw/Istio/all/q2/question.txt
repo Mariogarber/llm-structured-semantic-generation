@@ -1,0 +1,4 @@
+I need a Istio destination rule YAML set up for the bookinfo application's ratings service in the prod namespace. 
+This rule had the main traffic load balanced using the LEAST_REQUEST strategy. 
+Additionally, there was a specific subset named testversion using version v3 labels, and for this subset, the traffic was load balanced with a ROUND_ROBIN approach. 
+Please provide me the entire YAML configuration for this. The name of DestinationRule is bookinfo-ratings-2.

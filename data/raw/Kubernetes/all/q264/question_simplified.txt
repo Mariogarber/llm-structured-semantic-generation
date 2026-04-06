@@ -1,0 +1,4 @@
+Write a YAML file to configure a headless Service named "nginx" and a StatefulSet named "web". 
+The Service should publish the IP addresses of 2 Pods in the StatefulSet. 
+All Pods should be launched or terminated in parallel. 
+Each container should use the latest nginx image, run on port 80 named "web", and have a volume named "www".

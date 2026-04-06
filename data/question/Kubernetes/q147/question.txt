@@ -1,0 +1,3 @@
+Configure a K8s Pod so that it uses a ConfigMap to create a read-only file inside its container.
+The pod use busybox for its container and sleep 1200 after starting. 
+The ConfigMap can contain a data my-config: "It is read-only.".

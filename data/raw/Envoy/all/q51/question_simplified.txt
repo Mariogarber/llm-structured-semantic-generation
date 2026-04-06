@@ -1,0 +1,8 @@
+Compose an Envoy config with:
+- Listener on 0.0.0.0:8000 for inbound traffic
+- Zipkin tracer sending trace data to jaeger collector at '/api/v2/spans' using HTTP_JSON format, with shared span context disabled
+- Codec: AUTO, Stat prefix: 'ingress_http'
+- Virtual host matching any domain, route matching any prefix forwarding to 'local_service' cluster with decorator operation 'checkStock'
+- 'local_service' cluster directing traffic to 127.0.0.1:8080
+- 'jaeger' cluster pointing to Jaeger instance on port 9411
+- Admin address: 0.0.0.0, port: 8001

@@ -1,0 +1,1 @@
+Create a StorageClass (fast-storage) using the standard provisioner. Create a PersistentVolumeClaim named app-pvc requesting 100MB storage from fast-storage. Mount it as read-write by a single node.

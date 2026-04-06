@@ -1,0 +1,1 @@
+Define a Pod adhering to security guidelines using runtime's default secure computing mode. Use an HTTP echo server for testing.

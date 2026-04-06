@@ -1,0 +1,1 @@
+Craft a k8s yaml for RoleBinding "testadminbinding" in "test3" ns. Grant "myaccount" SA from "test" ns "cluster-admin" CR permissions.

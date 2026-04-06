@@ -1,0 +1,22 @@
+请修改给定的 Job YAML，以包含一种机制，用于指定在发生某些 pod 条件（例如中断）时采取的操作。所需操作应为“忽略”这些条件。
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-pod-failure-policy-ignore
+spec:
+  completions: 4
+  parallelism: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: main
+        image: docker.io/library/bash:5
+        command: ["bash"]
+        args:
+        - -c
+        - echo "Hello world! I'm going to exit with 0 (success)." && sleep 20 && exit 0
+  backoffLimit: 0
+```
+请将 terminationGracePeriodSeconds 设置为 0。

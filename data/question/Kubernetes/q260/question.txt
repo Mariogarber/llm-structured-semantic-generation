@@ -1,0 +1,16 @@
+Given this YAML:
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-sa-sample
+  annotations:
+    kubernetes.io/service-account.name: "sa-name"
+type: kubernetes.io/service-account-token
+data:
+  extra: YmFyCg==     
+```
+it execute well on minikube, reporting "secret/secret-sa-sample created". 
+But when I try to get or describe it, it reports:
+"Error from server (NotFound): secrets "secret-sa-sample" not found". 
+I've heard that to fix it, I need a short K8s YAML within another kind. Can you provide it?

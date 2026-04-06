@@ -1,0 +1,1 @@
+在 kube-system 命名空间中创建一个名为 state-metrics 的无头 Kubernetes Service。它应该公开两个端口：一个用于端口 8080 上的 HTTP 指标，另一个用于端口 8081 上的遥测。该服务还应具有特定的标签：app.kubernetes.io/component: exporter，app.kubernetes.io/name: state-metrics 和 app.kubernetes.io/version: 2.9.3。

@@ -1,0 +1,8 @@
+你能为 Envoy 设置提供一个 YAML 配置，满足以下要求吗？
+代理应该监听地址 0.0.0.0 和端口 8000。
+它应该使用 envoy.filters.network.http_connection_manager 过滤器，编解码器类型设置为 AUTO，统计前缀为 service_envoy_1。
+路由配置应该命名为 local_route，并且应该有一个名为 backend 的虚拟主机，接受任何域名 (*)。
+在虚拟主机中，应该有一个匹配前缀 /service/1 的路由，将请求转发到名为 service1 的集群。
+名为 service1 的集群应该是 STRICT_DNS 类型，使用 ROUND_ROBIN 负载均衡策略，并解析到具有地址 service1 和端口 8080 的端点。
+Envoy 代理的管理界面应该在地址 0.0.0.0 和端口 8001 上可访问。
+请确保你的响应以适当的 YAML 格式结构化。请确保它符合 YAML 格式化标准。

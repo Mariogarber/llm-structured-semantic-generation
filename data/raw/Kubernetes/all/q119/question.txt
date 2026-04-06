@@ -1,0 +1,2 @@
+Craft a yaml file to define a Kubernetes LimitRange that specifies the minimum and maximum storage limits for a PersistentVolumeClaim 
+to be 1Gi and 2Gi respectively.

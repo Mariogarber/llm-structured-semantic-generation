@@ -1,0 +1,5 @@
+Define Envoy config for network resource management. Req:
+- Static resources with "mysql_listener" listening on IP:1999.
+- Listener has 2 filters: MySQL proxy (type, stat prefix "egress_mysql") & TCP proxy (type, stat prefix, cluster "mysql_cluster").
+- Define "mysql_cluster" with STRICT_DNS type, load assignment to "mysql" on port 3306.
+- Admin interface on IP:8001. Provide YAML file for above reqs.

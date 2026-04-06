@@ -1,0 +1,1 @@
+Provide the exact config for the bookinfo-ratings DestinationRule in the prod namespace of the Istio setup. It should ensure traffic is load balanced using the LEAST_REQUEST strategy.

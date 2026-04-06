@@ -1,0 +1,5 @@
+Please help me set up an Istio Gateway configuration for our ingress. Can you provide me with the setup where:
+The gateway is named my-ingress.
+It specifically selects the my-ingressgateway app.
+It's configured to listen on port 80 with the name http2 and uses the HTTP2 protocol.
+Also, it should be open to all hosts without any restrictions (like a wildcard).

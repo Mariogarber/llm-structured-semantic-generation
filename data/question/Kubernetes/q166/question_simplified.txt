@@ -1,0 +1,4 @@
+Create a k8s pod (alias-pod) with the following requirements:
+1. No automatic restart.
+2. Two host aliases: IP 127.0.0.1 -> hostnames example.local and sample.local, IP 10.1.2.3 -> hostnames example.remote and sample.remote.
+3. Pod runs busybox:1.35 image, executes cat command to display /etc/hosts file.

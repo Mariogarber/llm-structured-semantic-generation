@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hellods-modified 
+spec:
+  selector:
+    matchLabels:
+      app: hellods-modified
+  template:
+    metadata:
+      labels:
+        app: hellods-modified
+    spec:
+      containers:
+      - name: hellods-modified 
+        image: nginx:latest 
+        command: ["/bin/sh", "-c"]
+        args: ["while true; do sleep 5; done"]
+        resources:
+            requests:
+                cpu: 100m
+                memory: 200Mi
+      terminationGracePeriodSeconds: 30

@@ -1,0 +1,1 @@
+构建一个使用 nginx:latest 镜像的 Kubernetes DaemonSet，标记为 "app: debug-agent"，确保它通过一个活跃探针监控端口 10027 上的 "/healthz" 终点。DaemonSet 还应该在容器内挂载主机上的 Docker socket，路径为 "/var/run/docker.sock"。

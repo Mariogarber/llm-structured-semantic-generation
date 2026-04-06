@@ -1,0 +1,34 @@
+I am running a web application that uses a ReplicaSet to manage the frontend pods. To handle traffic spikes, I decide to implement Horizontal Pod Autoscaling. However, the current HPA and RS configurations are not working as expected. The HPA is not autoscaling the ReplicaSet.
+Here is the existing YAML:
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend-app
+  template:
+    metadata:
+      labels:
+        app: frontend-app
+    spec:
+      containers:
+      - name: frontend-container
+        image: nginx:latest
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend-scaler
+spec:
+  scaleTargetRef:
+    kind: ReplicaSet
+    name: frontend
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+```
+How should I modify these resources to ensure that the HPA can successfully scale the frontend ReplicaSet?

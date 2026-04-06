@@ -1,0 +1,21 @@
+Given the following YAML for a DaemonSet named hostalias-daemonset, please help me specify a host alias for the Pod. 
+The IP address for the alias is "10.1.2.3" and the hostname should be "myapp.local".
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hostalias-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: hostalias-daemonset
+  template:
+    metadata:
+      labels:
+        app: hostalias-daemonset
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"]
+```

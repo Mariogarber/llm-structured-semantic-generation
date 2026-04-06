@@ -1,0 +1,1 @@
+为 prod ns 中 bookinfo 应用的评分 service 写一个 Istio DestinationRule YAML。 端口 80 使用 LEAST_REQUEST lb，端口 9080 使用 ROUND_ROBIN lb 策略。 名称为 bookinfo-ratings-port。

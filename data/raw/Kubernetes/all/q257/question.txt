@@ -1,0 +1,24 @@
+Please help me find a way to define a service in one namespace that links to a Pod running in another namespace.
+I know that containers in a Pod running in namespace-a can access service-x defined in namespace-b by referencing it in the cluster DNS as service-x.namespace-b.svc.cluster.local, 
+but I would rather not have the code inside the container need to know about the location of service-x. 
+That is, I want the code to just lookup service-x and then be able to access it.
+Below is my first version code. It defines a service-x service in namespace-a, without a selector (since the POD I want to select isn't in namespace-a).
+It also defines a service (which I also called service-x) in namespace-b.
+But it failed to define an Endpoints object in namespace-a to point to service-x.
+Please help me find a more effective and concise way to accomplish it.
+```
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: service-x
+  namespace: namespace-a
+subsets:
+  - addresses:
+      - targetRef:
+          kind: Service
+          namespace: namespace-b
+          name: service-x
+          apiVersion: v1
+    ports:
+      - port: 80
+```

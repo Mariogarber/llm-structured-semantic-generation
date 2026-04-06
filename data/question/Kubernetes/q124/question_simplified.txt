@@ -1,0 +1,1 @@
+Create a yaml for a LimitRange with min/max ephemeral storage of 1Gi/5Gi.

@@ -1,0 +1,1 @@
+Please write an Ingress YAML file for https-example.foo.com that routes traffic on the root path to service1 on port 9092 and uses the TLS secret named testsecret-tls for SSL termination.

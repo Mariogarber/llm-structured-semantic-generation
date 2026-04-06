@@ -1,0 +1,1 @@
+In Kubernetes, I want to configure a "CustomResourceDefinition" for "MyResources" in plural form "myresources" under the group "example.com" and version "v1".

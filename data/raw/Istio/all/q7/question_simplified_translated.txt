@@ -1,0 +1,1 @@
+设置一个名为 my-ingress 的 Istio Gateway，选择 my-ingressgateway 应用，监听端口 80，名称为 http2，使用 HTTP2 协议，并允许所有主机没有任何限制。

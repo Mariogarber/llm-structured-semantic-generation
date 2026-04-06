@@ -1,0 +1,18 @@
+Set up a Kubernetes Job (example-job) with 3 parallel pods. Pods should communicate using DNS. Create a headless service (headless-svc) for DNS resolution. Pods should ping each other using their DNS names. Use the bash:latest image for the job's container.
+```
+for i in 0 1 2
+do
+  gotStatus="-1"
+  wantStatus="0"             
+  while [ $gotStatus -ne $wantStatus ]
+  do                                       
+    ping -c 1 example-job-${i}.headless-svc > /dev/null 2>&1
+    gotStatus=$?                
+    if [ $gotStatus -ne $wantStatus ]; then
+      echo "Failed to ping pod example-job-${i}.headless-svc, retrying in 1 second..."
+      sleep 1
+    fi
+  done                                                         
+  echo "Successfully pinged pod: example-job-${i}.headless-svc"
+done
+```

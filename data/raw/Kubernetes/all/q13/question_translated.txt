@@ -1,0 +1,3 @@
+写一个 yaml 文件来定义一个名为 "ds-hostpath" 的 k8s DaemonSet。该 DaemonSet 应该使用最新版本的 nginx 镜像。
+DaemonSet 的元数据必须带有 "app: ds-hostpath" 的标签。此外，需要将 nginx 日志挂载到节点的 /var/log/nginx 目录。
+请确保使用 DirectoryOrCreate 选项来实现这个目的。

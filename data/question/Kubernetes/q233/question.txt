@@ -1,0 +1,5 @@
+I'm working on a Kubernetes project where I need to set up a Secret to store basic authentication credentials. 
+I want the secret to be named secret-basic-auth and use the specific type meant for basic authentication. 
+The credentials I want to use are a username of admin and a password t0p-Secret. 
+I've heard there's a way to create secrets with clear text data that gets automatically converted to base64. 
+Could you help me craft a Kubernetes YAML configuration for this requirement?

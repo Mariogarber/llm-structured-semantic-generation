@@ -1,0 +1,1 @@
+Configure a Pod to set env vars for its container from a ConfigMap. Use busybox image to create container (env-pod) and print env vars from config map (my-config). Add "sleep 1200" to keep it alive.

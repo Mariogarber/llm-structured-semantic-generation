@@ -1,0 +1,19 @@
+Modify DaemonSet config to tolerate running on master and control-plane nodes.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-daemon
+spec:
+  selector:
+    matchLabels:
+      name: nginx-daemon
+  template:
+    metadata:
+      labels:
+        name: nginx-daemon
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+```

@@ -1,0 +1,21 @@
+这是一个 K8S Job 的配置。修改它以模拟容器中的软件错误。
+具体来说，如果任何一个 Pod 的主容器以状态码 42 退出，您希望该 Job 失败。如果一个 Pod 失败，Kubernetes 应该在放弃之前最多重试 3 次任务。
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: failjob
+spec:
+  completions: 4
+  parallelism: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: main
+        image: alpine
+        command:
+        - "sh"
+        - "-c"
+        - "sleep 5"
+```

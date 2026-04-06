@@ -1,0 +1,1 @@
+创建一个名为 ssd-driver 的 DaemonSet，在标有 ssd: "true" 的节点上运行守护进程 pod。使用最新的 nginx 镜像作为容器。

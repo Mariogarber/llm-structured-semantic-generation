@@ -1,0 +1,1 @@
+Please create a Kubernetes ReplicaSet YAML. It ensures that there are always two nginx pods (labelled with app: nginx-rs-pod and env: dev) are running. The pods expose port 80 where the nginx server listens.

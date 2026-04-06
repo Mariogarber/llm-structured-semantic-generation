@@ -1,0 +1,11 @@
+You already have a MySQL deployment for your WordPress application, which includes a service to expose MySQL. The service is defined as:
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-mysql
+  labels:
+    app: wordpress
+...
+```
+How would you extend the service YAML to expose the MySQL container on port 3306?

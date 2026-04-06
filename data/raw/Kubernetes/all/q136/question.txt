@@ -1,0 +1,1 @@
+I'm looking to configure a PersistentVolume yaml named "glusterfs-pv". This volume should leverage the "manual-gluster" storage class and be backed by a Glusterfs cluster. Use the endpoint "glusterfs-cluster" and path "/myvol".

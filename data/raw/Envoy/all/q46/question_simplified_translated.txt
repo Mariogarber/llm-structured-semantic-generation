@@ -1,0 +1,1 @@
+提供在 0.0.0.0:10000 上处理入站流量的 Envoy 配置。启用 OpenTelemetry 追踪，使用 HTTP/2 和 0.250s 超时将追踪转发到 'opentelemetry_collector' 集群，该集群位于 'opentelemetry:4317'。将服务标识为 'envoy-2'。使用 AUTO 编解码器和 'ingress_http' 统计前缀管理 HTTP 流量。将 '/' 前缀路由到解析为 'service-2:8080' 的 'service_cluster2' 集群，使用 STRICT_DNS 和 ROUND_ROBIN 负载均衡。为追踪标记操作为 'routeToService2'。

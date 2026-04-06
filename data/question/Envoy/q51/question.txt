@@ -1,0 +1,8 @@
+I'm working on setting up an Envoy configuration for our service, and here's what I have in mind:
+We need to set up a listener on 0.0.0.0 at port 8000 for inbound traffic.
+For tracing, I've chosen the Zipkin tracer. I'm sending trace data to our jaeger collector with endpoint '/api/v2/spans', using the HTTP_JSON format. And I want to disable the shared span context.
+The codec I'm aiming for is AUTO and I'd like the stat prefix to be 'ingress_http'.
+Regarding routing, I want the virtual host to match any domain. The route itself should match any prefix and forward traffic to a cluster called 'local_service'. Additionally, I want to add a decorator operation named 'checkStock'.
+Regarding clusters, the 'local_service' cluster should direct traffic to 127.0.0.1 on port 8080. Another cluster, 'jaeger', should point to the Jaeger instance on port 9411.
+Lastly, for admin purposes, I want to set up the address as 0.0.0.0 and port 8001.
+Could you help me compose an Envoy configuration that captures these requirements?

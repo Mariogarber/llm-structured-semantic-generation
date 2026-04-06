@@ -1,0 +1,1 @@
+创建一个 YAML，定义一个名为 "ds-service-account" 的 Service Account 的 DaemonSet。DaemonSet 应该有一个运行 busybox 镜像的容器，每 10 秒钟连续打印消息 "Running with service account"。Pod 应该具有标签 "ds-service-account-set"。

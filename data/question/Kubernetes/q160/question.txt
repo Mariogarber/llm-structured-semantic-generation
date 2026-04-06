@@ -1,0 +1,12 @@
+I am managing a Kubernetes cluster. I want to deploy a pod that simulates communication with a storage cluster. The pod should be named sim-pod and contain a single container named sim-container using the Redis image. I also have a Kubernetes Secret named sim-secret which holds username and password information. Mount this local volume at /mnt/local in the container.
+Finish the following Secret configuration with username "simulated" and password "secret". Give me the Pod configuration and attach the secret at the beginning.
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sim-secret
+type: Opaque
+data:
+  username: 
+  password: 
+```

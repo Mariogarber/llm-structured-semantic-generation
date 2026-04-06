@@ -1,0 +1,1 @@
+Create YAML for deploying NGINX web server in Kubernetes cluster (e.g., minikube). StatefulSet with 2 replicas, 10s readiness delay, NGINX image k8s.gcr.io/nginx-slim:0.16. Pods accessible through headless service.

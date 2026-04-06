@@ -1,0 +1,1 @@
+创建一个 YAML 文件，在 Kubernetes 中定义一个名为 "mysql-pv-volume" 的 PersistentVolume，指定存储类为 "manual"，容量为 15Gi，访问模式为 "ReadWriteOnce"，并从主机目录 "/mnt/data" 挂载。此外，还定义一个 PersistentVolumeClaim，请求 10Gi 的存储空间，使用相同的存储类和访问模式。

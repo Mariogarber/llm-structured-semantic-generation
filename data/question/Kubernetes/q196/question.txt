@@ -1,0 +1,17 @@
+In the given YAML. Please define resource limits and requests for the latest container named "nginx-container-limits" within the ReplicaSet to control 
+CPU and memory allocation. Set requests to "64Mi" memory and "250m" CPU, and limits to "128Mi" memory and "500m" CPU.
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset-limits
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-limits
+  template:
+    metadata:
+      labels:
+        app: nginx-limits
+```

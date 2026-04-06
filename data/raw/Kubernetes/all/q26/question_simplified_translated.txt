@@ -1,0 +1,1 @@
+创建一个 DaemonSet，使用最新的 nginx 镜像，并将 Pod 标记为 "name: readiness"。设置一个 readiness 探针，在端口 80 上检查根路径，初始延迟为 5 秒。

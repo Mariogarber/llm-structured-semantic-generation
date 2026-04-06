@@ -1,0 +1,2 @@
+在 Kubernetes 中，创建一个 Pod（cap-pod），为其主容器添加特定的 Linux 能力。
+使用镜像 registry.k8s.io/pause。要添加的能力是 AUDIT_WRITE 和 CHOWN。

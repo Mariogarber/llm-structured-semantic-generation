@@ -1,0 +1,7 @@
+在 K8s 集群中配置一个 Pod。该 Pod（sysctls2）使用镜像 registry.k8s.io/pause 来构建其容器（container1）。
+此外，在 Pod 级别设置以下 sysctl 参数：
+    kernel.shm_rmid_forced: "0"
+    net.ipv4.ip_local_port_range: "1024 65535"
+    net.ipv4.tcp_syncookies: "0"
+    net.ipv4.ping_group_range: "1 0"
+    net.ipv4.ip_unprivileged_port_start: "1024"

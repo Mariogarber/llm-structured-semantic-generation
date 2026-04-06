@@ -1,0 +1,1 @@
+写一个 yaml 文件来创建一个 Indexed Job，用 'docker.io/library/bash' 镜像来回显 JOB_COMPLETION_INDEX。作业的名称应该是 example，并且完成和并行度也应该设置为 3。

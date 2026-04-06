@@ -1,0 +1,1 @@
+为名为 "read-secrets-global" 的 ClusterRoleBinding 创建一个 yaml 文件。使用 "secret-reader" ClusterRole 授予 "manager" 组权限。

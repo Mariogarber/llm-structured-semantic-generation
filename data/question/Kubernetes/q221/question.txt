@@ -1,0 +1,2 @@
+Write a yaml file to define a Kubernetes ClusterRole with the capability to create and delete secrets within the cluster. 
+The name of the ClusterRole should be "secret-creator-deletor".

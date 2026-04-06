@@ -1,0 +1,12 @@
+How can I configure a Kubernetes job manifest (YAML) such that every time I run the manifest a job will get created with kube-job- as a prefix? 
+Label the job with "jobgroup: jexample" and use the following example as the spec.
+```
+spec:
+  template:
+    spec:
+      containers:
+      - name: my-container
+        image: busybox
+        command: ["echo", "Hello from the job"]
+      restartPolicy: OnFailure
+```

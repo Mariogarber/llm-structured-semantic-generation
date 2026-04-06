@@ -1,0 +1,8 @@
+Can you provide a YAML configuration for an Envoy setup that adheres to the following requirements?
+The proxy should listen on address 0.0.0.0 and port 8000.
+It should utilize the envoy.filters.network.http_connection_manager filter with the codec type set to AUTO and a stat prefix of service_envoy_1.
+The route configuration should be named local_route and should have a virtual host named backend that accepts any domain (*).
+Within the virtual host, there should be a route that matches the prefix /service/1 and forwards the requests to a cluster named service1.
+The cluster named service1 should be of type STRICT_DNS, use a ROUND_ROBIN load balancing policy, and resolve to an endpoint with the address service1 and port 8080.
+The admin interface of the Envoy proxy should be accessible on address 0.0.0.0 and port 8001.
+Your response should be structured appropriately in YAML format. Please ensure it adheres to the YAML formatting standards.

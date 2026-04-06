@@ -1,0 +1,1 @@
+请为 https-example.foo.com 编写一个 Ingress YAML 文件，将根路径上的流量路由到端口 9092 上的 service1，并使用名为 testsecret-tls 的 TLS 密钥进行 SSL 终止。

@@ -1,0 +1,1 @@
+为允许通过 HTTPS 协议在端口 443 上的 egress 流量到 github.com 提供 Istio YAML。

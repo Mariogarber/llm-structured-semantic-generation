@@ -1,0 +1,11 @@
+配置一个 Kubernetes 作业清单（YAML），以 kube-job- 作为前缀创建一个作业。使用 "jobgroup: jexample" 标记作业，并使用以下规范：
+```
+spec:
+  template:
+    spec:
+      containers:
+      - name: my-container
+        image: busybox
+        command: ["echo", "Hello from the job"]
+      restartPolicy: OnFailure
+```

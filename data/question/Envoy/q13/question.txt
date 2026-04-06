@@ -1,0 +1,16 @@
+Can you provide a YAML configuration for an Envoy cross-site setup that adheres to the following requirements?
+Define a listener that binds to IP 0.0.0.0 and listens on port 10000.
+For this listener, set up a filter chain that uses the envoy.filters.network.http_connection_manager.
+Within this filter's configuration:
+The codec should automatically detect the type.
+We'd like to prefix our statistics with the term 'ingress_http'.
+Implement access logging using the standard output (stdout).
+Designate a routing configuration named 'local_route'. Within this:
+Set up a virtual host named 'www' that caters to all possible domains.
+This virtual host should have a single route that matches the root path (/) and directs traffic to a cluster called generic_service.
+Incorporate an HTTP filter for routing, using the proper type configuration.
+Now, define a cluster named generic_service:
+Utilize STRICT_DNS as its type and adopt a ROUND_ROBIN load balancing policy.
+The load assignment for this cluster should point to a service running on IP labeled as service at port 8080.
+The stat_prefix should be set as ingress_http.
+Your response should be structured appropriately in YAML format. Please ensure it adheres to the YAML formatting standards.

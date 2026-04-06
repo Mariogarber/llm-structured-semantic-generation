@@ -1,0 +1,1 @@
+创建一个标记为 "app: hellods-modified" 的 k8s DaemonSet。使用最新的 nginx 镜像，终止优雅期为 30 秒。运行一个无限循环，每次睡眠 5 秒。将 CPU 请求设置为 100m，内存请求设置为 200Mi。

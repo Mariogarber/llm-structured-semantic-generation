@@ -1,0 +1,20 @@
+```
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: gitlab-metrics-servicemonitor
+  # Change this to the namespace the Prometheus instance is running in
+  # namespace: default
+  labels:
+    app: gitlab-runner-gitlab-runner
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: gitlab-runner-gitlab-runner # target gitlab service
+  endpoints:
+  - port: metrics
+    interval: 15s
+```
+请写一个名为 gitlab-metrics 的 Service YAML，使其与给定的 Kubernetes YAML 文件一起工作。
+具体来说，它应该使用端口 9252 和目标端口 metrics。

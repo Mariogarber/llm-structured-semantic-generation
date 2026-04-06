@@ -1,0 +1,1 @@
+起草一个 Envoy 的 UDP 代理配置。监听 0.0.0.0:10000，将 UDP 数据包转发到端口 5005 上的 'service-udp'。使用 STRICT_DNS 进行服务发现和 ROUND_ROBIN 进行负载均衡。使用 'service' 前缀标记指标。管理界面在 0.0.0.0:10001 上。

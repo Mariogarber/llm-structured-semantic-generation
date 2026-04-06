@@ -1,0 +1,28 @@
+Update the following Kubernetes StatefulSet to have a StorageClass for a Cassandra cluster. The StorageClass should be named "fast" and the provisioner is "k8s.io/minikube-hostpath". For PersistentVolumeClaim, make sure to request 100 MB storage with access mode ReadWriteOnce.
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-cassandra
+  labels:
+    app: my-cassandra
+spec:
+  serviceName: cassandra
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-cassandra
+  template:
+    metadata:
+      labels:
+        app: my-cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: gcr.io/google-samples/cassandra:v13
+        env:
+          - name: MAX_HEAP_SIZE
+            value: 512M
+          - name: HEAP_NEWSIZE
+            value: 100M
+```

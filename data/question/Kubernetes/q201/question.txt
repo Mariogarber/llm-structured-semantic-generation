@@ -1,0 +1,1 @@
+Can you write a YAML file: It describes a Kubernetes ReplicaSet object which runs exactly one pod (app: kuard-pod) with the Kubernetes Up and Run demo (image: "gcr.io/kuar-demo/kuard-amd64:blue"). Specifically, I want Kubernetes to only pull the image when it does not exist locally.

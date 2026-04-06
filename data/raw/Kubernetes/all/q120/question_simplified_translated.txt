@@ -1,0 +1,1 @@
+为 LimitRange 创建 Kubernetes yaml，将最大 Pod 内存设置为“1Gi”，如果未指定，则将默认容器内存设置为“256Mi”。

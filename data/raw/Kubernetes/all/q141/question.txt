@@ -1,0 +1,3 @@
+Create a YAML file that defines a PersistentVolume named "mysql-pv-volume" in Kubernetes, specifying the storage class as "manual", a capacity 
+of 15Gi, access mode "ReadWriteOnce", and mounted from the host directory "/mnt/data". Additionally, define a PersistentVolumeClaim requesting 
+10Gi of storage with the same storage class and access mode.

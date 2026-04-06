@@ -1,0 +1,13 @@
+什么是 Kubernetes pod 中可访问的环境变量？如何使用这些变量检索 pod 的名称、命名空间和 IP 地址？在修改后提供完整的 YAML。
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+   name: config-pod-1
+spec:
+   containers:
+     - name: test-container
+       image: mirror.gcr.io/library/busybox:latest
+       command: [ "/bin/sh", "-c", "env" ]
+```

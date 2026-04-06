@@ -1,0 +1,4 @@
+Craft a Kubernetes YAML configuration to create a PersistentVolume named "pv0001" with a storage capacity of 5Gi and storageClassName as "slow". The 
+PersistentVolume should use the NFS storage with a path set to "/tmp" and a server address of "172.17.0.2". Additionally, the volume should operate 
+in "Filesystem" mode with "ReadWriteOnce" as its access mode. When not in use, the PersistentVolume should adhere to the "Recycle" reclaim policy 
+and be associated with the "slow" storage class. Do not forget to include mounting options like "hard" and "nfsvers=4.1".

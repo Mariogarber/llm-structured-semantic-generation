@@ -1,0 +1,1 @@
+配置一个 Kubernetes Pod，将 kernel.shm_rmid_forced sysctl 参数设置为 "0"。使用镜像 registry.k8s.io/pause 来创建容器 (pause)。

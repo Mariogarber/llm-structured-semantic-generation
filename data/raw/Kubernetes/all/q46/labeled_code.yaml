@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-grace-serviceaccount # *
+spec:
+  selector:
+    matchLabels:
+      name: ds-grace-serviceaccount
+  template:
+    metadata:
+      labels:
+        name: ds-grace-serviceaccount
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+      terminationGracePeriodSeconds: 60
+      serviceAccountName: default

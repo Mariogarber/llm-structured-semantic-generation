@@ -1,0 +1,5 @@
+我有一个任务，需要在 Kubernetes 集群中创建一个 Indexed Job。
+该 Job 需要 5 个完成，并且所有的 Pod 可以并行运行。
+每个 Pod 将运行一个 init 容器，根据其索引将列表中的一个项（foo、bar、baz、qux、xyz）写入文件。
+然后，主容器将读取此文件并反转该项的字符。
+请编写 Kubernetes 的 YAML 文件。

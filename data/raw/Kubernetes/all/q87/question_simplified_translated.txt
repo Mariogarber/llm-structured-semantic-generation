@@ -1,0 +1,1 @@
+在 Kubernetes 中为 "MyResources" 配置一个 CRD，组为 "example.com"，版本为 "v1"。

@@ -1,0 +1,1 @@
+创建一个 k8s DaemonSet 的 yaml。Pods 包含 2 个容器："container-main" 使用 busybox 镜像运行 "while true; do echo 'Main container'; sleep 10; done"，"container-sidecar" 使用 busybox 镜像运行 "while true; do ps aux; sleep 15; done"。两个容器共享相同的进程命名空间。Pod 的元数据具有标签 "name: ds-share-process-ns"。

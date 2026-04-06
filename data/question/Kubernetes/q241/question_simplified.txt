@@ -1,0 +1,1 @@
+Create a NodePort Service named broker-0 to expose Kafka broker's port 9093 on node's port 30093. Target pods with label kafka-set-component=kafka-0.

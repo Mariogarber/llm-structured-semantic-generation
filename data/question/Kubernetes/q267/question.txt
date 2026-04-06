@@ -1,0 +1,13 @@
+Create a Kubernetes StatefulSet for a ZooKeeper cluster that uses a rolling update strategy and an OrderedReady pod management policy. 
+Also, specify a Pod Disruption Budget that allows only one pod to be unavailable during voluntary disruptions. 
+Use the image registry.k8s.io/kubernetes-zookeeper:1.0-3.4.10 and set the label app: zk for the StatefulSet and the Pod Disruption Budget.
+The base YAML is here:
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zk
+spec:
+  serviceName: zk-hs
+  replicas: 3
+```

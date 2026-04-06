@@ -1,0 +1,15 @@
+给定以下 YAML，假设有 2 个用户名和密码的 Secret，由本地文件创建，名称为“user”和“pass”。
+请创建一个运行容器的 Pod，使用投影卷将 Secret 挂载到本地文件的同一路径。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-projected-volume
+spec:
+  containers:
+  - name: test-projected-volume
+    image: busybox:1.28
+    args:
+    - sleep
+    - "86400"
+```

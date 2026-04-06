@@ -1,0 +1,1 @@
+设置一个名为 "fluentd-elasticsearch" 的 DaemonSet YAML，其标记为 "name: fluentd-elasticsearch"。Pods 应该能够容忍在标记为 "node-role.kubernetes.io/master" 且效果为 "NoSchedule" 的节点上进行调度，并使用镜像 "quay.io/fluentd_elasticsearch/fluentd:v2.5.2"。

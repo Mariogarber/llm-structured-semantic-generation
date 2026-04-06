@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: redis-replica
+  labels:
+    app: redis
+    role: replica
+    tier: backend
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: replica
+        tier: backend
+    spec:
+      containers:
+      - name: replica
+        image: redis:latest
+        resources:
+          requests:
+            cpu: 200m
+            memory: 200Mi
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 6380

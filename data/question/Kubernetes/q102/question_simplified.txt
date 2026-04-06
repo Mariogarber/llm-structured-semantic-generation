@@ -1,0 +1,17 @@
+Debug the given YAML and modify it to restart only when it fails. Here is the corrected YAML:
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello
+spec:
+  template:
+    metadata:
+      name: hello
+    spec:
+      containers:
+      - name: hello
+        image: python:latest
+        command: ["python",  "-c", "print('Hello world!')"]
+      restartPolicy: Always
+```

@@ -1,0 +1,19 @@
+给定以下定义持久卷的 YAML，请帮我指定卷源的特定 NFS 路径和服务器。
+路径应为 `/tmp`，服务器地址应为 `172.17.0.2`。
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv0001
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: slow
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+```

@@ -1,0 +1,17 @@
+给 DaemonSet 添加两个容器：
+- 容器 1：busybox 镜像，每 10 秒钟连续输出 'Container 1 Running'。
+- 容器 2：busybox 镜像，每 15 秒钟连续输出 'Container 2 Running'。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-multi-container
+spec:
+  selector:
+    matchLabels:
+      name: ds-multi-container
+  template:
+    metadata:
+      labels:
+        name: ds-multi-container
+```

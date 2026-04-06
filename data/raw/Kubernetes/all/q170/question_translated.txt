@@ -1,0 +1,17 @@
+请帮忙为这个 Pod 添加一个存活探针，每 5 秒检查一次文件 /tmp/healthy 的存在。在执行第一次探测之前，它应该等待 5 秒。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: registry.k8s.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 20; rm -f /tmp/healthy; sleep 600
+```

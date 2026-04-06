@@ -1,0 +1,9 @@
+鉴于提供的 YAML，请帮我定义 rbac.authorization.k8s.io API 组下名为 "dave" 的用户的主题。此外，请确保该用户与同一 API 组中名为 "secret-reader" 的 ClusterRole 相关联。
+
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-secrets
+  namespace: development
+```

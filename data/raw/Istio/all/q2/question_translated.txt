@@ -1,0 +1,4 @@
+我需要为 prod namespace 中的 bookinfo 应用的评级服务配置一个 Istio destination rule YAML。
+该规则使用 LEAST_REQUEST 策略对主要流量进行负载平衡。
+此外，还有一个名为 testversion 的特定子集，使用版本 v3 标签，对于该子集，流量通过 ROUND_ROBIN 方法进行负载平衡。
+请为此提供完整的 YAML 配置。DestinationRule 的名称是 bookinfo-ratings-2。

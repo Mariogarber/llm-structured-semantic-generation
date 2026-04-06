@@ -1,0 +1,21 @@
+有没有办法在一个命名空间中实现入口，而在另一个命名空间中实现服务？如果有，请完成名称为 my-service 的 Service。
+
+下面提供了 ingress 的 YAML：
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: my-service
+          servicePort: 80
+```
+请提供整个 Service 的 YAML。

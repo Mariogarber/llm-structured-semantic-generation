@@ -1,0 +1,55 @@
+Provide YAML for Envoy config with distributed tracing using Jaeger. Tracing provider loaded via plugin at /usr/local/lib/libjaegertracing_plugin.so. Jaeger config: service name = front-proxy, constant sampling strategy, Jaeger agent address = jaeger:6831. Configure tracing headers: debug header = jaeger-debug-id, baggage header = jaeger-baggage, baggage headers with prefix uberctx-. Baggage restrictions: no denial on initialization failure, no need to specify host port. Fill in the [TO COMPLETE] part.
+
+```
+node:
+  cluster: front-proxy
+
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+    traffic_direction: OUTBOUND
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          generate_request_id: true
+          tracing:
+          [TO COMPLETE]
+          codec_type: auto
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: backend
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: service1
+                decorator:
+                  operation: checkAvailability
+          http_filters:
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+          use_remote_address: true
+  clusters:
+  - name: service1
+    type: strict_dns
+    lb_policy: round_robin
+    load_assignment:
+      cluster_name: service1
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service1
+                port_value: 8000
+```

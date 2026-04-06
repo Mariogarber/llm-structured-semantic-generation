@@ -1,0 +1,22 @@
+鉴于以下创建了一个 DaemonSet 的 YAML，我需要您的帮助来：
+1. 为容器使用参数 `["while true; do sleep 5; done"]`。
+2. 为容器定义资源请求，确保请求 100m CPU 和 200Mi 内存。
+3. 为 Pod 设置 30 秒的终止优雅期。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hellods-modified
+spec:
+  selector:
+    matchLabels:
+      app: hellods-modified
+  template:
+    metadata:
+      labels:
+        app: hellods-modified
+    spec:
+      containers:
+      - name: hellods-modified
+        image: nginx:latest
+```

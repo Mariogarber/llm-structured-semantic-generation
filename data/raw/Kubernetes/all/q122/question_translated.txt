@@ -1,0 +1,1 @@
+写一个 yaml 来定义 Kubernetes LimitRange。 集群里的容器的默认 CPU 请求是 100m ，默认内存请求是 200Mi 。 创建的任何 Pod 的 CPU 使用量最大不应超过 150m ，内存使用最大不应超过 250Mi。

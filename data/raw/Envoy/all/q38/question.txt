@@ -1,0 +1,9 @@
+I'm configuring an Envoy proxy and could use some assistance. I'm aiming to have a listener setup on IP 0.0.0.0 and port 10000. For the HTTP connection manager, I want the codec to be set to AUTO and the stat prefix should be 'ingress_http'.
+I've got a couple of services I'd like to route to:
+For requests with the prefix '/service/1', I want them directed to a cluster named 'service1'. Additionally, I'm trying to mirror these requests to another cluster; let's call it 'service1-mirror'.
+Similarly, for requests with the prefix '/service/2', they should go to a cluster named 'service2'. However, for the mirroring part, I want to use a dynamic approach where the mirror cluster's name is determined by a header 'x-mirror-cluster'.
+For the backend routing, the virtual host should responds to all domains.
+Now, as for the clusters:
+Both 'service1' and its mirror, 'service1-mirror', should be of STRICT_DNS type and use the ROUND_ROBIN load balancing. They should point to their respective services on port 8080.
+Similarly, 'service2' should be of STRICT_DNS type, with a ROUND_ROBIN policy, pointing to its service on port 8080. But I've not provided a direct configuration for its mirror since that's meant to be dynamic.
+Given these specifics, can you draft a comprehensive Envoy configuration to achieve this?

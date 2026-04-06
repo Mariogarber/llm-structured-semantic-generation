@@ -1,0 +1,3 @@
+Craft a yaml file for k8s to define a Role named 'testadmin' in the 'test2' namespace, with permissions to all resources, 
+verbs, and API groups. Also, create a RoleBinding named 'testadminbinding' in the same namespace, associating this Role 
+to a ServiceAccount called 'myaccount' in the 'test2' namespace.

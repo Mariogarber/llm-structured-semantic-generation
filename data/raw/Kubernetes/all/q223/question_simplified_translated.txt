@@ -1,0 +1,12 @@
+在默认命名空间中创建一个名为"my-role-binding"的RoleBinding，将用户"my-user"绑定到角色"my-role"。角色"my-role"授予"get" pods的权限。
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: my-role
+  namespace: default
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get"]
+```

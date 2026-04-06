@@ -1,0 +1,24 @@
+This is k8s DaemonSet configuration file. 
+Please make some changes: 
+(1) Add a liveness probe that checks an HTTP GET request against the path / on port 80. 
+(2) Add a readiness probe that checks an HTTP GET request against the path / on port 80. The initial delay for both probes should be 5 seconds, and the timeout should be 1 second.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds
+spec:
+  selector:
+    matchLabels:
+      name: my-ds
+  template:
+    metadata:
+      labels:
+        name: my-ds
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: nginx
+        image: nginx
+```

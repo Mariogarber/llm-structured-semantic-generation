@@ -1,0 +1,16 @@
+这是一个不正确的 Kubernetes Job YAML 文件，因为没有一个名为 "alpineee" 的镜像。请使用 Pod 失败策略来避免不必要的 Pod 重试。例如，如果在拉取指定镜像时出现任何问题，请停止 Job。您可以将重试次数设置为 3。
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: failjob-config
+spec:
+  completions: 4
+  parallelism: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: main
+        image: alpineee
+```

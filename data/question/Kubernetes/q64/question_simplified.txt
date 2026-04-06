@@ -1,0 +1,1 @@
+Create a yaml for a k8s DaemonSet named "fluentd-elasticsearch" using image "quay.io/fluentd_elasticsearch/fluentd:v2.5.2". Pods should be scheduled on nodes with "key-name"="value-name".

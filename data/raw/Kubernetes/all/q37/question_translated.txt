@@ -1,0 +1,21 @@
+给定下面表示 DaemonSet 的 YAML，请帮助实现以下要求：
+向 DaemonSet 添加两个容器：
+- 第一个容器名为 "container-1"，应使用 busybox 镜像，并执行一个命令，每 10 秒钟连续回显 'Container 1 Running'。
+- 第二个容器名为 "container-2"，也应使用 busybox 镜像，并执行一个命令，每 15 秒钟连续回显 'Container 2 Running'。
+
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-multi-container
+spec:
+  selector:
+    matchLabels:
+      name: ds-multi-container
+  template:
+    metadata:
+      labels:
+        name: ds-multi-container
+```
+
+请提供完整的 YAML 配置。

@@ -1,0 +1,3 @@
+Construct a Kubernetes DaemonSet that utilizes the nginx:latest image, labeled as "app: debug-agent", Ensure it exposes the container 
+port 10027 with a liveness probe monitoring the "/healthz" endpoint on this port. The DaemonSet should also mount the Docker socket 
+found on the host at "/var/run/docker.sock" within the container.

@@ -1,0 +1,14 @@
+创建一个名为 custom-deploy 的 Deployment 的 YAML。使用 nginx:latest 镜像，1 个副本，暴露端口 80。将 terminationGracePeriodSeconds 设置为 10s，并在 preStop 生命周期钩子中添加一个命令来睡眠 20s。在你的答案开头附上以下 Service 配置：
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+```

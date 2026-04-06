@@ -1,0 +1,17 @@
+services:
+
+  proxy:
+    build:
+      context: .
+      dockerfile: ./shared/envoy/Dockerfile
+      target: envoy-lua
+      args:
+        ENVOY_CONFIG: labeled_code.yaml
+    ports:
+    - "${PORT_PROXY:-8000}:8000"
+
+  web_service:
+    build:
+      context: ./shared/echo
+    ports:
+    - "${PORT_WEB:-8080}:8080"

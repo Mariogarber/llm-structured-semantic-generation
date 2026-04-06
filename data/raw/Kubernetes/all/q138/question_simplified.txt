@@ -1,0 +1,1 @@
+Design a k8s YAML for creating a PV named "iscsi-pv". Use iSCSI protocol, connect to IP 10.0.0.1:3260, LUN 0, ext4 filesystem. Make it writable, not read-only.

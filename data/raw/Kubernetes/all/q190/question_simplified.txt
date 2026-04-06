@@ -1,0 +1,14 @@
+Using the given YAML, how can I create a Pod with a container that mounts "user" and "pass" Secrets from local files to the same paths using a projected volume?
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-projected-volume
+spec:
+  containers:
+  - name: test-projected-volume
+    image: busybox:1.28
+    args:
+    - sleep
+    - "86400"
+```

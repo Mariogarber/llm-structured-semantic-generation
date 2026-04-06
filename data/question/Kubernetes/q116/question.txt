@@ -1,0 +1,1 @@
+Please write a yaml file for k8s that ping google.com continously using the latest ubuntu image, and set the activeDeadlineSeconds to 10. The name of the job has to be 'example'. You may have to install iputils first.

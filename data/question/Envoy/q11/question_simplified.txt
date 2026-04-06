@@ -1,0 +1,7 @@
+Provide YAML config for Envoy frontend setup with:
+- static_resources: listeners bind to 0.0.0.0:10000
+- listener: filter chain with envoy.filters.network.http_connection_manager filter, using HttpConnectionManager with auto-detection for codec type, stat prefix 'ingress_http'
+- access log: envoy.access_loggers.stdout with typed config pointing to StdoutAccessLog
+- route configuration: 'local_route' with virtual host 'services' catering to all domains, route matching prefix / directing traffic to cluster 'frontend_service'
+- filters section: envoy.filters.http.cors filter for handling CORS requests, envoy.filters.http.router filter
+- clusters section: cluster 'frontend_service' using STRICT_DNS, ROUND_ROBIN load balancing policy, load assignment pointing to frontend-service:8080

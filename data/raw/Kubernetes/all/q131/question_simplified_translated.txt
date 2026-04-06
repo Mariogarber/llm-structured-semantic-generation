@@ -1,0 +1,16 @@
+写一个使用持久卷和持久卷声明的 Pod 的 Kubernetes YAML 清单，以从节点上的本地目录读取和写入。假设节点上的目录 /data 存在，并且存储卷为 50 MB。扩展以下 Pod 的清单：
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: local-pvc-pod
+spec:
+  containers:
+  - name: my-container
+    image: alpine
+    command:
+    - "/bin/sh"
+    - "-c"
+    - "while true; do sleep 10; done"
+```

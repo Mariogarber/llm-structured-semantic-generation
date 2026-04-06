@@ -1,0 +1,7 @@
+在 Kubernetes 集群中配置一个 Pod，满足以下要求：
+- 使用镜像 registry.k8s.io/pause。
+- 将 Pod 命名为 selinuxoptions2。
+- 添加一个名为 container1 的容器，具有 SELinux 选项：level=examplelevel，type=container_init_t。
+- 添加一个名为 initcontainer1 的 init 容器，具有 SELinux 选项：type=container_kvm_t。
+- 在 Pod 级别设置 Pod 的安全上下文，具有 SELinux 选项：type=container_t。
+- 在主容器中使用命令 "/bin/sh -c sleep 600"。

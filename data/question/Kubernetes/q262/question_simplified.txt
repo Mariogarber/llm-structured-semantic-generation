@@ -1,0 +1,1 @@
+Configure a Service Account named anno-sys-sa in the kube-system namespace in Kubernetes. Add the annotation example.com/description: "This is an annotated SA in kube-system".

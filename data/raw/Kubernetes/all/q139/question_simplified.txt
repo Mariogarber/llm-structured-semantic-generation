@@ -1,0 +1,1 @@
+Create a k8s YAML for a PersistentVolume named "pv0001" with 5Gi capacity, storageClassName "slow", NFS storage with path "/tmp" and server address "172.17.0.2". Volume mode is "Filesystem" with access mode "ReadWriteOnce". Use "Recycle" reclaim policy and associate with "slow" storage class. Include mounting options "hard" and "nfsvers=4.1".

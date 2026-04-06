@@ -1,0 +1,3 @@
+Design a Kubernetes YAML configuration to create a PersistentVolume named "iscsi-pv". This volume should use the iSCSI protocol, 
+connecting to the target portal on IP 10.0.0.1 at port 3260. The Logical Unit Number (LUN) assigned to this storage should be 0, 
+and the filesystem on this volume should be ext4. Ensure that the storage is writable and not set to read-only mode.

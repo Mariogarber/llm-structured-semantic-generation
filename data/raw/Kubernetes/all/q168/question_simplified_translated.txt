@@ -1,0 +1,1 @@
+配置一个 Pod (sleep-pod)，在其容器的命令参数中使用 ConfigMap 中的值。使用 busybox 镜像创建容器，并休眠 100 秒。持续时间参数 (SLEEP_TIME) 应来自配置映射 (my-config)。

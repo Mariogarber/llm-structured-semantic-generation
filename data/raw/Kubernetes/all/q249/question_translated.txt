@@ -1,0 +1,11 @@
+你已经为 WordPress 应用程序拥有一个 MySQL 部署，其中包括一个用于公开 MySQL 的服务。该服务定义如下：
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-mysql
+  labels:
+    app: wordpress
+...
+```
+你如何扩展服务的 YAML，以在端口 3306 上公开 MySQL 容器？

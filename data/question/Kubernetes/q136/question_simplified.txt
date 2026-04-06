@@ -1,0 +1,1 @@
+Configure a PV yaml named "glusterfs-pv" using "manual-gluster" storage class, backed by Glusterfs cluster with endpoint "glusterfs-cluster" and path "/myvol".

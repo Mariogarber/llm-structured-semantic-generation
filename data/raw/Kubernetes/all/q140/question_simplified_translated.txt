@@ -1,0 +1,1 @@
+创建一个名为 "test-volume" 的 PV 的 YAML，在 k8s 中，使用存储类 "storage-test-volume"。PV 由 GCE 持久磁盘支持，容量为 50Gi，在 `ReadWriteOnce` 模式下可访问。卷具有节点亲和性，适用于 `us-central1-a` 或 `us-central1-b` 区域，键为 "topology.kubernetes.io/zone"。考虑作为 GCE 中区域性持久磁盘配置的示例。

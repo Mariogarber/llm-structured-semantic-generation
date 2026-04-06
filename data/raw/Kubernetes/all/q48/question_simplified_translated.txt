@@ -1,0 +1,22 @@
+修改给定的 DaemonSet YAML 如下：
+1. 将容器参数设置为 `["while true; do sleep 5; done"]`。
+2. 将容器资源请求定义为 100m CPU 和 200Mi 内存。
+3. 为 pod 设置 30 秒的终止优雅期。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hellods-modified
+spec:
+  selector:
+    matchLabels:
+      app: hellods-modified
+  template:
+    metadata:
+      labels:
+        app: hellods-modified
+    spec:
+      containers:
+      - name: hellods-modified
+        image: nginx:latest
+```

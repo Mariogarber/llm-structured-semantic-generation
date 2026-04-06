@@ -1,0 +1,4 @@
+In Kubernetes, I want to dynamically provision persistent storage volumes. The provisioner for the underlying storage system is "kubernetes.io/aws-ebs". How to create a StorageClass named dynamic-sc with the following specifications?
+- The storage should be of type "gp2".
+- The reclaim policy for the dynamically provisioned volumes should be "Retain".
+- Set volumeBindingMode to "Immediate" to enable dynamic provisioning as soon as a PersistentVolumeClaim is created.

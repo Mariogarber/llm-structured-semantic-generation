@@ -1,0 +1,38 @@
+我正在 Google Cloud 上进行有关 Kubernetes 的实验。
+我已经创建了 YAML 文件，但是当我尝试部署它时，一个 shell 显示了以下错误：
+error converting YAML to JSON: yaml: line 34: did not find expected key
+原始的 YAML 文件：
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-dep-correct
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+    spec:
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+      - name: php-config
+        configMap:
+          name: php-config
+      containers:
+      - image: php-fpm:7.2
+        name: php
+        ports:
+        - containerPort: 9000
+      - image: nginx:latest
+        name: nginx
+        - containerPort: 80
+      volumes:
+        - name: persistent-storage
+          persistentVolumeClaim:
+            claimName: nfs-pvc
+```
+请在调试后提供整个有效的 YAML。

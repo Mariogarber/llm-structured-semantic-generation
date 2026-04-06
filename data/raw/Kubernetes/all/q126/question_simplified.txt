@@ -1,0 +1,16 @@
+Restrict the PersistentVolume to nodes in "topology.kubernetes.io/zone" with zones `us-central1-a` and `us-central1-b". Given:
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-volume
+spec:
+  capacity:
+    storage: 50Gi
+  storageClassName: storage-test-volume
+  accessModes:
+    - ReadWriteOnce
+  gcePersistentDisk:
+    pdName: my-data-disk
+    fsType: ext4
+```

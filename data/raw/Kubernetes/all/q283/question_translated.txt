@@ -1,0 +1,3 @@
+你负责在托管在Google Cloud上的Kubernetes集群中设置动态存储供应。您需要使用k8s.io/minikube-hostpath provisioner创建一个StorageClass（local）。然后，您可以使用“local” SC创建一个PersistentVolumeClaim（claim1），访问模式为ReadWriteOnce，请求的存储大小为3Gi。
+
+请以YAML格式定义一个StorageClass和一个PersistentVolumeClaim。

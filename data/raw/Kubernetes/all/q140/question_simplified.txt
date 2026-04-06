@@ -1,0 +1,1 @@
+Create a YAML defining a PV named "test-volume" in k8s, with storage class "storage-test-volume". PV backed by GCE Persistent Disk, capacity 50Gi, accessible in `ReadWriteOnce` mode. Volume has node affinity for `us-central1-a` or `us-central1-b` zones, key "topology.kubernetes.io/zone". Consider as example of regional persistent disk config in GCE.

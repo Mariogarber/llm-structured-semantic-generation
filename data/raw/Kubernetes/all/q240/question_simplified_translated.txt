@@ -1,0 +1,22 @@
+创建一个使用 nginx 选择器的负载均衡器服务，暴露在端口 80 上。它应该可以通过浏览器访问。使用以下 YAML：
+```
+apiVersion: apps/v1                                                                                                     
+kind: Deployment                                                                                                        
+metadata:                                                                                                               
+  name: nginx-deployment                                                                                                
+spec:                                                                                                                   
+  replicas: 3                                                                                                           
+  selector:                                                                                                             
+    matchLabels:                                                                                                        
+      app: nginx                                                                                                        
+  template:                                                                                                             
+    metadata:                                                                                                           
+      labels:                                                                                                           
+        app: nginx                                                                                                      
+    spec:                                                                                                               
+      containers:                                                                                                       
+      - name: nginx-container                                                                                           
+        image: nginx:latest                                                                                             
+        ports:                                                                                                          
+        - containerPort: 80
+```

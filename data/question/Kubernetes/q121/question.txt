@@ -1,0 +1,3 @@
+Write a yaml file to create a k8s LimitRange named "limits-test" that specifies the minimum and maximum resource constraints 
+for a container. Ensure that the maximum container's CPUs usage of 2 and a minimum usage of 100m, and the memory usage should 
+be between 100Mi and 500Mi.

@@ -1,0 +1,12 @@
+在部署运行最新的 nginx 镜像的 ReplicaSet 的每个 pod 中，使用值为 "custom_value" 的 ENV_VAR。使用标签 "app: nginx-env" 对 pod 进行标记。
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset-env
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-env
+```

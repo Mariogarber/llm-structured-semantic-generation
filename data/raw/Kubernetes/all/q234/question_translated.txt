@@ -1,0 +1,22 @@
+我有一个创建 Kubernetes 数据库 mysql 的秘密的 YAML 文件。
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  key: MYSQL_KEY
+type: Opaque
+data:  
+  mysql-root-password: 11111
+  mysql-user: a
+  mysql-password: 11111
+```
+但是当我尝试部署时，出现以下错误：
+来自服务器的错误（BadRequest）：在创建 "STDIN" 时出错：无法将版本为 "v1" 的 Secret 处理为 Secret：json：无法将数字解组为类型为 []uint8 的 Secret.data 字段
+问题是什么，我该如何解决？
+以下是一些命令行记录供参考：
+$ echo "11111" | base64
+$ MTExMTEK
+$ echo "a" | base64
+$ YQo=
+请提供修改后的整个有效 YAML。

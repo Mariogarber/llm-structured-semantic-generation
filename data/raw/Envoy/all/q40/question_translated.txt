@@ -1,0 +1,54 @@
+这是我正在使用的当前 Envoy 配置：
+现在我需要配置一个 HTTP RBAC 过滤器。我的主要目标是拒绝具有与特定模式匹配的 'referer' 标头的请求。具体来说，我想阻止 'referer' 匹配模式 'https?://(www.)?envoyproxy.io/docs/envoy.*' 的请求。如果一个请求没有 'referer' 标头与此模式匹配，我希望允许它。为了日志记录和诊断，我希望将被拒绝的请求标记为 'illegal-referer'，对于被允许的请求，我希望将它们标记为 'all-pass'。
+你能提供完整的 YAML 配置，填写 [TO COMPLETE] 部分吗？
+
+```
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 10000
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: service
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: local_service
+          http_filters:
+          - [TO COMPLETE]
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+  clusters:
+  - name: local_service
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: local_service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: backend
+                port_value: 8080
+
+admin:
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 10001
+```

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: anno-sys-sa
+  namespace: kube-system
+  annotations:
+    example.com/description: "This is an annotated SA in kube-system"

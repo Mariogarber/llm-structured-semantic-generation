@@ -1,0 +1,6 @@
+设计一个 Kubernetes 的 yaml 文件，用于创建一个 DaemonSet，具有以下规格：
+1. 模板的元数据应将 Pod 标记为 "fluentd-elasticsearch"。
+2. 它应该包含一个名为 "fluentd-elasticsearch" 的单个容器，使用镜像 quay.io/fluentd_elasticsearch/fluentd:v2.5.2。
+3. 此容器应具有特定的资源要求：
+   - 设置内存限制为 200Mi。
+   - 请求 100m 的 CPU 和 200Mi 的内存。

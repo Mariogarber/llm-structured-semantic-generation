@@ -1,0 +1,1 @@
+Create a YAML manifest for a Pod with an emptyDir volume. Pod has a single container that writes a message to a file in the emptyDir volume.

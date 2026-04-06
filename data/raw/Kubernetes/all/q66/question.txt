@@ -1,0 +1,2 @@
+Conceive a DaemonSet YAML that mounts the node's "/var/log/nginx" directory into the container at the same path. The DaemonSet 
+should run a container using the "nginx:latest" image. The Pod template should be labeled with "app: ds-hostpath".

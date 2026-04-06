@@ -1,0 +1,10 @@
+You are required to create a YAML configuration for an Envoy proxy that is intended to be used with Kafka. Your configuration should have the following features:
+The proxy should listen on an IP address available to all interfaces and a specific port where Kafka clients will connect.
+The configuration should contain two filters:
+a. A Kafka broker filter with a specific stat prefix.
+b. A TCP proxy filter with its own stat prefix and a specified cluster it routes to.
+Define a cluster with a name and a few specific properties:
+a. The type of the cluster should be based on DNS resolution and it should employ a round-robin load balancing policy.
+b. This cluster should be associated with a Kafka server's listener meant for client traffic. Specify the address and port of the Kafka server.
+Lastly, an admin interface should be set up on an IP address available to all interfaces and on a separate port.
+Using the above specifications, please draft the YAML configuration.

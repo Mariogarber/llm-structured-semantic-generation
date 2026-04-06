@@ -1,0 +1,1 @@
+Set up Envoy proxy to route traffic to Redis cluster using STRICT_DNS and MAGLEV lb policy. Listener on port 1999, routes all traffic to 'redis_cluster' on DNS name 'redis' port 6379. Redis proxy filter has 5s timeout, stat prefix 'egress_redis'. Include admin interface on port 8001 on all network interfaces.

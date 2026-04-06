@@ -1,0 +1,4 @@
+Compose a yaml file to create a k8s DaemonSet. This DaemonSet should run Pods that house two containers:
+1. The first container, named "container-1", should utilize the busybox image and continuously execute the command to echo 'Container 1 Running' every 10 seconds.
+2. The second container, named "container-2", should also use the busybox image but constantly execute a command to echo 'Container 2 Running' every 15 seconds.
+Furthermore, ensure that the Pod's metadata contains a label with the key "name" and value "ds-multi-container".

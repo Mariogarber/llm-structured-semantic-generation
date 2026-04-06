@@ -1,0 +1,23 @@
+Define `REGISTRY_HOST` env var as `kube-registry-modified.svc.cluster.local` and `REGISTRY_PORT` as `5000` in the DaemonSet YAML. Container should expose port `registry` on container port 80, mapping to host port 5000.
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-registry-proxy-modified
+spec:
+  selector:
+    matchLabels:
+      app: kube-registry-modified
+  template:
+    metadata:
+      labels:
+        app: kube-registry-modified
+    spec:
+      containers:
+      - name: kube-registry-proxy-modified
+        image: nginx:latest
+        resources:
+          limits:
+            cpu: 100m
+            memory: 50Mi
+```

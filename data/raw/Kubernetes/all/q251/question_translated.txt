@@ -1,0 +1,28 @@
+给定以下部署，请帮我将其作为一个 Service 暴露在端口 80 上。
+它应该通过 nodeport 30080 可以通过浏览器访问。
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-apache
+spec:
+  selector:
+    matchLabels:
+      run: php-apache
+  template:
+    metadata:
+      labels:
+        run: php-apache
+    spec:
+      containers:
+      - name: php-apache
+        image: registry.k8s.io/hpa-example
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+```
+请提供相应的配置。

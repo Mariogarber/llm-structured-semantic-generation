@@ -1,0 +1,20 @@
+给定一个名为 initcontainer 的 DaemonSet 的 YAML，添加一个名为 "init-myservice" 的初始化容器，使用 busybox 镜像。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: initcontainer
+spec:
+  selector:
+    matchLabels:
+      app: initcontainer
+  template:
+    metadata:
+      labels:
+        app: initcontainer
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"]
+```

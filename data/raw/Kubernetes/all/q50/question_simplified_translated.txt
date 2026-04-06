@@ -1,0 +1,23 @@
+在 DaemonSet YAML 中，将 `REGISTRY_HOST` 环境变量定义为 `kube-registry-modified.svc.cluster.local`，将 `REGISTRY_PORT` 定义为 `5000`。容器应该在容器端口 80 上暴露端口 `registry`，映射到主机端口 5000。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-registry-proxy-modified
+spec:
+  selector:
+    matchLabels:
+      app: kube-registry-modified
+  template:
+    metadata:
+      labels:
+        app: kube-registry-modified
+    spec:
+      containers:
+      - name: kube-registry-proxy-modified
+        image: nginx:latest
+        resources:
+          limits:
+            cpu: 100m
+            memory: 50Mi
+```

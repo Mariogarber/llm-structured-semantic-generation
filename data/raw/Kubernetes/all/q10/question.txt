@@ -1,0 +1,4 @@
+Can you schedule a periodical Kubernetes job to run the following script every 1 minute? It runs on nginx. However, it does not allow concurrent executions.
+```
+/bin/sh -c "sleep 65"
+```

@@ -1,0 +1,14 @@
+Create a PVC and Pod with the following requirements:
+(1) PVC requests 1Gi storage.
+(2) Pod runs latest Nginx container.
+(3) PVC is mounted at /usr/share/nginx/html in the Nginx container.
+(4) Use volumeBindingMode: WaitForFirstConsumer in StorageClass to delay binding.
+(5) Pod has node selector kubernetes.io/hostname: minikube.
+Base YAML for StorageClass:
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: my-sc
+provisioner: kubernetes.io/aws-ebs
+```

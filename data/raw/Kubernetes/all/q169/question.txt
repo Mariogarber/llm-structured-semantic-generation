@@ -1,0 +1,14 @@
+Please help modify this simple Pod below so that it have a token with an audience of vault and a validity duration of 601 seconds.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-token
+spec:
+  containers:
+  - image: nginx
+    name: nginx-token
+    volumeMounts:
+    - mountPath: /var/run/secrets/tokens
+      name: vault-token
+```

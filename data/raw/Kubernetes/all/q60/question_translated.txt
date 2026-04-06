@@ -1,0 +1,25 @@
+这是一个 k8s DaemonSet 配置文件。
+请进行以下更改：
+（1）添加一个活跃探针，检查端口 80 上的路径 / 的 HTTP GET 请求。
+（2）添加一个就绪探针，检查端口 80 上的路径 / 的 HTTP GET 请求。两个探针的初始延迟应为 5 秒，超时时间应为 1 秒。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-ds
+spec:
+  selector:
+    matchLabels:
+      name: my-ds
+  template:
+    metadata:
+      labels:
+        name: my-ds
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: nginx
+        image: nginx
+```
+

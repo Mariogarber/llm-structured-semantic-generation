@@ -1,0 +1,19 @@
+修改 DaemonSet 配置以容忍在主节点和控制平面节点上运行。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-daemon
+spec:
+  selector:
+    matchLabels:
+      name: nginx-daemon
+  template:
+    metadata:
+      labels:
+        name: nginx-daemon
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+```

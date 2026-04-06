@@ -1,0 +1,1 @@
+创建一个带有 emptyDir 卷的 Pod 的 YAML 清单。Pod 有一个单独的容器，将消息写入 emptyDir 卷中的文件。

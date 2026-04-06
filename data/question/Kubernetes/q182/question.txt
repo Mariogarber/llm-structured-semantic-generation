@@ -1,0 +1,12 @@
+Given this secret applied, please write a Pod named secret-dotfiles-pod that: 
+when the following secret is mounted into a volume, secret-volume, the volume will contain a single file, called .secret-file, 
+and a container called dotfile-test-container will have this file present at the path /etc/secret-volume/.secret-file. 
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dotfile-secret
+data:
+  .secret-file: dmFsdWUtMg0KDQo=
+---
+```

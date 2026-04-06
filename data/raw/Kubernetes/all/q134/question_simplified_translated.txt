@@ -1,0 +1,10 @@
+创建一个名为 pv1 的 PV，使用 GID 注释 1234。使用以下 spec 模板：
+```
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data"
+```

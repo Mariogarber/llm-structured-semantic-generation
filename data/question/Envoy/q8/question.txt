@@ -1,0 +1,53 @@
+Here is the current Envoy config I'm working with:
+```
+node:
+  cluster: envoy-proxy-front
+
+static_resources:
+  listeners:
+  - [TO COMPLETE]
+
+  clusters:
+  - name: envoy_cluster1
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: envoy_cluster1
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: envoy-1
+                port_value: 10000
+  - name: envoy_cluster2
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: envoy_cluster2
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: envoy-1
+                port_value: 10001
+  - name: zipkin
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: zipkin
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: zipkin
+                port_value: 9411
+```
+Now I need a listener for outbound traffic on port 10000. For HTTP connections, I want to ensure that codec types are auto-detected and that a unique request ID is generated for each connection. Monitoring is crucial for my setup, so I want to integrate Zipkin tracing. The traces should be dispatched to the 'zipkin' cluster via the endpoint '/api/v2/spans', utilizing the HTTP_JSON format. For keeping track of the traffic, I'd like to use the prefix 'ingress_http' for the statistics.
+The routing should cover all domain traffic and have two specific routes:
+1. Traffic with a '/trace/1' prefix should be routed to 'envoy_cluster1' and be labeled as 'routeToEnvoy1'.
+2. Traffic with a '/trace/2' prefix should be routed to 'envoy_cluster2' and be labeled as 'routeToEnvoy2ViaEnvoy1'.
+Lastly, I'd like to append two headers taken from the request in the response: 'x-b3-traceid' and 'x-request-id'.
+Can you provide the completed YAML by filling in the [TO COMPLETE] part?

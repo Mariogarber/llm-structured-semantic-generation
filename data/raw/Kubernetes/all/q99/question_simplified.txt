@@ -1,0 +1,1 @@
+Create a Kubernetes Ingress resource named "fruit-ing" with URL path rewrite annotation to "/". Include two paths: (a) /apple should route to "apple-svc" on port 4567. (b) /banana should route to "banana-svc" on port 6789.

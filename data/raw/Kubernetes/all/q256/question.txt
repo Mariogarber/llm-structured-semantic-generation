@@ -1,0 +1,2 @@
+Please write a Service YAML file for my-service that has three ports: one named 'http' routing to target port 8080 on node port 30475 and exposed at port 8089, another named 'metrics' routing to target port 5555 on node port 31261 and exposed at port 5555, and the last one named 'health' routing to target port 8085 on node port 30013 and exposed at port 8443. 
+Ensure the selector is set to match pods with label app: MyApp.

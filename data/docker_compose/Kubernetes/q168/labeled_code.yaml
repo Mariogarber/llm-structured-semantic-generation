@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+data:
+  sleep.time: "100"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sleep-pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command: ["/bin/sh", "-c", "sleep $(SLEEP_TIME)"]
+    env:
+    - name: SLEEP_TIME
+      valueFrom:
+        configMapKeyRef:
+          name: my-config
+          key: sleep.time

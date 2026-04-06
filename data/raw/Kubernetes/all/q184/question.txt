@@ -1,0 +1,10 @@
+Please help add 2 containers to this pod so that 2 containers share a volume for communication between them.
+The shared volumn should be named shared-data.
+The first container called nginx-container runs an nginx server with latest nginx image. The mount path of the shared volume is /usr/share/nginx/html. 
+The second container called debian-container is based on the latest debian image and has a /pod-data mount path. The second container runs the command "echo Hello from the debian container > /pod-data/index.html" and terminates.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: two-containers
+```

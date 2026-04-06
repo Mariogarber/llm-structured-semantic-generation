@@ -1,0 +1,3 @@
+请编写一个 k8s YAML 文件，创建一个部署，启动 3 个 nginx Pod 副本。
+请使用最新的 nginx 映像。
+部署和 Pod 应该带有 "app: nginx" 标签。

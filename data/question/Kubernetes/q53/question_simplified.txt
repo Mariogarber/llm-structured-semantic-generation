@@ -1,0 +1,1 @@
+Define a DaemonSet in YAML for fluentd (quay.io/fluentd_elasticsearch/fluentd:v2.5.2) labeled fluentd-logging. Name the DaemonSet fluentd-worker and run it in the kube-system namespace.

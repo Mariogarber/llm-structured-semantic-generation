@@ -1,0 +1,5 @@
+你能根据以下需求创建一个 Kubernetes Pod 吗？
+- Pod 使用 image “gcr.io/google-samples/hello-app:1.0”运行容器。
+- 容器通过 TCP 公开端口 8080。
+- 容器请求 0.25 个 CPU 和 128 MB 内存。
+- 容器的 CPU 限制为 0.5，内存限制为 256 MB。

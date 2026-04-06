@@ -1,0 +1,1 @@
+构建一个标记为 "app: hellods-modified" 的 Kubernetes DaemonSet。该 DaemonSet 应该使用最新的 nginx 映像，并设置终止优雅期为 30 秒，然后运行一个每次睡眠 5 秒的无限循环。确保 CPU 请求设置为 100m，内存请求设置为 200Mi。

@@ -1,0 +1,2 @@
+写一个 k8s YAML，其中的 Pod 主容器设置了特定的 SELinux 选项。
+级别应该是 somevalue，类型应该是 container_init_t。使用镜像 redis。

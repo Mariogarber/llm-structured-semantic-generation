@@ -1,0 +1,23 @@
+鉴于以下 DaemonSet 的 YAML，请帮我添加一个 nodeSelector，确保 Pod 仅在具有标签 "disktype=ssd" 的节点上运行。
+
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nodeselector-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: nodeselector-daemonset
+  template:
+    metadata:
+      labels:
+        app: nodeselector-daemonset
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"]
+```
+
+请帮我添加一个 nodeSelector 字段，将其设置为 `disktype: ssd`。

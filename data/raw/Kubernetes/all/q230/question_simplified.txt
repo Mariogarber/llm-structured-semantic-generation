@@ -1,0 +1,1 @@
+Create a k8s Bootstrap Token Secret with token ID abcdef and token secret 0123456789abcdef. Expiration time is 23:59:00 on September 21, 2023, UTC. Token can be used for authentication and signing.

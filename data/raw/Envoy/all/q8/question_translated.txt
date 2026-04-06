@@ -1,0 +1,54 @@
+这是我正在使用的当前 Envoy 配置：
+现在我需要一个用于端口 10000 的出站流量监听器。对于 HTTP 连接，我希望确保自动检测编解码器类型，并为每个连接生成唯一的请求 ID。监控对我的设置非常重要，所以我想集成 Zipkin 追踪。追踪应通过端点 '/api/v2/spans' 将跟踪发送到 'zipkin' 集群，使用 HTTP_JSON 格式。为了跟踪流量，我想在统计信息中使用前缀 'ingress_http'。
+路由应覆盖所有域流量，并具有两个特定的路由：
+1. 具有 '/trace/1' 前缀的流量应路由到 'envoy_cluster1' 并标记为 'routeToEnvoy1'。
+2. 具有 '/trace/2' 前缀的流量应路由到 'envoy_cluster2' 并标记为 'routeToEnvoy2ViaEnvoy1'。
+最后，我想在响应中附加两个来自请求的标头：'x-b3-traceid' 和 'x-request-id'。
+你能填写 [TO COMPLETE] 部分并提供完整的 YAML 吗？
+
+```
+node:
+  cluster: envoy-proxy-front
+
+static_resources:
+  listeners:
+  - [TO COMPLETE]
+
+  clusters:
+  - name: envoy_cluster1
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: envoy_cluster1
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: envoy-1
+                port_value: 10000
+  - name: envoy_cluster2
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: envoy_cluster2
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: envoy-1
+                port_value: 10001
+  - name: zipkin
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: zipkin
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: zipkin
+                port_value: 9411
+```

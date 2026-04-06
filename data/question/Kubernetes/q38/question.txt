@@ -1,0 +1,4 @@
+Craft a yaml file to create a k8s DaemonSet. This DaemonSet should have Pods containing two containers: 
+1. The first container named "container-main" should use the busybox image and run the command "while true; do echo 'Main container'; sleep 10; done".
+2. The second container named "container-sidecar" should also use the busybox image, but execute the command "while true; do ps aux; sleep 15; done".
+Both containers must share the same process namespace. Additionally, ensure that the Pod's metadata contains a label with the key "name" and value "ds-share-process-ns".

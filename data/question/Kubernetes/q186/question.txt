@@ -1,0 +1,13 @@
+Given the following YAML, please help me define environment named SPECIAL_LEVEL_KEY in the Pod, 
+and use valueFrom to refer to the value of SPECIAL_LEVEL in the config file named special-config to define the environment variable of the Pod.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+   name: config-pod-1
+spec:
+   containers:
+     - name: test-container
+       image: mirror.gcr.io/library/busybox:latest
+       command: [ "/bin/sh", "-c", "env" ]
+```

@@ -1,0 +1,1 @@
+Create a k8s YAML job named simple-job-demo using the Docker image devopscube/kubernetes-job-demo:latest. Job executes container's ENTRYPOINT with argument 50. Tag the job with label jobgroup: simpledemo.

@@ -1,0 +1,3 @@
+Please create a Kubernetes YAML job named simple-job-demo that uses the Docker image devopscube/kubernetes-job-demo:latest. 
+This job should execute the container's ENTRYPOINT with the argument 50. 
+The job should be tagged with a label jobgroup: simpledemo.

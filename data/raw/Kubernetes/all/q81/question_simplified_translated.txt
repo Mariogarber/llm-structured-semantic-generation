@@ -1,0 +1,29 @@
+写一个定义 Service 和 Deployment 的 YAML。 Deployment 在端口 3306 上运行 MySQL 实例，env MYSQL_ROOT_PASSWORD=password，挂载卷 /var/lib/mysql，创建匹配的 PersistentVolumeClaim。 服务公开其端口上的部署。 名称用 mysql， app 标签用 mysql。
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+```

@@ -1,0 +1,21 @@
+给定以下创建 DaemonSet 的 YAML，请帮我将名为 /var/log/nginx 的主机目录挂载到路径 /var/log/nginx 中的 nginx 容器中。
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-hostpath
+spec:
+  selector:
+    matchLabels:
+      app: ds-hostpath
+  template:
+    metadata:
+      labels:
+        app: ds-hostpath
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+```
+
+请帮我完成这个配置。

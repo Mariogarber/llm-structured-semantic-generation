@@ -1,0 +1,1 @@
+Write Ingress YAML for foo.bar.com, routing /foo to service1:4200 and /bar to service2:8080.

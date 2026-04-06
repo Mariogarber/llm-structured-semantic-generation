@@ -1,0 +1,1 @@
+Set up an Istio Gateway named my-ingress that selects the my-ingressgateway app, listens on port 80 with the name http2, uses the HTTP2 protocol, and allows all hosts without any restrictions.

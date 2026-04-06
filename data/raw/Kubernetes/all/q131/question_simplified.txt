@@ -1,0 +1,16 @@
+Write a Kubernetes YAML manifest for a Pod that uses a Persistent Volume and a Persistent Volume Claim to read and write from a local directory on the node. Assume the directory /data on the node exists and the storage volume is 50 MB. Extend the following Pod's manifest:
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: local-pvc-pod
+spec:
+  containers:
+  - name: my-container
+    image: alpine
+    command:
+    - "/bin/sh"
+    - "-c"
+    - "while true; do sleep 10; done"
+```

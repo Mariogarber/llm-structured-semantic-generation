@@ -1,0 +1,25 @@
+如何向以下示例添加资源约束？请求 150Mi 内存和 100m CPU，限制内存使用量为 200Mi。
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deploy-2
+  labels:
+    app: db
+spec:
+  selector:
+    matchLabels:
+      app: db
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: mongo
+        image: mongo
+```
+请提供一个准确的配置。

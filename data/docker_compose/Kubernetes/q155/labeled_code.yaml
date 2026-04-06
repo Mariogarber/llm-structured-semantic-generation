@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: selinuxoptions1
+spec:
+  containers:
+  - image: redis
+    name: container1
+    securityContext:
+      seLinuxOptions:
+        level: somevalue
+        type: container_init_t

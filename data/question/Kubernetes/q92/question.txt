@@ -1,0 +1,3 @@
+Can you provide an example of a Kubernetes Ingress YAML configuration that specifies a custom resource named StorageBucket? 
+The desired configuration should use the networking.k8s.io/v1 API version, with a metadata name of ingress-resource-backend. 
+Additionally, the specification should have a default backend pointing to a resource named static-assets and a rule that routes traffic with the path /icons to another resource named icon-assets.

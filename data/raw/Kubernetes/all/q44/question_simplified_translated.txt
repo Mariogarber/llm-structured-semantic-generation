@@ -1,0 +1,1 @@
+创建一个 DaemonSet 配置。运行最新的 nginx 镜像，标记为 "app: kube-registry-modified"。在端口 80 上公开 registry 服务（hostPort 5000）。将环境变量 REGISTRY_HOST 和 REGISTRY_PORT 设置为 "kube-registry-modified.svc.cluster.local" 和 "5000"。将 CPU 请求设置为 100m，内存请求设置为 50Mi。

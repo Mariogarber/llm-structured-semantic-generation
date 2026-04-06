@@ -1,0 +1,1 @@
+为具有标签 app: ratings 的工作负载提供 Istio DestinationRule YAML。流量策略是 ROUND_ROBIN 负载均衡。端口 31443 启用了互联 TLS，并使用凭据 client-credential。YAML 名称为 configure-client-mtls-dr-with-workloadselector。

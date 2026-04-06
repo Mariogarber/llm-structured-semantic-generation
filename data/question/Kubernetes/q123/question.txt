@@ -1,0 +1,14 @@
+Given the following YAML for a LimitRange, I need to define constraints on a Pod type that limits its maximum CPU and memory consumption.
+Ensure that the Pod type is limited to a maximum CPU of 150m and memory of 250Mi.
+```
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: request-limits
+spec:
+  limits:
+    - type: Container
+      defaultRequest:
+        cpu: 100m
+        memory: 200Mi
+```

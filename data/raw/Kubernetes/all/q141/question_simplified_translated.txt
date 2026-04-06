@@ -1,0 +1,1 @@
+创建一个在 k8s 中命名为 "mysql-pv-volume" 的 PV 的 YAML。存储类为 "manual"，容量为 15Gi，访问模式为 "ReadWriteOnce"，从主机目录 "/mnt/data" 挂载。同时定义一个 PVC，请求 10Gi 的存储空间，使用相同的存储类和访问模式。

@@ -1,0 +1,26 @@
+Is there a way to provide environment variables from a file in Kubernetes (for example when defining a pod) instead of hardcoding them like this:
+```
+apiVersion: v1
+kind: Pod
+metadata: 
+  labels: 
+    context: docker-k8s-lab
+    name: mysql-pod
+  name: mysql-pod
+spec: 
+  containers: 
+    - env: 
+        - name: MYSQL_USER
+          value: mysql
+        - name: MYSQL_PASSWORD
+          value: mysql
+        - name: MYSQL_DATABASE
+          value: sample
+        - name: MYSQL_ROOT_PASSWORD
+          value: supersecret
+      image: "mysql:latest"
+      name: mysql
+      ports: 
+        - containerPort: 3306
+```
+Please provide the entire YAML, supposing there is a Secret named mysql-secret, with all values in it.

@@ -1,0 +1,12 @@
+Define env SPECIAL_LEVEL_KEY in Pod, use valueFrom to refer to SPECIAL_LEVEL in special-config file to define Pod's env var.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+   name: config-pod-1
+spec:
+   containers:
+     - name: test-container
+       image: mirror.gcr.io/library/busybox:latest
+       command: [ "/bin/sh", "-c", "env" ]
+```

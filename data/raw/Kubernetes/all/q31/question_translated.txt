@@ -1,0 +1,7 @@
+请帮我创建一个 Kubernetes YAML 配置，以实现以下目标：
+定义一个名为 ds-configmap 的 ConfigMap，其中包含一个名为 config-data.txt 的键和值为 "This is data from the configmap." 的单个数据条目。
+创建一个名为 ds-configmap-volume 的 DaemonSet，使用上述的 ConfigMap。该 DaemonSet 应具有以下规格：
+Pod 模板应以名称 ds-configmap-volume 进行标记。它应包含一个名为 ds-configmap-container 的单个容器，该容器：
+1. 使用 busybox 映像。
+2. 每 10 秒钟从位于 /config 挂载路径的 config-data.txt 文件中连续读取内容。
+3. ConfigMap 中的 config-data.txt 应使用名为 config-volume 的卷挂载到容器的 /config 路径。

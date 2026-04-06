@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: example
+spec:
+  template:
+    spec:
+      containers:
+      - name: ping-container # *
+        image: ubuntu:latest
+        command: ["bash", "-c", "apt-get update && apt-get install -y iputils-ping && ping google.com"]
+      restartPolicy: Never
+      activeDeadlineSeconds: 10

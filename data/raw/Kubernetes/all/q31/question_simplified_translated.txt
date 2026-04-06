@@ -1,0 +1,7 @@
+创建一个名为 ds-configmap 的 ConfigMap 的 k8s YAML，其中包含一个单独的数据条目：key=config-data.txt，value="This is data from the configmap." 
+使用上述 ConfigMap 创建一个名为 ds-configmap-volume 的 DaemonSet。 
+DaemonSet 应包含：
+- 标记为 ds-configmap-volume 的 Pod 模板。
+- 使用 busybox 镜像的单个容器，名称为 ds-configmap-container。
+- 容器每10秒钟从 /config/config-data.txt 持续读取内容。
+- 将 ConfigMap 中的 config-data.txt 挂载到容器的 /config 目录，使用名为 config-volume 的卷。

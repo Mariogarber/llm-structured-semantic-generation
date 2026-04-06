@@ -1,0 +1,1 @@
+写一个 yaml 文件来定义一个名为 "cluster-role-simple" 的 Kubernetes ClusterRole，该角色在核心 API 组中授予 "get"、"watch" 和 "list" secrets 的权限。

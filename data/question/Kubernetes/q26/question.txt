@@ -1,0 +1,2 @@
+Create a DaemonSet with Pods labeled "name: readiness" that uses the latest nginx image. Ensure that a readiness probe is configured to 
+check the root path on port 80 with an initial delay of 5 seconds.

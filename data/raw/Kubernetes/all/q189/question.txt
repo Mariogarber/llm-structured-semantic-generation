@@ -1,0 +1,2 @@
+Please write a YAML that creates a running pod that runs only one container and has a volume of type emptyDir that persists throughout the life of the pod, even if the containers in the pod are terminated and restarted.
+The name of pod is redis, the container image is redis. The volumn is mounted under /data/redis.

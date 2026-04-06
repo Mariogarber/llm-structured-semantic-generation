@@ -1,0 +1,6 @@
+Create a Kubernetes CronJob to run the following job every minute. 
+If an existing job is running, it will be replaced with a new one. 
+You can use any images, such as busybox.
+```
+/bin/sh -c "sleep 65"
+```

@@ -1,0 +1,1 @@
+请写一个 Ingress YAML 文件，定义一个规则，将主机 foo.bar.com 上的 /bar 路径上的流量转发到端口 9090 上的 service1，并定义另一个规则，将 foo.com 的任何子域上的 /foo 路径上的流量转发到端口 9091 上的 service2。

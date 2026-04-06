@@ -1,0 +1,1 @@
+Create a ServiceAccount named ms-account for a new microservice. Grant get and list access to all pods in the default namespace by creating a Role and RoleBinding.

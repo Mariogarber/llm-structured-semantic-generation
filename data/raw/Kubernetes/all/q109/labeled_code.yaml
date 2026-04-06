@@ -1,0 +1,20 @@
+apiVersion: batch/v1 
+kind: Job 
+metadata:   
+  name: parallel-job-demo   
+  labels:     
+    jobgroup: paralleldemo 
+spec: 
+  completions: 4 
+  parallelism: 2  
+  template:     
+    metadata:       
+      name: kubejob       
+      labels:         
+        jobgroup: paralleldemo     
+    spec:       
+      containers:       
+      - name: c         
+        image: devopscube/kubernetes-job-demo:latest         
+        args: ["25"]       
+      restartPolicy: OnFailure

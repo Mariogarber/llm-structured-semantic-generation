@@ -1,0 +1,1 @@
+在 Istio 设置的 prod 命名空间中，为 bookinfo-ratings 的 DestinationRule 提供准确的配置。它应该确保使用 LEAST_REQUEST 策略进行流量负载均衡。

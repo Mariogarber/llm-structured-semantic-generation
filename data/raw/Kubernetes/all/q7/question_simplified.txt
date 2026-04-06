@@ -1,0 +1,1 @@
+Write a YAML for a k8s cronjob that prints 'OK' every minute and sleeps for 80 seconds using the latest ubuntu image. Job name: 'example'. Do not run if the previous cronjob is still running.

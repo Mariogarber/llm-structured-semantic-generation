@@ -1,0 +1,6 @@
+I want to create a headless Service, nginx, to publish the IP addresses of 2 Pods in a StatefulSet, web. 
+Specially,I want all Pods to be launched or terminated in parallel. 
+Each container should be running the latest nginx image, and use port 80 named "web". 
+The volume should be named "www". 
+How should I write the yaml that configures both the Service and the StatefulSet? 
+You can concatenate them into a single file.

@@ -1,0 +1,4 @@
+我需要你的帮助来创建一个满足以下要求的 k8s pod（别名为 alias-pod）：
+1. 它不应自动重启。
+2. 它应该有两个主机别名：IP 地址 127.0.0.1 应解析为主机名 example.local 和 sample.local；IP 地址 10.1.2.3 应解析为主机名 example.remote 和 sample.remote。
+3. Pod 应该运行基于 busybox:1.35 镜像的容器，并执行 cat 命令来显示 /etc/hosts 文件。

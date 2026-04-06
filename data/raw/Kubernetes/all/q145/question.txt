@@ -1,0 +1,2 @@
+Create a Kubernetes Pod that runs a container with the Nginx server using the latest image and exposes port 80. 
+The name of the Pod should be "nginx-server".

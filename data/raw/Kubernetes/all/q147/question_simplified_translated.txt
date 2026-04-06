@@ -1,0 +1,1 @@
+配置一个 K8s Pod，使用 ConfigMap 在其容器中创建一个只读文件。使用 busybox 作为容器，在启动后睡眠 1200 秒。ConfigMap 数据应包括 my-config: "它是只读的"。

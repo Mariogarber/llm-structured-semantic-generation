@@ -1,0 +1,2 @@
+I have a k8s-related question:
+A new microservice is being deployed in your cluster, and it requires its own service account. Create a ServiceAccount and name it ms-account. After creating the ServiceAccount, ensure it is granted get and list access to all pods in the default namespace by creating an appropriate Role and RoleBinding.

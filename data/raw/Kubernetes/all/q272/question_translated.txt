@@ -1,0 +1,17 @@
+这是一个用于 nginx 应用的无头服务清单。
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: nginx
+```
+现在您需要使用 StatefulSet 部署 2 个 nginx 副本。容器应使用镜像 registry.k8s.io/nginx-slim:0.8，并在 /usr/share/nginx/html 上挂载一个卷。该卷应具有 1Gi 的存储空间和 ReadWriteOnce 访问模式。

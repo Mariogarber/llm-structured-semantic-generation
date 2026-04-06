@@ -1,0 +1,2 @@
+Please provide a Pod YAML that utilizes Fedora as its base image, runs indefinitely, and leverages huge pages of 2Mi with a limit of 100Mi. 
+Additionally, the Pod should request and limit its memory to 100Mi and mount the huge pages volume to /hugepages.

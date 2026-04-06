@@ -1,0 +1,36 @@
+提供 Envoy 设置中 listeners 部分的详细配置。使用 envoy.filters.network.http_connection_manager 过滤器，并使用 typed_config 指定 HttpConnectionManager。将编解码器设置为自动检测。将统计前缀标记为 'ingress_http'。包括路由配置 'local_route'，其中虚拟主机 'backend' 适用于所有域。两个路由：/service/1 到集群 'service1'，/service/2 到集群 'service2'。添加两个 HTTP 过滤器：envoy.filters.http.cache，具有特定的 CacheConfig 和 SimpleHttpCacheConfig，以及 envoy.filters.http.router。请确保遵守配置结构和 YAML 格式化标准。
+
+```
+static_resources:
+  listeners:
+  - address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 8000
+
+  clusters:
+  - name: service1
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service1
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service1
+                port_value: 8080
+  - name: service2
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service2
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: service2
+                port_value: 8080
+```

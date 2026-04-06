@@ -1,0 +1,12 @@
+What are the env vars accessible within a Kubernetes pod? How can I retrieve the pod's name, namespace, and IP address using these vars? Provide the full YAML after modification.
+```
+apiVersion: v1
+kind: Pod
+metadata:
+   name: config-pod-1
+spec:
+   containers:
+     - name: test-container
+       image: mirror.gcr.io/library/busybox:latest
+       command: [ "/bin/sh", "-c", "env" ]
+```

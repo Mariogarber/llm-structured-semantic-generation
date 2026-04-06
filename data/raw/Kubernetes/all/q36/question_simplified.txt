@@ -1,0 +1,1 @@
+Create a yaml for a k8s DaemonSet. Pods have 2 containers: "container-1" with busybox image echoing 'Container 1 Running' every 10s, and "container-2" with busybox image echoing 'Container 2 Running' every 15s. Pod metadata has label "name: ds-multi-container".

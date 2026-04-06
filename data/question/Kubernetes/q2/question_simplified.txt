@@ -1,0 +1,1 @@
+Provide Kubernetes ConfigMap config for game-demo app. Initial player lives: 3, ui_properties_file_name: user-interface.properties. game.properties defines params for objects enemy and player. Enemy types: aliens, monsters. Max player lives: 5.

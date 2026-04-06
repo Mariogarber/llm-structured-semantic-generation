@@ -1,0 +1,4 @@
+I have a Kubernetes setup where I need to utilize a Service Account for a DaemonSet. Please help me craft a YAML definition that encompasses the following requirements:
+1. Create a Service Account with the name "ds-service-account". Define a DaemonSet which uses the above Service Account.
+2. Within this DaemonSet, there should be a container runs the busybox image. This container should continuously print the message "Running with service account" every 10 seconds.
+3. Pod should have labels as "ds-service-account-set"

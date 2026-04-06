@@ -1,0 +1,1 @@
+Set up a DaemonSet YAML named "fluentd-elasticsearch" with Pods labeled "name: fluentd-elasticsearch" using the image "quay.io/fluentd_elasticsearch/fluentd:v2.5.2".

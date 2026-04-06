@@ -1,0 +1,22 @@
+将提供的 k8s YAML 文件修改，将副本数增加两个，并将 CPU 请求设置为 0.1，内存请求设置为 100MB。以下是修改后的 YAML：
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard-deploy
+  labels:
+    app: kuard
+spec:
+  selector:
+    matchLabels:
+      app: test
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+      - name: my-kuard
+        image: gcr.io/kuar-demo/kuard-amd64:2
+```

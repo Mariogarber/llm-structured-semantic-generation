@@ -1,0 +1,1 @@
+创建一个 k8s Bootstrap Token Secret，其 token ID 为 abcdef，token secret 为 0123456789abcdef。过期时间为 2023 年 9 月 21 日 UTC 时间的 23:59:00。该 token 可用于身份验证和签名。

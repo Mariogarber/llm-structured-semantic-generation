@@ -1,0 +1,1 @@
+创建一个 k8s HorizontalPodAutoscaler 的 YAML，根据平均 CPU 利用率自动调整名为 "simple-web-app" 的部署中的 Pod 数量。平均 CPU 利用率目标应为 60%，副本数应在 1 到 10 之间。

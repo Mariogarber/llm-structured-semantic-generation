@@ -1,0 +1,1 @@
+我有一个要求，需要定义一个名为 "gce-pv" 的 PersistentVolume Kubernetes yaml，它利用了一个名为 "gce-disk-name" 的 GCE 持久磁盘，并使用 ext4 格式化。

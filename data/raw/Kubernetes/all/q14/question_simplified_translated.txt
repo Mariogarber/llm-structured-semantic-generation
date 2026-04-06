@@ -1,0 +1,6 @@
+设计一个 DaemonSet YAML，具有以下规格：
+1. 标记为 "fluentd-elasticsearch" 的 Pod。
+2. 使用镜像 quay.io/fluentd_elasticsearch/fluentd:v2.5.2 的单个容器，命名为 "fluentd-elasticsearch"。
+3. 容器资源要求：
+   - 内存限制：200Mi。
+   - CPU 请求：100m，内存请求：200Mi。

@@ -1,0 +1,1 @@
+Create a k8s CronJob to run a job every minute. Replace existing job if running. Use any image, e.g. busybox. Job command: `/bin/sh -c "sleep 65"`.

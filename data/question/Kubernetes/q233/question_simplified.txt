@@ -1,0 +1,1 @@
+Craft a Kubernetes YAML for a Secret named secret-basic-auth using the specific type for basic authentication. Use clear text data that gets automatically converted to base64. Credentials are username: admin and password: t0p-Secret.

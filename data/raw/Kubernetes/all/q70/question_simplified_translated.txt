@@ -1,0 +1,26 @@
+对 k8s Deployment 清单进行更改：
+- 将 Deployment 名称更改为 my-deploy。
+- 将副本数增加 2。
+- 使用 nginx 镜像版本 1.16.1。
+- 将端口设置为 8080。
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```

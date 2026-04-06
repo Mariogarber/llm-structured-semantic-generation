@@ -1,0 +1,1 @@
+创建一个每分钟运行的 Kubernetes CronJob YAML。该作业应使用 busybox 容器输出环境变量 CRON_NAME 的值。将 CronJob 命名为 "env-job" 并将环境变量的值设置为 CronTest。

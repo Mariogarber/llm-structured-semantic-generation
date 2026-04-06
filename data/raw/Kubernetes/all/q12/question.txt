@@ -1,0 +1,2 @@
+I want to set up a DaemonSet yaml named "fluentd-elasticsearch" with Pods labeled "name: fluentd-elasticsearch" and using 
+the image "quay.io/fluentd_elasticsearch/fluentd:v2.5.2".

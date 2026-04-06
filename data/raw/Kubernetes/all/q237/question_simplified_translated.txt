@@ -1,0 +1,9 @@
+创建一个名为 secret-dotfiles-pod 的 Pod，在 /etc/secret-volume 挂载 Kubernetes Secret dotfile-secret。Pod 应该使用镜像 registry.k8s.io/busybox 运行一个容器。Secret 包含一个名为 .secret-file 的 dotfile，其中包含编码数据 "dmFsdWUtMgo="。
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dotfile-secret
+data:
+  .secret-file: dmFsdWUtMgo=
+```

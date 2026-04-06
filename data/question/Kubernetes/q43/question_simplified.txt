@@ -1,0 +1,1 @@
+Design a k8s DaemonSet & Service. DaemonSet labeled "component: exporter-modified" runs latest nginx image, exposes port 9445 on host network. Service in same namespace maps to DaemonSet using NodePort with tcp.

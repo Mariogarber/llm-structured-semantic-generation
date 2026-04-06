@@ -1,0 +1,1 @@
+Please write an Ingress YAML file for foo.bar.com that routes traffic on the /foo path to service1 on port 4200 and on the /bar path to service2 on port 8080.

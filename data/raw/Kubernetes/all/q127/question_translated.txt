@@ -1,0 +1,18 @@
+给定以下定义 PersistentVolume 的 YAML，请帮我创建一个名为 `mysql-pv-claim` 的 PersistentVolumeClaim。
+访问模式应为 `ReadWriteOnce`，并且应请求 `10Gi` 的存储空间。
+```
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+```

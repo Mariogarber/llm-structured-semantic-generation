@@ -1,0 +1,1 @@
+Define a PV YAML named "gce-pv" that uses a GCE persistent disk named "gce-disk-name" formatted with ext4.

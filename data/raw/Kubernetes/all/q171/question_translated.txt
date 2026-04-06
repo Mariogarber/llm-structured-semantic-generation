@@ -1,0 +1,16 @@
+请帮忙为这个 Pod 添加一个 liveness 探针，使用 HTTP GET 请求。它应该每 3 秒探测一次，并在执行第一次探测之前等待 3 秒。
+为了执行探测，kubelet 发送一个 HTTP GET 请求到运行在容器中并监听端口 8080 的服务器。如果服务器的 /healthz 路径的处理程序返回成功代码，kubelet 就认为容器是活着且健康的。如果处理程序返回失败代码，kubelet 就会杀死容器并重新启动它。
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-http
+spec:
+  containers:
+  - name: liveness
+    image: registry.k8s.io/liveness
+    args:
+    - /server
+```

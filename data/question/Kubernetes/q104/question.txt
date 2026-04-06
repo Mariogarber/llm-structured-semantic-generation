@@ -1,0 +1,5 @@
+I have a task of creating an Indexed Job in a Kubernetes cluster. 
+The Job requires 5 completions and all pods can running in parallel. 
+Each Pod will run an init container that writes an item from the list (foo, bar, baz, qux, xyz) to a file, based on its index. 
+The main container will then read this file and reverse the item's characters.
+Write the Kubernetes YAML file.

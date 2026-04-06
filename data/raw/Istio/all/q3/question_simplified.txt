@@ -1,0 +1,1 @@
+Provide Istio DestinationRule YAML for bookinfo app's ratings service in prod ns. Port 80 uses LEAST_REQUEST lb, port 9080 uses ROUND_ROBIN lb strategy. Name: bookinfo-ratings-port.

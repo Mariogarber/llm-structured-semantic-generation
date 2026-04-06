@@ -1,0 +1,2 @@
+Please create a PersistentVolume yaml named "hostpath-pv", a capacity of 10Gi. StorageClassName as "manual". This volume should 
+use the "manual" storage class and make use of the host's local directory at "/mnt/data".

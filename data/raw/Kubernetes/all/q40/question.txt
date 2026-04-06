@@ -1,0 +1,2 @@
+I want a DaemonSet YAML labeled as "name: ds-grace-serviceaccount" using the latest nginx image. The pods should have a termination grace 
+period of 60 seconds and use the "default" service account.

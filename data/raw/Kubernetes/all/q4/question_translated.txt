@@ -1,0 +1,2 @@
+我有一个与 Kubernetes YAML 相关的问题：
+创建一个名为 database-config 的 ConfigMap，其中包含以下键值对：DB_HOST=database-host，DB_PORT=5432。

@@ -1,0 +1,1 @@
+创建一个名为 simple-job-demo 的 k8s YAML job，使用 Docker 镜像 devopscube/kubernetes-job-demo:latest。Job 使用容器的 ENTRYPOINT 并带有参数 50。给该 job 打上标签 jobgroup: simpledemo。

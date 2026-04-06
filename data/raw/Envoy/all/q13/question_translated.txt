@@ -1,0 +1,16 @@
+你能为 Envoy 的跨站点设置提供一个 YAML 配置吗？满足以下要求：
+定义一个绑定到 IP 0.0.0.0 并监听端口 10000 的监听器。
+对于该监听器，设置一个使用 envoy.filters.network.http_connection_manager 的过滤器链。
+在该过滤器的配置中：
+编解码器应自动检测类型。
+我们希望在统计信息前缀中加上术语 'ingress_http'。
+使用标准输出 (stdout) 实现访问日志记录。
+指定一个名为 'local_route' 的路由配置。在其中：
+设置一个名为 'www' 的虚拟主机，以满足所有可能的域名。
+该虚拟主机应有一个匹配根路径 (/) 并将流量定向到名为 generic_service 的集群的单个路由。
+使用正确的类型配置，为路由添加一个 HTTP 过滤器。
+现在，定义一个名为 generic_service 的集群：
+将 STRICT_DNS 作为其类型，并采用 ROUND_ROBIN 负载均衡策略。
+该集群的负载分配应指向 IP 标记为 service 的端口 8080 上运行的服务。
+stat_prefix 应设置为 ingress_http。
+请以适当的 YAML 格式结构化回答。请确保它符合 YAML 格式化标准。

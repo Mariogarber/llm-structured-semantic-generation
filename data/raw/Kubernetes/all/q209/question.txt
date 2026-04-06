@@ -1,0 +1,2 @@
+Compose a yaml file to define resource quotas named "object-counts" in Kubernetes with the following specific limits: 10 for Secrets, 10 for Services, 
+and 2 for LoadBalancer Services within the 'services' category.

@@ -1,0 +1,20 @@
+如何将 Service Account 集成到 Kubernetes 中的 DaemonSet 中？
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds-service-account-set
+spec:
+  selector:
+    matchLabels:
+      name: ds-service-account-set
+  template:
+    metadata:
+      labels:
+        name: ds-service-account-set
+    spec:
+      containers:
+      - name: ds-service-account-container
+        image: busybox
+        command: [ "sh", "-c", "while true; do echo 'Running with service account'; sleep 10; done" ]
+```

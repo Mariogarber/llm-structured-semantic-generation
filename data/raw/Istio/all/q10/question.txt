@@ -1,0 +1,2 @@
+I need a Istio YAML to allow egress traffic to github.com over port 443 using the HTTPS protocol. 
+Please provide me the entire YAML configuration for this.

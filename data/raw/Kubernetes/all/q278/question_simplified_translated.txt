@@ -1,0 +1,1 @@
+创建一个 K8s StorageClass（test-sc）用于 AWS EBS（provisioner: kubernetes.io/aws-ebs）。存储类型为 gp2。回收策略为 Retain。允许卷扩展。挂载选项为 debug。卷绑定模式为 Immediate。

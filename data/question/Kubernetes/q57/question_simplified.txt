@@ -1,0 +1,1 @@
+Configure a Kubernetes DaemonSet with nginx container on every node, tolerating master and control-plane nodes. Add rolling update strategy with max 1 unavailable pod.
