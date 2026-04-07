@@ -1,0 +1,36 @@
+{
+  "dataset_version": "kubernetes_v1",
+  "domain": "Kubernetes",
+  "seed": 42,
+  "output_dir": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\data\\processed\\kubernetes_v1",
+  "sample_count": 283,
+  "prompt_variant_count": 566,
+  "expected_sample_count": 283,
+  "expected_prompt_variant_count": 566,
+  "validation_status_counts": {
+    "ok": 283,
+    "reject": 0
+  },
+  "sample_split_counts": {
+    "train": 213,
+    "test": 35,
+    "validation": 35
+  },
+  "prompt_variant_split_counts": {
+    "train": 426,
+    "test": 70,
+    "validation": 70
+  },
+  "all_yaml_parse_ok": true,
+  "normalization_is_deterministic": true,
+  "shared_split_per_sample_ok": true,
+  "largest_leakage_group_size": 3,
+  "ready_for_next_step": true,
+  "readiness_gates": {
+    "manifest_complete": true,
+    "yaml_validation_100_percent": true,
+    "no_reject_rows": true,
+    "variants_share_split": true,
+    "export_train_ready_exists": true
+  }
+}

@@ -104,6 +104,11 @@ The data pipeline includes:
 - controlled synthetic data generation,
 - strict train/validation/test separation to avoid leakage.
 
+Current repository documents:
+
+- Kubernetes preprocessing reference: [docs/KUBERNETES_PREPROCESSING.md](docs/KUBERNETES_PREPROCESSING.md)
+- Kubernetes model v1 functional specification: [docs/KUBERNETES_MODEL_V1.md](docs/KUBERNETES_MODEL_V1.md)
+
 ## Evaluation
 
 Traditional text generation metrics such as BLEU are not sufficient for this problem. The evaluation framework therefore emphasizes structural and semantic quality.
