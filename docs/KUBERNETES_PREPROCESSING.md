@@ -39,6 +39,13 @@ The script writes the processed dataset to `data/processed/kubernetes_v1/`.
 - `dataset_train_ready_samples.jsonl`: training-ready rows at sample level
 - `quality_report.json`: validation and readiness gates
 
+The structural target stage builds on these artifacts and writes:
+
+- `dataset_structural_targets.jsonl`: one row per prompt variant with derived line-and-level blocks
+- `structural_targets_report.json`: round-trip validation report for the structural targets
+- `sft/train.jsonl`, `sft/validation.jsonl`, `sft/test.jsonl`: fixed SFT serialization derived from structural targets
+- `sft/sft_dataset_report.json`: SFT export report
+
 These artifacts are the fixed v1 basis for the main line of the project. Oversampling or synthetic enlargement, if later used, should be treated as separate experiments rather than as part of this preprocessing contract.
 
 ## Canonicalization policy
@@ -86,3 +93,25 @@ In the current Kubernetes v1 build, the observed values are:
 - `exact_yaml_duplicate`
 
 The code also supports `exact_prompt_duplicate` and `near_prompt_duplicate`, even if they do not appear in the current processed version.
+
+## Structural target stage
+
+After preprocessing, run:
+
+```bash
+uv run python scripts/build_kubernetes_structural_targets.py
+```
+
+This derives the implemented pre-parser representation:
+
+`target_yaml_normalized -> blocks(document_index, line_index, line_text, level) -> reconstructed YAML`
+
+Each row must round-trip through the deterministic parser and preserve parsed YAML semantics. The parser applies indentation from `level` and validates YAML parseability; it does not invent missing Kubernetes content or silently repair semantic mistakes.
+
+Then run:
+
+```bash
+uv run python scripts/build_kubernetes_sft_dataset.py
+```
+
+This creates the first fixed SFT-ready serialization over the structural blocks. It prepares supervised data only; it is not evidence that SFT has already been trained or evaluated.

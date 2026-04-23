@@ -622,16 +622,34 @@ This document leaves some implementation choices open on purpose:
 
 These are implementation details that must respect this contract, not redefine it.
 
-## 18. Immediate next step
+## 18. Implemented bridge to modeling
 
-The immediate next step is to define the transformation:
+The first bridge from the processed dataset to modeling is now implemented:
 
 `target_yaml_normalized -> latent intermediate representation -> sequence of lines with level -> training serialization`
 
-That next design step must fix:
+The implemented concrete layer covers:
 
-- how the latent representation is constructed or supervised
 - how lines are extracted from normalized YAML
 - how `level` is encoded
 - how the model sees both latent and block-level targets
 - how parser success and structural fidelity are measured independently and jointly
+
+The current implementation fixes the block-level target and parser boundary:
+
+- `scripts/build_kubernetes_structural_targets.py` derives line-and-level targets.
+- `src/llm_structured_semantic_generation/structure.py` reconstructs YAML deterministically.
+- `scripts/build_kubernetes_sft_dataset.py` creates the first SFT-ready serialization.
+- `scripts/run_kubernetes_baseline.py` defines the zero-shot baseline execution path.
+
+The exact parametrization and supervision of the latent intermediate representation remains open. The implemented block representation must therefore be treated as the explicit projection after the latent stage, not as the latent space itself.
+
+## 19. Next implementation step
+
+The next implementation step is to run and record the baseline:
+
+1. Generate structural targets and confirm `structural_targets_report.json` has `ready_for_baseline: true`.
+2. Run the dry-run baseline configuration check.
+3. Install optional LLM dependencies if needed.
+4. Run the baseline on validation and test.
+5. Review `metrics.json` and error examples before starting LoRA/SFT.

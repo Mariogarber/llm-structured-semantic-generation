@@ -1,0 +1,29 @@
+{
+  "run_id": "20260423T152242Z",
+  "dataset": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\data\\processed\\kubernetes_v1\\dataset_structural_targets.jsonl",
+  "model_path": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\model\\qwen2.5-7b-instruct-4bit",
+  "split": "validation",
+  "row_count": 70,
+  "max_samples": null,
+  "max_new_tokens": 1024,
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "target_contract": "prompt -> JSON blocks(document_index,line_index,level,line_text) -> parser -> YAML",
+  "dry_run": true,
+  "model_checks": {
+    "model_path_exists": true,
+    "has_config": true,
+    "has_generation_config": true,
+    "has_weights": true,
+    "has_tokenizer_files": false,
+    "installed_transformers": false,
+    "installed_torch": false,
+    "installed_bitsandbytes": false,
+    "quant_method": "bitsandbytes",
+    "warnings": [
+      "missing_local_tokenizer_files",
+      "model_quantization_requires_bitsandbytes"
+    ],
+    "ready_for_full_run": false
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "input": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\data\\processed\\kubernetes_v1\\dataset_structural_targets.jsonl",
+  "output_dir": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\data\\processed\\kubernetes_v1\\sft",
+  "split_counts": {
+    "train": 426,
+    "validation": 70,
+    "test": 70
+  },
+  "skipped_count": 0,
+  "skipped_examples": [],
+  "serialization": "blocks_tsv_v1",
+  "ready_for_sft": true
+}

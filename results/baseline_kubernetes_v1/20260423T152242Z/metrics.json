@@ -1,0 +1,9 @@
+{
+  "dry_run": true,
+  "row_count": 70,
+  "ready_for_full_run": false,
+  "model_warnings": [
+    "missing_local_tokenizer_files",
+    "model_quantization_requires_bitsandbytes"
+  ]
+}

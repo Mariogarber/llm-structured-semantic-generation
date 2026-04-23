@@ -110,6 +110,58 @@ Current repository documents:
 
 - Kubernetes preprocessing reference: [docs/KUBERNETES_PREPROCESSING.md](docs/KUBERNETES_PREPROCESSING.md)
 - Kubernetes model v1 functional specification: [docs/KUBERNETES_MODEL_V1.md](docs/KUBERNETES_MODEL_V1.md)
+- Structural target contract: [docs/STRUCTURAL_TARGETS_V1.md](docs/STRUCTURAL_TARGETS_V1.md)
+- Baseline execution contract: [docs/BASELINE_V1.md](docs/BASELINE_V1.md)
+
+## Current Implementation Status
+
+The Kubernetes v1 dataset is processed and ready for the next modeling stage. The repository now includes:
+
+- a reproducible Kubernetes preprocessing script,
+- processed train/validation/test artifacts under `data/processed/kubernetes_v1/`,
+- a line-and-level structural target builder,
+- deterministic reconstruction from structural blocks back to YAML,
+- structural evaluation helpers,
+- fixed SFT serialization rows derived from structural targets,
+- a zero-shot baseline runner for the local Qwen model.
+
+The repository does not yet contain completed SFT, DPO, PPO, or validated baseline result tables. Those must be produced by running the experiment scripts and recording their outputs.
+
+## Reproducible Commands
+
+Build the base processed dataset:
+
+```bash
+uv run python utils/kubernetes_dataset_preprocessor.py
+```
+
+Build the line-and-level structural targets:
+
+```bash
+uv run python scripts/build_kubernetes_structural_targets.py
+```
+
+Build SFT-ready JSONL files from the structural targets:
+
+```bash
+uv run python scripts/build_kubernetes_sft_dataset.py
+```
+
+Validate the baseline inputs without loading the model:
+
+```bash
+uv run python scripts/run_kubernetes_baseline.py --dry-run
+```
+
+Run the zero-shot baseline on the validation split after installing the optional LLM dependencies:
+
+```bash
+uv sync --extra llm
+uv run python scripts/run_kubernetes_baseline.py --split validation
+```
+
+The dry run records whether the local model directory has the tokenizer files
+and quantization dependencies needed for a full run.
 
 ## Evaluation
 
@@ -146,17 +198,14 @@ Traditional text generation metrics such as BLEU are not sufficient for this pro
 
 ```text
 .
-|-- data/                # Datasets, processed artifacts, and splits
-|-- notebooks/           # Exploratory analysis and experiments
-|-- src/
-|   |-- data/            # Dataset building and preprocessing
-|   |-- modeling/        # Model loading, LoRA/SFT pipelines
-|   |-- decoding/        # Structural control and constrained decoding
-|   |-- reward/          # Automatic scoring / preference generation
-|   |-- evaluation/      # Structural, semantic, and robustness metrics
-|   `-- utils/           # Helpers and utilities
-|-- experiments/         # Experiment configs and logs
-|-- results/             # Outputs, tables, plots, and reports
+|-- data/                # Raw and processed dataset artifacts
+|-- docs/                # Project, preprocessing, modeling, and experiment contracts
+|-- exploratory/         # Exploratory notebooks and data profiling artifacts
+|-- model/               # Local base model artifacts
+|-- scripts/             # Reproducible dataset, SFT, and baseline commands
+|-- src/                 # Structural conversion, serialization, and evaluation code
+|-- tests/               # Unit tests for structural targets and parser behavior
+|-- utils/               # Current preprocessing and utility scripts
 |-- README.md
-`-- requirements.txt
+`-- pyproject.toml
 ```
