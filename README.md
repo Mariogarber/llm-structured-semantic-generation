@@ -113,6 +113,7 @@ Current repository documents:
 - Structural target contract: [docs/STRUCTURAL_TARGETS_V1.md](docs/STRUCTURAL_TARGETS_V1.md)
 - Baseline execution contract: [docs/BASELINE_V1.md](docs/BASELINE_V1.md)
 - Project terminology and metric definitions: [docs/TERMINOLOGY.md](docs/TERMINOLOGY.md)
+- Multi-resource enrichment decision: [docs/MULTI_RESOURCE_STRATEGY_DECISION.md](docs/MULTI_RESOURCE_STRATEGY_DECISION.md)
 
 ## Current Implementation Status
 
@@ -127,6 +128,11 @@ The Kubernetes v1 dataset is processed and ready for the next modeling stage. Th
 - a zero-shot baseline runner for the local Qwen model.
 
 The repository does not yet contain completed SFT, DPO, PPO, or validated baseline result tables. Those must be produced by running the experiment scripts and recording their outputs.
+
+The next dataset-enrichment direction is documented as `kubernetes_v2`: a
+derived multi-resource dataset built from `kubernetes_v1` through controlled
+compositional oversampling. This is an experimental branch and does not replace
+the clean `kubernetes_v1` baseline.
 
 ## Reproducible Commands
 

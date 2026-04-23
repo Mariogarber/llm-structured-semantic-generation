@@ -19,6 +19,8 @@ Agents operating in this repository must assume the following scope unless a new
 - Current effective case study: `Kubernetes`
 - Historical broader thesis motivation: structured YAML generation in technical domains, including `docker-compose.yaml`
 - Base dataset for the main line of experiments: `Kubernetes v1`
+- Planned enriched dataset branch: `Kubernetes v2`, derived from `Kubernetes v1`
+  through controlled multi-resource oversampling
 - Main processed dataset location: `data/processed/kubernetes_v1/`
 - Main preprocessing contract: `docs/KUBERNETES_PREPROCESSING.md`
 - Main modeling contract: `docs/KUBERNETES_MODEL_V1.md`
@@ -45,6 +47,9 @@ The following decisions are already fixed for the core experimental path and mus
 2. The base dataset is `Kubernetes v1`.
 3. The core project uses a single main dataset version.
 4. Oversampling, synthetic enlargement, or dataset growth are not part of the base v1 contract.
+   - If implemented, the accepted enrichment branch is `kubernetes_v2` under
+     `data/processed/kubernetes_v2/`, and it must remain traceable to
+     `kubernetes_v1`.
 5. The main modeling narrative is:
    - `prompt -> latent intermediate representation -> blocks with level -> parser as structural control -> final YAML`
 6. The blocks with level are not the latent space itself.
@@ -75,6 +80,9 @@ Before making significant changes, agents should understand the role of these re
   - current preprocessing implementation for `Kubernetes v1`
 - `data/processed/kubernetes_v1/`
   - generated manifests, splits, train-ready exports, and quality report
+- `docs/MULTI_RESOURCE_STRATEGY_DECISION.md`
+  - records why the project prioritizes controlled multi-resource enrichment
+    for `kubernetes_v2` over atomic generation plus concatenation
 
 Agents must treat these artifacts as the current source of truth for the implemented case of use.
 

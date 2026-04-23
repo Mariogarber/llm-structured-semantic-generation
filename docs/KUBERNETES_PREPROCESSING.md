@@ -49,6 +49,11 @@ The structural target stage builds on these artifacts and writes:
 
 These artifacts are the fixed v1 basis for the main line of the project. Oversampling or synthetic enlargement, if later used, should be treated as separate experiments rather than as part of this preprocessing contract.
 
+The accepted future oversampling branch is `kubernetes_v2`, documented in
+`docs/MULTI_RESOURCE_STRATEGY_DECISION.md`. It must read from
+`data/processed/kubernetes_v1/` and write to `data/processed/kubernetes_v2/`
+without modifying the v1 artifacts.
+
 ## Canonicalization policy
 
 - YAML is parsed with `yaml.safe_load_all`
@@ -143,3 +148,30 @@ The main analysis terms are:
 - `block_count`: number of line-and-level blocks derived from the normalized YAML.
 
 See `docs/TERMINOLOGY.md` for the full glossary and the distinction between YAML tree nodes, Kubernetes `Node` resources, block `level`, and parsed YAML depth.
+
+## Future `kubernetes_v2` enrichment
+
+`kubernetes_v2` is planned as a derived, experimental dataset for controlled
+multi-resource oversampling. It is not part of the base v1 preprocessing run.
+
+The intended source and target locations are:
+
+- Source: `data/processed/kubernetes_v1/`
+- Target: `data/processed/kubernetes_v2/`
+
+The first accepted composition families are:
+
+- `Deployment + Service`
+- `Pod + ConfigMap`
+- `Pod + Secret`
+- `PersistentVolume + PersistentVolumeClaim + Pod`
+- `ServiceAccount + Role + RoleBinding`
+- `StatefulSet + Service`
+
+Each synthetic row must record source sample IDs, source leakage groups, split,
+composition strategy, prompt strategy, and normalized target YAML. Synthetic
+examples must not mix splits.
+
+The generated `kubernetes_v2` report must compare v1 and v2 coverage for
+documents per sample, `kind` combinations, YAML depth, block count, semantic-key
+presence, and leakage behavior.

@@ -385,6 +385,13 @@ If later experiments use:
 
 they must be documented as additional experiments on top of the fixed v1 baseline, not as a redefinition of the system itself.
 
+The accepted enrichment direction is documented in
+`docs/MULTI_RESOURCE_STRATEGY_DECISION.md`. The enriched dataset version will be
+`kubernetes_v2`, stored under `data/processed/kubernetes_v2/`, and will focus on
+controlled multi-resource and multi-document compositions. `kubernetes_v2` is a
+derived experimental branch; `kubernetes_v1` remains the base dataset for the
+clean baseline and for comparison.
+
 ## 12. Auxiliary structural signals as a comparative branch
 
 ### Position in the project
