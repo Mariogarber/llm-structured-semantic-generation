@@ -15,6 +15,9 @@ It performs no supervised weight updates, no LoRA adaptation, and no preference
 optimization. It asks the model to produce structural blocks, then sends those
 blocks through the deterministic parser.
 
+Terminology for structural blocks and evaluation fields is defined in
+`docs/TERMINOLOGY.md`.
+
 ## Command
 
 Validate the setup without loading the model:

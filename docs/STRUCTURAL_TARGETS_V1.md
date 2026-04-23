@@ -34,6 +34,20 @@ control. It is not the latent representation itself.
 The parser reconstructs YAML by applying indentation from `level` and preserving
 line order. It does not add missing keys, values, resources, or semantic repairs.
 
+## Terminology
+
+- A `block` is one pre-parser unit for one YAML physical line after removing
+  leading indentation.
+- `block_count` is the number of blocks in the row.
+- `level` is line indentation depth in units of two spaces. It is not the same
+  as `yaml_max_depth`, which is computed from the parsed YAML object tree.
+- `document_index` identifies the YAML document that owns the block. Document
+  separator lines such as `---` are reconstructed from index changes and are
+  not represented as content blocks.
+- `line_index` is zero-based inside each `document_index`.
+
+The full project glossary is maintained in `docs/TERMINOLOGY.md`.
+
 ## Generated Artifacts
 
 Run:
@@ -81,4 +95,3 @@ The structural target builder validates each row by:
 
 This guards against hidden parser repair: semantic equivalence must come from the
 line-and-level representation, not from invented content.
-

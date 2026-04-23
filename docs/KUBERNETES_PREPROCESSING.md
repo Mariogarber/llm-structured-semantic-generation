@@ -3,6 +3,7 @@
 This repository now includes a reproducible preprocessing pipeline for the Kubernetes corpus stored in `data/`.
 
 The functional modeling contract that consumes these artifacts is defined in `docs/KUBERNETES_MODEL_V1.md`.
+Terminology for dataset fields, structural targets, and analysis metrics is defined in `docs/TERMINOLOGY.md`.
 The dataset is not only intended for final YAML supervision. It is the experimental basis for:
 
 - the latent intermediate representation described in the modeling document
@@ -115,3 +116,30 @@ uv run python scripts/build_kubernetes_sft_dataset.py
 ```
 
 This creates the first fixed SFT-ready serialization over the structural blocks. It prepares supervised data only; it is not evidence that SFT has already been trained or evaluated.
+
+## Dataset analysis stage
+
+Before model training, run:
+
+```bash
+uv run python scripts/analyze_kubernetes_dataset.py
+```
+
+This writes a descriptive analysis to `results/dataset_analysis_kubernetes_v1/`:
+
+- `dataset_analysis_report.html`: navigable report with embedded plots
+- `figures/*.png`: static figures for thesis text or slides
+- `dataset_analysis_summary.json`: machine-readable summary of coverage, leakage, complexity, and semantic-key presence
+- `dataset_analysis_sample_features.csv`: sample-level derived features
+- `dataset_analysis_resource_rows.csv`: resource-document-level derived features
+
+This analysis is descriptive only. It is meant to expose dataset coverage bias, split balance, structural complexity, and approximate Kubernetes field coverage before baseline or SFT.
+
+The main analysis terms are:
+
+- `primary_kind`: first Kubernetes `kind` found among the parsed mapping documents of a sample.
+- `yaml_max_depth`: maximum recursive depth of the parsed YAML object tree.
+- `yaml_total_nodes`: total count of parsed YAML mapping, list, and scalar nodes.
+- `block_count`: number of line-and-level blocks derived from the normalized YAML.
+
+See `docs/TERMINOLOGY.md` for the full glossary and the distinction between YAML tree nodes, Kubernetes `Node` resources, block `level`, and parsed YAML depth.

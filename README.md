@@ -112,6 +112,7 @@ Current repository documents:
 - Kubernetes model v1 functional specification: [docs/KUBERNETES_MODEL_V1.md](docs/KUBERNETES_MODEL_V1.md)
 - Structural target contract: [docs/STRUCTURAL_TARGETS_V1.md](docs/STRUCTURAL_TARGETS_V1.md)
 - Baseline execution contract: [docs/BASELINE_V1.md](docs/BASELINE_V1.md)
+- Project terminology and metric definitions: [docs/TERMINOLOGY.md](docs/TERMINOLOGY.md)
 
 ## Current Implementation Status
 
@@ -145,6 +146,12 @@ Build SFT-ready JSONL files from the structural targets:
 
 ```bash
 uv run python scripts/build_kubernetes_sft_dataset.py
+```
+
+Build the descriptive dataset analysis report before training:
+
+```bash
+uv run python scripts/analyze_kubernetes_dataset.py
 ```
 
 Validate the baseline inputs without loading the model:

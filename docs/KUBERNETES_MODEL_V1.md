@@ -4,6 +4,10 @@ This document defines the functional and research contract of the first modeling
 
 It is intentionally explicit: the project is not only about building a working YAML generator, but also about studying the problem through an intermediate latent representation, explicit structural control, and reproducible evaluation.
 
+Project-wide definitions for terms such as `block`, `level`, `primary_kind`,
+`yaml_max_depth`, and `yaml_total_nodes` are maintained in
+`docs/TERMINOLOGY.md`.
+
 ## 1. Position of this document in the project
 
 This is the reference specification for the first end-to-end modeling pipeline built on top of:
