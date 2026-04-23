@@ -1,12 +1,12 @@
-# Structured YAML Generation from Natural Language with Large Language Models
+﻿# Structured YAML Generation from Natural Language with Large Language Models
 
-Master’s Thesis repository focused on the generation of structured YAML configurations from natural language using large language models (LLMs), with `docker-compose.yaml` as the main case study.
+Master's Thesis repository focused on the generation of structured YAML configurations from natural language using large language models (LLMs), with a current effective case study centered on Kubernetes manifests.
 
 ## Overview
 
 Large language models are highly effective at free-text generation, but they remain less reliable when the target output must satisfy strict formal and semantic constraints. In this project, the goal is not only to generate syntactically valid YAML, but also to produce configurations that are hierarchically well-formed, domain-compatible, and semantically coherent.
 
-This repository studies how different adaptation and alignment strategies can improve structured generation in technical domains.
+This repository studies how different adaptation and alignment strategies can improve structured generation in technical domains, with an explicit interest in intermediate representations, structural control, and more analyzable formulations of the problem.
 
 ## Research Goal
 
@@ -17,18 +17,18 @@ The main objective of this project is to design and evaluate a system capable of
 - compatible with the target domain schema,
 - semantically coherent with the user request.
 
-The project adopts a mathematical and analytical perspective, with a strong focus on formal evaluation and error analysis.
+The project adopts a mathematical and analytical perspective, with a strong focus on formal evaluation, interpretable intermediate structure, and error analysis.
 
 ## Case Study
 
-The project is centered on the generation of `docker-compose.yaml` files from natural language descriptions.
+The long-term thesis motivation is structured YAML generation in technical domains. In the current repository state, the effective case study already prepared for preprocessing and modeling is Kubernetes manifest generation from natural-language descriptions.
 
 This domain is especially useful because it:
 
 - has a clear hierarchical structure,
 - allows automatic validation,
 - includes well-defined semantic constraints,
-- represents a realistic technical structured generation task.
+- supports the study of intermediate structural representations before final rendering.
 
 ## Main Hypothesis
 
@@ -39,32 +39,36 @@ More specifically, the project investigates whether:
 - supervised fine-tuning (SFT) improves prompt-to-configuration mapping,
 - structural control mechanisms reduce invalid outputs more effectively than weak auxiliary signals,
 - automatic preference or reward-based optimization is more practical than full RLHF in this setting,
-- structural and semantic metrics are more informative than purely textual metrics.
+- structural and semantic metrics are more informative than purely textual metrics,
+- explicit latent intermediate representations can improve both generation quality and interpretability.
 
 ## Methodology
 
 The project is organized into three main levels:
 
 ### 1. Semantic Modeling
+
 The model must extract the relevant content from the prompt, including:
 
-- requested services,
-- ports,
-- volumes,
+- requested resources,
+- images,
+- commands,
 - environment variables,
-- dependencies,
-- networks,
-- deployment constraints.
+- ports,
+- policies and scheduling constraints,
+- relations between configuration elements.
 
 ### 2. Structural Control
+
 Generation should not be left completely unconstrained. The project explores mechanisms that reduce the probability of invalid YAML structures, such as:
 
-- constrained decoding,
-- rule- or schema-guided generation,
+- parser-based structural control,
+- rule- or schema-guided reconstruction,
 - intermediate canonical representations before YAML rendering,
-- richer structural auxiliary objectives.
+- richer structural auxiliary signals studied as comparative experiments.
 
 ### 3. Validity-Oriented Optimization
+
 Generated outputs are automatically evaluated according to:
 
 - YAML parsing validity,
@@ -84,24 +88,22 @@ This signal can be used for:
 
 The repository is designed to compare several configurations:
 
-1. Zero-shot / few-shot baseline
-2. Supervised Fine-Tuning (SFT)
-3. SFT with efficient adaptation (e.g. LoRA)
-4. SFT + intermediate representation
-5. SFT + structural control during decoding
-6. SFT + structural auxiliary objective
-7. Post-SFT optimization using automatic preferences or reward-based reranking
+1. Baseline with the current base model
+2. Supervised Fine-Tuning (SFT) with efficient adaptation (LoRA)
+3. Comparative experiments with intermediate representations and auxiliary structural signals
+4. Post-SFT alignment with automatic preferences (DPO)
+5. PPO only if later reward quality and compute make it worthwhile
 
 ## Dataset
 
-The dataset consists of `(prompt, YAML file)` pairs, focused on a technical domain such as Docker Compose.
+The dataset consists of `(prompt, YAML file)` pairs focused on Kubernetes manifest generation.
 
 The data pipeline includes:
 
 - YAML normalization and canonicalization,
 - removal of superficial stylistic variability,
-- semantic data augmentation,
-- controlled synthetic data generation,
+- construction of intermediate structural targets,
+- preparation for future comparative structural signals,
 - strict train/validation/test separation to avoid leakage.
 
 Current repository documents:
@@ -123,11 +125,10 @@ Traditional text generation metrics such as BLEU are not sufficient for this pro
 
 ### Semantic Metrics
 
-- presence of required services,
-- correct dependency specification,
-- coherent use of ports, volumes, and networks,
+- presence of required resources,
+- coherent use of ports, environment variables, and execution settings,
 - absence of references to nonexistent elements,
-- domain-level execution or sandbox validation when possible.
+- domain-level validation when possible.
 
 ### Prompt Adequacy Metrics
 
@@ -145,16 +146,17 @@ Traditional text generation metrics such as BLEU are not sufficient for this pro
 
 ```text
 .
-├── data/                # Datasets, splits, normalization scripts
-├── notebooks/           # Exploratory analysis and experiments
-├── src/
-│   ├── data/            # Dataset building and preprocessing
-│   ├── modeling/        # Model loading, LoRA/SFT pipelines
-│   ├── decoding/        # Structural control and constrained decoding
-│   ├── reward/          # Automatic scoring / preference generation
-│   ├── evaluation/      # Structural, semantic, and robustness metrics
-│   └── utils/           # Helpers and utilities
-├── experiments/         # Experiment configs and logs
-├── results/             # Outputs, tables, plots, and reports
-├── README.md
-└── requirements.txt
+|-- data/                # Datasets, processed artifacts, and splits
+|-- notebooks/           # Exploratory analysis and experiments
+|-- src/
+|   |-- data/            # Dataset building and preprocessing
+|   |-- modeling/        # Model loading, LoRA/SFT pipelines
+|   |-- decoding/        # Structural control and constrained decoding
+|   |-- reward/          # Automatic scoring / preference generation
+|   |-- evaluation/      # Structural, semantic, and robustness metrics
+|   `-- utils/           # Helpers and utilities
+|-- experiments/         # Experiment configs and logs
+|-- results/             # Outputs, tables, plots, and reports
+|-- README.md
+`-- requirements.txt
+```
