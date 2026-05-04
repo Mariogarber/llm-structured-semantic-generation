@@ -1,0 +1,39 @@
+{
+  "run_id": "serialized-sft-a-v1-smoke",
+  "status": "completed",
+  "created_at": "2026-05-03T10:57:42.316933Z",
+  "updated_at": "2026-05-03T11:00:05.128827Z",
+  "completed_at": "2026-05-03T11:00:05.128827Z",
+  "global_step": 1,
+  "epoch": 1,
+  "next_batch_index": 0,
+  "best_checkpoint": null,
+  "best_validation_score": null,
+  "resume_signature": {
+    "model_variant": "serialized_sft",
+    "serialization": "blocks_tsv_v1",
+    "train_file": "data\\processed\\kubernetes_v1\\sft\\train.jsonl",
+    "validation_file": "data\\processed\\kubernetes_v1\\sft\\validation.jsonl",
+    "base_model_path": "model\\qwen2.5-7b-instruct-4bit",
+    "batch_size": 1,
+    "epochs": 1,
+    "learning_rate": 0.0002,
+    "gradient_accumulation_steps": 1,
+    "max_seq_length": 2048,
+    "max_new_tokens": 64,
+    "max_train_samples": 1,
+    "max_validation_samples": 1,
+    "seed": 42,
+    "lora_r": 8,
+    "lora_alpha": 16,
+    "lora_dropout": 0.05,
+    "lora_target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ],
+    "target_contract": "prompt -> blocks_tsv_v1 -> parser -> YAML"
+  },
+  "last_loss": 1.4207195043563843
+}

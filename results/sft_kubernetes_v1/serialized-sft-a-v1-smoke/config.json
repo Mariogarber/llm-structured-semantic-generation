@@ -1,0 +1,82 @@
+{
+  "run_id": "serialized-sft-a-v1-smoke",
+  "model_variant": "serialized_sft",
+  "serialization": "blocks_tsv_v1",
+  "train_file": "data\\processed\\kubernetes_v1\\sft\\train.jsonl",
+  "validation_file": "data\\processed\\kubernetes_v1\\sft\\validation.jsonl",
+  "base_model_path": "model\\qwen2.5-7b-instruct-4bit",
+  "row_count_train": 1,
+  "row_count_validation": 1,
+  "batch_size": 1,
+  "epochs": 1,
+  "learning_rate": 0.0002,
+  "gradient_accumulation_steps": 1,
+  "max_seq_length": 2048,
+  "max_new_tokens": 64,
+  "checkpoint_steps": 1,
+  "eval_checkpoint_steps": 0,
+  "max_train_samples": 1,
+  "max_validation_samples": 1,
+  "seed": 42,
+  "lora": {
+    "r": 8,
+    "alpha": 16,
+    "dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ],
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
+  },
+  "training_policy": {
+    "shuffle_train": false,
+    "label_policy": "prompt tokens masked with -100; blocks_tsv_v1 target tokens supervised",
+    "checkpoint_policy": "save adapter plus optimizer and scheduler state at checkpoint_steps and completion"
+  },
+  "dry_run": false,
+  "skip_final_eval": true,
+  "model_checks": {
+    "model_path_exists": true,
+    "has_config": true,
+    "has_generation_config": true,
+    "has_weights": true,
+    "has_tokenizer_files": true,
+    "installed_transformers": true,
+    "installed_torch": true,
+    "installed_bitsandbytes": true,
+    "installed_peft": true,
+    "installed_accelerate": true,
+    "quant_method": "bitsandbytes",
+    "warnings": [],
+    "ready_for_full_run": true
+  },
+  "resume_signature": {
+    "model_variant": "serialized_sft",
+    "serialization": "blocks_tsv_v1",
+    "train_file": "data\\processed\\kubernetes_v1\\sft\\train.jsonl",
+    "validation_file": "data\\processed\\kubernetes_v1\\sft\\validation.jsonl",
+    "base_model_path": "model\\qwen2.5-7b-instruct-4bit",
+    "batch_size": 1,
+    "epochs": 1,
+    "learning_rate": 0.0002,
+    "gradient_accumulation_steps": 1,
+    "max_seq_length": 2048,
+    "max_new_tokens": 64,
+    "max_train_samples": 1,
+    "max_validation_samples": 1,
+    "seed": 42,
+    "lora_r": 8,
+    "lora_alpha": 16,
+    "lora_dropout": 0.05,
+    "lora_target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ],
+    "target_contract": "prompt -> blocks_tsv_v1 -> parser -> YAML"
+  }
+}
