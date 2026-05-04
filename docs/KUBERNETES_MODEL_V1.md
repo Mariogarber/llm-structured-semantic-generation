@@ -2,7 +2,23 @@
 
 This document defines the functional and research contract of the first modeling version built on top of the `Kubernetes v1` dataset.
 
-It is intentionally explicit: the project is not only about building a working YAML generator, but also about studying the problem through an intermediate latent representation, explicit structural control, and reproducible evaluation.
+It is intentionally explicit: the project is not only about building a working YAML generator, but also about studying why flat autoregressive token generation is fragile when the desired output is a hierarchical technical artifact.
+
+Kubernetes manifests are serialized as YAML text, but their correctness depends
+on a tree-like structure of nested resources, fields, lists, and relations. The
+line order of the output can be supplied by autoregressive generation, but the
+height of each entry in the YAML hierarchy is not directly available from that
+order. In this project, that missing structural variable is represented by
+`level`.
+
+The model contract therefore compares two formulations:
+
+- a surface-structured formulation, where hierarchy is learned as serialized
+  text and controlled through parser reconstruction and later
+  automatic-preference optimization;
+- an explicit-hierarchy formulation, where `level` is predicted through a
+  dedicated structural head and then combined with generated line content before
+  parser reconstruction.
 
 Project-wide definitions for terms such as `block`, `level`, `primary_kind`,
 `yaml_max_depth`, and `yaml_total_nodes` are maintained in
@@ -28,11 +44,16 @@ The following decisions are closed for the main line of the project:
 - Oversampling or dataset enlargement is not part of the v1 system contract.
 - The experimental path is:
   1. baseline with the base model
-  2. SFT with LoRA
-  3. comparative branch with auxiliary structural signals
-  4. DPO as the main post-SFT alignment step
-  5. PPO only as an optional later extension
+  2. SFT control model with serialized `level`
+  3. SFT main model with an explicit hierarchical-level head
+  4. post-SFT alignment experiments, preferably DPO first
+  5. comparative branch with additional auxiliary structural signals
+  6. PPO only as an optional later extension
 - The scientific core of the thesis is not only final YAML generation, but also the study of an explicit latent intermediate representation before block generation.
+- The project explicitly compares hierarchy as serialized output text against
+  hierarchy as a supervised structural variable.
+- The position of a YAML line is supplied by generation order; its hierarchical
+  height is represented by `level`.
 - The parser is not only a renderer: it is the module of structural control.
 - The official output of inference is only the final YAML.
 
@@ -53,6 +74,11 @@ The project therefore studies two things at the same time:
 
 - whether the system can generate valid structured outputs
 - whether the intermediate latent representation is useful, analyzable, and predictive of structural quality
+
+The main comparison is not between YAML as raw text and YAML as a finished tree
+object. It is between two ways of making a flat token generator respect a
+hierarchical target: serialize the hierarchy into the output surface, or predict
+the hierarchy explicitly through a structural head.
 
 The project optimizes for structural correctness and prompt adequacy, not for surface-level text similarity alone.
 
@@ -107,6 +133,10 @@ The explicit structured output immediately before the parser is a sequence of YA
 - `line_index`
 - `line_text`
 - `level`
+
+`line_index` is the explicit version of the left-to-right order already implied
+by generation. `level` is the hierarchy height that the project treats as the
+central structural prediction target.
 
 Optional fields are allowed if needed later:
 
@@ -194,6 +224,16 @@ This choice is deliberate because it:
 - fits baseline, SFT, DPO, and parser-based control under the same contract
 - keeps the parser deterministic and auditable
 
+Conceptually, this representation turns a YAML tree into two coordinated
+sequences:
+
+- the ordered content sequence, represented by generated `line_text`
+- the hierarchy sequence, represented by supervised `level`
+
+This is the minimal representation needed for the thesis question. The model
+does not have to generate a full tree data structure, but it also does not get
+to hide hierarchy entirely inside raw text.
+
 ### Important clarification
 
 The blocks with level are not the latent space itself.
@@ -204,9 +244,10 @@ They are the explicit projection of the latent representation into a format that
 - can be parsed deterministically
 - can be evaluated structurally
 
-## 8. Two logical heads after the latent stage
+## 8. Two model heads after the latent stage
 
-The v1 model must be documented as a system with two coordinated logical outputs after the latent representation is formed.
+The v1 model must be documented as a system with two coordinated outputs after
+the latent representation is formed.
 
 The conceptual order is:
 
@@ -251,15 +292,26 @@ What it is expected to learn:
 
 ### Important clarification
 
-"Two logical heads" is a behavioral contract, not yet a fixed implementation architecture.
+The two-head formulation is part of the central modeling hypothesis of the
+project.
 
-This document does not require a specific engineering form such as:
+The main SFT model should therefore include:
 
-- two literal decoder heads
-- multitask losses in a single decoder
-- a shared serialization with auxiliary supervision
+- the standard causal language-modeling head for the serialized line content
+- an explicit structural head that predicts `level` for each generated YAML line
 
-What is fixed is that the model must be trained and evaluated as if content and structure were distinct signals projected from a prior internal representation.
+The serialized `blocks_tsv_v1` target remains useful for dataset preparation,
+parser input, baseline comparison, and ablation experiments. In the
+surface-structured branch, it lets the language model learn hierarchy as text.
+It should not be treated as a replacement for the main hierarchical-level head.
+
+The exact implementation details remain open, but they must preserve this
+research claim:
+
+- semantic content and hierarchical structure are distinct predictions projected
+  from a shared latent representation
+- the structural head is trained with an explicit level supervision signal
+- evaluation must report content quality and level quality separately
 
 ## 9. Parser as structural control
 
@@ -359,7 +411,8 @@ The official modeling dataset is:
 This same dataset is used for:
 
 - baseline
-- SFT + LoRA
+- `serialized_sft`
+- `two_head_sft`
 - comparative experiments with auxiliary signals
 - DPO
 - PPO if PPO is ever attempted
@@ -392,19 +445,71 @@ controlled multi-resource and multi-document compositions. `kubernetes_v2` is a
 derived experimental branch; `kubernetes_v1` remains the base dataset for the
 clean baseline and for comparison.
 
-## 12. Auxiliary structural signals as a comparative branch
+## 12. Main SFT Comparison
+
+The central supervised comparison in v1 is between two models trained from the
+same base checkpoint and dataset:
+
+- `serialized_sft`: the control model, where `level` is generated as part of
+  the textual block serialization. This is the surface-structured branch: the
+  hierarchy is present, but only as tokens that the causal LM must emit.
+- `two_head_sft`: the main model, where `line_text` is predicted through the
+  language-modeling head and `level` is predicted through an explicit structural
+  head. This is the explicit-hierarchy branch: the hierarchy is supervised as a
+  separate structural variable.
+
+This comparison is the cleanest way to test the main thesis hypothesis:
+
+```text
+Does explicit hierarchical supervision improve structured YAML generation beyond
+learning the hierarchy as serialized text?
+```
+
+Both models must use the same:
+
+- `Kubernetes v1` splits
+- base model
+- LoRA policy, unless the experiment explicitly studies adapter capacity
+- parser
+- evaluation stack
+
+The preferred first comparison is:
+
+```text
+serialized_sft vs two_head_sft
+```
+
+Post-SFT alignment can then be applied symmetrically if scope allows:
+
+```text
+serialized_sft -> serialized_sft_dpo
+two_head_sft -> two_head_sft_dpo
+```
+
+The minimal defensible path is to train and evaluate both SFT variants first.
+DPO or PPO should not be used to replace this architectural comparison.
+Preference optimization belongs after the supervised comparison because it tests
+whether validity-oriented feedback can further improve a model that already has
+a measurable structural policy. It must not be described as evidence that a full
+RLHF pipeline exists in the repository.
+
+## 13. Auxiliary structural signals as a comparative branch
 
 ### Position in the project
 
-Auxiliary structural signals are not part of the core method contract.
+Auxiliary structural signals are not part of the first two-model SFT comparison.
 
 The main line of the project is:
 
 - latent intermediate representation
-- baseline / SFT / DPO
+- baseline
+- SFT control model with serialized `level`
+- SFT main model with an explicit `level` head
 - parser-based structural control
+- optional post-SFT preference optimization
 
-Auxiliary signals are a comparative branch intended to test whether additional structural information helps beyond the main approach.
+Auxiliary signals are a later comparative branch intended to test whether
+additional structural information helps beyond the explicit level-head design.
 
 ### What they are
 
@@ -429,7 +534,7 @@ Their comparative role is mainly as:
 
 They are not yet fixed as the main target of training.
 
-## 13. Experimental phases
+## 14. Experimental phases
 
 ### Phase 1. Baseline
 
@@ -461,15 +566,35 @@ What baseline does not include:
 - preference learning
 - reinforcement learning
 
-### Phase 2. SFT + LoRA
+### Phase 2a. SFT + LoRA Control Model
 
 Objective:
 
-- adapt the model to the task using supervised fine-tuning over the latent-aware structured target
+- train a controlled SFT model where both content and `level` are emitted through
+  the language-modeling surface
 
 Training target:
 
-- line sequence with content and level
+- serialized `blocks_tsv_v1`
+- `level` represented as text in the block tuple
+
+Purpose:
+
+- provide the ablation needed to measure whether a physical structural head adds
+  value
+- keep a simple SFT reference close to the current baseline parser contract
+
+### Phase 2b. SFT + LoRA Main Two-Head Model
+
+Objective:
+
+- adapt the model to the task using supervised fine-tuning with an explicit
+  split between content prediction and hierarchy prediction
+
+Training target:
+
+- line content through the causal LM objective
+- hierarchical `level` through an explicit structural head
 
 Expected gain over baseline:
 
@@ -478,31 +603,42 @@ Expected gain over baseline:
 - more parseable predictions
 - more stable YAML generation
 
+Expected gain over `serialized_sft`:
+
+- cleaner separation between content mistakes and hierarchy mistakes
+- higher `average_level_exact_match_rate`
+- better parser reconstruction when line content is mostly correct
+- more interpretable structural failure analysis
+
 LoRA is chosen because:
 
 - it is compatible with limited resources
 - it allows focused adaptation
 - it fits the scope of the thesis better than a full heavy fine-tune
 
-### Phase 3. Comparative branch with auxiliary structural signals
+### Phase 3. Post-SFT Alignment
 
 Objective:
 
-- test whether auxiliary structural signals improve the main system
+- align one or both SFT models using automatically generated preferences
 
-This branch is comparative, not foundational. It exists to measure whether explicit extra structural cues help beyond the latent-plus-parser design.
-
-### Phase 4. DPO
-
-Objective:
-
-- align the SFT model using automatically generated preferences
-
-DPO is the main planned post-SFT method because:
+DPO is the preferred first post-SFT method because:
 
 - it is simpler than PPO
 - it needs less infrastructure
 - it is a realistic continuation of the project
+
+If scope allows, alignment should be applied symmetrically:
+
+```text
+serialized_sft -> serialized_sft_dpo
+two_head_sft -> two_head_sft_dpo
+```
+
+If scope does not allow this, the priority should be:
+
+- first establish `serialized_sft` vs `two_head_sft`
+- then apply DPO to the stronger or thesis-central model
 
 Preference generation must rely on:
 
@@ -517,6 +653,15 @@ The chosen output should be the one that:
 - reflects the prompt better
 - introduces fewer contradictions
 - requires less parser cleanup
+
+### Phase 4. Comparative branch with auxiliary structural signals
+
+Objective:
+
+- test whether additional structural signals improve the main two-head system
+
+This branch is comparative, not foundational. It exists to measure whether
+extra structural cues add value beyond the explicit level-head architecture.
 
 ### Phase 5. PPO as optional extension
 
@@ -534,7 +679,7 @@ PPO should therefore be described as:
 - later
 - conditional on reward quality
 
-## 14. Reward definition
+## 15. Reward definition
 
 If reward-based ranking or post-SFT alignment is used, the reward must include at least:
 
@@ -553,7 +698,7 @@ Recommended priority order:
 4. prompt faithfully covered
 5. semantic contradictions minimized
 
-## 15. Evaluation contract
+## 16. Evaluation contract
 
 Each phase should report at least:
 
@@ -585,7 +730,7 @@ The project should also analyze whether the latent space:
 - correlates with parser success or failure
 - changes meaningfully across baseline, SFT, and DPO
 
-## 16. Criteria for moving to the next phase
+## 17. Criteria for moving to the next phase
 
 ### Baseline can start only if
 
@@ -602,15 +747,22 @@ The project should also analyze whether the latent space:
 - the parser is stable
 - baseline metrics are recorded
 
+### Post-SFT alignment can start only if
+
+- `serialized_sft` has been trained and evaluated as the control branch
+- `two_head_sft` has been trained and evaluated as the main branch
+- the comparison has been reviewed on validation
+- the chosen branch for DPO is explicitly justified
+
 ### Comparative auxiliary-signal experiments can start only if
 
-- the main SFT system is stable
+- the main two-head SFT system is stable
 - the added signals are clearly defined for the experiment
 - the comparison preserves the same evaluation protocol
 
 ### DPO can start only if
 
-- SFT clearly improves over baseline
+- at least one SFT branch clearly improves over baseline
 - candidate generation exists
 - preference construction is meaningful
 
@@ -620,7 +772,7 @@ The project should also analyze whether the latent space:
 - PPO is expected to add something beyond DPO
 - compute constraints allow it
 
-## 17. What is still intentionally open
+## 18. What is still intentionally open
 
 This document leaves some implementation choices open on purpose:
 
@@ -633,7 +785,7 @@ This document leaves some implementation choices open on purpose:
 
 These are implementation details that must respect this contract, not redefine it.
 
-## 18. Implemented bridge to modeling
+## 19. Implemented bridge to modeling
 
 The first bridge from the processed dataset to modeling is now implemented:
 
@@ -652,15 +804,45 @@ The current implementation fixes the block-level target and parser boundary:
 - `src/llm_structured_semantic_generation/structure.py` reconstructs YAML deterministically.
 - `scripts/build_kubernetes_sft_dataset.py` creates the first SFT-ready serialization.
 - `scripts/run_kubernetes_baseline.py` defines the zero-shot baseline execution path.
+- the recommended baseline output surface is now `blocks_tsv_compact_v1`, which
+  keeps the same parser-facing block contract while removing model-predicted
+  `line_index` from the inference surface to reduce output-token pressure.
+- `blocks_tsv_v1` remains the shared supervised source for:
+  - the `serialized_sft` control branch
+  - the `two_head_sft` main branch, after extracting line-content labels and
+    per-line `level` labels.
 
 The exact parametrization and supervision of the latent intermediate representation remains open. The implemented block representation must therefore be treated as the explicit projection after the latent stage, not as the latent space itself.
 
-## 19. Next implementation step
+## 20. Incremental Execution Policy
+
+All LLM-facing experiment code in this repository must now be incremental and
+resumable by default.
+
+This is a project constraint, not an optional implementation detail. The main
+motivation is that baseline, validation, SFT, DPO, and future training runs may
+need to execute on slow or interruptible hardware without losing accumulated
+progress.
+
+The minimum contract for any new LLM script is:
+
+- support `--output-dir`, `--run-id`, and `--batch-size`;
+- persist `config.json` and a live `state.json`;
+- write partial append-only artifacts batch by batch;
+- treat persisted partial artifacts as the source of truth during resume;
+- write final aggregate reports such as `metrics.json` only after successful
+  completion.
+
+For future training code, this policy also implies resumable checkpoints for the
+model, optimizer, and scheduler state. These checkpoints are required when
+training is implemented; they must not be deferred to a later cleanup step.
+
+## 21. Next implementation step
 
 The next implementation step is to run and record the baseline:
 
 1. Generate structural targets and confirm `structural_targets_report.json` has `ready_for_baseline: true`.
 2. Run the dry-run baseline configuration check.
 3. Install optional LLM dependencies if needed.
-4. Run the baseline on validation and test.
-5. Review `metrics.json` and error examples before starting LoRA/SFT.
+4. Run the baseline on validation and test with stable `run_id` values so interrupted executions can resume.
+5. Review `metrics.json`, `state.json`, and error examples before starting LoRA/SFT.

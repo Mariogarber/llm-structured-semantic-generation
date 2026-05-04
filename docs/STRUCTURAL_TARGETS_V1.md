@@ -80,8 +80,22 @@ Outputs:
 - `data/processed/kubernetes_v1/sft/sft_dataset_report.json`
 
 The target serialization is `blocks_tsv_v1`, wrapped in `<blocks>` and
-`</blocks>` markers. This fixes the first supervised target format without
-claiming that SFT has already been run.
+`</blocks>` markers. This fixes the supervised source format without claiming
+that SFT has already been run.
+
+This is intentionally different from the current baseline inference default.
+The zero-shot baseline now requests `blocks_tsv_compact_v1`, which omits
+model-predicted `line_index` to reduce output-token pressure and lets the
+parser reconstruct ordering deterministically.
+
+The SFT stage uses `blocks_tsv_v1` in two ways:
+
+- `serialized_sft` uses it directly as the control model output surface.
+- `two_head_sft` parses the same rows into line-content supervision and
+  per-line `level` labels for the explicit structural head.
+
+Both branches must be converted back into the same parser-facing block contract
+before evaluation.
 
 ## Validation
 

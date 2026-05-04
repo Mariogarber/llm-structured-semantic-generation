@@ -10,6 +10,111 @@ Agents must use this file to stay aligned with the actual case of use under deve
 
 ---
 
+## Core Narrative For All Future Sessions
+
+Every future agent or chat working in this repository must preserve the
+following narrative unless a newer repository document explicitly changes it.
+
+The project starts from a mismatch between the native behavior of LLMs and the
+structure required by the target domain:
+
+- LLMs are autoregressive models designed to generate flat token sequences.
+- Kubernetes manifests are serialized as YAML text, but their correctness
+  depends on hierarchical structure: nested mappings, lists, fields, resources,
+  indentation levels, and relations between entries.
+- Therefore, the central question is not only whether an LLM can produce text
+  that looks like YAML, but whether a flat token generator can reliably produce
+  an output whose validity depends on an underlying hierarchy.
+
+The thesis studies two competing but comparable formulations of this problem.
+
+### Formulation A. Structure As Output Surface And Alignment
+
+In this formulation, the model is still treated mainly as a sequence generator.
+The hierarchy is placed on the output surface by asking the model to emit a
+serialized structured representation, such as line blocks that include
+`line_text` and serialized `level`.
+
+This branch includes:
+
+- the zero-shot baseline output surface;
+- the `serialized_sft` control branch;
+- parser-based reconstruction from predicted blocks to final YAML;
+- later automatic-preference or reward-based optimization, preferably DPO first.
+
+This branch is related to the RLHF/alignment motivation of the work because it
+uses automatic validity or preference signals to make the generated surface more
+structurally reliable. However, agents must be precise: the repository does not
+currently assume a complete human-feedback RLHF pipeline, a reward model, or a
+human preference dataset. The practical documented direction is lightweight
+post-SFT automatic-preference optimization.
+
+### Formulation B. Structure As Explicit Hierarchy Prediction
+
+In this formulation, YAML is treated as a tree-like object projected into a
+sequence of lines.
+
+The line position is naturally supplied by generation order:
+
+```text
+line 0, line 1, line 2, ...
+```
+
+But generation order does not directly determine the height of each line in the
+YAML tree. The missing structural variable is:
+
+```text
+level
+```
+
+In this project, `level` means the hierarchical indentation level of a YAML
+line in the normalized block representation. The main model branch,
+`two_head_sft`, tests whether predicting that variable through an explicit
+hierarchical-level head improves structured Kubernetes generation beyond
+learning the hierarchy as serialized text.
+
+### Central Comparison
+
+The central supervised comparison is:
+
+```text
+serialized_sft vs two_head_sft
+```
+
+Interpretation:
+
+- `serialized_sft` asks how far a flat language-modeling surface can go when
+  hierarchy is represented as ordinary generated text.
+- `two_head_sft` asks whether hierarchy should be modeled as a distinct
+  supervised structural signal.
+- Both branches must be evaluated through the same parser-facing block contract
+  and the same evaluation stack.
+
+Agents must not collapse this comparison back into generic raw YAML generation.
+The thesis is about the tension between flat token generation and hierarchical
+structured output.
+
+### Evaluation Narrative
+
+Evaluation must reflect the same narrative. Surface text similarity is not the
+primary success criterion.
+
+Generated outputs should be assessed through:
+
+- YAML syntactic parseability;
+- structural validity and safe reconstruction from blocks;
+- `level` accuracy and hierarchy-sensitive errors;
+- prompt adequacy;
+- Kubernetes-domain validity where it can be checked automatically;
+- semantic consistency signals, while clearly marking current semantic checks as
+  approximate unless full schema validation is explicitly implemented.
+
+Agents must not claim that parser success alone proves Kubernetes correctness.
+The parser is a structural control boundary, not a semantic oracle and not a
+hidden repair system.
+
+---
+
 ## Current Project Scope
 
 Agents operating in this repository must assume the following scope unless a newer repository document explicitly overrides it:
@@ -30,12 +135,15 @@ The main research focus of the current repository state is:
 
 - supervised adaptation for structured generation
 - explicit latent intermediate representations before block generation
-- projection from latent structure to YAML lines with hierarchical level
+- projection from latent structure to ordered YAML lines with hierarchical
+  `level`
+- a central supervised comparison between serialized level prediction and an
+  explicit hierarchical-level head
 - parser-based structural control at the final generation stage
 - automatic evaluation of syntactic, structural, and semantic validity
 - lightweight post-SFT alignment methods based on automatic preferences or rewards
 
-Agents must not assume that full RLHF pipelines, production infrastructure, human preference datasets, or large-scale training systems are available unless explicitly documented in the repository.
+Agents must not assume that full RLHF pipelines, production infrastructure, human preference datasets, or large-scale training systems are available unless explicitly documented in the repository. The practical alignment branch currently documented for the main line is automatic-preference post-SFT optimization, preferably DPO first.
 
 ---
 
@@ -53,14 +161,17 @@ The following decisions are already fixed for the core experimental path and mus
 5. The main modeling narrative is:
    - `prompt -> latent intermediate representation -> blocks with level -> parser as structural control -> final YAML`
 6. The blocks with level are not the latent space itself.
-7. The parser is not just a formatter; it is the structural control module.
-8. The main experimental sequence is:
+7. Generation order gives the line position, but not the YAML hierarchy; `level`
+   is the explicit supervised variable used to represent that hierarchy.
+8. The parser is not just a formatter; it is the structural control module.
+9. The main experimental sequence is:
    - baseline
-   - SFT + LoRA
-   - comparative branch with auxiliary structural signals
-   - DPO
+   - SFT + LoRA control branch with serialized `level`
+   - SFT + LoRA main branch with an explicit hierarchical-level head
+   - DPO as the preferred post-SFT alignment method
+   - comparative branch with additional auxiliary structural signals
    - PPO only as an optional later extension
-9. Surface text overlap is not the primary success criterion.
+10. Surface text overlap is not the primary success criterion.
 
 If an agent proposes work that conflicts with one of these points, it must first update the relevant documentation explicitly instead of silently changing direction in code or prose.
 
@@ -83,6 +194,9 @@ Before making significant changes, agents should understand the role of these re
 - `docs/MULTI_RESOURCE_STRATEGY_DECISION.md`
   - records why the project prioritizes controlled multi-resource enrichment
     for `kubernetes_v2` over atomic generation plus concatenation
+- `docs/SFT_STRATEGY_V1.md`
+  - defines the supervised comparison between `serialized_sft` and
+    `two_head_sft`
 
 Agents must treat these artifacts as the current source of truth for the implemented case of use.
 
@@ -118,6 +232,24 @@ All agents must follow these principles:
 7. **Do not overstate maturity**
    - A conceptual model contract is not the same thing as a completed implementation.
    - A documented experimental branch is not the same thing as a validated result.
+
+8. **LLM execution must be incremental and resumable**
+   - Any LLM-related inference, validation, or training script must be designed
+     for small-batch execution with persisted progress.
+   - Long LLM runs must not assume uninterrupted execution on a powerful machine.
+   - The minimum interface contract for LLM scripts is:
+     - `--output-dir`
+     - `--run-id`
+     - `--batch-size`
+   - The minimum artifact contract for LLM runs is:
+     - `config.json`
+     - `state.json`
+     - append-only partial artifacts such as `predictions.jsonl`
+     - `metrics.json` only after successful completion
+   - The source of truth for completed work during resume must be the persisted
+     partial artifacts, not in-memory progress.
+   - Future training code must also persist resumable checkpoints for model,
+     optimizer, and scheduler state instead of assuming monolithic runs.
 
 ---
 
@@ -178,7 +310,8 @@ The following roles describe responsibilities, not necessarily separate implemen
 **Responsibility**
 - Support model-related code and experiment definitions for the current main path:
   - baseline
-  - SFT + LoRA
+  - SFT + LoRA control branch with serialized `level`
+  - SFT + LoRA main branch with an explicit hierarchical-level head
   - DPO
   - PPO only if later justified
 
@@ -190,6 +323,8 @@ The following roles describe responsibilities, not necessarily separate implemen
 - Respect the documented contract:
   - latent intermediate representation first
   - projection to line text plus level
+  - explicit structural level head in the main SFT model
+  - serialized level prediction only as a control or ablation branch
   - parser-controlled YAML output
 
 **Must not**

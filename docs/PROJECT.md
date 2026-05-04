@@ -15,6 +15,7 @@ Current source-of-truth documents:
 - `docs/KUBERNETES_MODEL_V1.md`
 - `docs/STRUCTURAL_TARGETS_V1.md`
 - `docs/BASELINE_V1.md`
+- `docs/SFT_STRATEGY_V1.md`
 
 Historical Docker Compose motivation may still be useful as thesis background,
 but it must not override the current Kubernetes-centered implementation.

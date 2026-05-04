@@ -120,7 +120,14 @@ Then run:
 uv run python scripts/build_kubernetes_sft_dataset.py
 ```
 
-This creates the first fixed SFT-ready serialization over the structural blocks. It prepares supervised data only; it is not evidence that SFT has already been trained or evaluated.
+This creates the fixed SFT-ready serialization over the structural blocks. The
+same export supports both planned SFT branches:
+
+- direct serialized supervision for `serialized_sft`;
+- line-content and per-line `level` labels for `two_head_sft`.
+
+It prepares supervised data only; it is not evidence that SFT has already been
+trained or evaluated.
 
 ## Dataset analysis stage
 
