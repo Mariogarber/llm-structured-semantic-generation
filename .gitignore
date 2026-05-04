@@ -12,3 +12,9 @@ env/
 
 # Ignore log files
 *.log
+
+# Ignore generated academic build artifacts
+latex/build/
+
+# Ignore local training checkpoints and model state artifacts
+results/sft_kubernetes_v1/*/checkpoints/
