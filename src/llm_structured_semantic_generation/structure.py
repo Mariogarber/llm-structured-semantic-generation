@@ -101,7 +101,11 @@ def coerce_block(block: YAMLBlock | dict[str, Any]) -> YAMLBlock:
         raise ValueError(f"Invalid YAML block payload: {block!r}") from exc
 
 
-def validate_blocks(blocks: Iterable[YAMLBlock | dict[str, Any]]) -> tuple[YAMLBlock, ...]:
+def validate_blocks(
+    blocks: Iterable[YAMLBlock | dict[str, Any]],
+    *,
+    allow_leading_indentation: bool = False,
+) -> tuple[YAMLBlock, ...]:
     coerced = tuple(coerce_block(block) for block in blocks)
     errors: list[str] = []
     previous_document = 0
@@ -112,7 +116,7 @@ def validate_blocks(blocks: Iterable[YAMLBlock | dict[str, Any]]) -> tuple[YAMLB
             errors.append(f"block_{position}:negative_document_index")
         if block.level < 0:
             errors.append(f"block_{position}:negative_level")
-        if block.line_text.startswith((" ", "\t")):
+        if not allow_leading_indentation and block.line_text.startswith((" ", "\t")):
             errors.append(f"block_{position}:line_text_contains_leading_indentation")
         if "\n" in block.line_text or "\r" in block.line_text:
             errors.append(f"block_{position}:line_text_contains_newline")
@@ -135,6 +139,7 @@ def validate_blocks(blocks: Iterable[YAMLBlock | dict[str, Any]]) -> tuple[YAMLB
 def blocks_to_yaml(
     blocks: Iterable[YAMLBlock | dict[str, Any]],
     indent_width: int = DEFAULT_INDENT_WIDTH,
+    recovery_mode: str = "strict",
 ) -> ReconstructionResult:
     if indent_width <= 0:
         return ReconstructionResult(
@@ -143,8 +148,18 @@ def blocks_to_yaml(
             errors=("indent_width_must_be_positive",),
         )
 
+    if recovery_mode not in {"strict", "raw_line_text"}:
+        return ReconstructionResult(
+            yaml_text="",
+            yaml_parse_ok=False,
+            errors=(f"unsupported_recovery_mode:{recovery_mode}",),
+        )
+
     try:
-        validated_blocks = validate_blocks(blocks)
+        validated_blocks = validate_blocks(
+            blocks,
+            allow_leading_indentation=recovery_mode == "raw_line_text",
+        )
     except ValueError as exc:
         return ReconstructionResult(
             yaml_text="",
@@ -158,7 +173,10 @@ def blocks_to_yaml(
         if index > 0 and block.document_index != current_document:
             lines.append("---")
             current_document = block.document_index
-        lines.append(f"{' ' * (block.level * indent_width)}{block.line_text}")
+        if recovery_mode == "raw_line_text":
+            lines.append(block.line_text)
+        else:
+            lines.append(f"{' ' * (block.level * indent_width)}{block.line_text}")
 
     yaml_text = "\n".join(lines)
     if yaml_text:

@@ -1,0 +1,37 @@
+{
+  "input": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\data\\processed\\kubernetes_v1\\dataset_train_ready.jsonl",
+  "output": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\data\\processed\\kubernetes_v1\\prompt_requirements.jsonl",
+  "row_count": 566,
+  "split_counts": {
+    "train": 426,
+    "test": 70,
+    "validation": 70
+  },
+  "prompt_requirement_support_rate": 0.980565371024735,
+  "average_prompt_requirement_count": 2.4954954954954953,
+  "prompt_requirement_exact_match_rate_against_reference": 0.5441441441441441,
+  "average_prompt_requirement_precision_against_reference": 0.8814993564993567,
+  "average_prompt_requirement_recall_against_reference": 0.8000953700953702,
+  "average_prompt_requirement_f1_against_reference": 0.8217453667453667,
+  "average_reference_required_field_presence_rate": 0.997791519434629,
+  "average_reference_required_field_complete_resource_rate": 0.991166077738516,
+  "reference_required_field_complete_sample_rate": 0.9893992932862191,
+  "requirement_category_counts": {
+    "kind": 724,
+    "metadata.name": 281,
+    "data": 4,
+    "image": 55,
+    "cron.schedule": 12,
+    "label": 64,
+    "port": 147,
+    "serviceAccountName": 20,
+    "namespace": 30,
+    "replicas": 30,
+    "env": 6,
+    "targetPort": 2,
+    "autoscaling.minReplicas": 2,
+    "autoscaling.maxReplicas": 2,
+    "storage.request": 4,
+    "hostPath.path": 2
+  }
+}
