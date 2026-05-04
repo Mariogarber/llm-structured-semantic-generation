@@ -1,0 +1,32 @@
+{
+  "run_id": "tsv-resume-demo-val2-384",
+  "status": "running",
+  "created_at": "2026-04-28T15:36:52.978018Z",
+  "updated_at": "2026-04-28T15:42:14.476460Z",
+  "completed_at": null,
+  "total_units": 2,
+  "processed_units": 1,
+  "remaining_units": 1,
+  "unit_id_field": "unit_id",
+  "completed_unit_ids": [
+    "q13::question"
+  ],
+  "primary_artifact": "predictions",
+  "artifact_paths": {
+    "predictions": "predictions.jsonl",
+    "latent_mean_vectors": "latent_mean_vectors.jsonl"
+  },
+  "resume_signature": {
+    "dataset": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\data\\processed\\kubernetes_v1\\dataset_structural_targets.jsonl",
+    "model_path": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\model\\qwen2.5-7b-instruct-4bit",
+    "split": "validation",
+    "max_samples": 2,
+    "max_new_tokens": 384,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "output_format": "blocks_tsv_v1",
+    "recovery_mode": "strict",
+    "collect_latent_means": true,
+    "target_contract": "prompt -> blocks_tsv_v1 -> parser -> YAML"
+  }
+}

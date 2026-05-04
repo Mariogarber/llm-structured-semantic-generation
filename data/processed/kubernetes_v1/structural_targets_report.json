@@ -1,0 +1,17 @@
+{
+  "input": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\data\\processed\\kubernetes_v1\\dataset_train_ready.jsonl",
+  "output": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\data\\processed\\kubernetes_v1\\dataset_structural_targets.jsonl",
+  "row_count": 566,
+  "split_counts": {
+    "train": 426,
+    "test": 70,
+    "validation": 70
+  },
+  "status_counts": {
+    "ok": 566
+  },
+  "ready_for_baseline": true,
+  "average_block_count": 21.4594,
+  "max_block_count": 59,
+  "error_examples": []
+}

@@ -1,0 +1,43 @@
+{
+  "latent_path": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\results\\baseline_kubernetes_v1\\compact-test70-320-vtfix\\latent_mean_vectors.jsonl",
+  "features_csv": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\results\\dataset_analysis_kubernetes_v1\\dataset_analysis_sample_features.csv",
+  "output_dir": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\results\\latent_analysis\\compact-test70-320-vtfix",
+  "sample_count": 70,
+  "latent_dim": 3584,
+  "standardized": true,
+  "methods_requested": [
+    "pca",
+    "tsne"
+  ],
+  "methods_rendered": [
+    "pca",
+    "tsne"
+  ],
+  "cluster_count": 3,
+  "silhouette_scores": {
+    "2": 0.37397506833076477,
+    "3": 0.40339624881744385,
+    "4": 0.24206312000751495,
+    "5": 0.21752336621284485,
+    "6": 0.14356747269630432,
+    "7": 0.1650705337524414,
+    "8": 0.17064830660820007,
+    "9": 0.1754501760005951,
+    "10": 0.16873741149902344
+  },
+  "reduction_metadata": {
+    "pca": {
+      "explained_variance_ratio": [
+        0.2505910098552704,
+        0.12097284197807312
+      ],
+      "explained_variance_ratio_sum": 0.3715638518333435
+    },
+    "tsne": {
+      "pre_reduction": "pca",
+      "pre_reduction_dims": 50,
+      "pre_reduction_explained_variance_ratio": 0.9926828145980835,
+      "perplexity": 23.0
+    }
+  }
+}

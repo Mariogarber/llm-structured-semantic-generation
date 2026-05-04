@@ -1,0 +1,7 @@
+{
+  "run_id": "serialized-sft-a-v1-smoke",
+  "model_variant": "serialized_sft",
+  "serialization": "blocks_tsv_v1",
+  "status": "trained_without_final_eval",
+  "final_checkpoint": "results\\sft_kubernetes_v1\\serialized-sft-a-v1-smoke\\checkpoints\\checkpoint-step-1"
+}

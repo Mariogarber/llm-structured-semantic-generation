@@ -1,0 +1,173 @@
+{
+  "sample_count": 283,
+  "resource_document_count": 338,
+  "split_counts": {
+    "train": 213,
+    "test": 35,
+    "validation": 35
+  },
+  "resource_count_per_sample": {
+    "1": 238,
+    "2": 36,
+    "3": 8,
+    "4": 1
+  },
+  "top_kinds": {
+    "Pod": 56,
+    "DaemonSet": 55,
+    "Service": 31,
+    "Deployment": 21,
+    "Job": 20,
+    "PersistentVolume": 16,
+    "Secret": 14,
+    "StatefulSet": 14,
+    "ConfigMap": 12,
+    "PersistentVolumeClaim": 11,
+    "ReplicaSet": 11,
+    "Ingress": 10,
+    "RoleBinding": 10,
+    "ServiceAccount": 8,
+    "StorageClass": 8
+  },
+  "top_api_versions": {
+    "v1": 163,
+    "apps/v1": 101,
+    "batch/v1": 27,
+    "rbac.authorization.k8s.io/v1": 22,
+    "networking.k8s.io/v1": 11,
+    "storage.k8s.io/v1": 8,
+    "autoscaling/v1": 2,
+    "policy/v1": 2,
+    "apiextensions.k8s.io/v1": 1,
+    "autoscaling/v2": 1
+  },
+  "leakage_reasons": {
+    "sample_id_only": 232,
+    "exact_yaml_duplicate": 51
+  },
+  "exact_yaml_duplicate_sample_count": 51,
+  "prompt_word_count": {
+    "min": 12.0,
+    "p25": 37.5,
+    "median": 54.0,
+    "p75": 72.0,
+    "max": 176.0,
+    "mean": 57.03886925795053
+  },
+  "simplified_prompt_word_count": {
+    "min": 8.0,
+    "p25": 25.0,
+    "median": 36.0,
+    "p75": 52.0,
+    "max": 139.0,
+    "mean": 40.49116607773852
+  },
+  "prompt_pair_similarity": {
+    "min": 0.019504,
+    "p25": 0.5081644999999999,
+    "median": 0.677895,
+    "p75": 0.7931984999999999,
+    "max": 1.0,
+    "mean": 0.6203370989399294
+  },
+  "yaml_max_depth": {
+    "min": 3.0,
+    "p25": 5.0,
+    "median": 7.0,
+    "p75": 9.0,
+    "max": 13.0,
+    "mean": 7.204946996466431
+  },
+  "yaml_total_nodes": {
+    "min": 5.0,
+    "p25": 17.0,
+    "median": 23.0,
+    "p75": 29.0,
+    "max": 69.0,
+    "mean": 24.402826855123674
+  },
+  "block_count": {
+    "min": 4.0,
+    "p25": 14.0,
+    "median": 20.0,
+    "p75": 26.0,
+    "max": 59.0,
+    "mean": 21.459363957597173
+  },
+  "level_distribution": {
+    "0": 1443,
+    "1": 1541,
+    "2": 1045,
+    "3": 818,
+    "4": 796,
+    "5": 232,
+    "6": 153,
+    "7": 32,
+    "8": 13
+  },
+  "semantic_field_presence": {
+    "metadata": 1.0,
+    "spec": 0.8622,
+    "containers": 0.6466,
+    "image": 0.6466,
+    "ports": 0.212,
+    "env": 0.0777,
+    "volumes": 0.1343,
+    "volumeMounts": 0.1484,
+    "selector": 0.417,
+    "template": 0.4594,
+    "data": 0.0707,
+    "rules": 0.0883,
+    "subjects": 0.0424,
+    "roleRef": 0.0424
+  },
+  "terminology": [
+    {
+      "term": "primary_kind",
+      "definition": "First Kubernetes kind found among parsed mapping documents in a sample."
+    },
+    {
+      "term": "yaml_max_depth",
+      "definition": "Maximum recursive depth of the parsed YAML object tree. This is not the same as block level."
+    },
+    {
+      "term": "yaml_total_nodes",
+      "definition": "Total parsed YAML mapping, list, and scalar nodes. This does not mean Kubernetes Node resources."
+    },
+    {
+      "term": "block_count",
+      "definition": "Number of line-and-level blocks derived from normalized YAML."
+    },
+    {
+      "term": "level",
+      "definition": "Indentation level of a block, using two spaces per level in v1."
+    }
+  ],
+  "observations": [
+    "The dataset is Kubernetes-centered and ready for descriptive analysis before training.",
+    "Coverage is uneven across resource kinds; top kinds should be considered separately in evaluation.",
+    "Most samples contain a single Kubernetes resource, so multi-document behavior is underrepresented.",
+    "Exact YAML duplicate groups exist and should remain grouped when interpreting train/test results.",
+    "Structural target levels are concentrated in shallow-to-medium depths, with a small deep tail."
+  ],
+  "limitations": [
+    "Bias here means dataset coverage bias, not social bias.",
+    "Semantic fields are approximate recursive key-presence signals, not full Kubernetes schema validation.",
+    "Primary kind uses the first document in a sample; multi-document samples are also counted in resource-level tables."
+  ],
+  "figures": {
+    "kind_counts": "kind_counts.png",
+    "api_version_counts": "api_version_counts.png",
+    "complexity_histograms": "complexity_histograms.png",
+    "complexity_by_kind_boxplot": "complexity_by_kind_boxplot.png",
+    "level_distribution": "level_distribution.png",
+    "kind_depth_heatmap": "kind_depth_heatmap.png",
+    "prompt_length_distribution": "prompt_length_distribution.png",
+    "prompt_length_vs_yaml_nodes": "prompt_length_vs_yaml_nodes.png",
+    "prompt_pair_similarity": "prompt_pair_similarity.png",
+    "split_balance_and_leakage": "split_balance_and_leakage.png",
+    "kind_by_split_heatmap": "kind_by_split_heatmap.png",
+    "semantic_field_presence": "semantic_field_presence.png",
+    "semantic_field_cooccurrence": "semantic_field_cooccurrence.png"
+  }
+}
