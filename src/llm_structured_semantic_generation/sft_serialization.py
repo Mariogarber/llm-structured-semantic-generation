@@ -5,6 +5,8 @@ from typing import Any
 from .structure import YAMLBlock, blocks_to_yaml, validate_blocks
 
 
+BLOCKS_TSV_V1 = "blocks_tsv_v1"
+
 SYSTEM_PROMPT = (
     "You generate Kubernetes manifests through an explicit structural representation. "
     "Return only line blocks; each block must include document_index, line_index, level, and line_text."
@@ -61,4 +63,3 @@ def build_sft_row(row: dict[str, Any]) -> dict[str, Any]:
         "target_yaml_normalized": row["target_yaml_normalized"],
         "round_trip_yaml": reconstruction.yaml_text,
     }
-
