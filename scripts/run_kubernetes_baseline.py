@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import re
 import sys
 from importlib.util import find_spec
@@ -497,6 +498,33 @@ def generate_completion(tokenizer: Any, model: Any, prompt: str, args: argparse.
     }
 
 
+def compute_reference_perplexity(tokenizer: Any, model: Any, prompt: str, reference_yaml: str) -> float | None:
+    import torch
+
+    target_text = reference_yaml.strip()
+    if not target_text or not callable(tokenizer) or not callable(model):
+        return None
+
+    try:
+        prompt_ids = tokenizer(prompt, return_tensors="pt")["input_ids"]
+        full_text = f"{prompt}{target_text}"
+        full_inputs = tokenizer(full_text, return_tensors="pt").to(input_device(model))
+        prompt_token_count = int(prompt_ids.shape[-1])
+        if int(full_inputs["input_ids"].shape[-1]) <= prompt_token_count:
+            return None
+
+        labels = full_inputs["input_ids"].clone()
+        labels[:, :prompt_token_count] = -100
+        with torch.no_grad():
+            outputs = model(**full_inputs, labels=labels)
+        loss = float(outputs.loss.detach().cpu())
+    except (AttributeError, KeyError, RuntimeError, TypeError, ValueError):
+        return None
+    if not math.isfinite(loss):
+        return None
+    return math.exp(min(loss, 50.0))
+
+
 def build_resume_signature(args: argparse.Namespace) -> dict[str, Any]:
     return {
         "dataset": str(args.dataset),
@@ -655,6 +683,12 @@ def main() -> None:
                 prompt = render_chat_prompt(tokenizer, row["prompt_text"], args.output_format)
                 completion = generate_completion(tokenizer, model, prompt, args)
                 raw_output = completion["raw_text"]
+                perplexity = compute_reference_perplexity(
+                    tokenizer,
+                    model,
+                    prompt,
+                    row["target_yaml_normalized"],
+                )
                 parse_errors: list[str] = []
                 try:
                     predicted_blocks = parse_structured_output(raw_output, args.output_format)
@@ -671,6 +705,7 @@ def main() -> None:
                         predicted_blocks,
                         recovery_mode=args.recovery_mode,
                         prompt_text=row["prompt_text"],
+                        perplexity=perplexity,
                     )
                     if predicted_blocks
                     else None
