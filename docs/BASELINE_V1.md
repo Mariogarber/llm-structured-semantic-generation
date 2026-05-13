@@ -125,9 +125,10 @@ Kubernetes validation suite.
 
 ## Current Status
 
-The baseline runner is implemented. No baseline result should be described as a
-validated thesis result until the script has been executed and its output has
-been reviewed.
+The baseline runner is implemented and has completed recorded validation/test
+runs. These runs are valid as baseline references, but they are not final thesis
+success claims: they establish the pre-SFT behavior that later supervised and
+alignment stages must improve.
 
 ## Recorded Runs
 
@@ -147,6 +148,7 @@ Main artifacts:
 - `results/baseline_kubernetes_v1/compact-test70-320-vtfix/predictions.jsonl`
 - `results/baseline_kubernetes_v1/compact-test70-320-vtfix/latent_mean_vectors.jsonl`
 - `results/baseline_kubernetes_v1/compact-test70-320-vtfix/metrics.json`
+- `results/baseline_kubernetes_v1/compact-test70-320-vtfix/metrics_recomputed.json`
 - `results/baseline_kubernetes_v1/compact-test70-320-vtfix/baseline_dashboard.html`
 
 Headline metrics for that run:
@@ -157,6 +159,15 @@ Headline metrics for that run:
 - `average_line_text_f1 = 0.3175`
 - `average_semantic_key_f1 = 0.4082`
 - latent vectors collected for all `70` rows with dimension `3584`
+
+The recomputed metrics artifact adds prompt-requirement, Kubernetes-domain, and
+auxiliary text metrics without rerunning inference:
+
+- `average_prompt_requirement_f1 = 0.3230`
+- `average_kubernetes_domain_validity_score = 0.3898`
+- `kubernetes_domain_gate_pass_rate = 0.0806`
+- `average_bleu_score = 0.4576`
+- `average_rougeL_f1 = 0.6584`
 
 A shorter pilot run used during prompt and parser iteration is also preserved at:
 

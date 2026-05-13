@@ -35,6 +35,16 @@ The first supervised stage should therefore compare two SFT variants:
 - `two_head_sft`: main thesis model; the causal LM predicts line content and a
   physical structural head predicts `level`
 
+Status update as of 2026-05-13:
+
+- `serialized_sft` has been implemented and evaluated on the validation split;
+- the strongest recorded run is
+  `results/sft_kubernetes_v1/serialized-sft-a-v1-20260505-171226/`;
+- this run makes the serialized branch a strong supervised control, not merely
+  a planned baseline;
+- `two_head_sft` remains unimplemented as a completed result and is still needed
+  to answer the central architectural question.
+
 ## 1. Why SFT is the right next step
 
 The repository already shows three important facts:

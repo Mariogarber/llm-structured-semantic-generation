@@ -147,30 +147,61 @@ Current repository documents:
 - Structural target contract: [docs/STRUCTURAL_TARGETS_V1.md](docs/STRUCTURAL_TARGETS_V1.md)
 - Baseline execution contract: [docs/BASELINE_V1.md](docs/BASELINE_V1.md)
 - SFT strategy and model comparison: [docs/SFT_STRATEGY_V1.md](docs/SFT_STRATEGY_V1.md)
+- Latent level probe for `two_head_sft`: [docs/LATENT_LEVEL_PROBE_V1.md](docs/LATENT_LEVEL_PROBE_V1.md)
+- Latent level probe results: [docs/LATENT_LEVEL_PROBE_RESULTS_2026-05-13.md](docs/LATENT_LEVEL_PROBE_RESULTS_2026-05-13.md)
 - Current project status and anteproyecto note: [docs/PROJECT_STATUS_AND_ANTEPROYECTO.md](docs/PROJECT_STATUS_AND_ANTEPROYECTO.md)
 - Project terminology and metric definitions: [docs/TERMINOLOGY.md](docs/TERMINOLOGY.md)
 - Multi-resource enrichment decision: [docs/MULTI_RESOURCE_STRATEGY_DECISION.md](docs/MULTI_RESOURCE_STRATEGY_DECISION.md)
 
 ## Current Implementation Status
 
-The Kubernetes v1 dataset is processed and ready for the next modeling stage. The repository now includes:
+The repository has moved beyond dataset preparation and now contains the first
+complete supervised control result for Kubernetes v1. The implemented basis is:
 
-- a reproducible Kubernetes preprocessing script,
-- processed train/validation/test artifacts under `data/processed/kubernetes_v1/`,
-- a line-and-level structural target builder,
-- deterministic reconstruction from structural blocks back to YAML,
-- structural evaluation helpers,
-- fixed SFT serialization rows derived from structural targets,
-- the documented two-branch SFT comparison:
-  `serialized_sft` vs `two_head_sft`,
-- a zero-shot baseline runner for the local Qwen model.
+- a reproducible Kubernetes preprocessing script;
+- processed train/validation/test artifacts under `data/processed/kubernetes_v1/`;
+- line-and-level structural target generation;
+- deterministic reconstruction from structural blocks back to YAML;
+- structural, prompt-adequacy, text-overlap, and approximate Kubernetes-domain
+  evaluation helpers;
+- fixed SFT serialization rows derived from structural targets;
+- a resumable zero-shot baseline runner for the local Qwen model;
+- a resumable LoRA trainer for the `serialized_sft` control branch;
+- a resumable latent `level` probing workflow.
 
-The repository does not yet contain completed SFT, DPO, or PPO result tables.
-Baseline artifacts can now be produced end to end with the included runners, but
-no baseline output should be treated as a validated thesis conclusion until the
-recorded runs have been reviewed explicitly. The current baseline execution
-process and recorded test run are documented in
-`docs/BASELINE_EXECUTION_REPORT_2026-04-28.md`.
+The central comparison remains:
+
+```text
+serialized_sft vs two_head_sft
+```
+
+Current factual status:
+
+- `kubernetes_v1` is processed and ready: `283` samples and `566` prompt-variant
+  rows.
+- The zero-shot baseline has completed recorded validation/test runs using
+  `blocks_tsv_compact_v1`.
+- The `serialized_sft` control branch has completed validation runs using
+  `blocks_tsv_v1`.
+- The strongest recorded `serialized_sft` validation run is
+  `serialized-sft-a-v1-20260505-171226`, with
+  `yaml_parse_success_rate = 0.9857`,
+  `average_line_text_f1 = 0.8206`,
+  `average_level_exact_match_rate = 0.7578`, and
+  `average_prompt_requirement_f1 = 0.8531`.
+- A later one-epoch `serialized_sft` run,
+  `serialized-sft-a-v1-1epoch-20260507-1528`, includes the expanded
+  domain-validity and auxiliary text metrics.
+- The latent `level` probe has a completed full train/validation run:
+  `latent-level-probe-real-full-20260513-1528`.
+- `two_head_sft`, DPO, PPO, full official Kubernetes schema validation, and
+  human semantic evaluation are not yet implemented as completed result stages.
+
+The current baseline execution process is documented in
+`docs/BASELINE_EXECUTION_REPORT_2026-04-28.md`. The first completed
+`serialized_sft` validation result is documented in
+`docs/SFT_SERIALIZED_A_VALIDATION_RESULT_2026-05-06.md`. The latent probe result
+is documented in `docs/LATENT_LEVEL_PROBE_RESULTS_2026-05-13.md`.
 
 The next dataset-enrichment direction is documented as `kubernetes_v2`: a
 derived multi-resource dataset built from `kubernetes_v1` through controlled
@@ -238,6 +269,31 @@ uv sync --extra llm
 uv run python scripts/run_kubernetes_baseline.py --split validation --run-id baseline-val
 ```
 
+Train the currently implemented serialized SFT control branch:
+
+```bash
+uv sync --extra llm
+uv run python scripts/train_kubernetes_sft.py --run-id serialized-sft-a-v1
+```
+
+Recompute SFT validation metrics from persisted predictions without rerunning
+model inference:
+
+```bash
+uv run python scripts/recompute_sft_validation_metrics.py \
+  --run-dir results/sft_kubernetes_v1/<run-id>
+```
+
+Run the latent `level` probe:
+
+```bash
+uv sync --extra llm
+uv run python scripts/run_kubernetes_latent_level_probe.py \
+  --stage all \
+  --run-id latent-level-probe-v1 \
+  --batch-size 1
+```
+
 The baseline now requests `blocks_tsv_compact_v1` by default instead of the
 older JSON array output. This compact inference-only surface removes
 model-predicted `line_index`, reconstructs ordering deterministically in the
@@ -273,9 +329,9 @@ Traditional text generation metrics such as BLEU are not sufficient for this pro
 ### Structural Metrics
 
 - percentage of valid YAML outputs,
-- schema validation success rate,
+- parser-facing block validity,
 - exact key-level match,
-- tree-based structural similarity,
+- line-content and `level` agreement,
 - hierarchical consistency.
 
 ### Semantic Metrics
@@ -283,7 +339,10 @@ Traditional text generation metrics such as BLEU are not sufficient for this pro
 - presence of required resources,
 - coherent use of ports, environment variables, and execution settings,
 - absence of references to nonexistent elements,
-- domain-level validation when possible.
+- approximate Kubernetes-domain validity levels.
+
+The current repository does not yet implement full official Kubernetes schema
+validation or human semantic evaluation.
 
 ### Prompt Adequacy Metrics
 

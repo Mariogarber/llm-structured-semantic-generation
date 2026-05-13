@@ -26,14 +26,15 @@ The current implemented basis is:
   `model/qwen2.5-7b-instruct-4bit/`.
 
 The preprocessing, structural target generation, SFT export, baseline runner,
-evaluation helpers, latent-vector collection, prompt-requirement extraction, and
-resumable execution utilities exist in the repository.
+evaluation helpers, latent-vector collection, prompt-requirement extraction,
+SFT trainer for the serialized control branch, offline SFT metric
+recomputation, latent `level` probing, and resumable execution utilities exist
+in the repository.
 
-The current test suite passes:
-
-```text
-31 passed
-```
+The local Python environment currently does not expose `pytest` through
+`uv run pytest` or `uv run python -m pytest`, so this note does not claim a
+fresh test-suite pass. Older documentation that stated `31 passed` is outdated
+as a current verification claim.
 
 ## What Is Already Documented Well
 
@@ -102,6 +103,16 @@ Headline metrics for that run:
 - `average_semantic_key_f1 = 0.4082`;
 - latent vectors collected for all `70` rows with dimension `3584`.
 
+The same run has also been recomputed with the expanded metric stack in
+`metrics_recomputed.json`, adding prompt-requirement, Kubernetes-domain, BLEU,
+ROUGE, and optional-perplexity fields. In that recomputation:
+
+- `average_prompt_requirement_f1 = 0.3230`;
+- `average_kubernetes_domain_validity_score = 0.3898`;
+- `kubernetes_domain_gate_pass_rate = 0.0806`;
+- `average_bleu_score = 0.4576`;
+- `average_rougeL_f1 = 0.6584`.
+
 Interpretation:
 
 - the baseline is useful as a measurable pre-SFT reference;
@@ -111,22 +122,96 @@ Interpretation:
 
 ### SFT
 
-SFT is the correct next experimental step, but it has not yet been run.
+SFT is no longer only the next planned step. The serialized control branch has
+been implemented and evaluated on the validation split.
 
 Current status:
 
 - SFT-ready JSONL files exist under `data/processed/kubernetes_v1/sft/`;
-- the planned supervised comparison is `serialized_sft` vs `two_head_sft`;
-- `serialized_sft` is the control branch where `level` is emitted as serialized
-  text;
-- `two_head_sft` is the main branch with an explicit hierarchical-level head;
-- both branches should use LoRA or QLoRA-style adaptation under the same
-  evaluation protocol;
-- the trainer itself is not yet implemented;
-- there are no completed SFT result tables.
+- the supervised comparison remains `serialized_sft` vs `two_head_sft`;
+- `serialized_sft` is the implemented control branch where `level` is emitted
+  as serialized text in `blocks_tsv_v1`;
+- `two_head_sft` remains the main pending branch with an explicit
+  hierarchical-level head;
+- the current trainer supports LoRA, resumable checkpoints, W&B logging,
+  checkpoint-retention error tolerance, streaming validation logs, and explicit
+  CUDA OOM recovery through `--oom-recovery skip_batch`;
+- there are completed `serialized_sft` validation artifacts, but no completed
+  `two_head_sft`, DPO, or PPO result tables.
 
-Documentation should therefore describe SFT as a planned next experiment, not as
-an achieved result.
+Strongest recorded serialized SFT validation result:
+
+- run id: `serialized-sft-a-v1-20260505-171226`;
+- checkpoint: `checkpoint-step-159`;
+- epochs: `3`;
+- evaluated rows: `70/70`;
+- `yaml_parse_success_rate = 0.9857`;
+- `parsed_equal_rate = 0.1143`;
+- `average_line_text_f1 = 0.8206`;
+- `average_level_exact_match_rate = 0.7578`;
+- `average_level_mae = 0.2723`;
+- `average_prompt_requirement_f1 = 0.8531`;
+- `average_semantic_key_f1 = 0.9552`;
+- `required_field_complete_sample_rate = 1.0000`.
+
+Operational caveat:
+
+- the run used `--oom-recovery skip_batch`;
+- two microbatches were skipped because of CUDA OOM;
+- this must be reported as a reproducible training-condition caveat, not hidden
+  as if the full train split had been optimized uniformly.
+
+A later one-epoch run also completed:
+
+- run id: `serialized-sft-a-v1-1epoch-20260507-1528`;
+- checkpoint: `checkpoint-step-53`;
+- evaluated rows: `70/70`;
+- `yaml_parse_success_rate = 0.9000`;
+- `average_line_text_f1 = 0.7337`;
+- `average_level_exact_match_rate = 0.6644`;
+- `average_prompt_requirement_f1 = 0.7716`;
+- `average_kubernetes_domain_validity_score = 0.7667`;
+- `kubernetes_domain_gate_pass_rate = 0.1429`.
+
+Documentation should therefore describe `serialized_sft` as an achieved
+supervised control result, while keeping `two_head_sft` as the next central
+architecture needed to complete the main thesis comparison.
+
+### Latent Level Probe
+
+The repository now contains a completed diagnostic probe for whether the base
+model's hidden states already encode the YAML `level` variable.
+
+Completed run:
+
+- run id: `latent-level-probe-real-full-20260513-1528`;
+- stage: `all`;
+- rows: `496`;
+- train units: `426`;
+- validation units: `70`;
+- validation lines: `1800`;
+- feature strategies: `record_prefix_state`, `line_prefix_state`,
+  `line_first_token`, `line_last_token`, `line_mean`;
+- probe families: majority baseline, previous-level baseline, linear probe,
+  small MLP probe.
+
+Best headline results on validation:
+
+- `record_prefix_state + MLP`: `accuracy = 0.8594`, `level_mae = 0.2478`;
+- `record_prefix_state + linear`: `accuracy = 0.8583`,
+  `balanced_accuracy = 0.7647`, `macro_f1 = 0.7303`;
+- `line_prefix_state + MLP`: `accuracy = 0.8072`,
+  `balanced_accuracy = 0.7708`, `macro_f1 = 0.7364`;
+- majority baseline: `accuracy = 0.1633`;
+- previous-level baseline: `accuracy = 0.3522`.
+
+Interpretation:
+
+- the result supports the diagnostic claim that `level` information is
+  recoverable from base-model hidden states;
+- it does not prove that `two_head_sft` will outperform `serialized_sft`;
+- it should be used to motivate the explicit hierarchy branch, not to replace
+  the missing training comparison.
 
 ### DPO And PPO
 
@@ -141,7 +226,9 @@ The repository does not currently contain:
 - PPO results;
 - a full RLHF pipeline.
 
-These stages must not be described as completed.
+These stages must not be described as completed. The current `serialized_sft`
+result is a strong candidate base for future automatic-preference construction,
+but no DPO stage has been executed yet.
 
 ### Kubernetes Validation
 
@@ -246,7 +333,7 @@ Suggested objectives for the anteproyecto:
 
 Avoid claiming that:
 
-- SFT results already exist;
+- `two_head_sft` results already exist;
 - DPO or PPO has been executed;
 - the latent representation has already been validated as a final scientific
   contribution;
@@ -271,6 +358,8 @@ formal academic synthesis:
 - fill `docs/plantilla_anteproyecto.docx`;
 - keep the anteproyecto aligned with Kubernetes as the operative case study;
 - distinguish implemented results from planned methodology;
-- avoid presenting the baseline as a final successful model;
-- explain why the supervised `serialized_sft` vs `two_head_sft` comparison is
-  the next necessary step before DPO.
+- avoid presenting either the baseline or `serialized_sft` as final thesis
+  closure;
+- explain that `serialized_sft` is now a strong supervised control, while
+  `two_head_sft` is still needed to test the explicit hierarchy hypothesis
+  before DPO.
