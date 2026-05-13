@@ -18,3 +18,4 @@ latex/build/
 
 # Ignore local training checkpoints and model state artifacts
 results/sft_kubernetes_v1/*/checkpoints/
+results/
