@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 from collections import Counter
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from .auxiliary_text_metrics import compute_auxiliary_text_metrics
+from .kubernetes_domain import evaluate_kubernetes_domain_validity
 from .prompt_requirements import evaluate_prompt_requirements, evaluate_required_fields
 from .structure import blocks_to_yaml, coerce_block, parse_yaml_documents, yaml_to_blocks
 
@@ -76,6 +78,12 @@ class StructuralEvaluation:
     required_field_presence_rate: float | None = None
     required_field_complete_resource_rate: float | None = None
     required_field_complete_sample: bool | None = None
+    kubernetes_domain_validity_level: int = -1
+    kubernetes_domain_gate_pass: bool = False
+    kubernetes_domain_validity_score: float = 0.0
+    kubernetes_domain_level_scores: dict[str, float | None] = field(default_factory=dict)
+    kubernetes_domain_errors: tuple[dict[str, Any], ...] = ()
+    auxiliary_text_metrics: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -303,12 +311,28 @@ def _build_failed_evaluation(
     *,
     errors: tuple[str, ...],
     prompt_text: str | None = None,
+    prediction_yaml: str = "",
+    perplexity: float | None = None,
 ) -> StructuralEvaluation:
     reference_documents = parse_yaml_documents(reference_yaml)
     reference_blocks = list(yaml_to_blocks(reference_yaml))
     block_summary = _summarize_predicted_blocks(predicted_blocks)
     prompt_evaluation = evaluate_prompt_requirements(prompt_text, ())
     required_field_evaluation = evaluate_required_fields(())
+    domain_evaluation = evaluate_kubernetes_domain_validity(
+        (),
+        yaml_parse_ok=False,
+        block_parse_ok=False,
+        valid_block_ratio=block_summary["valid_block_ratio"],
+        document_index_monotonic_ok=block_summary["document_index_monotonic_ok"],
+        line_index_sequence_ok=block_summary["line_index_sequence_ok"],
+        indentation_leak_rate=block_summary["indentation_leak_rate"],
+    )
+    auxiliary_text_metrics = compute_auxiliary_text_metrics(
+        reference_yaml,
+        prediction_yaml,
+        perplexity=perplexity,
+    )
     return StructuralEvaluation(
         yaml_parse_ok=False,
         parsed_equal_to_reference=False,
@@ -358,6 +382,12 @@ def _build_failed_evaluation(
         required_field_presence_rate=required_field_evaluation.required_field_presence_rate,
         required_field_complete_resource_rate=required_field_evaluation.required_field_complete_resource_rate,
         required_field_complete_sample=required_field_evaluation.required_field_complete_sample,
+        kubernetes_domain_validity_level=domain_evaluation.kubernetes_domain_validity_level,
+        kubernetes_domain_gate_pass=domain_evaluation.kubernetes_domain_gate_pass,
+        kubernetes_domain_validity_score=domain_evaluation.kubernetes_domain_validity_score,
+        kubernetes_domain_level_scores=domain_evaluation.kubernetes_domain_level_scores,
+        kubernetes_domain_errors=domain_evaluation.kubernetes_domain_errors,
+        auxiliary_text_metrics=auxiliary_text_metrics,
     )
 
 
@@ -366,6 +396,7 @@ def evaluate_yaml_prediction(
     prediction_yaml: str,
     *,
     prompt_text: str | None = None,
+    perplexity: float | None = None,
 ) -> StructuralEvaluation:
     errors: list[str] = []
 
@@ -377,6 +408,8 @@ def evaluate_yaml_prediction(
             [],
             errors=(f"reference_parse_error:{exc.__class__.__name__}",),
             prompt_text=prompt_text,
+            prediction_yaml=prediction_yaml,
+            perplexity=perplexity,
         )
 
     reference_blocks = list(yaml_to_blocks(reference_yaml))
@@ -398,7 +431,14 @@ def evaluate_yaml_prediction(
         errors.append(f"block_parse_error:{exc}")
 
     if not yaml_parse_ok:
-        return _build_failed_evaluation(reference_yaml, [], errors=tuple(errors), prompt_text=prompt_text)
+        return _build_failed_evaluation(
+            reference_yaml,
+            [],
+            errors=tuple(errors),
+            prompt_text=prompt_text,
+            prediction_yaml=prediction_yaml,
+            perplexity=perplexity,
+        )
 
     reference_text = [block.line_text for block in reference_blocks]
     prediction_text = [block.line_text for block in prediction_blocks]
@@ -418,6 +458,20 @@ def evaluate_yaml_prediction(
     primary_name_prediction = _first_document_field(prediction_documents, "metadata", "name")
     prompt_evaluation = evaluate_prompt_requirements(prompt_text, prediction_documents)
     required_field_evaluation = evaluate_required_fields(prediction_documents)
+    domain_evaluation = evaluate_kubernetes_domain_validity(
+        prediction_documents,
+        yaml_parse_ok=True,
+        block_parse_ok=block_parse_ok,
+        valid_block_ratio=1.0 if prediction_blocks else 0.0,
+        document_index_monotonic_ok=True,
+        line_index_sequence_ok=True,
+        indentation_leak_rate=0.0,
+    )
+    auxiliary_text_metrics = compute_auxiliary_text_metrics(
+        reference_yaml,
+        prediction_yaml,
+        perplexity=perplexity,
+    )
 
     return StructuralEvaluation(
         yaml_parse_ok=True,
@@ -466,6 +520,12 @@ def evaluate_yaml_prediction(
         required_field_presence_rate=required_field_evaluation.required_field_presence_rate,
         required_field_complete_resource_rate=required_field_evaluation.required_field_complete_resource_rate,
         required_field_complete_sample=required_field_evaluation.required_field_complete_sample,
+        kubernetes_domain_validity_level=domain_evaluation.kubernetes_domain_validity_level,
+        kubernetes_domain_gate_pass=domain_evaluation.kubernetes_domain_gate_pass,
+        kubernetes_domain_validity_score=domain_evaluation.kubernetes_domain_validity_score,
+        kubernetes_domain_level_scores=domain_evaluation.kubernetes_domain_level_scores,
+        kubernetes_domain_errors=domain_evaluation.kubernetes_domain_errors,
+        auxiliary_text_metrics=auxiliary_text_metrics,
     )
 
 
@@ -475,6 +535,7 @@ def evaluate_blocks_prediction(
     *,
     recovery_mode: str = "strict",
     prompt_text: str | None = None,
+    perplexity: float | None = None,
 ) -> StructuralEvaluation:
     reconstruction = blocks_to_yaml(predicted_blocks, recovery_mode=recovery_mode)
     if not reconstruction.yaml_parse_ok:
@@ -483,14 +544,26 @@ def evaluate_blocks_prediction(
             predicted_blocks,
             errors=reconstruction.errors,
             prompt_text=prompt_text,
+            prediction_yaml=reconstruction.yaml_text,
+            perplexity=perplexity,
         )
 
     evaluation = evaluate_yaml_prediction(
         reference_yaml,
         reconstruction.yaml_text,
         prompt_text=prompt_text,
+        perplexity=perplexity,
     )
     block_summary = _summarize_predicted_blocks(predicted_blocks)
+    domain_evaluation = evaluate_kubernetes_domain_validity(
+        reconstruction.parsed_documents,
+        yaml_parse_ok=evaluation.yaml_parse_ok,
+        block_parse_ok=evaluation.block_parse_ok,
+        valid_block_ratio=block_summary["valid_block_ratio"],
+        document_index_monotonic_ok=block_summary["document_index_monotonic_ok"],
+        line_index_sequence_ok=block_summary["line_index_sequence_ok"],
+        indentation_leak_rate=block_summary["indentation_leak_rate"],
+    )
     return StructuralEvaluation(
         yaml_parse_ok=evaluation.yaml_parse_ok,
         parsed_equal_to_reference=evaluation.parsed_equal_to_reference,
@@ -538,6 +611,12 @@ def evaluate_blocks_prediction(
         required_field_presence_rate=evaluation.required_field_presence_rate,
         required_field_complete_resource_rate=evaluation.required_field_complete_resource_rate,
         required_field_complete_sample=evaluation.required_field_complete_sample,
+        kubernetes_domain_validity_level=domain_evaluation.kubernetes_domain_validity_level,
+        kubernetes_domain_gate_pass=domain_evaluation.kubernetes_domain_gate_pass,
+        kubernetes_domain_validity_score=domain_evaluation.kubernetes_domain_validity_score,
+        kubernetes_domain_level_scores=domain_evaluation.kubernetes_domain_level_scores,
+        kubernetes_domain_errors=domain_evaluation.kubernetes_domain_errors,
+        auxiliary_text_metrics=evaluation.auxiliary_text_metrics,
     )
 
 
@@ -559,6 +638,16 @@ def summarize_evaluations(evaluations: list[StructuralEvaluation]) -> dict[str, 
         if not present:
             return None
         return sum(present) / len(present)
+
+    def auxiliary_value(item: StructuralEvaluation, key: str) -> float | None:
+        value = item.auxiliary_text_metrics.get(key)
+        return float(value) if isinstance(value, (int, float)) and not isinstance(value, bool) else None
+
+    domain_error_counter: Counter[str] = Counter()
+    for item in evaluations:
+        for error in item.kubernetes_domain_errors:
+            category = error.get("category") if isinstance(error, dict) else None
+            domain_error_counter[str(category or "unknown")] += 1
 
     return {
         "evaluated_count": len(evaluations),
@@ -621,5 +710,41 @@ def summarize_evaluations(evaluations: list[StructuralEvaluation]) -> dict[str, 
         ),
         "required_field_complete_sample_rate": optional_rate(
             [item.required_field_complete_sample for item in evaluations]
+        ),
+        "average_kubernetes_domain_validity_score": average(
+            [item.kubernetes_domain_validity_score for item in evaluations]
+        ),
+        "kubernetes_domain_gate_pass_rate": rate(
+            [item.kubernetes_domain_gate_pass for item in evaluations]
+        ),
+        "average_kubernetes_domain_validity_level": average(
+            [float(item.kubernetes_domain_validity_level) for item in evaluations]
+        ),
+        "kubernetes_domain_error_counts": dict(domain_error_counter.most_common()),
+        "kubernetes_level_0_pass_rate": rate(
+            [item.kubernetes_domain_validity_level >= 0 for item in evaluations]
+        ),
+        "kubernetes_level_1_pass_rate": rate(
+            [item.kubernetes_domain_validity_level >= 1 for item in evaluations]
+        ),
+        "kubernetes_level_2_pass_rate": rate(
+            [item.kubernetes_domain_validity_level >= 2 for item in evaluations]
+        ),
+        "kubernetes_level_3_pass_rate": rate(
+            [item.kubernetes_domain_validity_level >= 3 for item in evaluations]
+        ),
+        "kubernetes_level_4_pass_rate": rate(
+            [item.kubernetes_domain_validity_level >= 4 for item in evaluations]
+        ),
+        "kubernetes_level_5_pass_rate": rate(
+            [item.kubernetes_domain_validity_level >= 5 for item in evaluations]
+        ),
+        "average_bleu_score": average_optional([auxiliary_value(item, "bleu_score") for item in evaluations]),
+        "average_rouge1_f1": average_optional([auxiliary_value(item, "rouge1_f1") for item in evaluations]),
+        "average_rouge2_f1": average_optional([auxiliary_value(item, "rouge2_f1") for item in evaluations]),
+        "average_rougeL_f1": average_optional([auxiliary_value(item, "rougeL_f1") for item in evaluations]),
+        "average_perplexity": average_optional([auxiliary_value(item, "perplexity") for item in evaluations]),
+        "perplexity_available_rate": rate(
+            [bool(item.auxiliary_text_metrics.get("perplexity_available")) for item in evaluations]
         ),
     }
