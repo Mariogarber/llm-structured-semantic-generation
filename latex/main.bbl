@@ -1,0 +1,579 @@
+\begin{thebibliography}{51}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Inproceedings
+\bibitem[{Ahmadian et~al.(2024)Ahmadian, Cremer, Galle, Fadaee, Kreutzer,
+  Pietquin, Ustun and Hooker}]{ahmadian2024reinforce}
+\bibinfo{author}{Ahmadian, A.}, \bibinfo{author}{Cremer, C.},
+  \bibinfo{author}{Galle, M.}, \bibinfo{author}{Fadaee, M.},
+  \bibinfo{author}{Kreutzer, J.}, \bibinfo{author}{Pietquin, O.},
+  \bibinfo{author}{Ustun, A.}, \bibinfo{author}{Hooker, S.},
+  \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Back to basics: Revisiting reinforce-style
+  optimization for learning from human feedback in llms}, in:
+  \bibinfo{booktitle}{Proceedings of the 62nd Annual Meeting of the Association
+  for Computational Linguistics}.
+\newblock \URLprefix \url{https://aclanthology.org/2024.acl-long.662/}.
+%Type = Article
+\bibitem[{Andor et~al.(2016)Andor, Alberti, Weiss, Severyn, Presta, Ganchev,
+  Petrov and Collins}]{andor2016globally}
+\bibinfo{author}{Andor, D.}, \bibinfo{author}{Alberti, C.},
+  \bibinfo{author}{Weiss, D.}, \bibinfo{author}{Severyn, A.},
+  \bibinfo{author}{Presta, A.}, \bibinfo{author}{Ganchev, K.},
+  \bibinfo{author}{Petrov, S.}, \bibinfo{author}{Collins, M.},
+  \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{Globally normalized transition-based neural
+  networks}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:1603.06042} \URLprefix
+  \url{https://arxiv.org/abs/1603.06042}.
+%Type = Inproceedings
+\bibitem[{Belanger and McCallum(2017)}]{belanger2017spen}
+\bibinfo{author}{Belanger, D.}, \bibinfo{author}{McCallum, A.},
+  \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Structured prediction energy networks}, in:
+  \bibinfo{booktitle}{Proceedings of the 34th International Conference on
+  Machine Learning}.
+\newblock \URLprefix \url{https://proceedings.mlr.press/v70/belanger17a.html}.
+%Type = Article
+\bibitem[{Beurer-Kellner et~al.(2023)Beurer-Kellner, Fischer and
+  Vechev}]{beurerkellner2023guidance}
+\bibinfo{author}{Beurer-Kellner, L.}, \bibinfo{author}{Fischer, M.},
+  \bibinfo{author}{Vechev, M.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Guidance: A programming paradigm for controlling
+  language models}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2306.05285} \URLprefix
+  \url{https://arxiv.org/abs/2306.05285}.
+%Type = Article
+\bibitem[{Bufalino et~al.(2025)Bufalino, Martin-Navarro, Di~Francesco and
+  Aura}]{bufalino2025insidejob}
+\bibinfo{author}{Bufalino, J.}, \bibinfo{author}{Martin-Navarro, J.L.},
+  \bibinfo{author}{Di~Francesco, M.}, \bibinfo{author}{Aura, T.},
+  \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{Inside job: Defending kubernetes clusters against
+  network misconfigurations}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2506.21134} \URLprefix
+  \url{https://arxiv.org/abs/2506.21134}.
+%Type = Inproceedings
+\bibitem[{Bunel et~al.(2018)Bunel, Hausknecht, Devlin, Singh and
+  Kohli}]{bunel2018leveraginggrammar}
+\bibinfo{author}{Bunel, R.}, \bibinfo{author}{Hausknecht, M.},
+  \bibinfo{author}{Devlin, J.}, \bibinfo{author}{Singh, R.},
+  \bibinfo{author}{Kohli, P.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Leveraging grammar and reinforcement learning for
+  neural program synthesis}, in: \bibinfo{booktitle}{International Conference
+  on Learning Representations}.
+\newblock \URLprefix \url{https://openreview.net/forum?id=H1Xw62kRZ}.
+%Type = Article
+\bibitem[{Chaudhari et~al.(2025)Chaudhari, Aggarwal, Murahari, Rajpurohit,
+  Kalyan, Narasimhan, Deshpande and Castro~da
+  Silva}]{chaudhari2025rlhfdeciphered}
+\bibinfo{author}{Chaudhari, S.}, \bibinfo{author}{Aggarwal, P.},
+  \bibinfo{author}{Murahari, V.S.}, \bibinfo{author}{Rajpurohit, T.},
+  \bibinfo{author}{Kalyan, A.}, \bibinfo{author}{Narasimhan, K.R.},
+  \bibinfo{author}{Deshpande, A.}, \bibinfo{author}{Castro~da Silva, B.},
+  \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{Rlhf deciphered: A critical analysis of reinforcement
+  learning from human feedback for llms}.
+\newblock \bibinfo{journal}{ACM Computing Surveys} \bibinfo{volume}{58}.
+\newblock \URLprefix \url{https://doi.org/10.1145/3743127},
+  \DOIprefix\doi{10.1145/3743127}.
+%Type = Article
+\bibitem[{Chen et~al.(2021)Chen, Tworek, Jun, Yuan, Pinto, Kaplan, Edwards,
+  Burda, Joseph, Brockman, Ray, Puri, Krueger, Petrov, Khlaaf, Sastry, Mishkin,
+  Chan, Gray, Ryder, Pavlov, Power, Kaiser, Bavarian, Winter, Tillet, Such,
+  Cummings, Plappert, Chantzis, Barnes, Herbert-Voss, Guss, Nichol, Paino,
+  Tezak, Tang, Babuschkin, Balaji, Jain, Saunders, Hesse, Carr, Leike, Achiam,
+  Misra, Morikawa, Radford, Knight, Brundage, Murati, Mayer, Welinder, McGrew,
+  Amodei, McCandlish, Sutskever and Zaremba}]{chen2021evaluating}
+\bibinfo{author}{Chen, M.}, \bibinfo{author}{Tworek, J.}, \bibinfo{author}{Jun,
+  H.}, \bibinfo{author}{Yuan, Q.}, \bibinfo{author}{Pinto, H.P.d.O.},
+  \bibinfo{author}{Kaplan, J.}, \bibinfo{author}{Edwards, H.},
+  \bibinfo{author}{Burda, Y.}, \bibinfo{author}{Joseph, N.},
+  \bibinfo{author}{Brockman, G.}, \bibinfo{author}{Ray, A.},
+  \bibinfo{author}{Puri, R.}, \bibinfo{author}{Krueger, G.},
+  \bibinfo{author}{Petrov, M.}, \bibinfo{author}{Khlaaf, H.},
+  \bibinfo{author}{Sastry, G.}, \bibinfo{author}{Mishkin, P.},
+  \bibinfo{author}{Chan, B.}, \bibinfo{author}{Gray, S.},
+  \bibinfo{author}{Ryder, N.}, \bibinfo{author}{Pavlov, M.},
+  \bibinfo{author}{Power, A.}, \bibinfo{author}{Kaiser, L.},
+  \bibinfo{author}{Bavarian, M.}, \bibinfo{author}{Winter, C.},
+  \bibinfo{author}{Tillet, P.}, \bibinfo{author}{Such, F.P.},
+  \bibinfo{author}{Cummings, D.}, \bibinfo{author}{Plappert, M.},
+  \bibinfo{author}{Chantzis, F.}, \bibinfo{author}{Barnes, E.},
+  \bibinfo{author}{Herbert-Voss, A.}, \bibinfo{author}{Guss, W.H.},
+  \bibinfo{author}{Nichol, A.}, \bibinfo{author}{Paino, A.},
+  \bibinfo{author}{Tezak, N.}, \bibinfo{author}{Tang, J.},
+  \bibinfo{author}{Babuschkin, I.}, \bibinfo{author}{Balaji, S.},
+  \bibinfo{author}{Jain, S.}, \bibinfo{author}{Saunders, W.},
+  \bibinfo{author}{Hesse, C.}, \bibinfo{author}{Carr, A.N.},
+  \bibinfo{author}{Leike, J.}, \bibinfo{author}{Achiam, J.},
+  \bibinfo{author}{Misra, V.}, \bibinfo{author}{Morikawa, E.},
+  \bibinfo{author}{Radford, A.}, \bibinfo{author}{Knight, M.},
+  \bibinfo{author}{Brundage, M.}, \bibinfo{author}{Murati, M.},
+  \bibinfo{author}{Mayer, K.}, \bibinfo{author}{Welinder, P.},
+  \bibinfo{author}{McGrew, B.}, \bibinfo{author}{Amodei, D.},
+  \bibinfo{author}{McCandlish, S.}, \bibinfo{author}{Sutskever, I.},
+  \bibinfo{author}{Zaremba, W.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Evaluating large language models trained on code}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2107.03374} \URLprefix
+  \url{https://arxiv.org/abs/2107.03374}.
+%Type = Article
+\bibitem[{Chowdhury et~al.(2024)Chowdhury, Kini and
+  Natarajan}]{chowdhury2024robustdpo}
+\bibinfo{author}{Chowdhury, S.R.}, \bibinfo{author}{Kini, A.},
+  \bibinfo{author}{Natarajan, N.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Provably robust dpo: Aligning language models with
+  noisy feedback}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2403.00409} \URLprefix
+  \url{https://arxiv.org/abs/2403.00409}.
+%Type = Inproceedings
+\bibitem[{Clark et~al.(2019)Clark, Khandelwal, Levy and
+  Manning}]{clark2019bert}
+\bibinfo{author}{Clark, K.}, \bibinfo{author}{Khandelwal, U.},
+  \bibinfo{author}{Levy, O.}, \bibinfo{author}{Manning, C.D.},
+  \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{What does bert look at? an analysis of bert's
+  attention}, in: \bibinfo{booktitle}{Proceedings of the 2019 ACL Workshop
+  BlackboxNLP}.
+\newblock \URLprefix \url{https://arxiv.org/abs/1906.04341}.
+%Type = Inproceedings
+\bibitem[{Dettmers et~al.(2023)Dettmers, Pagnoni, Holtzman and
+  Zettlemoyer}]{dettmers2023qlora}
+\bibinfo{author}{Dettmers, T.}, \bibinfo{author}{Pagnoni, A.},
+  \bibinfo{author}{Holtzman, A.}, \bibinfo{author}{Zettlemoyer, L.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Qlora: Efficient finetuning of quantized llms}, in:
+  \bibinfo{booktitle}{Advances in Neural Information Processing Systems}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2305.14314}.
+%Type = Article
+\bibitem[{Dong et~al.(2024)Dong, Xiong, Pang, Wang, Zhao, Zhou, Jiang, Sahoo,
+  Xiong and Zhang}]{dong2024rlhfworkflow}
+\bibinfo{author}{Dong, H.}, \bibinfo{author}{Xiong, W.}, \bibinfo{author}{Pang,
+  B.}, \bibinfo{author}{Wang, H.}, \bibinfo{author}{Zhao, H.},
+  \bibinfo{author}{Zhou, Y.}, \bibinfo{author}{Jiang, N.},
+  \bibinfo{author}{Sahoo, D.}, \bibinfo{author}{Xiong, C.},
+  \bibinfo{author}{Zhang, T.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Rlhf workflow: From reward modeling to online rlhf}.
+\newblock \bibinfo{journal}{Transactions on Machine Learning Research}
+  \URLprefix \url{https://openreview.net/forum?id=a13aYUU9eU}.
+%Type = Article
+\bibitem[{Ethayarajh et~al.(2024)Ethayarajh, Xu, Muennighoff, Jurafsky and
+  Kiela}]{ethayarajh2024kto}
+\bibinfo{author}{Ethayarajh, K.}, \bibinfo{author}{Xu, W.},
+  \bibinfo{author}{Muennighoff, N.}, \bibinfo{author}{Jurafsky, D.},
+  \bibinfo{author}{Kiela, D.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Kto: Model alignment as prospect theoretic
+  optimization}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2402.01306} \URLprefix
+  \url{https://arxiv.org/abs/2402.01306}.
+%Type = Article
+\bibitem[{Fonseca et~al.(2024)}]{fonseca2024mutiny}
+\bibinfo{author}{Fonseca, J.}, et~al., \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Mutiny! how does kubernetes fail, and what can we do
+  about it?}
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2404.11169} \URLprefix
+  \url{https://arxiv.org/abs/2404.11169}.
+%Type = Article
+\bibitem[{Geng et~al.(2025)Geng, Cooper, Moskal
+  et~al.}]{geng2025jsonschemabench}
+\bibinfo{author}{Geng, S.}, \bibinfo{author}{Cooper, H.},
+  \bibinfo{author}{Moskal, M.}, et~al., \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{Generating structured outputs from language models:
+  Benchmark and studies}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2501.10868} \URLprefix
+  \url{https://arxiv.org/abs/2501.10868}.
+%Type = Inproceedings
+\bibitem[{Geng et~al.(2023)Geng, Josifoski, Peyrard and West}]{geng2023grammar}
+\bibinfo{author}{Geng, S.}, \bibinfo{author}{Josifoski, M.},
+  \bibinfo{author}{Peyrard, M.}, \bibinfo{author}{West, R.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Grammar-constrained decoding for structured nlp tasks
+  without finetuning}, in: \bibinfo{booktitle}{Proceedings of the 2023
+  Conference on Empirical Methods in Natural Language Processing}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2305.13971}.
+%Type = Inproceedings
+\bibitem[{Hewitt and Manning(2019)}]{hewitt2019structural}
+\bibinfo{author}{Hewitt, J.}, \bibinfo{author}{Manning, C.D.},
+  \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{A structural probe for finding syntax in word
+  representations}, in: \bibinfo{booktitle}{Proceedings of the 2019 Conference
+  of the North American Chapter of the Association for Computational
+  Linguistics}.
+\newblock \URLprefix \url{https://arxiv.org/abs/1906.04284}.
+%Type = Inproceedings
+\bibitem[{Hokamp and Liu(2017)}]{hokamp2017lexically}
+\bibinfo{author}{Hokamp, C.}, \bibinfo{author}{Liu, Q.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Lexically constrained decoding for sequence
+  generation using grid beam search}, in: \bibinfo{booktitle}{Proceedings of
+  the 55th Annual Meeting of the Association for Computational Linguistics}.
+\newblock \URLprefix \url{https://aclanthology.org/P17-1141/}.
+%Type = Inproceedings
+\bibitem[{Hong et~al.(2024)Hong, Lee and Thorne}]{hong2024orpo}
+\bibinfo{author}{Hong, J.}, \bibinfo{author}{Lee, N.}, \bibinfo{author}{Thorne,
+  J.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Orpo: Monolithic preference optimization without
+  reference model}, in: \bibinfo{booktitle}{Proceedings of the 2024 Conference
+  on Empirical Methods in Natural Language Processing}.
+\newblock \URLprefix \url{https://aclanthology.org/2024.emnlp-main.626/}.
+%Type = Article
+\bibitem[{Hu et~al.(2021)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang and
+  Chen}]{hu2021lora}
+\bibinfo{author}{Hu, E.J.}, \bibinfo{author}{Shen, Y.},
+  \bibinfo{author}{Wallis, P.}, \bibinfo{author}{Allen-Zhu, Z.},
+  \bibinfo{author}{Li, Y.}, \bibinfo{author}{Wang, S.}, \bibinfo{author}{Wang,
+  L.}, \bibinfo{author}{Chen, W.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Lora: Low-rank adaptation of large language models}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2106.09685} \URLprefix
+  \url{https://arxiv.org/abs/2106.09685}.
+%Type = Article
+\bibitem[{Joachims et~al.(2009)Joachims, Hofmann, Yue and
+  Yu}]{joachims2009structured}
+\bibinfo{author}{Joachims, T.}, \bibinfo{author}{Hofmann, T.},
+  \bibinfo{author}{Yue, Y.}, \bibinfo{author}{Yu, C.N.}, \bibinfo{year}{2009}.
+\newblock \bibinfo{title}{Predicting structured objects with support vector
+  machines}.
+\newblock \bibinfo{journal}{Communications of the ACM} .
+%Type = Article
+\bibitem[{Kakarla et~al.(2024)Kakarla, Yan and Beckett}]{kakarla2024diffy}
+\bibinfo{author}{Kakarla, S.K.R.}, \bibinfo{author}{Yan, F.Y.},
+  \bibinfo{author}{Beckett, R.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Diffy: Data-driven bug finding for configurations}.
+\newblock \bibinfo{journal}{Proceedings of the ACM on Programming Languages}
+  \bibinfo{volume}{8}.
+\newblock \URLprefix \url{https://doi.org/10.1145/3656385},
+  \DOIprefix\doi{10.1145/3656385}.
+%Type = Article
+\bibitem[{Kaufmann et~al.(2023)Kaufmann, Weng, Bengs and
+  Huellermeier}]{kaufmann2023surveyrlhf}
+\bibinfo{author}{Kaufmann, T.}, \bibinfo{author}{Weng, P.},
+  \bibinfo{author}{Bengs, V.}, \bibinfo{author}{Huellermeier, E.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{A survey of reinforcement learning from human
+  feedback}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2312.14925} \URLprefix
+  \url{https://arxiv.org/abs/2312.14925}.
+%Type = Inproceedings
+\bibitem[{Kendall et~al.(2018)Kendall, Gal and Cipolla}]{kendall2018multitask}
+\bibinfo{author}{Kendall, A.}, \bibinfo{author}{Gal, Y.},
+  \bibinfo{author}{Cipolla, R.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Multi-task learning using uncertainty to weigh losses
+  for scene geometry and semantics}, in: \bibinfo{booktitle}{Proceedings of the
+  IEEE Conference on Computer Vision and Pattern Recognition}.
+\newblock \URLprefix \url{https://arxiv.org/abs/1705.07115}.
+%Type = Book
+\bibitem[{Lambert(2026)}]{lambert2026rlhfbook}
+\bibinfo{author}{Lambert, N.}, \bibinfo{year}{2026}.
+\newblock \bibinfo{title}{Reinforcement Learning from Human Feedback}.
+\newblock \URLprefix \url{https://rlhfbook.com}.
+%Type = Article
+\bibitem[{Lee et~al.(2024a)}]{lee2024structuredrag}
+\bibinfo{author}{Lee, B.}, et~al., \bibinfo{year}{2024}a.
+\newblock \bibinfo{title}{Structuredrag: Json response formatting with large
+  language models}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2408.11061} \URLprefix
+  \url{https://arxiv.org/abs/2408.11061}.
+%Type = Inproceedings
+\bibitem[{Lee et~al.(2024b)Lee, Phatale, Mansoor, Mesnard, Ferret, Lu, Bishop,
+  Hall, Carbune, Rastogi and Prakash}]{lee2024rlaif}
+\bibinfo{author}{Lee, H.}, \bibinfo{author}{Phatale, S.},
+  \bibinfo{author}{Mansoor, H.}, \bibinfo{author}{Mesnard, T.},
+  \bibinfo{author}{Ferret, J.}, \bibinfo{author}{Lu, K.},
+  \bibinfo{author}{Bishop, C.}, \bibinfo{author}{Hall, E.},
+  \bibinfo{author}{Carbune, V.}, \bibinfo{author}{Rastogi, A.},
+  \bibinfo{author}{Prakash, S.}, \bibinfo{year}{2024}b.
+\newblock \bibinfo{title}{Rlaif vs. rlhf: Scaling reinforcement learning from
+  human feedback with ai feedback}, in: \bibinfo{booktitle}{Proceedings of the
+  41st International Conference on Machine Learning}.
+%Type = Inproceedings
+\bibitem[{Li et~al.(2024)}]{li2023strucbench}
+\bibinfo{author}{Li, M.}, et~al., \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Struc-bench: Are large language models really good at
+  generating complex structured data?}, in: \bibinfo{booktitle}{Proceedings of
+  the 2024 Conference of the North American Chapter of the Association for
+  Computational Linguistics}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2309.08963}.
+%Type = Inproceedings
+\bibitem[{Lin et~al.(2024)Lin, Lin, Xiong, Diao, Liu, Zhang, Pan, Wang, Hu,
+  Zhang, Dong, Pi, Zhao, Jiang, Ji, Yao and Zhang}]{lin2024alignmenttax}
+\bibinfo{author}{Lin, Y.}, \bibinfo{author}{Lin, H.}, \bibinfo{author}{Xiong,
+  W.}, \bibinfo{author}{Diao, S.}, \bibinfo{author}{Liu, J.},
+  \bibinfo{author}{Zhang, J.}, \bibinfo{author}{Pan, R.},
+  \bibinfo{author}{Wang, H.}, \bibinfo{author}{Hu, W.}, \bibinfo{author}{Zhang,
+  H.}, \bibinfo{author}{Dong, H.}, \bibinfo{author}{Pi, R.},
+  \bibinfo{author}{Zhao, H.}, \bibinfo{author}{Jiang, N.}, \bibinfo{author}{Ji,
+  H.}, \bibinfo{author}{Yao, Y.}, \bibinfo{author}{Zhang, T.},
+  \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Mitigating the alignment tax of rlhf}, in:
+  \bibinfo{booktitle}{Proceedings of the 2024 Conference on Empirical Methods
+  in Natural Language Processing}.
+\newblock \URLprefix \url{https://aclanthology.org/2024.emnlp-main.35/}.
+%Type = Article
+\bibitem[{Liu et~al.(2023)Liu, Yuan, Fu, Jiang, Hayashi and
+  Neubig}]{liu2023pretrain}
+\bibinfo{author}{Liu, P.}, \bibinfo{author}{Yuan, W.}, \bibinfo{author}{Fu,
+  J.}, \bibinfo{author}{Jiang, Z.}, \bibinfo{author}{Hayashi, H.},
+  \bibinfo{author}{Neubig, G.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Pre-train, prompt, and predict: A systematic survey
+  of prompting methods in natural language processing}.
+\newblock \bibinfo{journal}{ACM Computing Surveys} \bibinfo{volume}{55}.
+\newblock \URLprefix \url{https://doi.org/10.1145/3560815},
+  \DOIprefix\doi{10.1145/3560815}.
+%Type = Inproceedings
+\bibitem[{Ouyang et~al.(2022)Ouyang, Wu, Jiang, Almeida, Wainwright, Mishkin,
+  Zhang, Agarwal, Slama, Ray, Schulman, Hilton, Kelton, Miller, Simens, Askell,
+  Welinder, Christiano, Leike and Lowe}]{ouyang2022training}
+\bibinfo{author}{Ouyang, L.}, \bibinfo{author}{Wu, J.}, \bibinfo{author}{Jiang,
+  X.}, \bibinfo{author}{Almeida, D.}, \bibinfo{author}{Wainwright, C.L.},
+  \bibinfo{author}{Mishkin, P.}, \bibinfo{author}{Zhang, C.},
+  \bibinfo{author}{Agarwal, S.}, \bibinfo{author}{Slama, K.},
+  \bibinfo{author}{Ray, A.}, \bibinfo{author}{Schulman, J.},
+  \bibinfo{author}{Hilton, J.}, \bibinfo{author}{Kelton, F.},
+  \bibinfo{author}{Miller, L.}, \bibinfo{author}{Simens, M.},
+  \bibinfo{author}{Askell, A.}, \bibinfo{author}{Welinder, P.},
+  \bibinfo{author}{Christiano, P.F.}, \bibinfo{author}{Leike, J.},
+  \bibinfo{author}{Lowe, R.}, \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Training language models to follow instructions with
+  human feedback}, in: \bibinfo{booktitle}{Advances in Neural Information
+  Processing Systems}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2203.02155}.
+%Type = Inproceedings
+\bibitem[{Pimparkhede et~al.(2024)Pimparkhede, Kammakomati, Tamilselvam, Kumar,
+  Pon~Kumar and Bhattacharyya}]{pimparkhede2024doccgen}
+\bibinfo{author}{Pimparkhede, S.}, \bibinfo{author}{Kammakomati, M.},
+  \bibinfo{author}{Tamilselvam, S.}, \bibinfo{author}{Kumar, P.},
+  \bibinfo{author}{Pon~Kumar, A.}, \bibinfo{author}{Bhattacharyya, P.},
+  \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Doccgen: Document-based controlled code generation},
+  in: \bibinfo{booktitle}{Proceedings of the 2024 Conference on Empirical
+  Methods in Natural Language Processing}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2406.11925}.
+%Type = Article
+\bibitem[{Pujar et~al.(2023)Pujar, Buratti, Guo, Dupuis, Lewis, Suneja, Sood,
+  Nalawade, Jones, Morari and Puri}]{pujar2023automatedyaml}
+\bibinfo{author}{Pujar, S.}, \bibinfo{author}{Buratti, L.},
+  \bibinfo{author}{Guo, X.}, \bibinfo{author}{Dupuis, N.},
+  \bibinfo{author}{Lewis, B.}, \bibinfo{author}{Suneja, S.},
+  \bibinfo{author}{Sood, A.}, \bibinfo{author}{Nalawade, G.},
+  \bibinfo{author}{Jones, M.}, \bibinfo{author}{Morari, A.},
+  \bibinfo{author}{Puri, R.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Automated code generation for information technology
+  tasks in yaml through large language models}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2305.02783} \URLprefix
+  \url{https://arxiv.org/abs/2305.02783}.
+%Type = Article
+\bibitem[{{Qwen Team}(2024)}]{qwen2024qwen25}
+\bibinfo{author}{{Qwen Team}}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Qwen2.5 technical report}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2412.15115} \URLprefix
+  \url{https://arxiv.org/abs/2412.15115}.
+%Type = Inproceedings
+\bibitem[{Rabinovich et~al.(2017)Rabinovich, Stern and
+  Klein}]{rabinovich2017asn}
+\bibinfo{author}{Rabinovich, M.}, \bibinfo{author}{Stern, M.},
+  \bibinfo{author}{Klein, D.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Abstract syntax networks for code generation and
+  semantic parsing}, in: \bibinfo{booktitle}{Proceedings of the 55th Annual
+  Meeting of the Association for Computational Linguistics}.
+\newblock \URLprefix \url{https://arxiv.org/abs/1704.07535}.
+%Type = Inproceedings
+\bibitem[{Rafailov et~al.(2023)Rafailov, Sharma, Mitchell, Ermon, Manning and
+  Finn}]{rafailov2023dpo}
+\bibinfo{author}{Rafailov, R.}, \bibinfo{author}{Sharma, A.},
+  \bibinfo{author}{Mitchell, E.}, \bibinfo{author}{Ermon, S.},
+  \bibinfo{author}{Manning, C.D.}, \bibinfo{author}{Finn, C.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Direct preference optimization: Your language model
+  is secretly a reward model}, in: \bibinfo{booktitle}{Advances in Neural
+  Information Processing Systems}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2305.18290}.
+%Type = Article
+\bibitem[{Rahman et~al.(2023)}]{rahman2023securityk8s}
+\bibinfo{author}{Rahman, A.}, et~al., \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Security misconfigurations in open source kubernetes
+  manifests: An empirical study}.
+\newblock \bibinfo{journal}{ACM Transactions on Software Engineering and
+  Methodology} \URLprefix
+  \url{https://akondrahman.github.io/files/papers/tosem-k8s.pdf}.
+%Type = Article
+\bibitem[{Roziere et~al.(2023)Roziere, Gehring, Gloeckle, Sootla, Gat, Tan,
+  Adi, Liu, Sauvestre, Remez, Rapin, Kozhevnikov, Evtimov, Bitton, Bhatt,
+  Canton~Ferrer, Grattafiori, Xiong, Defossez, Copet, Azhar, Touvron, Martin,
+  Usunier, Scialom and Synnaeve}]{roziere2023codellama}
+\bibinfo{author}{Roziere, B.}, \bibinfo{author}{Gehring, J.},
+  \bibinfo{author}{Gloeckle, F.}, \bibinfo{author}{Sootla, S.},
+  \bibinfo{author}{Gat, I.}, \bibinfo{author}{Tan, X.E.}, \bibinfo{author}{Adi,
+  Y.}, \bibinfo{author}{Liu, J.}, \bibinfo{author}{Sauvestre, R.},
+  \bibinfo{author}{Remez, T.}, \bibinfo{author}{Rapin, J.},
+  \bibinfo{author}{Kozhevnikov, A.}, \bibinfo{author}{Evtimov, I.},
+  \bibinfo{author}{Bitton, J.}, \bibinfo{author}{Bhatt, M.},
+  \bibinfo{author}{Canton~Ferrer, C.}, \bibinfo{author}{Grattafiori, A.},
+  \bibinfo{author}{Xiong, W.}, \bibinfo{author}{Defossez, A.},
+  \bibinfo{author}{Copet, J.}, \bibinfo{author}{Azhar, F.},
+  \bibinfo{author}{Touvron, H.}, \bibinfo{author}{Martin, L.},
+  \bibinfo{author}{Usunier, N.}, \bibinfo{author}{Scialom, T.},
+  \bibinfo{author}{Synnaeve, G.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Code llama: Open foundation models for code}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2308.12950} \URLprefix
+  \url{https://arxiv.org/abs/2308.12950}.
+%Type = Inproceedings
+\bibitem[{Scholak et~al.(2021)Scholak, Schucher and
+  Bahdanau}]{scholak2021picard}
+\bibinfo{author}{Scholak, T.}, \bibinfo{author}{Schucher, N.},
+  \bibinfo{author}{Bahdanau, D.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Picard: Parsing incrementally for constrained
+  auto-regressive decoding from language models}, in:
+  \bibinfo{booktitle}{Proceedings of the 2021 Conference on Empirical Methods
+  in Natural Language Processing}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2109.05093}.
+%Type = Inproceedings
+\bibitem[{Shin et~al.(2021)Shin, Lin, Thomson, Chen, Roy, Platanios, Pauls,
+  Klein, Eisner and Van~Durme}]{shin2021constrainedsemanticparsers}
+\bibinfo{author}{Shin, R.}, \bibinfo{author}{Lin, C.H.},
+  \bibinfo{author}{Thomson, S.}, \bibinfo{author}{Chen, C.},
+  \bibinfo{author}{Roy, S.}, \bibinfo{author}{Platanios, E.A.},
+  \bibinfo{author}{Pauls, A.}, \bibinfo{author}{Klein, D.},
+  \bibinfo{author}{Eisner, J.}, \bibinfo{author}{Van~Durme, B.},
+  \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Constrained language models yield few-shot semantic
+  parsers}, in: \bibinfo{booktitle}{Proceedings of the 2021 Conference on
+  Empirical Methods in Natural Language Processing}.
+\newblock \URLprefix \url{https://aclanthology.org/2021.emnlp-main.608/}.
+%Type = Inproceedings
+\bibitem[{Tang et~al.(2024)Tang, Guo, Zheng, Calandriello, Munos, Rowland,
+  Richemond, Valko, Pires and Piot}]{tang2024gpo}
+\bibinfo{author}{Tang, Y.}, \bibinfo{author}{Guo, D.Z.},
+  \bibinfo{author}{Zheng, Z.}, \bibinfo{author}{Calandriello, D.},
+  \bibinfo{author}{Munos, R.}, \bibinfo{author}{Rowland, M.},
+  \bibinfo{author}{Richemond, P.H.}, \bibinfo{author}{Valko, M.},
+  \bibinfo{author}{Pires, B.A.}, \bibinfo{author}{Piot, B.},
+  \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Generalized preference optimization: A unified
+  approach to offline alignment}, in: \bibinfo{booktitle}{Proceedings of the
+  41st International Conference on Machine Learning}.
+\newblock \URLprefix \url{https://proceedings.mlr.press/v235/tang24b.html}.
+%Type = Inproceedings
+\bibitem[{Vaswani et~al.(2017)Vaswani, Shazeer, Parmar, Uszkoreit, Jones,
+  Gomez, Kaiser and Polosukhin}]{vaswani2017attention}
+\bibinfo{author}{Vaswani, A.}, \bibinfo{author}{Shazeer, N.},
+  \bibinfo{author}{Parmar, N.}, \bibinfo{author}{Uszkoreit, J.},
+  \bibinfo{author}{Jones, L.}, \bibinfo{author}{Gomez, A.N.},
+  \bibinfo{author}{Kaiser, L.}, \bibinfo{author}{Polosukhin, I.},
+  \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Attention is all you need}, in:
+  \bibinfo{booktitle}{Advances in Neural Information Processing Systems}.
+\newblock \URLprefix \url{https://arxiv.org/abs/1706.03762}.
+%Type = Inproceedings
+\bibitem[{Wang et~al.(2023)Wang, Kordi, Mishra, Liu, Smith, Khashabi and
+  Hajishirzi}]{wang2022selfinstruct}
+\bibinfo{author}{Wang, Y.}, \bibinfo{author}{Kordi, Y.},
+  \bibinfo{author}{Mishra, S.}, \bibinfo{author}{Liu, A.},
+  \bibinfo{author}{Smith, N.A.}, \bibinfo{author}{Khashabi, D.},
+  \bibinfo{author}{Hajishirzi, H.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Self-instruct: Aligning language models with
+  self-generated instructions}, in: \bibinfo{booktitle}{Proceedings of the 61st
+  Annual Meeting of the Association for Computational Linguistics}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2212.10560}.
+%Type = Inproceedings
+\bibitem[{Wei et~al.(2022)Wei, Wang, Schuurmans, Bosma, Ichter, Xia, Chi, Le
+  and Zhou}]{wei2022scaling}
+\bibinfo{author}{Wei, J.}, \bibinfo{author}{Wang, X.},
+  \bibinfo{author}{Schuurmans, D.}, \bibinfo{author}{Bosma, M.},
+  \bibinfo{author}{Ichter, B.}, \bibinfo{author}{Xia, F.},
+  \bibinfo{author}{Chi, E.H.}, \bibinfo{author}{Le, Q.V.},
+  \bibinfo{author}{Zhou, D.}, \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Scaling instruction-finetuned language models}, in:
+  \bibinfo{booktitle}{International Conference on Learning Representations}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2210.11416}.
+%Type = Article
+\bibitem[{Willard and Louf(2023)}]{willard2023efficient}
+\bibinfo{author}{Willard, B.T.}, \bibinfo{author}{Louf, R.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Efficient guided generation for large language
+  models}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2307.09702} \URLprefix
+  \url{https://arxiv.org/abs/2307.09702}.
+%Type = Article
+\bibitem[{Wu et~al.(2025)Wu, Zhou, Ziheng, Peng, Ye, Hu, Zhu, Qi, Yang and
+  Yang}]{wu2025sft}
+\bibinfo{author}{Wu, Y.}, \bibinfo{author}{Zhou, Y.}, \bibinfo{author}{Ziheng,
+  Z.}, \bibinfo{author}{Peng, Y.}, \bibinfo{author}{Ye, X.},
+  \bibinfo{author}{Hu, X.}, \bibinfo{author}{Zhu, W.}, \bibinfo{author}{Qi,
+  L.}, \bibinfo{author}{Yang, M.H.}, \bibinfo{author}{Yang, X.},
+  \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{On the generalization of sft: A reinforcement
+  learning perspective with reward rectification}.
+\newblock \bibinfo{journal}{OpenReview preprint} \URLprefix
+  \url{https://openreview.net/forum?id=Lv7PjbcaMi}.
+%Type = Inproceedings
+\bibitem[{Xu et~al.(2024)Xu, Fu, Gao, Ye, Liu, Mei, Wang, Yu and
+  Wu}]{xu2024dpoPpo}
+\bibinfo{author}{Xu, S.}, \bibinfo{author}{Fu, W.}, \bibinfo{author}{Gao, J.},
+  \bibinfo{author}{Ye, W.}, \bibinfo{author}{Liu, W.}, \bibinfo{author}{Mei,
+  Z.}, \bibinfo{author}{Wang, G.}, \bibinfo{author}{Yu, C.},
+  \bibinfo{author}{Wu, Y.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Is dpo superior to ppo for llm alignment? a
+  comprehensive study}, in: \bibinfo{booktitle}{Proceedings of the 41st
+  International Conference on Machine Learning}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2404.10719}.
+%Type = Article
+\bibitem[{Yang et~al.(2025)Yang, Jiang, He, Siu, Zhang, Liao, Li, Zeng, Jia,
+  Wang, Schneider, Ruan, Ma, Lyu, Wang, Lu, Do, Jiang, Nie and
+  Chen}]{yang2025structeval}
+\bibinfo{author}{Yang, J.}, \bibinfo{author}{Jiang, D.}, \bibinfo{author}{He,
+  L.}, \bibinfo{author}{Siu, S.}, \bibinfo{author}{Zhang, Y.},
+  \bibinfo{author}{Liao, D.}, \bibinfo{author}{Li, Z.}, \bibinfo{author}{Zeng,
+  H.}, \bibinfo{author}{Jia, Y.}, \bibinfo{author}{Wang, H.},
+  \bibinfo{author}{Schneider, B.}, \bibinfo{author}{Ruan, C.},
+  \bibinfo{author}{Ma, W.}, \bibinfo{author}{Lyu, Z.}, \bibinfo{author}{Wang,
+  Y.}, \bibinfo{author}{Lu, Y.}, \bibinfo{author}{Do, Q.D.},
+  \bibinfo{author}{Jiang, Z.}, \bibinfo{author}{Nie, P.},
+  \bibinfo{author}{Chen, W.}, \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{Structeval: Benchmarking llms' capabilities to
+  generate structural outputs}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2505.20139} \URLprefix
+  \url{https://arxiv.org/abs/2505.20139}.
+%Type = Inproceedings
+\bibitem[{Yin and Neubig(2017)}]{yin2017syntactic}
+\bibinfo{author}{Yin, P.}, \bibinfo{author}{Neubig, G.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{A syntactic neural model for general-purpose code
+  generation}, in: \bibinfo{booktitle}{Proceedings of the 55th Annual Meeting
+  of the Association for Computational Linguistics}.
+\newblock \URLprefix \url{https://arxiv.org/abs/1704.01696}.
+%Type = Article
+\bibitem[{Zhang et~al.(2025)Zhang, Paul, d'Amorim and
+  Rahman}]{zhang2025kubernetesdefects}
+\bibinfo{author}{Zhang, Y.}, \bibinfo{author}{Paul, U.},
+  \bibinfo{author}{d'Amorim, M.}, \bibinfo{author}{Rahman, A.},
+  \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{Configuration defects in kubernetes}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2512.05062} \URLprefix
+  \url{https://arxiv.org/abs/2512.05062}.
+%Type = Article
+\bibitem[{Zhao et~al.(2023)Zhao, Zhou, Li, Tang, Wang, Hou, Min, Zhang, Zhang,
+  Dong, Du, Yang, Chen, Chen, Jiang, Ren, Li, Tang, Liu, Liu, Nie and
+  Wen}]{zhao2023surveyllm}
+\bibinfo{author}{Zhao, W.X.}, \bibinfo{author}{Zhou, K.}, \bibinfo{author}{Li,
+  J.}, \bibinfo{author}{Tang, T.}, \bibinfo{author}{Wang, X.},
+  \bibinfo{author}{Hou, Y.}, \bibinfo{author}{Min, Y.}, \bibinfo{author}{Zhang,
+  B.}, \bibinfo{author}{Zhang, J.}, \bibinfo{author}{Dong, Z.},
+  \bibinfo{author}{Du, Y.}, \bibinfo{author}{Yang, C.}, \bibinfo{author}{Chen,
+  Y.}, \bibinfo{author}{Chen, Z.}, \bibinfo{author}{Jiang, J.},
+  \bibinfo{author}{Ren, R.}, \bibinfo{author}{Li, Y.}, \bibinfo{author}{Tang,
+  X.}, \bibinfo{author}{Liu, Z.}, \bibinfo{author}{Liu, P.},
+  \bibinfo{author}{Nie, J.Y.}, \bibinfo{author}{Wen, J.R.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{A survey of large language models}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2303.18223} \URLprefix
+  \url{https://arxiv.org/abs/2303.18223}.
+
+\end{thebibliography}

@@ -2,109 +2,108 @@
 %
 \chapter{Estado del arte}
 \label{ch::chapter2}
-\section{Cómo usar esta plantilla}
 
-Esta plantilla ha sido desarrollada siguiendo las guías de formato de las tesis doctorales de la UPM, que - en muchos aspectos - siguen estándar de formato comunes a muchas instituciones. 
+La generación automática de manifiestos de Kubernetes a partir de instrucciones en lenguaje natural se sitúa en una zona intermedia entre varios campos de investigación. A primera vista, podría entenderse como una tarea más de generación de texto: dado un prompt, el modelo debe producir una respuesta. Sin embargo, esta lectura se queda corta, porque la salida esperada no es una explicación en lenguaje natural, sino un artefacto técnico con una estructura formal. Un manifiesto YAML puede escribirse como texto plano, pero su validez depende de una jerarquía de claves, listas, campos, recursos y relaciones internas.
 
-El documento se divide en tres componentes (preliminares, cuerpo y  anexos), cada uno de ellos con diferentes subcomonentes, como se muestra en la Tabla \ref{tab:thesisComp}:
+Por este motivo, este capítulo no revisa la literatura como una sucesión aislada de técnicas, sino como una cadena de problemas cada vez más concretos. Primero se introduce la generación autoregresiva en modelos de lenguaje y su capacidad para seguir instrucciones. Después se analiza el salto desde el texto libre hacia artefactos estructurados, especialmente código, lenguajes específicos de dominio y salidas con formato. A continuación se revisan mecanismos de control estructural, predicción estructurada y adaptación supervisada eficiente. Finalmente, se sitúa el caso de Kubernetes dentro de la literatura sobre configuraciones técnicas y se identifica el hueco que motiva la comparación central de este trabajo: aprender la jerarquía como parte de la superficie textual de salida o predecirla como una variable estructural explícita.
 
-\begin{table}[h]
-\centering
-    \caption{Componentes del documento del Trabajo de Fin de Master}
-    \label{tab:thesisComp}
-\begin{tabularx}{\textwidth}{l l}
-\toprule
-\textbf{Componentes} & \textbf{Subcomponentes}\\
-\midrule
-\multirow{9}{10em}{Preliminares} & Cubierta \\ 
- & Portada \\
-  & Página de créditos \\
-  & [Dedicatoria, Agradecimientos] \\
-    & Abstract/Resumen \\
-     & Índice general \\
-     & Índice de figuras  \\
-     & Índice de tablas \\
-     & Abreviaturas y acrónimos \\
-\midrule 
-\multirow{3}{10em}{Cuerpo} & Introducción \\ 
- & Capítulos centrales específicos para cada trabajo\\
- & Conclusiones \\
-\midrule
-\multirow{2}{10em}{Anexos} & Referencias \\ 
-     & Anexos \\
-\bottomrule
-    \end{tabularx}
-\end{table}
+\section{Modelos de lenguaje autoregresivos y generación secuencial}
+\label{sec:estado-arte-llm-autoregresivos}
 
-La mayoría de las normas de formato se refieren a los preliminares; esto es, a las páginas iniciales que aparecen antes de los capítulos de la tesis (el cuerpo principal de la tesis). 
+Los modelos de lenguaje modernos se apoyan en gran medida en la arquitectura Transformer, introducida por Vaswani et al. como una alternativa basada exclusivamente en mecanismos de atención para modelar dependencias en secuencias \citep{vaswani2017attention}. Esta arquitectura permitió escalar el entrenamiento sobre grandes corpus y favoreció el desarrollo de modelos capaces de capturar regularidades lingüísticas, patrones de razonamiento y conocimiento de dominio a partir de datos masivos. Desde entonces, los modelos de lenguaje de gran tamaño han consolidado un paradigma en el que la misma arquitectura general puede adaptarse a un conjunto amplio de tareas mediante prompting, ajuste supervisado o alineamiento posterior \citep{zhao2023surveyllm}.
 
-A continuación se presentan las normas de obligado seguimiento y algunas recomendaciones.
+La propiedad central para este trabajo es que estos modelos generan de forma autoregresiva. Es decir, producen una secuencia token a token, condicionando cada nueva decisión al prompt inicial y a los tokens ya generados. Esta formulación es natural para texto libre, donde la salida puede interpretarse como una continuación lingüística. Sin embargo, cuando el resultado esperado es una estructura formal, la generación secuencial introduce una tensión: el modelo debe decidir localmente el siguiente token, pero la corrección de la salida depende de propiedades globales, como la apertura y cierre de estructuras, la consistencia entre campos o la profundidad jerárquica de cada línea.
 
-\section{Normas de obligado seguimiento}
-Las \textbf{reglas principales} a tener en cuenta son:
-\begin{itemize}
-    \item Las tres primeras páginas (cubierta, portada y página de créditos) deben seguir el formato especificado en esta plantilla. 
-    \item Las páginas iniciales son obligatorias, exceptuando la dedicatoria y los agradecimientos. 
-    \item El trabajo debe ser presentada en formato electrónico (PDF).
-    \item Idioma: el trabajo se puede escribir en español o en inglés.
-    \item Tamaño de página: A4
-    \item Numeración: Los preliminares - el bloque antes del inicio de los capítulos - usa numeración romana, con los números centrados en la parte inferior, excluyendo la cubierta y la portada, que no deben estar numeradas. El resto del texto (comenzando con la Introducción) usa numeración arábiga, con los números de página centrados en la parte inferior.
+El desarrollo de modelos ajustados para seguir instrucciones ha reducido parte de esta distancia entre el objetivo de preentrenamiento y el comportamiento esperado en uso real. Trabajos como FLAN muestran que el ajuste con tareas formuladas como instrucciones mejora la generalización a tareas no vistas \citep{wei2022scaling}, mientras que Self-Instruct explora la generación automática de instrucciones como forma de ampliar datos de entrenamiento \citep{wang2022selfinstruct}. A su vez, las revisiones sobre prompting muestran que la forma de presentar la tarea al modelo influye de manera decisiva en el resultado \citep{liu2023pretrain}. Estas líneas explican por qué un modelo instruct puede ser un punto de partida razonable para transformar una petición en lenguaje natural en una salida técnica.
 
-\end{itemize}
+No obstante, seguir instrucciones no equivale a garantizar estructura. El modelo puede entender que el usuario solicita un \texttt{Deployment}, un \texttt{Service} o un \texttt{CronJob}, y aun así fallar al serializar correctamente la jerarquía de campos que define ese recurso. Precisamente por eso, el modelo base utilizado en este proyecto, perteneciente a la familia Qwen2.5 \citep{qwen2024qwen25}, debe entenderse como una política autoregresiva potente, pero no como una solución completa al problema de generación jerárquica. El reto no es únicamente producir una respuesta plausible, sino hacer que esa respuesta respete una estructura que el mecanismo autoregresivo no representa de forma explícita.
 
-La \textbf{cubierta}:
-\begin{itemize}
-    \item Debe prepararse utilizando la plantilla presente, introduciendo los datos apropiados en las secciones marcadas con <>, evitando incluir información adicional. 
-    \item Debe incluir el nombre oficial del centro, en español y sin abreviaturas (véase \href{https://www.upm.es/sfs/Rectorado/Vicerrectorado%20de%20Investigacion/Doctorado/Tesis/impresos/5_Listado%20de%20PD%20y%20sus%20centros.pdf}{Lista}).
-    \item Debe incluir el nombre completo del estudiante de máster. 
-\end{itemize}
+\section{De texto libre a artefactos técnicos estructurados}
+\label{sec:estado-arte-artefactos-tecnicos}
 
-La \textbf{portada}:
-\begin{itemize}
-    \item  Debe ser preparada utilizando la plantilla presente, introduciendo la información apropiada en las secciones marcadas con < > evitando incluir información adicional.
-    \item Debe incluir el nombre oficial del centro, en español y sin abreviaturas (véase \href{https://www.upm.es/sfs/Rectorado/Vicerrectorado%20de%20Investigacion/Doctorado/Tesis/impresos/5_Listado%20de%20PD%20y%20sus%20centros.pdf}{Lista}). Puedes incluir el logotipo del centro, respectando el tamaño indicado en la plantilla (véase \href{https://www.upm.es/UPM/SalaPrensa/IdentidadGrafica/LogosPlantillas}{Logotipos}).
-    \item Debe incluir el nombre completo del programa de máster (Máster en Aprendizaje Automático y Datos Masivos)).
-    \item Debe incluir el nombre completo del estudiante de máster.
-    \item Debe incluir el nombre completo del director de trabajo (y de co-director en caso de haberlo).
-\end{itemize}
+La dificultad aparece con mayor claridad cuando se compara la generación de texto libre con la generación de código o de configuraciones técnicas. En una respuesta abierta, puede haber muchas formulaciones aceptables. En cambio, en un programa, una consulta SQL, un fichero de configuración o un manifiesto de Kubernetes, pequeños errores de sintaxis o de estructura pueden hacer que la salida sea inutilizable. Por ello, la literatura sobre generación de código ha insistido en evaluar los modelos no solo mediante similitud textual, sino mediante criterios funcionales o ejecutables \citep{chen2021evaluating}. Esta idea resulta especialmente relevante para el presente trabajo: dos manifiestos pueden ser textualmente distintos y equivalentes en intención, o parecer muy similares y diferir en un detalle estructural que invalida el resultado.
 
-La \textbf{página de créditos} (página i):
-\begin{itemize}
-    \item Debe prepararse usando esta plantilla, introduciendo los datos apropiados en las secciones marcadas con < > evitando incluir información adicional. 
-    \item Incluye información adicional en el campo del director del trabajo: la posición y la institución (ídem en el campo del co-director en caso de haberlo).
-    \item Las secciones “Revisores Externos”, “Tribunal de Trabajo de Fin de Master” y “Fecha de Defensa” se dejan vacías.
-    \item Si el trabajo ha recibido financiación por alguna convocatoria competitiva, debe ser indicado al final de esta página (véase la plantilla).
-\end{itemize}
+Los modelos especializados en código, como Code Llama, muestran que el entrenamiento sobre corpus técnicos mejora la capacidad de generar artefactos formales y razonar sobre ellos \citep{roziere2023codellama}. Sin embargo, YAML y los lenguajes de configuración ocupan una posición algo distinta a la de los lenguajes de programación generalistas. No siempre tienen una semántica operacional inmediata como Python o Java, pero sí imponen esquemas, convenciones y relaciones entre campos. Son, en cierto sentido, lenguajes de descripción técnica: expresan una configuración que otro sistema interpretará posteriormente.
 
-El \textbf{resumen}:
-\begin{itemize}
-    \item Debe incluirse un resumen tanto en español como en inglés, independientemente del idioma principal del trabajo. 
-    \item Formato: máximo 4000 caracteres, texto plano (sin símbolos).
-    \item Estructura: el resumen es una presentación de la tesis y; en consecuencia, debe tener una estructura clara, incluyendo introducción (o motivación), objetivos, desarrollo y conclusiones.
-\end{itemize}
+Este matiz aparece en trabajos orientados a lenguajes específicos de dominio. DocCGen, por ejemplo, estudia la generación controlada de código en dominios como Ansible YAML y comandos Bash, destacando que los DSLs estructurados presentan dificultades específicas por su gramática, su esquema y su dependencia de documentación de dominio \citep{pimparkhede2024doccgen}. De forma similar, Ansible Wisdom aborda la generación de tareas YAML de Ansible desde lenguaje natural y propone métricas específicas para este tipo de automatización \citep{pujar2023automatedyaml}. Estos trabajos son cercanos al planteamiento del TFM porque también conectan lenguaje natural con artefactos técnicos serializados, aunque el dominio Kubernetes añade una capa adicional de dificultad por la variedad de recursos, campos anidados y relaciones entre objetos.
 
-\section{Recomendaciones}
-En general, el cuerpo principal de la tesis cubre diversos capítulos, cuyo número y estructura variará dependiendo del campo de conocimiento. A modo de guía, esta plantilla incluye los capítuls siguientes: Introducción, Estado del arte, Material y métodos, Resultados, Discusión y Conclusiones. La estructura del cuerpo principal de cada tesis en específico debe consultarse con los supervisores del trabajo. 
+La consecuencia para este proyecto es que la generación de manifiestos no debe plantearse como una simple tarea de redacción. El modelo no solo debe escoger palabras, sino organizar una configuración. Esta organización se manifiesta finalmente como YAML, pero su corrección depende de una estructura subyacente. Por eso, antes de discutir cómo adaptar el modelo, conviene revisar qué se sabe sobre la fiabilidad de los LLMs cuando se les exige producir salidas estructuradas.
 
-Idealmente, cada capítulo se organizará en secciones y subsecciones, con cabeceras numeradas.
+\section{Fiabilidad de salidas estructuradas en LLMs}
+\label{sec:estado-arte-salidas-estructuradas}
 
-Como tipo de letra, se recomienda utilizar los estilos Times New Roman, Century, Arial, Book Antiqua, o uno similar. 
+En los últimos años se ha extendido el uso de LLMs para generar objetos con formato: JSON, XML, YAML, CSV, llamadas a herramientas o respuestas ajustadas a un esquema. Esta tendencia responde a una necesidad práctica: integrar modelos de lenguaje en sistemas que esperan salidas procesables automáticamente. Sin embargo, la literatura reciente muestra que la fiabilidad de estas salidas sigue siendo un problema abierto. StructEval, por ejemplo, evalúa la capacidad de los modelos para generar y convertir múltiples formatos estructurados, incluyendo YAML, y muestra que la adherencia al formato y la corrección estructural no pueden darse por supuestas incluso en modelos avanzados \citep{yang2025structeval}.
 
-\begin{figure}[h]
-\centering
-    \includegraphics[width=0.7\textwidth]{figures/latexthesis.png}
-\caption{Escribiendo tu trabajo}
-\label{fig:phd1}
-\end{figure}
+Algo similar ocurre en benchmarks centrados en JSON y esquemas. JSONSchemaBench analiza la generación restringida por esquemas reales y muestra que la complejidad del esquema afecta tanto a la cobertura de los métodos de constrained decoding como a la calidad final de las respuestas \citep{geng2025jsonschemabench}. StructuredRAG, por su parte, estudia la capacidad de los modelos para producir respuestas JSON fiables en tareas de recuperación y generación, subrayando que seguir instrucciones de formato no elimina por completo los fallos de consistencia \citep{lee2024structuredrag}. Struc-Bench llega a una conclusión parecida desde la generación de datos estructurados complejos: los errores no se limitan a detalles superficiales, sino que afectan a campos, restricciones y relaciones internas \citep{li2023strucbench}.
 
-Usar una plantilla ayuda a usar el mismo formato a lo largo del trabajo completo. Se recomienda usar siempre el mismo estilo al incluir citas en el texto, como también recomiendan otros autores 
-(~\cite{bellDoingYourResearch2010, carterIgnoringMePart2017, odenaHowDoctoralStudents2017};~\cite{riveracaminoComoEscribirPublicar2014}). Para referenciar incluyendo el nombre del autor, puedes hacerlo así ~\citet{ahmadHowWriteDoctoral1969}. Para referenciar tablas (véase la Tabla\ref{tab:thesisComp}) y para las figuras (véase la Figura\ref{fig:phd1}). Se recomienda numerar las tablas y las figuras en función de los capítulos (Tabla 1.1, etc.).
+Estos resultados son importantes porque separan dos niveles que a menudo se confunden. Una salida puede ser parseable y, sin embargo, no respetar el esquema esperado. También puede respetar parcialmente el esquema y aun así no representar correctamente la intención del prompt. En el caso de YAML, esta distinción es todavía más visible: la indentación y las listas dan forma textual a una estructura de árbol, pero la validez sintáctica del YAML no garantiza que el manifiesto sea correcto en Kubernetes. Por tanto, la evaluación del presente trabajo debe considerar varios niveles: parseabilidad YAML, reconstrucción estructural desde bloques, precisión del nivel jerárquico, validez aproximada de dominio y adecuación al prompt.
 
-La parte final del trabajo incluye las referencias y los anexos.
+La literatura sobre salidas estructuradas permite formular una primera conclusión parcial: no basta con pedir al modelo que devuelva un formato. El formato puede mejorar la procesabilidad, pero no garantiza que la estructura interna se haya aprendido de forma robusta. A partir de aquí aparecen dos grandes familias de soluciones: restringir la generación mediante mecanismos externos, o modificar la forma en que el modelo aprende y representa la estructura.
 
-Las referencias deben ser incluidas usando el estilo recomendado para cada campo de conocimiento.
+\section{Control estructural: gramáticas, parsers y constrained decoding}
+\label{sec:estado-arte-control-estructural}
 
-Los anexos incluyen material adicional no incluido en el cuerpo principal (cuestionarios, resultados adicionales, etc.). Se recomienda numerar los anexos de manera alfabética (A, B, ...) y comenzar cada anexo en una página diferente. En caso de incluir tablas en los anexos, se debe usar una numeración independiente de la usada en el cuerpo principal de la tesis (Tabla A.1., etc.).
+Una respuesta natural a los fallos de formato consiste en restringir el espacio de salida. Si el modelo puede escoger cualquier token en cada paso, nada impide que produzca una secuencia inválida. Los métodos de constrained decoding introducen restricciones léxicas, gramaticales o semánticas para bloquear continuaciones que no pertenecen al lenguaje objetivo. Grid Beam Search, por ejemplo, extiende el beam search para imponer restricciones léxicas en generación secuencial \citep{hokamp2017lexically}. En dominios más formales, el uso de gramáticas permite controlar no solo palabras concretas, sino la forma completa de la salida \citep{bunel2018leveraginggrammar}.
 
+En tareas de semantic parsing también se ha explorado cómo adaptar modelos de lenguaje a espacios de salida estructurados. Shin et al. muestran que los modelos de lenguaje pueden utilizarse como semantic parsers cuando se les guía hacia un sublenguaje controlado que después se transforma en una representación formal \citep{shin2021constrainedsemanticparsers}. Más recientemente, la gramática se ha incorporado directamente al proceso de decoding. Grammar-Constrained Decoding plantea que muchas tareas estructuradas pueden formularse como generación bajo una gramática y muestra mejoras frente a generación no restringida \citep{geng2023grammar}.
 
+PICARD es especialmente relevante para este trabajo porque utiliza parsing incremental para restringir decodificadores autoregresivos \citep{scholak2021picard}. La intuición es cercana a la de este TFM: el modelo sigue generando secuencialmente, pero un mecanismo externo verifica si las continuaciones parciales son compatibles con una estructura formal. Otros trabajos, como Efficient Guided Generation y Guidance, exploran enfoques más generales para controlar la generación mediante restricciones, programas o esquemas de salida \citep{willard2023efficient,beurerkellner2023guidance}.
 
+En este proyecto, el parser cumple una función relacionada, aunque no idéntica. No se utiliza como un reparador semántico ni como una herramienta que invente contenido ausente, sino como una frontera de control estructural. Su entrada no es YAML libre, sino una secuencia de bloques con texto de línea y nivel jerárquico. A partir de esa representación, reconstruye el manifiesto final aplicando indentación de forma determinista. Esta decisión reduce parte de la fragilidad del formato, pero también deja claro un límite: si el modelo predice mal el contenido o el nivel, el parser no debe ocultar ese fallo mediante reparaciones implícitas.
+
+\section{Predicción estructurada y representación explícita de jerarquía}
+\label{sec:estado-arte-prediccion-estructurada}
+
+La segunda respuesta al problema consiste en tratar la estructura no solo como una restricción externa, sino como una parte explícita de la tarea de aprendizaje. Esta idea tiene una tradición larga en predicción estructurada. A diferencia de una clasificación independiente, donde cada etiqueta puede evaluarse por separado, la predicción estructurada considera salidas compuestas por partes dependientes entre sí \citep{joachims2009structured}. Los Structured Prediction Energy Networks continúan esta línea al modelar dependencias entre componentes de la salida mediante una función de energía aprendida \citep{belanger2017spen}. También los modelos de transición con normalización global muestran que, en tareas como parsing o etiquetado, la decisión local debe entenderse dentro de una trayectoria estructural completa \citep{andor2016globally}.
+
+Esta perspectiva encaja de forma natural con YAML. Un manifiesto puede verse como un árbol serializado en líneas. La generación autoregresiva proporciona el orden: línea 0, línea 1, línea 2, y así sucesivamente. Pero ese orden no determina por sí mismo la altura de cada línea dentro de la jerarquía. En YAML, la profundidad se expresa mediante indentación, y pequeños cambios en esa profundidad pueden alterar por completo la interpretación del documento. Por ello, el valor \texttt{level} utilizado en este proyecto no es una anotación cosmética, sino una variable estructural que hace observable una parte de la jerarquía.
+
+La literatura sobre representaciones lingüísticas también resulta útil para matizar esta idea. Los structural probes muestran que parte de la información sintáctica puede recuperarse de las representaciones internas de modelos neuronales \citep{hewitt2019structural}, y los análisis de atención en BERT sugieren que ciertos patrones de atención se alinean con dependencias sintácticas o relaciones lingüísticas \citep{clark2019bert}. Sin embargo, que una estructura sea recuperable o esté implícita no significa que sea conveniente dejarla siempre sin supervisión explícita. En una tarea técnica, donde un error de jerarquía invalida el resultado, puede ser razonable convertir esa estructura en una señal de entrenamiento diferenciada.
+
+Algo parecido se observa en generación de código y semantic parsing. Abstract Syntax Networks generan salidas siguiendo la estructura de árboles de sintaxis abstracta \citep{rabinovich2017asn}, mientras que los modelos sintácticos de generación de código incorporan reglas gramaticales para producir programas bien formados \citep{yin2017syntactic}. Estos trabajos no son equivalentes a la generación de YAML Kubernetes, pero sí refuerzan una intuición común: cuando la salida tiene una estructura formal, modelar explícitamente esa estructura puede ser más robusto que confiar únicamente en la superficie textual.
+
+Desde esta posición se entiende mejor la hipótesis del cabezal de nivel. La rama serializada pregunta hasta dónde puede llegar un modelo que aprende la jerarquía como texto. La rama con cabezal, en cambio, plantea que la jerarquía merece una señal supervisada propia. Si el modelo debe aprender simultáneamente el contenido de cada línea y su posición en el árbol YAML, la separación entre predicción textual y predicción estructural puede ofrecer una forma más clara de estudiar los errores. En caso de emplear pérdidas múltiples para contenido y estructura, la literatura sobre ponderación de pérdidas en aprendizaje multi-tarea ofrece además un marco para razonar sobre el equilibrio entre objetivos \citep{kendall2018multitask}.
+
+\section{Adaptación supervisada eficiente: SFT, LoRA y QLoRA}
+\label{sec:estado-arte-sft-lora}
+
+Una vez definido el problema como generación estructurada, el siguiente paso es adaptar el modelo al dominio. El ajuste supervisado, o SFT, es la etapa más directa cuando se dispone de ejemplos positivos de entrada y salida. En lugar de optimizar una recompensa externa, el modelo aprende a imitar demostraciones del formato deseado. Esta estrategia es especialmente adecuada al estado actual del proyecto, porque el dataset procesado contiene pares de prompt y YAML normalizado, así como una representación estructural derivada en bloques con \texttt{level}.
+
+Ahora bien, ajustar completamente un LLM grande suele ser costoso. Por ello, las técnicas de fine-tuning eficiente resultan relevantes. LoRA propone congelar los pesos principales del modelo e introducir matrices de bajo rango entrenables, reduciendo de forma significativa el número de parámetros actualizados \citep{hu2021lora}. QLoRA extiende esta idea al entrenamiento sobre modelos cuantizados en 4 bits, permitiendo adaptar modelos grandes con menor consumo de memoria \citep{dettmers2023qlora}. Estas técnicas hacen viable experimentar con modelos instruct en entornos académicos o de recursos limitados, sin abandonar por completo la capacidad del modelo base.
+
+El papel del SFT en este trabajo no es únicamente mejorar el estilo de la salida. Es, más bien, una forma de estudiar dos formulaciones supervisadas del mismo problema. En \texttt{serialized\_sft}, la salida objetivo contiene tanto el texto de cada línea como el valor \texttt{level} serializado. El modelo debe aprender la jerarquía como parte de la secuencia textual. En \texttt{two\_head\_sft}, el contenido de la línea y el nivel jerárquico se separan, de modo que el modelo conserva una tarea de generación textual, pero añade una tarea estructural explícita.
+
+Esta comparación se apoya también en la literatura reciente sobre post-entrenamiento. El ajuste supervisado sigue apareciendo como una fase necesaria antes de aplicar métodos de preferencias más complejos \citep{wei2022scaling,hong2024orpo,xu2024dpoPpo}. Incluso cuando se estudian limitaciones de generalización del SFT, la conclusión práctica no suele ser saltarse esta fase, sino entender mejor qué puede y qué no puede aprender una política a partir de demostraciones \citep{wu2025sft}. Para este TFM, esto implica que la comparación supervisada entre \texttt{serialized\_sft} y \texttt{two\_head\_sft} debe ser el núcleo experimental antes de introducir cualquier alineamiento posterior.
+
+\section{Optimización por preferencias y alineamiento post-SFT}
+\label{sec:estado-arte-preferencias}
+
+El alineamiento mediante preferencias surge cuando la imitación de una única respuesta de referencia resulta insuficiente. En RLHF, el modelo no se optimiza directamente contra una salida canónica, sino contra un modelo de recompensa entrenado a partir de comparaciones humanas \citep{ouyang2022training,lambert2026rlhfbook}. Desde un punto de vista conceptual, esto permite ordenar respuestas alternativas según preferencias, pero introduce una nueva fragilidad: la recompensa utilizada durante la optimización es un proxy aprendido, no una medida perfecta de la calidad real.
+
+Los análisis críticos de RLHF destacan precisamente esa tensión. El reward model puede sufrir sesgos, falta de cobertura fuera de distribución y vulnerabilidad a reward hacking \citep{chaudhari2025rlhfdeciphered,kaufmann2023surveyrlhf}. Además, optimizar demasiado una señal de preferencias puede producir un coste de alineamiento, degradando capacidades previas del modelo \citep{lin2024alignmenttax}. RLAIF intenta reducir el coste de recopilar preferencias humanas sustituyéndolas parcial o totalmente por feedback generado por modelos, pero esto desplaza el problema hacia la fiabilidad y los sesgos del evaluador artificial \citep{lee2024rlaif}.
+
+Frente a la complejidad de PPO y de los flujos clásicos de RLHF, han aparecido métodos de optimización directa de preferencias. DPO reformula el problema para ajustar el modelo directamente sobre pares preferidos y rechazados, evitando entrenar explícitamente un reward model separado y aplicar RL online \citep{rafailov2023dpo}. Trabajos posteriores comparan DPO con PPO, estudian su robustez ante feedback ruidoso y proponen variantes como ORPO, GPO o KTO \citep{xu2024dpoPpo,chowdhury2024robustdpo,hong2024orpo,tang2024gpo,ethayarajh2024kto}. También se han revisado formulaciones de tipo REINFORCE para entender qué parte de la complejidad de RLHF es realmente necesaria \citep{ahmadian2024reinforce,dong2024rlhfworkflow}.
+
+En el contexto de este TFM, esta literatura debe leerse con cautela. El proyecto no presupone una tubería completa de RLHF humano, ni un modelo de recompensa entrenado con anotadores, ni un sistema online de optimización de políticas. La conexión relevante es más concreta: una vez obtenida una política supervisada razonablemente competente, se pueden construir preferencias automáticas a partir de señales de validez sintáctica, reconstrucción estructural, adecuación al prompt o comprobaciones aproximadas de dominio. Por ello, DPO aparece como una posible fase post-SFT, no como sustituto de la comparación supervisada principal.
+
+\section{Kubernetes como dominio de evaluación estructurada}
+\label{sec:estado-arte-kubernetes}
+
+El caso de Kubernetes permite aterrizar las ideas anteriores en un dominio real. Kubernetes utiliza manifiestos YAML para describir recursos como \texttt{Pod}, \texttt{Deployment}, \texttt{Service}, \texttt{ConfigMap} o \texttt{CronJob}. Aunque el manifiesto se escriba como texto, el sistema que lo consume espera objetos con campos específicos, relaciones internas y convenciones de dominio. Esta diferencia es esencial: un YAML puede ser sintácticamente válido y, aun así, no describir un recurso de Kubernetes correcto o seguro.
+
+La literatura sobre configuraciones Kubernetes confirma que este dominio es propenso a errores. Los estudios empíricos sobre defectos de configuración muestran que los manifiestos contienen fallos variados y que las herramientas estáticas no cubren todas las categorías de defecto \citep{zhang2025kubernetesdefects}. Otros trabajos se centran en misconfigurations de seguridad en manifiestos open source, destacando que los errores de configuración pueden tener consecuencias prácticas graves \citep{rahman2023securityk8s}. También se han estudiado fallos de red y escenarios de fallo más amplios en Kubernetes, lo que refuerza la idea de que la corrección del dominio va más allá de parsear YAML \citep{bufalino2025insidejob,fonseca2024mutiny}.
+
+Este contexto justifica una evaluación por niveles. Primero, la salida debe ser parseable como YAML. Después, debe poder reconstruirse de forma segura desde la representación de bloques sin que el parser repare errores ocultos. Además, debe respetar una jerarquía coherente y emplear campos compatibles con Kubernetes. Finalmente, debe reflejar el prompt de entrada. La existencia de herramientas de análisis de configuraciones, como Diffy, muestra que incluso fuera del aprendizaje profundo hay interés en detectar defectos en configuraciones estructuradas más allá de la sintaxis superficial \citep{kakarla2024diffy}.
+
+En consecuencia, Kubernetes no funciona aquí solo como una aplicación ilustrativa. Es el dominio que hace visible la tensión central del trabajo. La generación autoregresiva proporciona una secuencia; YAML exige una jerarquía; Kubernetes añade restricciones de dominio. El pipeline propuesto en el repositorio, \texttt{prompt -> representación latente -> bloques con level -> parser -> YAML final}, responde precisamente a esa combinación de problemas.
+
+\section{Síntesis y hueco identificado}
+\label{sec:estado-arte-hueco}
+
+La literatura revisada ofrece tres respuestas complementarias al problema de generar salidas técnicas estructuradas. La primera consiste en adaptar el modelo mediante prompting, instruction tuning, SFT y fine-tuning eficiente. La segunda introduce restricciones externas mediante gramáticas, parsers o guided generation. La tercera optimiza preferencias después del ajuste supervisado, intentando favorecer salidas más útiles o válidas. Todas ellas son relevantes para este trabajo, pero ninguna resuelve por sí sola la pregunta específica que se plantea aquí.
+
+El hueco aparece al observar cómo se representa la estructura. Muchas aproximaciones tratan la estructura como una propiedad del texto final: si el modelo produce una cadena que cumple el formato, la salida se considera estructurada. Sin embargo, en YAML la estructura no es solo una convención superficial. La indentación determina relaciones de pertenencia y profundidad. En Kubernetes, además, esa estructura contiene objetos de dominio con restricciones propias. Por tanto, aprender a escribir una cadena parecida a YAML no equivale necesariamente a aprender la jerarquía que hace que el YAML sea interpretable y útil.
+
+Este TFM se sitúa precisamente en esa grieta. Por un lado, evalúa hasta dónde puede llegar un modelo autoregresivo cuando la jerarquía se serializa como texto, mediante la rama \texttt{serialized\_sft}. Por otro, estudia si conviene separar la jerarquía como una señal supervisada explícita, mediante la rama \texttt{two\_head\_sft}. El parser actúa como control estructural común a ambas ramas, y las métricas se diseñan para observar no solo la similitud textual, sino la parseabilidad, la reconstrucción, la predicción de \texttt{level}, la adecuación al prompt y la validez aproximada de dominio.
+
+La pregunta que queda abierta tras el estado del arte no es, por tanto, si un LLM puede producir texto con apariencia de YAML. La pregunta relevante es si puede aprender de forma fiable la organización jerárquica que convierte esa secuencia de líneas en un manifiesto estructuralmente válido. Esa pregunta conecta de manera directa con la metodología del trabajo, donde el dataset, la representación por bloques, el parser y las dos ramas de SFT se diseñan para hacer observable esta diferencia.
