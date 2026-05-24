@@ -127,8 +127,8 @@ Agents operating in this repository must assume the following scope unless a new
 - Planned enriched dataset branch: `Kubernetes v2`, derived from `Kubernetes v1`
   through controlled multi-resource oversampling
 - Main processed dataset location: `data/processed/kubernetes_v1/`
-- Main preprocessing contract: `docs/KUBERNETES_PREPROCESSING.md`
-- Main modeling contract: `docs/KUBERNETES_MODEL_V1.md`
+- Main preprocessing contract: `docs/data/KUBERNETES_PREPROCESSING.md`
+- Main modeling contract: `docs/modeling/KUBERNETES_MODEL_V1.md`
 - Current base model explicitly referenced in the documentation: `model/qwen2.5-7b-instruct-4bit/`
 
 The main research focus of the current repository state is:
@@ -177,28 +177,108 @@ If an agent proposes work that conflicts with one of these points, it must first
 
 ---
 
-## Main Artifacts Agents Should Know
+## Documentation Map And Main Artifacts
 
-Before making significant changes, agents should understand the role of these repository artifacts:
+Before making significant changes, agents must use `docs/README.md` as the
+human navigation index and this section as the operational map for where project
+knowledge lives.
 
-- `docs/KUBERNETES_PREPROCESSING.md`
-  - defines the preprocessing and dataset contract
-- `docs/KUBERNETES_MODEL_V1.md`
-  - defines the modeling and research contract
-- `README.md`
-  - presents the project-level framing
-- `utils/kubernetes_dataset_preprocessor.py`
-  - current preprocessing implementation for `Kubernetes v1`
-- `data/processed/kubernetes_v1/`
-  - generated manifests, splits, train-ready exports, and quality report
-- `docs/MULTI_RESOURCE_STRATEGY_DECISION.md`
-  - records why the project prioritizes controlled multi-resource enrichment
-    for `kubernetes_v2` over atomic generation plus concatenation
-- `docs/SFT_STRATEGY_V1.md`
+The documentation tree is organized by function:
+
+```text
+docs/
+  README.md
+  project/          # current project status and anteproyecto notes
+  data/             # preprocessing, dataset, and structural target contracts
+  modeling/         # model contracts, SFT strategy, and architecture notes
+  evaluation/       # metrics, validation, and interpretation rules
+  analysis/         # cross-cutting analyses, especially latent-space work
+  experiments/      # dated run notes, audits, and branch-specific results
+  decisions/        # stable methodological decisions
+  reference/        # terminology and quick lookup material
+  memoria/          # writing style, thesis notes, and templates
+  archive/          # historical documents that should not guide new work
+```
+
+Core artifacts agents should know:
+
+- `docs/data/KUBERNETES_PREPROCESSING.md`
+  - defines the preprocessing and dataset contract.
+- `docs/data/STRUCTURAL_TARGETS_V1.md`
+  - defines the current line-and-level structural target contract.
+- `docs/modeling/KUBERNETES_MODEL_V1.md`
+  - defines the modeling and research contract.
+- `docs/modeling/SFT_STRATEGY_V1.md`
   - defines the supervised comparison between `serialized_sft` and
-    `two_head_sft`
+    `two_head_sft`.
+- `docs/evaluation/METRICAS_ACTUALES.md`
+  - defines the current metric inventory and how to interpret it.
+- `docs/reference/TERMINOLOGY.md`
+  - defines project terminology.
+- `docs/decisions/MULTI_RESOURCE_STRATEGY_DECISION.md`
+  - records why the project prioritizes controlled multi-resource enrichment
+    for `kubernetes_v2` over atomic generation plus concatenation.
+- `docs/memoria/MEMORIA_WRITING_STYLE.md`
+  - defines the writing style to use when drafting or revising the thesis
+    memoria.
+- `README.md`
+  - presents the project-level framing.
+- `utils/kubernetes_dataset_preprocessor.py`
+  - contains the current preprocessing implementation for `Kubernetes v1`.
+- `data/processed/kubernetes_v1/`
+  - contains generated manifests, splits, train-ready exports, and quality
+    reports.
 
 Agents must treat these artifacts as the current source of truth for the implemented case of use.
+
+---
+
+## Documentation Placement Policy
+
+Agents must not create new documents directly under the root of `docs/`, except
+for `docs/README.md`. New documentation belongs in the most specific
+subdirectory:
+
+- data contracts, preprocessing notes, and target-format specifications:
+  `docs/data/`.
+- modeling contracts, training strategy, and architecture notes:
+  `docs/modeling/`.
+- metric definitions, validation procedures, and evaluation interpretation:
+  `docs/evaluation/`.
+- dated experiment results, audits, and run notes:
+  `docs/experiments/<branch>/runs/`.
+- stable methodological decisions:
+  `docs/decisions/`.
+- terminology and reusable reference material:
+  `docs/reference/`.
+- thesis prose guidance, draftable notes, and templates:
+  `docs/memoria/`.
+- obsolete or historical material:
+  `docs/archive/`.
+
+Experimental results must not be mixed into living contracts. If a run changes
+the interpretation of a contract, record the result under `docs/experiments/`
+and then update the relevant contract separately with the new agreed decision.
+
+Every new document must clearly state its document type near the top using one
+of these labels: `contract`, `decision`, `run result`, `analysis`,
+`memoria note`, `reference`, or `historical`.
+
+---
+
+## Memoria Writing Style
+
+When drafting or revising thesis prose, agents must follow
+`docs/memoria/MEMORIA_WRITING_STYLE.md`.
+
+If the local Codex skill `memoria-writing-style` is available, agents should use
+it for memoria-writing tasks and pass it explicitly to subagents that need to
+write or revise thesis sections.
+
+The expected voice is academic but close, argumentative and progressive, with
+explicit reasoning transitions and careful contrasts. The text should avoid
+generic AI-like patterns, over-schematic lists, unsupported claims, and a tone
+that sounds more like a paper template than a thesis being reasoned through.
 
 ---
 
@@ -448,8 +528,10 @@ If code, documentation, and experiment notes disagree, agents must:
 Current precedence for the operative case of use should be interpreted as:
 
 1. implemented artifacts and generated data
-2. explicit repository documentation for Kubernetes preprocessing/modeling
-3. older generic or historical wording
+2. contracts in `docs/data/`, `docs/modeling/`, and `docs/evaluation/`
+3. decisions in `docs/decisions/`
+4. dated results and audits in `docs/experiments/`
+5. historical material in `docs/archive/`
 
 ### Handoffs
 
@@ -577,6 +659,7 @@ This document should evolve together with:
 - the target serialization design,
 - the parser implementation,
 - the modeling experiments,
-- the evaluation modules.
+- the evaluation modules,
+- the documentation navigation index in `docs/README.md`.
 
 Until then, it should remain explicit, aligned with current repository reality, and conservative about anything that is not yet implemented.

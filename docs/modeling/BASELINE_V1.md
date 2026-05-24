@@ -16,7 +16,7 @@ optimization. It asks the model to produce structural blocks, then sends those
 blocks through the deterministic parser.
 
 Terminology for structural blocks and evaluation fields is defined in
-`docs/TERMINOLOGY.md`.
+`docs/reference/TERMINOLOGY.md`.
 
 The recommended baseline output format is now `blocks_tsv_compact_v1`, because
 it is substantially shorter than the previous JSON array output and also
@@ -175,7 +175,7 @@ A shorter pilot run used during prompt and parser iteration is also preserved at
 
 The detailed execution narrative for the completed baseline is documented in:
 
-- `docs/BASELINE_EXECUTION_REPORT_2026-04-28.md`
+- `docs/experiments/baseline/runs/BASELINE_EXECUTION_REPORT_2026-04-28.md`
 
 ## Observed Baseline Limitations
 

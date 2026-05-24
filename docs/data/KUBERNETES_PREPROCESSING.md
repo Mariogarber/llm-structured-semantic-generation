@@ -2,8 +2,8 @@
 
 This repository now includes a reproducible preprocessing pipeline for the Kubernetes corpus stored in `data/`.
 
-The functional modeling contract that consumes these artifacts is defined in `docs/KUBERNETES_MODEL_V1.md`.
-Terminology for dataset fields, structural targets, and analysis metrics is defined in `docs/TERMINOLOGY.md`.
+The functional modeling contract that consumes these artifacts is defined in `docs/modeling/KUBERNETES_MODEL_V1.md`.
+Terminology for dataset fields, structural targets, and analysis metrics is defined in `docs/reference/TERMINOLOGY.md`.
 The dataset is not only intended for final YAML supervision. It is the experimental basis for:
 
 - the latent intermediate representation described in the modeling document
@@ -50,7 +50,7 @@ The structural target stage builds on these artifacts and writes:
 These artifacts are the fixed v1 basis for the main line of the project. Oversampling or synthetic enlargement, if later used, should be treated as separate experiments rather than as part of this preprocessing contract.
 
 The accepted future oversampling branch is `kubernetes_v2`, documented in
-`docs/MULTI_RESOURCE_STRATEGY_DECISION.md`. It must read from
+`docs/decisions/MULTI_RESOURCE_STRATEGY_DECISION.md`. It must read from
 `data/processed/kubernetes_v1/` and write to `data/processed/kubernetes_v2/`
 without modifying the v1 artifacts.
 
@@ -154,7 +154,7 @@ The main analysis terms are:
 - `yaml_total_nodes`: total count of parsed YAML mapping, list, and scalar nodes.
 - `block_count`: number of line-and-level blocks derived from the normalized YAML.
 
-See `docs/TERMINOLOGY.md` for the full glossary and the distinction between YAML tree nodes, Kubernetes `Node` resources, block `level`, and parsed YAML depth.
+See `docs/reference/TERMINOLOGY.md` for the full glossary and the distinction between YAML tree nodes, Kubernetes `Node` resources, block `level`, and parsed YAML depth.
 
 ## Future `kubernetes_v2` enrichment
 

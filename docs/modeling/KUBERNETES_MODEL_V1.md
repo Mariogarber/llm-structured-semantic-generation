@@ -1,4 +1,4 @@
-﻿# Kubernetes Model v1
+# Kubernetes Model v1
 
 This document defines the functional and research contract of the first modeling version built on top of the `Kubernetes v1` dataset.
 
@@ -22,14 +22,14 @@ The model contract therefore compares two formulations:
 
 Project-wide definitions for terms such as `block`, `level`, `primary_kind`,
 `yaml_max_depth`, and `yaml_total_nodes` are maintained in
-`docs/TERMINOLOGY.md`.
+`docs/reference/TERMINOLOGY.md`.
 
 ## 1. Position of this document in the project
 
 This is the reference specification for the first end-to-end modeling pipeline built on top of:
 
 - the processed dataset in `data/processed/kubernetes_v1/`
-- the preprocessing policy documented in `docs/KUBERNETES_PREPROCESSING.md`
+- the preprocessing policy documented in `docs/data/KUBERNETES_PREPROCESSING.md`
 - the current base model stored in `model/qwen2.5-7b-instruct-4bit/`
 
 This document does not fix exact training script names or class layouts. It fixes what the system is meant to do, what is central to the thesis, and what must be measured.
@@ -439,7 +439,7 @@ If later experiments use:
 they must be documented as additional experiments on top of the fixed v1 baseline, not as a redefinition of the system itself.
 
 The accepted enrichment direction is documented in
-`docs/MULTI_RESOURCE_STRATEGY_DECISION.md`. The enriched dataset version will be
+`docs/decisions/MULTI_RESOURCE_STRATEGY_DECISION.md`. The enriched dataset version will be
 `kubernetes_v2`, stored under `data/processed/kubernetes_v2/`, and will focus on
 controlled multi-resource and multi-document compositions. `kubernetes_v2` is a
 derived experimental branch; `kubernetes_v1` remains the base dataset for the
@@ -640,6 +640,17 @@ If scope does not allow this, the priority should be:
 - first establish `serialized_sft` vs `two_head_sft`
 - then apply DPO to the stronger or thesis-central model
 
+Current methodological decision as of 2026-05-24:
+
+- the first DPO branch is `serialized_sft -> serialized_sft_dpo`;
+- `serialized_sft` is chosen because it is the strongest complete
+  parser-facing generator currently documented;
+- the current two-head family remains useful for analysis, but is not the first
+  DPO base because its validation behavior is dominated by parseability and
+  interface instability;
+- the detailed DPO contract is maintained in
+  `docs/modeling/DPO_AUTOMATIC_PREFERENCE_V1.md`.
+
 Preference generation must rely on:
 
 - multiple candidate outputs per prompt
@@ -753,6 +764,9 @@ The project should also analyze whether the latent space:
 - `two_head_sft` has been trained and evaluated as the main branch
 - the comparison has been reviewed on validation
 - the chosen branch for DPO is explicitly justified
+
+The current branch justification is recorded in
+`docs/decisions/DPO_POST_SFT_ALIGNMENT_DECISION.md`.
 
 ### Comparative auxiliary-signal experiments can start only if
 

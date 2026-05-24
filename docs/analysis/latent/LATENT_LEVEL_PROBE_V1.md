@@ -401,7 +401,7 @@ comparacion supervisada sigue siendo la prueba principal de utilidad practica.
 El primer run completo del probe sobre Kubernetes v1 esta documentado en:
 
 ```text
-docs/LATENT_LEVEL_PROBE_RESULTS_2026-05-13.md
+docs/analysis/latent/runs/LATENT_LEVEL_PROBE_RESULTS_2026-05-13.md
 ```
 
 Ese informe recoge la configuracion exacta del experimento, los resultados de

@@ -9,8 +9,8 @@ the serialized output surface or predicted explicitly as `level`.
 
 It is intentionally narrower than a generic fine-tuning guide. It is based on:
 
-- the current repository contract in `docs/KUBERNETES_MODEL_V1.md`
-- the current structural target contract in `docs/STRUCTURAL_TARGETS_V1.md`
+- the current repository contract in `docs/modeling/KUBERNETES_MODEL_V1.md`
+- the current structural target contract in `docs/data/STRUCTURAL_TARGETS_V1.md`
 - the current processed dataset under `data/processed/kubernetes_v1/`
 - the completed baseline run `compact-test70-320-vtfix`
 - the local bibliography under `bib/`
@@ -805,5 +805,13 @@ the next phase:
 
 - comparative auxiliary structural signals
 - DPO on top of the structurally strongest supervised branch
+
+Status update as of 2026-05-24:
+
+- the available validation evidence favors `serialized_sft` as the strongest
+  complete parser-facing branch;
+- the current two-head family is informative but unstable as a final generator;
+- the first DPO methodology is therefore defined on top of `serialized_sft` in
+  `docs/modeling/DPO_AUTOMATIC_PREFERENCE_V1.md`.
 
 At the current repository state, this is the most justified, lowest-risk, and most thesis-consistent next step.

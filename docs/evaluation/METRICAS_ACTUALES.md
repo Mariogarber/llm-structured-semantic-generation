@@ -10,6 +10,8 @@ La informacion de este documento sale principalmente de:
 - `scripts/analyze_kubernetes_dataset.py`
 - `scripts/run_kubernetes_baseline.py`
 - `scripts/train_kubernetes_sft.py`
+- `scripts/train_kubernetes_two_head_sft.py`
+- `scripts/train_kubernetes_two_head_ordinal_sft.py`
 - `scripts/recompute_sft_validation_metrics.py`
 - `scripts/run_kubernetes_latent_level_probe.py`
 - `src/llm_structured_semantic_generation/evaluation.py`
@@ -19,7 +21,7 @@ La informacion de este documento sale principalmente de:
 
 ## Alcance
 
-Actualmente hay **siete familias** de metricas o checks:
+Actualmente hay **ocho familias** de metricas o checks:
 
 1. metricas de preparacion del dataset
 2. metricas de validacion de targets estructurales
@@ -28,6 +30,7 @@ Actualmente hay **siete familias** de metricas o checks:
 5. metricas de validacion del SFT serializado
 6. metricas de validez de dominio Kubernetes y texto auxiliar
 7. metricas diagnosticas de probing latente de `level`
+8. metricas finales y diagnosticas de `two_head_sft` y su variante ordinal
 
 No todas miden lo mismo:
 
@@ -1215,7 +1218,53 @@ Interpretacion:
   forma no lineal;
 - ningun probe sustituye a la evaluacion generativa de `two_head_sft`.
 
-## 7. Resumen corto
+## 7. Metricas finales de `two_head_sft` y ordinal
+
+Los trainers `two_head_sft` y `two_head_ordinal_density_v2` reutilizan el mismo
+contrato parser-facing del SFT serializado: el texto generado se interpreta como
+`content_blocks_v1`, se reconstruye de forma determinista y se evalua con
+`summarize_evaluations(...)`. Por tanto mantienen las metricas existentes:
+
+- `structured_output_parse_success_rate`
+- `yaml_parse_success_rate`
+- `block_parse_success_rate`
+- `average_line_text_f1`
+- `average_level_exact_match_rate`
+- `average_level_mae`
+- metricas de dominio y prompt ya definidas en este documento
+
+La variante ordinal anade metricas especificas para diagnosticar el sesgo contra
+niveles profundos:
+
+- `predicted_level_count_0..8`
+- `gold_level_count_0..8`
+- `level_recall_0..8`
+- `level_precision_0..8`
+- `deep_level_exact_recall_5_8`
+- `deep_level_off_by_one_recall_5_8`
+- `compressed_deep_to_0_4_rate`
+- `predicted_max_level_mean`
+- `target_max_level_ge_5_yaml_parse_success_rate`
+
+Formulas principales:
+
+```text
+deep_level_exact_recall_5_8 =
+  correct predictions where gold in {5,6,7,8} / gold count in {5,6,7,8}
+
+deep_level_off_by_one_recall_5_8 =
+  predictions with abs(pred-gold)<=1 where gold in {5,6,7,8} / gold count in {5,6,7,8}
+
+compressed_deep_to_0_4_rate =
+  predictions <=4 where gold in {5,6,7,8} / gold count in {5,6,7,8}
+```
+
+En W&B se sube un subconjunto curado: perdidas, learning rate, parseabilidad,
+accuracy/MAE de `level`, recalls profundos, distribucion de niveles predichos,
+`predicted_max_level_mean`, umbrales aprendidos y estadisticos de `z`. BLEU,
+ROUGE y perplexity se conservan como artefactos locales, no como panel principal.
+
+## 8. Resumen corto
 
 Hoy el repositorio calcula realmente:
 
@@ -1226,6 +1275,8 @@ Hoy el repositorio calcula realmente:
   consistencia de dominio para baseline y SFT serializado
 - senales auxiliares BLEU, ROUGE y perplexity opcional
 - metricas diagnosticas de probing latente para la variable `level`
+- metricas finales parser-facing y diagnosticas de profundidad para
+  `two_head_sft` y `two_head_ordinal_density_v2`
 
 Todavia **no** calcula de forma completa:
 
@@ -1233,4 +1284,3 @@ Todavia **no** calcula de forma completa:
 - metricas humanas de calidad
 - metricas de adecuacion al prompt basadas en anotacion manual
 - metricas RLHF o reward-model complejas
-- metricas finales de `two_head_sft`

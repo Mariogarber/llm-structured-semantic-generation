@@ -11,11 +11,11 @@ Current source-of-truth documents:
 
 - `README.md`
 - `AGENTS.md`
-- `docs/KUBERNETES_PREPROCESSING.md`
-- `docs/KUBERNETES_MODEL_V1.md`
-- `docs/STRUCTURAL_TARGETS_V1.md`
-- `docs/BASELINE_V1.md`
-- `docs/SFT_STRATEGY_V1.md`
+- `docs/data/KUBERNETES_PREPROCESSING.md`
+- `docs/modeling/KUBERNETES_MODEL_V1.md`
+- `docs/data/STRUCTURAL_TARGETS_V1.md`
+- `docs/modeling/BASELINE_V1.md`
+- `docs/modeling/SFT_STRATEGY_V1.md`
 
 Historical Docker Compose motivation may still be useful as thesis background,
 but it must not override the current Kubernetes-centered implementation.

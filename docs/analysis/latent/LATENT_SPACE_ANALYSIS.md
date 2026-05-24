@@ -89,7 +89,7 @@ The repository also includes a resumable diagnostic workflow for testing whether
 line-aligned hidden states contain information about the YAML `level` target:
 
 The full methodological and operational contract is documented in
-`docs/LATENT_LEVEL_PROBE_V1.md`.
+`docs/analysis/latent/LATENT_LEVEL_PROBE_V1.md`.
 
 ```powershell
 uv run python scripts/run_kubernetes_latent_level_probe.py `

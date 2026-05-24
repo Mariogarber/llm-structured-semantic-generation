@@ -42,12 +42,12 @@ The main project direction is documented consistently across:
 
 - `README.md`;
 - `AGENTS.md`;
-- `docs/KUBERNETES_PREPROCESSING.md`;
-- `docs/KUBERNETES_MODEL_V1.md`;
-- `docs/STRUCTURAL_TARGETS_V1.md`;
-- `docs/BASELINE_V1.md`;
-- `docs/SFT_STRATEGY_V1.md`;
-- `docs/METRICAS_ACTUALES.md`.
+- `docs/data/KUBERNETES_PREPROCESSING.md`;
+- `docs/modeling/KUBERNETES_MODEL_V1.md`;
+- `docs/data/STRUCTURAL_TARGETS_V1.md`;
+- `docs/modeling/BASELINE_V1.md`;
+- `docs/modeling/SFT_STRATEGY_V1.md`;
+- `docs/evaluation/METRICAS_ACTUALES.md`.
 
 The operative direction is:
 
@@ -131,13 +131,13 @@ Current status:
 - the supervised comparison remains `serialized_sft` vs `two_head_sft`;
 - `serialized_sft` is the implemented control branch where `level` is emitted
   as serialized text in `blocks_tsv_v1`;
-- `two_head_sft` remains the main pending branch with an explicit
-  hierarchical-level head;
+- `two_head_sft` and later ordinal/regression variants have now been
+  implemented and evaluated as experimental explicit-hierarchy branches;
 - the current trainer supports LoRA, resumable checkpoints, W&B logging,
   checkpoint-retention error tolerance, streaming validation logs, and explicit
   CUDA OOM recovery through `--oom-recovery skip_batch`;
-- there are completed `serialized_sft` validation artifacts, but no completed
-  `two_head_sft`, DPO, or PPO result tables.
+- there are completed `serialized_sft` and `two_head_sft` validation artifacts,
+  but no completed DPO or PPO result tables.
 
 Strongest recorded serialized SFT validation result:
 
@@ -174,8 +174,19 @@ A later one-epoch run also completed:
 - `kubernetes_domain_gate_pass_rate = 0.1429`.
 
 Documentation should therefore describe `serialized_sft` as an achieved
-supervised control result, while keeping `two_head_sft` as the next central
-architecture needed to complete the main thesis comparison.
+supervised control result and as the strongest current practical base for DPO.
+The `two_head_sft` family should be described as an explicit-hierarchy
+experimental branch whose current results are limited by parseability and
+training/interface stability.
+
+Current interpretation after the two-head validation reports:
+
+- `serialized_sft` remains clearly stronger as a complete parser-facing
+  generator on validation;
+- the first `two_head_sft` result is informative for the thesis, but not the
+  preferred base for post-SFT preference optimization;
+- DPO should therefore be applied first to `serialized_sft`, not to the current
+  two-head checkpoint.
 
 ### Latent Level Probe
 
@@ -218,6 +229,13 @@ Interpretation:
 DPO is part of the planned post-SFT direction. PPO is only an optional later
 extension if reward quality, compute, and project scope justify it.
 
+The first DPO methodology is now defined in:
+
+- `docs/decisions/DPO_POST_SFT_ALIGNMENT_DECISION.md`;
+- `docs/modeling/DPO_AUTOMATIC_PREFERENCE_V1.md`;
+- `docs/evaluation/DPO_PREFERENCE_SCORING_V1.md`;
+- `docs/memoria/notes/DPO_METHODOLOGY_MEMORIA_2026-05-24.md`.
+
 The repository does not currently contain:
 
 - a full preference dataset;
@@ -227,8 +245,8 @@ The repository does not currently contain:
 - a full RLHF pipeline.
 
 These stages must not be described as completed. The current `serialized_sft`
-result is a strong candidate base for future automatic-preference construction,
-but no DPO stage has been executed yet.
+result is the selected base for the first automatic-preference DPO
+construction, but no DPO stage has been executed yet.
 
 ### Kubernetes Validation
 
@@ -248,14 +266,14 @@ When describing evaluation, use this distinction:
 
 ## Anteproyecto Status
 
-The current file `docs/plantilla_anteproyecto.docx` is only the official
+The current file `docs/memoria/templates/plantilla_anteproyecto.docx` is only the official
 template. It still contains placeholder text such as `XXXXXX` and empty sections
 for objectives, description, abstract, keywords, and approval fields.
 
 Therefore, the anteproyecto description is not yet written in the DOCX. The
 best current source for drafting it is this repository documentation, especially
-`README.md`, `docs/KUBERNETES_MODEL_V1.md`, `docs/BASELINE_V1.md`, and
-`docs/SFT_STRATEGY_V1.md`.
+`README.md`, `docs/modeling/KUBERNETES_MODEL_V1.md`, `docs/modeling/BASELINE_V1.md`, and
+`docs/modeling/SFT_STRATEGY_V1.md`.
 
 ## Recommended Anteproyecto Title
 
@@ -355,7 +373,7 @@ Use phrasing such as:
 The main remaining documentation gap is not the technical contract. It is the
 formal academic synthesis:
 
-- fill `docs/plantilla_anteproyecto.docx`;
+- fill `docs/memoria/templates/plantilla_anteproyecto.docx`;
 - keep the anteproyecto aligned with Kubernetes as the operative case study;
 - distinguish implemented results from planned methodology;
 - avoid presenting either the baseline or `serialized_sft` as final thesis

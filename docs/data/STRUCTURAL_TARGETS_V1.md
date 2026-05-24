@@ -46,7 +46,7 @@ line order. It does not add missing keys, values, resources, or semantic repairs
   not represented as content blocks.
 - `line_index` is zero-based inside each `document_index`.
 
-The full project glossary is maintained in `docs/TERMINOLOGY.md`.
+The full project glossary is maintained in `docs/reference/TERMINOLOGY.md`.
 
 ## Generated Artifacts
 
