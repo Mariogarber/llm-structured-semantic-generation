@@ -140,18 +140,20 @@ The data pipeline includes:
 - preparation for future comparative structural signals,
 - strict train/validation/test separation to avoid leakage.
 
-Current repository documents:
+Current repository documents are indexed in [docs/README.md](docs/README.md).
+The most important entry points are:
 
-- Kubernetes preprocessing reference: [docs/KUBERNETES_PREPROCESSING.md](docs/KUBERNETES_PREPROCESSING.md)
-- Kubernetes model v1 functional specification: [docs/KUBERNETES_MODEL_V1.md](docs/KUBERNETES_MODEL_V1.md)
-- Structural target contract: [docs/STRUCTURAL_TARGETS_V1.md](docs/STRUCTURAL_TARGETS_V1.md)
-- Baseline execution contract: [docs/BASELINE_V1.md](docs/BASELINE_V1.md)
-- SFT strategy and model comparison: [docs/SFT_STRATEGY_V1.md](docs/SFT_STRATEGY_V1.md)
-- Latent level probe for `two_head_sft`: [docs/LATENT_LEVEL_PROBE_V1.md](docs/LATENT_LEVEL_PROBE_V1.md)
-- Latent level probe results: [docs/LATENT_LEVEL_PROBE_RESULTS_2026-05-13.md](docs/LATENT_LEVEL_PROBE_RESULTS_2026-05-13.md)
-- Current project status and anteproyecto note: [docs/PROJECT_STATUS_AND_ANTEPROYECTO.md](docs/PROJECT_STATUS_AND_ANTEPROYECTO.md)
-- Project terminology and metric definitions: [docs/TERMINOLOGY.md](docs/TERMINOLOGY.md)
-- Multi-resource enrichment decision: [docs/MULTI_RESOURCE_STRATEGY_DECISION.md](docs/MULTI_RESOURCE_STRATEGY_DECISION.md)
+- Kubernetes preprocessing reference: [docs/data/KUBERNETES_PREPROCESSING.md](docs/data/KUBERNETES_PREPROCESSING.md)
+- Kubernetes model v1 functional specification: [docs/modeling/KUBERNETES_MODEL_V1.md](docs/modeling/KUBERNETES_MODEL_V1.md)
+- Structural target contract: [docs/data/STRUCTURAL_TARGETS_V1.md](docs/data/STRUCTURAL_TARGETS_V1.md)
+- Baseline execution contract: [docs/modeling/BASELINE_V1.md](docs/modeling/BASELINE_V1.md)
+- SFT strategy and model comparison: [docs/modeling/SFT_STRATEGY_V1.md](docs/modeling/SFT_STRATEGY_V1.md)
+- Current metrics and interpretation: [docs/evaluation/METRICAS_ACTUALES.md](docs/evaluation/METRICAS_ACTUALES.md)
+- Latent level probe for `two_head_sft`: [docs/analysis/latent/LATENT_LEVEL_PROBE_V1.md](docs/analysis/latent/LATENT_LEVEL_PROBE_V1.md)
+- Latent level probe results: [docs/analysis/latent/runs/LATENT_LEVEL_PROBE_RESULTS_2026-05-13.md](docs/analysis/latent/runs/LATENT_LEVEL_PROBE_RESULTS_2026-05-13.md)
+- Current project status and anteproyecto note: [docs/project/PROJECT_STATUS_AND_ANTEPROYECTO.md](docs/project/PROJECT_STATUS_AND_ANTEPROYECTO.md)
+- Project terminology and metric definitions: [docs/reference/TERMINOLOGY.md](docs/reference/TERMINOLOGY.md)
+- Multi-resource enrichment decision: [docs/decisions/MULTI_RESOURCE_STRATEGY_DECISION.md](docs/decisions/MULTI_RESOURCE_STRATEGY_DECISION.md)
 
 ## Current Implementation Status
 
@@ -198,10 +200,10 @@ Current factual status:
   human semantic evaluation are not yet implemented as completed result stages.
 
 The current baseline execution process is documented in
-`docs/BASELINE_EXECUTION_REPORT_2026-04-28.md`. The first completed
+`docs/experiments/baseline/runs/BASELINE_EXECUTION_REPORT_2026-04-28.md`. The first completed
 `serialized_sft` validation result is documented in
-`docs/SFT_SERIALIZED_A_VALIDATION_RESULT_2026-05-06.md`. The latent probe result
-is documented in `docs/LATENT_LEVEL_PROBE_RESULTS_2026-05-13.md`.
+`docs/experiments/serialized_sft/runs/SFT_SERIALIZED_A_VALIDATION_RESULT_2026-05-06.md`. The latent probe result
+is documented in `docs/analysis/latent/runs/LATENT_LEVEL_PROBE_RESULTS_2026-05-13.md`.
 
 The next dataset-enrichment direction is documented as `kubernetes_v2`: a
 derived multi-resource dataset built from `kubernetes_v1` through controlled
@@ -361,7 +363,16 @@ validation or human semantic evaluation.
 ```text
 .
 |-- data/                # Raw and processed dataset artifacts
-|-- docs/                # Project, preprocessing, modeling, and experiment contracts
+|-- docs/                # Organized project documentation and run records
+|   |-- data/            # Preprocessing, dataset, and target contracts
+|   |-- modeling/        # Model contracts, SFT strategy, and architecture notes
+|   |-- evaluation/      # Metrics and validation interpretation
+|   |-- analysis/        # Cross-cutting analyses, especially latent-space work
+|   |-- experiments/     # Dated run notes, audits, and results
+|   |-- decisions/       # Stable methodological decisions
+|   |-- reference/       # Terminology and reusable lookup material
+|   |-- memoria/         # Thesis writing style, notes, and templates
+|   `-- archive/         # Historical documents
 |-- exploratory/         # Exploratory notebooks and data profiling artifacts
 |-- model/               # Local base model artifacts
 |-- scripts/             # Reproducible dataset, SFT, and baseline commands
