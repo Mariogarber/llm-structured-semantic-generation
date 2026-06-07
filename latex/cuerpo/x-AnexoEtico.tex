@@ -1,0 +1,142 @@
+% called by main.tex
+%
+\chapter{Evaluación ética y matriz de riesgos}
+\label{ch::AnexoEtico}
+
+Este anexo conserva el detalle normativo y operativo que respalda el
+Capítulo~\ref{ch::chapter8}. La información se separa del cuerpo principal para que el
+capítulo de impacto social mantenga un hilo argumental más breve, pero sin perder trazabilidad
+sobre la clasificación regulatoria, los factores RGPD, la checklist ética ni la matriz de
+riesgos.
+
+\section{Clasificación bajo el AI Act}
+
+\begin{table}[htbp]
+\centering
+\caption{Niveles de riesgo del AI Act y aplicabilidad al sistema propuesto.}
+\label{tab:ch8_aiact_levels}
+\begin{tabular}{p{0.20\textwidth}p{0.40\textwidth}}
+\toprule
+\textbf{Nivel de riesgo} & \textbf{Descripción} \\
+\midrule
+Inaceptable       & Prohibido (art.~5)                                               \\
+Alto riesgo       & Anexo III; evaluación de conformidad previa                      \\
+\textbf{Riesgo limitado} & \textbf{Art.~52; transparencia y supervisión humana}    \\
+Riesgo mínimo     & Sin obligaciones específicas                                     \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El sistema no se encuadra en el Anexo III del AI Act: no opera en educación,
+empleo, justicia, servicios esenciales ni derechos fundamentales, y tampoco realiza perfilado
+de personas ni decisiones automatizadas con efectos jurídicos. En consecuencia, la clasificación
+utilizada en la memoria es la de riesgo limitado, con énfasis en transparencia, documentación
+técnica y supervisión humana.
+
+\section{Factores RGPD}
+
+\begin{table}[htbp]
+\centering
+\caption{Factores de riesgo RGPD relevantes para el sistema en su configuración actual.}
+\label{tab:ch8_rgpd_factors}
+\begin{tabular}{p{0.35\textwidth}p{0.13\textwidth}p{0.40\textwidth}}
+\toprule
+\textbf{Factor analizado} & \textbf{Nivel} & \textbf{Observación} \\
+\midrule
+Dataset de entrenamiento sin datos personales
+    (\texttt{CloudEval-YAML}, MIT) &
+    Bajo &
+    No hay metadatos de commits ni identificadores directos de personas. \\
+Tratamiento a escala reducida
+    (213 muestras de entrenamiento) &
+    Bajo &
+    El tamaño limita la complejidad del tratamiento. \\
+Uso de tecnologías emergentes basadas en LLM &
+    Medio &
+    Los modelos generativos requieren un análisis cuidadoso del riesgo de
+    memorización de patrones del corpus. \\
+Posible tratamiento de consultas en fase de explotación &
+    Medio &
+    Solo aplicable si se registran prompts de usuarios en un despliegue futuro;
+    no ocurre en el prototipo actual. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Si el sistema se distribuyera como herramienta comercial y se empleara para entrenar versiones
+posteriores del modelo a partir de consultas de usuarios, el tratamiento de esos prompts
+requeriría una base jurídica explícita. En ausencia de consentimiento, la base aplicable podría
+ser el interés legítimo del responsable del tratamiento (art.~6.1.f RGPD), condicionado al test
+de ponderación tripartito: existencia de un interés legítimo real, necesidad y proporcionalidad
+del tratamiento, y ausencia de prevalencia sobre los derechos e intereses de los afectados.
+
+\section{Checklist ética AI HLEG}
+
+\begin{table}[htbp]
+\centering
+\caption{Resumen de cumplimiento de los requisitos éticos del AI HLEG para el sistema
+         propuesto.}
+\label{tab:ch8_checklist}
+\begin{tabular}{p{0.54\textwidth}p{0.11\textwidth}p{0.26\textwidth}}
+\toprule
+\textbf{Requisito} & \textbf{Estado} & \textbf{Observación} \\
+\midrule
+No toma decisiones autónomas sobre asuntos vitales                   & Sí      & --- \\
+El usuario puede controlar e intervenir en las operaciones           & Sí      & --- \\
+No subordina, engaña ni manipula al usuario                          & Sí      & --- \\
+Tratamiento lícito y transparente de datos personales                & Sí      & Dataset MIT, sin datos personales \\
+Medidas de seguridad contra brechas y fugas                          & Sí      & Regularización + logging \\
+Diseñado para evitar sesgos algorítmicos                             & Sí      & --- \\
+Evita sesgo de representación en el dataset                          & Parcial & Dataset de 213 muestras; diversificación pendiente \\
+Tiene en cuenta el bienestar de los \textit{stakeholders}            & Parcial & Riesgo residual de automatización excesiva \\
+No reduce la seguridad e integridad en el trabajo                    & Parcial & 470 antipatrones empíricos (Tabla~\ref{tab:ch5_error_profile}); revisión experta obligatoria \\
+El usuario es consciente de que interactúa con una IA                & Sí      & --- \\
+Propósito, capacidades y limitaciones se comunican abiertamente      & Parcial & Requiere documentación y \textit{disclaimers} específicos \\
+El sistema permite trazabilidad en todo su ciclo de vida             & Sí      & Output logging por diseño \\
+Ofrece detalles sobre cómo se toman las decisiones                   & Parcial & Explicabilidad indirecta mediante análisis latente \\
+Permite supervisión humana durante todo el ciclo de vida             & Sí      & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Matriz de riesgos}
+
+\begin{table}[htbp]
+\centering
+\caption{Principales riesgos del sistema, valoración y medidas de mitigación.}
+\label{tab:ch8_risk_table}
+\begin{tabular}{p{0.18\textwidth}p{0.25\textwidth}p{0.17\textwidth}p{0.28\textwidth}}
+\toprule
+\textbf{Riesgo} & \textbf{Descripción} & \textbf{Imp./Prob.} & \textbf{Mitigación} \\
+\midrule
+Conflicto de licencias &
+    Uso de componentes con licencias restrictivas &
+    Bajo\,/\,Bajo &
+    Qwen2.5 (Apache 2.0) y \texttt{CloudEval-YAML} (MIT); ningún riesgo activo \\
+Configuraciones inseguras &
+    Configs sintácticamente válidas pero con antipatrones de seguridad; 470 instancias en 70 muestras de validación (Tabla~\ref{tab:ch5_error_profile}) &
+    Alto\,/\,Alto &
+    Revisión experta obligatoria; alineación posterior mediante señales de preferencia \\
+Leak de datos personales &
+    Memorización de patrones del corpus en outputs &
+    Bajo\,/\,Bajo &
+    Dataset sin datos personales; regularización durante SFT \\
+Sesgo de evaluadores &
+    Preferencias sesgadas en anotaciones para fases futuras de alineación &
+    Medio\,/\,Medio &
+    Selección diversificada del panel; análisis de consistencia entre anotadores \\
+Dependencia técnica &
+    Erosión de competencias del equipo si el sistema se usa sin supervisión &
+    Medio\,/\,Alto &
+    Supervisión obligatoria explícita; formación en validación de manifiestos \\
+Sesgo de ecosistema &
+    Tecnologías y patrones del corpus sobrerrepresentados en las salidas &
+    Bajo\,/\,Alto &
+    Evaluación con infraestructuras heterogéneas; diversificación del dataset \\
+Sesgo estructural por tamaño de dataset &
+    213 muestras de entrenamiento; posible sobreajuste a los patrones de \texttt{CloudEval-YAML} con capacidad de generalización reducida &
+    Medio\,/\,Alto &
+    Ablación de épocas (documentada en el Capítulo~\ref{ch::chapter5}); evaluación en corpus externo; extensión del dataset en trabajos futuros \\
+\bottomrule
+\end{tabular}
+\end{table}

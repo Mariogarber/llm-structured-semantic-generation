@@ -31,6 +31,19 @@
 \usepackage{fancyhdr}    % personalizar encabezado
 \usepackage{enumitem}
 \usepackage{xcolor}
+\usepackage{listings}
+\lstdefinestyle{yamlblock}{
+    basicstyle=\ttfamily\small,
+    commentstyle=\color{gray!70},
+    morecomment=[l]{\#},
+    backgroundcolor=\color{gray!7},
+    frame=single,
+    rulecolor=\color{gray!40},
+    xleftmargin=1em,
+    xrightmargin=1em,
+    breaklines=true,
+    captionpos=b,
+}
 \usepackage{emptypage}   % no headers in empty pages
 \usepackage[small,hang,bf]{caption}    % caption options
 \usepackage{subcaption}

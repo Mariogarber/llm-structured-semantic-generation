@@ -1,0 +1,180 @@
+% called by main.tex
+%
+\chapter{Impacto Social y Ética}
+\label{ch::chapter8}
+
+El propósito central de este trabajo es técnico: estudiar si una representación explícita de
+la jerarquía estructural mejora la generación de manifiestos Kubernetes respecto a enfoques
+puramente secuenciales. Sin embargo, el objeto generado no es un texto neutro. Un manifiesto
+YAML puede definir permisos, límites de recursos, políticas de ejecución, relaciones entre
+servicios y condiciones de exposición de una aplicación. Por eso, incluso en un prototipo
+académico, la evaluación del sistema no puede terminar en la parseabilidad ni en la similitud
+con el corpus de entrenamiento: también debe preguntarse qué tipo de errores podría facilitar
+si se usara como apoyo en un entorno real.
+
+Este capítulo resume ese análisis desde un enfoque de \textit{Ethics by Design}
+\citep{ec2021ethics}, apoyado en las Directrices Éticas para una IA Fiable del Grupo de
+Expertos de Alto Nivel \citep{aihleg2019}, el Reglamento de Inteligencia Artificial de la Unión
+Europea \citep{aiact2024} y el RGPD \citep{rgpd2016}. El detalle tabular de la clasificación
+regulatoria, los factores RGPD, la checklist ética y la matriz de riesgos se recoge en el
+anexo \nameref{ch::AnexoEtico}. En el cuerpo principal se conserva únicamente el razonamiento
+necesario para interpretar el sistema dentro del hilo de la memoria.
+
+
+%----------------------------------------------------------------------
+\section{Naturaleza y alcance del sistema}
+\label{sec:ch8_context}
+%----------------------------------------------------------------------
+
+El sistema propuesto transforma instrucciones en lenguaje natural en manifiestos YAML de
+Kubernetes. Esta delimitación es importante porque reduce de forma notable el espacio de
+riesgo respecto a un modelo conversacional de propósito general: no se diseña para aconsejar
+sobre personas, tomar decisiones administrativas, priorizar candidatos ni intervenir en
+servicios esenciales. Su salida esperada es siempre un artefacto técnico de infraestructura,
+con una gramática y un vocabulario de dominio relativamente acotados.
+
+Precisamente por esa acotación, los riesgos más relevantes no son los habituales en sistemas
+de IA aplicados a personas, como discriminación directa, manipulación del usuario o perfilado
+individual. El problema ético principal aparece en otro punto: una configuración técnica
+generada por el modelo puede parecer correcta, superar validaciones sintácticas y aun así
+contener prácticas inseguras. En otras palabras, el riesgo no nace de que el sistema actúe
+autónomamente sobre individuos, sino de que facilite una confianza excesiva en un artefacto
+técnico que requiere revisión experta.
+
+En el escenario analizado, el proveedor sería el equipo responsable del diseño, entrenamiento,
+documentación y evaluación del sistema. El usuario final sería un ingeniero o técnico de
+infraestructura que introduce el prompt, revisa el resultado y decide si lo despliega. Los
+afectados indirectos serían los usuarios de los servicios que se ejecutasen sobre una
+infraestructura configurada con ayuda del sistema. Esta separación de responsabilidades marca
+el resto del capítulo: el modelo puede asistir en la generación, pero no debe desplazar el
+juicio técnico ni la responsabilidad operativa del usuario experto.
+
+
+%----------------------------------------------------------------------
+\section{Encaje regulatorio y jurídico}
+\label{sec:ch8_aiact}
+%----------------------------------------------------------------------
+
+Desde el punto de vista del AI Act, el sistema se interpreta como una herramienta generativa de
+dominio específico con riesgo limitado. No encaja en los supuestos de riesgo inaceptable ni en
+los ámbitos de alto riesgo del Anexo III: no evalúa personas, no decide sobre empleo,
+educación, justicia, migración, acceso a servicios esenciales ni derechos fundamentales. Tampoco
+se presenta como modelo de propósito general, ya que su funcionalidad queda restringida a la
+producción de configuraciones Kubernetes. Esta lectura no elimina las obligaciones de
+transparencia y documentación, pero sí desplaza el foco hacia la supervisión humana y el uso
+responsable.
+
+La supervisión humana no es solo una exigencia formal. Los resultados del
+Capítulo~\ref{ch::chapter5} muestran que el modelo puede alcanzar una tasa de parseabilidad
+YAML del 98{,}57\,\% tras el ajuste fino serializado, mientras que solo el 14{,}29\,\% de las
+muestras supera la compuerta completa de validez de dominio
+(Tabla~\ref{tab:ch5_domain_levels}). Ese contraste resume el riesgo central del sistema: la
+salida puede estar bien formada como YAML y seguir siendo inadecuada para producción. Por tanto,
+cualquier uso práctico tendría que comunicar de forma explícita que el resultado es una
+propuesta técnica que requiere validación, no una configuración lista para desplegarse.
+
+La exposición al RGPD es reducida en el prototipo actual. El ajuste fino se realiza sobre
+\texttt{CloudEval-YAML} \citep{cloudeval2023}, un dataset técnico de pares prompt - manifiesto
+YAML publicado bajo licencia MIT, sin metadatos de desarrollo, nombres de usuario, correos
+electrónicos ni registros de interacción con personas. Además, el prototipo no almacena
+consultas de usuarios durante inferencia. Si en una versión posterior se registrasen prompts
+para mejorar el modelo, esa fase sí exigiría una base jurídica específica, criterios de
+minimización, mecanismos de seudonimización y una política clara de exclusión u
+\textit{opt-out}. En el estado actual del trabajo, ese tratamiento no forma parte del sistema.
+
+El análisis de propiedad intelectual apunta en la misma dirección: los dos componentes
+principales tienen licencias permisivas. El modelo base Qwen2.5-7B-Instruct
+\citep{qwen2024qwen25} se distribuye bajo Apache 2.0 y el dataset de ajuste bajo MIT. El riesgo
+residual de memorización existe, como en cualquier ajuste generativo, pero queda limitado por el
+tamaño del corpus y por el carácter técnico y estructurado de las muestras. Jurídicamente, el
+sistema no puede atribuirse autoría sobre los manifiestos generados; la responsabilidad sobre su
+uso, revisión y eventual despliegue recae en el operador que decide incorporarlos a una
+infraestructura real.
+
+
+%----------------------------------------------------------------------
+\section{Riesgos principales}
+\label{sec:ch8_risks}
+%----------------------------------------------------------------------
+
+El primer riesgo es la generación de configuraciones inseguras. El análisis de errores del
+\texttt{serialized\_sft} identifica 470 antipatrones de seguridad en 70 muestras de validación:
+contenedores sin límites de CPU o memoria, ejecución como \texttt{root}, sistemas de ficheros
+raíz con escritura habilitada e imágenes con etiqueta \texttt{:latest}
+(Tabla~\ref{tab:ch5_error_profile}). Estos errores son especialmente relevantes porque no
+impiden necesariamente el parseo del manifiesto. Un YAML puede ser válido, coherente con el
+prompt e incluso funcional, pero incorporar decisiones que aumentan la superficie de ataque o
+reducen la reproducibilidad del despliegue.
+
+El segundo riesgo es la dependencia técnica. Una herramienta que convierte lenguaje natural en
+configuración puede reducir trabajo repetitivo, pero también puede desplazar parte del esfuerzo
+de comprensión hacia una revisión superficial del resultado. En ese escenario, el usuario no
+pierde formalmente el control, pero sí puede delegar demasiado pronto en una salida que parece
+ordenada y profesional. La frontera ética del sistema está precisamente ahí: debe diseñarse como
+asistente para acelerar la redacción y la exploración de manifiestos, no como sustituto del
+criterio de un operador con conocimiento de Kubernetes.
+
+El tercer riesgo procede de la cobertura limitada del dataset. El corpus de entrenamiento tiene
+213 muestras base, ampliadas mediante variantes de prompt, y reproduce los patrones presentes
+en \texttt{CloudEval-YAML}. Esto introduce sesgos técnicos, no sociales: sobre-representación de
+ciertos recursos, tecnologías o estilos de configuración, y posible falta de señal en prácticas
+de seguridad que no aparecen de forma sistemática en los datos. En este sentido, la caída en la
+compuerta de seguridad no se interpreta como un simple defecto de entrenamiento, sino como una
+limitación de la señal supervisada disponible.
+
+Por último, existen riesgos residuales de transparencia y trazabilidad. Los modelos basados en
+transformers no ofrecen una explicación completa de su proceso interno, aunque el trabajo aporta
+evidencia indirecta mediante análisis de representaciones latentes: un modelo lineal alcanza un
+85{,}94\,\% de precisión al predecir el nivel de indentación a partir de estados ocultos. Ese
+resultado ayuda a interpretar la presencia de información estructural en el modelo, pero no
+convierte sus salidas en explicables ni verificadas por construcción. La trazabilidad debe
+apoyarse, por tanto, en registros de inferencia, métricas de validación y documentación del
+alcance del sistema.
+
+
+%----------------------------------------------------------------------
+\section{Medidas de mitigación y responsabilidad}
+\label{sec:ch8_mitigation}
+%----------------------------------------------------------------------
+
+La medida de mitigación más importante es mantener una frontera explícita entre generación y
+despliegue. El sistema no ejecuta comandos, no aplica manifiestos sobre un clúster y no dispone
+de una ruta automática hacia producción. Su salida es un fichero de texto estructurado que debe
+pasar por validación sintáctica, revisión de dominio y revisión humana antes de cualquier uso
+operativo. Esta separación no elimina los errores, pero evita que un fallo del modelo se
+convierta directamente en un fallo de infraestructura.
+
+La segunda medida es comunicar las limitaciones del sistema de forma concreta. No basta con un
+aviso genérico de que el contenido ha sido generado por IA. En este caso, la documentación debe
+explicar que la parseabilidad YAML no equivale a seguridad, que el parser actúa como control
+estructural y que las métricas de dominio usadas en la memoria son
+aproximadas. Esta distinción es coherente con el argumento general del trabajo: producir una
+estructura válida en superficie es necesario, pero no garantiza que el manifiesto sea adecuado
+para un despliegue real.
+
+Finalmente, la responsabilidad debe permanecer distribuida de forma clara. El proveedor es
+responsable de documentar el alcance, las limitaciones, los datos utilizados, las métricas de
+validación y los riesgos conocidos. El usuario experto es responsable de revisar, adaptar y
+validar los manifiestos antes de desplegarlos. Esta división no pretende trasladar todo el peso
+al usuario, sino evitar una ambigüedad peligrosa: el sistema puede ayudar a escribir
+configuraciones, pero no puede asumir la responsabilidad operativa de una infraestructura.
+
+
+%----------------------------------------------------------------------
+\section{Resumen de impacto}
+\label{sec:ch8_synthesis}
+%----------------------------------------------------------------------
+
+El impacto social del sistema es limitado y, en un escenario bien controlado, potencialmente
+positivo: puede reducir esfuerzo en tareas repetitivas de configuración y ayudar a explorar
+soluciones estructuradas a partir de descripciones en lenguaje natural. Sin embargo, ese valor
+solo aparece si el sistema se mantiene dentro de su papel de asistencia. El resultado principal
+del análisis ético no es que la herramienta sea peligrosa por naturaleza, sino que su apariencia
+de corrección puede ser más convincente que su seguridad real.
+
+En este sentido, el capítulo refuerza la tesis técnica de la memoria. La generación estructurada
+no se evalúa únicamente porque produzca YAML más limpio, sino porque permite separar mejor los
+niveles de validez: sintaxis, jerarquía, reconstrucción parser-facing, dominio y adecuación al
+prompt. Esa separación también es una medida ética. Hace visible dónde termina el control
+automático y dónde empieza la responsabilidad humana, que es precisamente la frontera que debe
+respetarse si el sistema llega a usarse fuera del contexto experimental.

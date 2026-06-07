@@ -1,4 +1,4 @@
-\begin{thebibliography}{42}
+\begin{thebibliography}{50}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\href}[2]{#2}
@@ -11,6 +11,14 @@
 \providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Misc
+\bibitem[{{Alibaba Cloud Intelligence}(2023)}]{cloudeval2023}
+\bibinfo{author}{{Alibaba Cloud Intelligence}}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{{CloudEval-YAML}: A practical benchmark for cloud
+  configuration generation}.
+\newblock
+  \bibinfo{howpublished}{\url{https://github.com/alibaba/CloudEval-YAML}}.
+\newblock \bibinfo{note}{MIT License}.
 %Type = Article
 \bibitem[{Andor et~al.(2016)Andor, Alberti, Weiss, Severyn, Presta, Ganchev,
   Petrov and Collins}]{andor2016globally}
@@ -125,6 +133,16 @@
   BlackboxNLP}.
 \newblock \URLprefix \url{https://arxiv.org/abs/1906.04341}.
 %Type = Inproceedings
+\bibitem[{Dauphin et~al.(2017)Dauphin, Fan, Auli and
+  Grangier}]{dauphin2017language}
+\bibinfo{author}{Dauphin, Y.N.}, \bibinfo{author}{Fan, A.},
+  \bibinfo{author}{Auli, M.}, \bibinfo{author}{Grangier, D.},
+  \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Language modeling with gated convolutional networks},
+  in: \bibinfo{booktitle}{Proceedings of the 34th International Conference on
+  Machine Learning}, pp. \bibinfo{pages}{933--941}.
+\newblock \URLprefix \url{https://arxiv.org/abs/1612.08083}.
+%Type = Inproceedings
 \bibitem[{Dettmers et~al.(2023)Dettmers, Pagnoni, Holtzman and
   Zettlemoyer}]{dettmers2023qlora}
 \bibinfo{author}{Dettmers, T.}, \bibinfo{author}{Pagnoni, A.},
@@ -133,6 +151,35 @@
 \newblock \bibinfo{title}{Qlora: Efficient finetuning of quantized llms}, in:
   \bibinfo{booktitle}{Advances in Neural Information Processing Systems}.
 \newblock \URLprefix \url{https://arxiv.org/abs/2305.14314}.
+%Type = Techreport
+\bibitem[{{European Commission}(2021)}]{ec2021ethics}
+\bibinfo{author}{{European Commission}}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Ethics by Design and Ethics of Use Approaches for
+  Artificial Intelligence}.
+\newblock \bibinfo{type}{Technical Report}. Directorate-General for Research
+  and Innovation.
+\newblock \URLprefix
+  \url{https://op.europa.eu/en/publication-detail/-/publication/d3988569-0f73-11ec-9d68-01aa75ed71a1}.
+%Type = Misc
+\bibitem[{{European Parliament and Council of the European
+  Union}(2016)}]{rgpd2016}
+\bibinfo{author}{{European Parliament and Council of the European Union}},
+  \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{Regulation ({EU}) 2016/679 of the {European
+  Parliament} and of the {Council} on the protection of natural persons with
+  regard to the processing of personal data and on the free movement of such
+  data ({General Data Protection Regulation})}.
+\newblock \bibinfo{note}{OJ L 119, 1--88}.
+%Type = Misc
+\bibitem[{{European Parliament and Council of the European
+  Union}(2024)}]{aiact2024}
+\bibinfo{author}{{European Parliament and Council of the European Union}},
+  \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Regulation ({EU}) 2024/1689 of the {European
+  Parliament} and of the {Council} laying down harmonised rules on artificial
+  intelligence ({Artificial Intelligence Act}) and amending certain {Union}
+  legislative acts}.
+\newblock \bibinfo{note}{OJ L, 2024/1689}.
 %Type = Article
 \bibitem[{Fonseca et~al.(2024)}]{fonseca2024mutiny}
 \bibinfo{author}{Fonseca, J.}, et~al., \bibinfo{year}{2024}.
@@ -167,6 +214,15 @@
   of the North American Chapter of the Association for Computational
   Linguistics}.
 \newblock \URLprefix \url{https://arxiv.org/abs/1906.04284}.
+%Type = Techreport
+\bibitem[{{High-Level Expert Group on Artificial
+  Intelligence}(2019)}]{aihleg2019}
+\bibinfo{author}{{High-Level Expert Group on Artificial Intelligence}},
+  \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{Ethics Guidelines for Trustworthy {AI}}.
+\newblock \bibinfo{type}{Technical Report}. European Commission.
+\newblock \URLprefix
+  \url{https://ec.europa.eu/newsroom/dae/document.cfm?doc_id=60419}.
 %Type = Inproceedings
 \bibitem[{Hokamp and Liu(2017)}]{hokamp2017lexically}
 \bibinfo{author}{Hokamp, C.}, \bibinfo{author}{Liu, Q.}, \bibinfo{year}{2017}.
@@ -224,6 +280,27 @@
   the 2024 Conference of the North American Chapter of the Association for
   Computational Linguistics}.
 \newblock \URLprefix \url{https://arxiv.org/abs/2309.08963}.
+%Type = Article
+\bibitem[{Liu et~al.(2023)Liu, Yuan, Fu, Jiang, Hayashi and
+  Neubig}]{liu2023pretrain}
+\bibinfo{author}{Liu, P.}, \bibinfo{author}{Yuan, W.}, \bibinfo{author}{Fu,
+  J.}, \bibinfo{author}{Jiang, Z.}, \bibinfo{author}{Hayashi, H.},
+  \bibinfo{author}{Neubig, G.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Pre-train, prompt, and predict: A systematic survey
+  of prompting methods in natural language processing}.
+\newblock \bibinfo{journal}{ACM Computing Surveys} \bibinfo{volume}{55}.
+\newblock \URLprefix \url{https://doi.org/10.1145/3560815},
+  \DOIprefix\doi{10.1145/3560815}.
+%Type = Inproceedings
+\bibitem[{Perez et~al.(2018)Perez, Strub, de~Vries, Dumoulin and
+  Courville}]{perez2018film}
+\bibinfo{author}{Perez, E.}, \bibinfo{author}{Strub, F.},
+  \bibinfo{author}{de~Vries, H.}, \bibinfo{author}{Dumoulin, V.},
+  \bibinfo{author}{Courville, A.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{{FiLM}: Visual reasoning with a general conditioning
+  layer}, in: \bibinfo{booktitle}{Proceedings of the AAAI Conference on
+  Artificial Intelligence}.
+\newblock \URLprefix \url{https://arxiv.org/abs/1709.07871}.
 %Type = Inproceedings
 \bibitem[{Pimparkhede et~al.(2024)Pimparkhede, Kammakomati, Tamilselvam, Kumar,
   Pon~Kumar and Bhattacharyya}]{pimparkhede2024doccgen}

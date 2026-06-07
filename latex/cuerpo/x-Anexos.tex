@@ -1,7 +1,342 @@
 % called by main.tex
 %
-\chapter{Anexos}
-\label{ch::Annexes}
+\chapter{Configuración experimental y reproducibilidad}
+\label{ch::AnexoA}
 
-Incluye este apartado solo si es necesario. En caso contrario, comenta en el fichero principal (main.tex) las líneas \texttt{\textbackslash appendix} y \texttt{\textbackslash include{cuerpo/x-Anexos}} para evitar su inclusión. 
-  
+Este anexo recopila los parámetros técnicos necesarios para reproducir los experimentos descritos en la memoria. La información se organiza en cuatro bloques: el entorno de
+hardware y software, las características del modelo base y su cuantización, la configuración de LoRA compartida entre todas las variantes de ajuste fino, y los hiperparámetros
+específicos de cada experimento. La motivación de las decisiones más relevantes aparece comentada junto a los valores correspondientes, de modo que el anexo sirva tanto como
+referencia técnica como como justificación de las elecciones de implementación.
+
+\section{Entorno de hardware y software}
+
+Todos los experimentos de entrenamiento, validación e inferencia se realizaron en la misma máquina, sin uso de cómputo en la nube. Esta restricción determinó varias decisiones
+de diseño: el uso de cuantización de cuatro bits para reducir la huella de memoria del modelo, la elección de un modelo de siete mil millones de parámetros en lugar de variantes
+mayores, y el tamaño efectivo de batch. El hardware utilizado se detalla en la tabla~\ref{tab:AnexoA_hardware}.
+
+\begin{table}[htbp]
+\centering
+\caption{Especificaciones del entorno de hardware.}
+\label{tab:AnexoA_hardware}
+\begin{tabular}{ll}
+\toprule
+\textbf{Componente} & \textbf{Especificación} \\
+\midrule
+CPU & Intel Core i7-12700H (12.ª gen.), 14 núcleos físicos, 20 hilos lógicos \\
+RAM & 16 GB DDR4 a 3200 MHz (2 $\times$ 8 GB Samsung) \\
+GPU & NVIDIA GeForce RTX 3060 Laptop GPU, 6 GB VRAM GDDR6 \\
+VRAM en uso (inferencia) & $\approx$ 4.8 GB \\
+Sistema operativo & Windows 11 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El entorno de software se gestiona con \texttt{uv} como gestor de dependencias, con un entorno virtual aislado por proyecto. La tabla~\ref{tab:AnexoA_software} recoge las versiones
+mínimas requeridas en el fichero \texttt{pyproject.toml}. Las dependencias de aceleración de cómputo se instalan desde el índice oficial de PyTorch con soporte CUDA~12.1.
+
+\begin{table}[htbp]
+\centering
+\caption{Versiones mínimas de las dependencias principales.}
+\label{tab:AnexoA_software}
+\begin{tabular}{ll}
+\toprule
+\textbf{Librería} & \textbf{Versión mínima} \\
+\midrule
+Python & $\geq$ 3.12 \\
+PyTorch & $\geq$ 2.5.0 (CUDA 12.1) \\
+Transformers (HuggingFace) & $\geq$ 4.56.1 \\
+PEFT & $\geq$ 0.17.1 \\
+bitsandbytes & $\geq$ 0.43.0 \\
+TRL & $\geq$ 0.23.1 \\
+accelerate & $\geq$ 1.10.1 \\
+wandb & $\geq$ 0.19.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Modelo base y cuantización}
+
+El modelo base utilizado en todos los experimentos es \textbf{Qwen2.5-7B-Instruct}, en su versión cuantizada a cuatro bits. La elección de este modelo responde a tres criterios.
+Primero, el tamaño de siete mil millones de parámetros permite su carga y ajuste en una GPU de consumo con seis gigabytes de VRAM gracias a la cuantización. Segundo, la variante
+\textit{instruct} ha sido ajustada previamente con instrucciones diversas en varios idiomas y dominios técnicos, lo que proporciona un punto de partida con conocimiento razonable 
+del vocabulario de Kubernetes sin necesidad de preentrenamiento adicional. Tercero, la familia Qwen2.5 ofrece una arquitectura \textit{decoder-only} estándar, que facilita la
+integración de cabezales adicionales sobre los estados ocultos del transformer sin modificaciones profundas al flujo de inferencia.
+
+La arquitectura interna del modelo se describe en la tabla~\ref{tab:AnexoA_model}. La cuantización se aplica mediante bitsandbytes con el esquema NF4 (\textit{Normal Float 4}),
+que cuantiza los pesos a cuatro bits usando una distribución normal como grid de cuantización. Adicionalmente, se activa la doble cuantización (\textit{double quant}), que cuantiza
+también las constantes de cuantización del primer nivel, reduciendo el consumo de memoria en aproximadamente 0.4 bits por parámetro. El tipo de dato de cómputo durante el paso
+forward es \texttt{float16}. Esta combinación permite mantener el modelo base en memoria con un consumo inferior a cuatro gigabytes, dejando margen para los adaptadores LoRA, el
+optimizador y los activaciones intermedias.
+
+\begin{table}[htbp]
+\centering
+\caption{Arquitectura del modelo base Qwen2.5-7B-Instruct.}
+\label{tab:AnexoA_model}
+\begin{tabular}{ll}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} \\
+\midrule
+Arquitectura & \texttt{Qwen2ForCausalLM} (decoder-only) \\
+Número de capas & 28 \\
+Tamaño del espacio oculto (\texttt{hidden\_size}) & 3584 \\
+Cabezas de atención & 28 (GQA con 4 cabezas KV) \\
+Tamaño del estado intermedio & 18944 \\
+Función de activación & SiLU \\
+Ventana de contexto máxima & 32768 tokens \\
+Método de cuantización & NF4 + doble cuantización \\
+Tipo de dato de cómputo & \texttt{float16} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Configuración LoRA}
+
+Todas las variantes de ajuste fino ---\texttt{serialized\_sft}, \texttt{two\_head\_sft} y sus derivados--- comparten la misma configuración de LoRA (\textit{Low-Rank Adaptation}).
+Los adaptadores se insertan en las cuatro proyecciones de atención del transformer: \texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj} y \texttt{o\_proj}. No se adaptan los sesgos
+ni las capas de alimentación directa (\textit{feedforward}).
+
+\begin{table}[htbp]
+\centering
+\caption{Configuración LoRA común a todos los experimentos de ajuste fino.}
+\label{tab:AnexoA_lora}
+\begin{tabular}{ll}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} \\
+\midrule
+Rango ($r$) & 8 \\
+Factor de escala ($\alpha$) & 16 \\
+Escala efectiva ($\alpha / r$) & 2.0 \\
+Dropout & 0.05 \\
+Módulos objetivo & \texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj}, \texttt{o\_proj} \\
+Adaptación de sesgos & ninguna (\texttt{bias = none}) \\
+Tipo de tarea & \texttt{CAUSAL\_LM} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La elección del rango $r = 8$ responde a un compromiso entre capacidad de adaptación y carga de memoria. Con $r = 8$, cada adaptador introduce dos matrices de bajo rango de
+dimensiones $3584 \times 8$ y $8 \times 3584$, lo que suma aproximadamente 230000 parámetros entrenables por capa de atención. El número total de parámetros ajustados es, en
+consecuencia, pequeño en comparación con los 7000 millones del modelo base, lo que hace viable el entrenamiento en la GPU disponible. Rangos mayores aumentarían la capacidad
+expresiva pero incrementarían también el consumo de VRAM durante el paso de gradientes.
+
+\section{Hiperparámetros de entrenamiento por variante}
+
+Este anexo recoge los hiperparámetros de los experimentos que se han ejecutado o documentado durante la evolución del trabajo. No todos ocupan el mismo lugar en la comparación
+principal: algunos son ramas centrales, otros son ablaciones o ajustes diagnósticos, y otros corresponden a extensiones posteriores como DPO. La tabla~\ref{tab:AnexoA_train_common}
+recoge la configuración común de los entrenamientos supervisados, mientras que las tablas posteriores separan las decisiones específicas de cada familia experimental.
+
+\begin{table}[htbp]
+\centering
+\caption{Parámetros de entrenamiento comunes a las variantes SFT supervisadas.}
+\label{tab:AnexoA_train_common}
+\begin{tabularx}{\textwidth}{p{0.32\textwidth}X}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} \\
+\midrule
+Muestras de entrenamiento & 426 (213 muestras $\times$ 2 variantes de prompt) \\
+Muestras de validación & 70 (35 muestras $\times$ 2 variantes de prompt) \\
+Tamaño de batch & 1 \\
+Pasos de acumulación de gradiente & 8 (batch efectivo = 8) \\
+Tasa de aprendizaje base & $2 \times 10^{-4}$ \\
+Longitud máxima de secuencia & 2048 tokens \\
+Política de tokens de entrada & tokens de prompt enmascarados con $-100$; tokens de salida supervisados \\
+Orden de entrenamiento & secuencial (sin \textit{shuffle}) \\
+Semilla aleatoria & 42 \\
+Recuperación ante OOM & omitir el microbatch problemático cuando la variante lo permite \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Inventario de experimentos respecto al contenido previo del anexo.}
+\label{tab:AnexoA_inventory}
+\begin{tabularx}{\textwidth}{p{0.27\textwidth}p{0.23\textwidth}X}
+\toprule
+\textbf{Experimento} & \textbf{Estado en el anexo previo} & \textbf{Situación tras la auditoría} \\
+\midrule
+\texttt{baseline} zero-shot & documentado en inferencia & Se mantiene como referencia sin hiperparámetros de entrenamiento. \\
+\texttt{serialized\_sft} & documentado como una época & Se corrige al entrenamiento principal de 3 épocas y se deja constancia de la ablación de una época. \\
+\texttt{two\_head\_sft} & documentado & Se mantiene como rama supervisada principal con cabezal categórico. \\
+\shortstack[l]{\texttt{two\_head\_ordinal}\\\texttt{\_density}} & no documentado & Se añade como primera familia ordinal con pérdida ponderada por densidad. \\
+\shortstack[l]{\texttt{two\_head\_ordinal}\\\texttt{\_positional}} & documentado parcialmente & Se mantiene y se precisa como variante V1 con concatenación posicional final. \\
+\shortstack[l]{\texttt{two\_head\_ordinal\_film}\\\texttt{\_positional}} & no documentado & Se añade como experimento posterior en curso con modulación FiLM. \\
+\texttt{serialized\_sft\_dpo} & no documentado & Se añaden las dos ejecuciones DPO completas, con $\beta=0.10$ y $\beta=0.30$. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Parámetros específicos de \texttt{serialized\_sft}.}
+\label{tab:AnexoA_sft}
+\begin{tabularx}{\textwidth}{p{0.34\textwidth}X}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} \\
+\midrule
+Épocas de entrenamiento & 3 \\
+Checkpoint principal seleccionado & \texttt{checkpoint-step-159} \\
+Checkpoint de ablación de una época & \texttt{checkpoint-step-53} \\
+Máximo de tokens nuevos (inferencia) & 512 \\
+Formato de salida objetivo & \texttt{blocks\_tsv\_v1} \\
+Cabezal estructural & ninguno (nivel codificado en la superficie textual) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Parámetros específicos de \texttt{two\_head\_sft}.}
+\label{tab:AnexoA_twohead}
+\begin{tabularx}{\textwidth}{p{0.34\textwidth}X}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} \\
+\midrule
+Épocas de entrenamiento & 3 \\
+Checkpoint seleccionado & \texttt{checkpoint-step-159} \\
+Máximo de tokens nuevos (inferencia) & 1024 \\
+Formato de salida objetivo & \texttt{content\_blocks\_v1} \\
+Política de alineamiento de nivel & \texttt{record\_prefix\_state} \\
+\midrule
+\multicolumn{2}{l}{\textit{Cabezal de nivel (clasificación MLP)}} \\
+Tipo & MLP clasificador \\
+Número de clases & 9 (niveles 0--8) \\
+Dimensión oculta & 256 \\
+Dropout & 0.05 \\
+Función de pérdida & entropía cruzada \\
+Peso relativo de la pérdida de nivel ($\lambda_\text{level}$) & 1.0 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Serie de variantes ordinales previas a la incorporación explícita de posición.}
+\label{tab:AnexoA_ordinal_series}
+\begin{tabularx}{\textwidth}{p{0.23\textwidth}p{0.22\textwidth}X}
+\toprule
+\textbf{Run} & \textbf{Diferencia principal} & \textbf{Hiperparámetros específicos} \\
+\midrule
+\texttt{density-v2} (2026-05-19) &
+Primer cabezal ordinal con ponderación por densidad &
+3 épocas; \texttt{checkpoint-step-159}; $\lambda_\text{level}=2.0$; pérdida \textit{density-weighted ordinal BCE}; 8 umbrales aprendibles; LR base $2\times10^{-4}$. \\
+\texttt{thr-lr25} (2026-05-20) &
+Aumento de aprendizaje de umbrales &
+Misma configuración base; multiplicador de LR de umbrales $\times25$; LR de umbrales $5\times10^{-3}$. \\
+\texttt{mlp3-thr50} (2026-05-22) &
+Aumento conjunto del proyector ordinal y los umbrales &
+Multiplicador del proyector MLP $\times3$; LR del proyector $6\times10^{-4}$; multiplicador de umbrales $\times50$; LR de umbrales $1\times10^{-2}$. \\
+\texttt{gap05-mlp3-thr50} (2026-05-23) &
+Inicialización centrada de los umbrales &
+Misma configuración de LR diferenciadas; centro inicial 0.0; separación 0.5; 8 umbrales equidistantes entre $-1.75$ y $1.75$. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Parámetros específicos de las variantes ordinales con información posicional.}
+\label{tab:AnexoA_ordinal}
+\begin{tabularx}{\textwidth}{p{0.34\textwidth}X}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} \\
+\midrule
+Épocas de entrenamiento & 3 \\
+Máximo de tokens nuevos (inferencia) & 1024 \\
+Formato de salida objetivo & \texttt{content\_blocks\_v1} \\
+Política de alineamiento de nivel & \texttt{record\_prefix\_state} \\
+\midrule
+\multicolumn{2}{l}{\textit{Tasas de aprendizaje diferenciadas}} \\
+LM base (LoRA) & $2 \times 10^{-4}$ \\
+Proyector MLP ordinal & $6 \times 10^{-4}$ (multiplicador $\times 3$) \\
+Umbrales aprendibles & $1 \times 10^{-2}$ (multiplicador $\times 50$) \\
+\midrule
+\multicolumn{2}{l}{\textit{Cabezal ordinal con codificación posicional}} \\
+Tipo V1 & \texttt{learned\_threshold\_ordinal\_positional} \\
+Tipo V2 & \shortstack[l]{\texttt{learned\_threshold\_ordinal}\\\texttt{\_film\_positional}} \\
+Número de clases & 9 (niveles 0--8) \\
+Dimensiones del proyector & [512, 64] \\
+Dropout por capa & [0.1, 0.0] \\
+Codificación posicional & sinusoidal absoluta, $d=16$, 8 frecuencias $\{1, 2, 4, 8, \ldots, 128\}$ \\
+Inyección posicional V1 & concatenación final (\textit{final\_concat}, causal) \\
+Inyección posicional V2 & modulación FiLM tras la capa de 512 dimensiones (\textit{film\_after\_512}) \\
+Configuración FiLM V2 & dimensión oculta 128; escala inicial 0.1; última capa inicializada a identidad \\
+Función de pérdida & \textit{density-weighted ordinal BCE} \\
+Peso relativo de la pérdida de nivel ($\lambda_\text{level}$) & 2.0 \\
+Número de umbrales aprendibles & 8 ($\tau_1, \ldots, \tau_8$ para 9 clases) \\
+Parametrización de umbrales & $\tau_0 + \sum_{i} \text{softplus}(\delta_i)$ \\
+Inicialización de umbrales & equidistante, centro 0, separación 0.5 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+La diferencia más relevante entre \texttt{two\_head\_sft} y las variantes ordinales es la forma en que el cabezal aprende a predecir el nivel. En el primero, el clasificador MLP
+recibe únicamente el estado oculto del transformer en la posición de alineamiento y produce una distribución categórica sobre las nueve clases. En las variantes ordinales, en cambio,
+la salida se interpreta como una relación ordenada entre niveles, de modo que los errores cercanos y lejanos no tienen el mismo significado. La variante posicional V1 añade la posición
+absoluta mediante concatenación final; la variante V2 conserva la misma intuición, pero introduce la posición como una modulación FiLM intermedia.
+
+\begin{table}[htbp]
+\centering
+\caption{Parámetros específicos de las ejecuciones DPO sobre \texttt{serialized\_sft}.}
+\label{tab:AnexoA_dpo}
+\begin{tabularx}{\textwidth}{p{0.34\textwidth}X}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} \\
+\midrule
+Variante de partida & \texttt{serialized\_sft}, \texttt{checkpoint-step-159} \\
+Formato de preferencia & pares \texttt{chosen}/\texttt{rejected} en \texttt{blocks\_tsv\_v1} \\
+Muestras de preferencia & 454 \\
+Épocas de entrenamiento & 1 \\
+Tamaño de batch & 1 \\
+Pasos de acumulación de gradiente & 8 \\
+Tasa de aprendizaje & $5\times10^{-6}$ \\
+Longitud máxima de secuencia & 2048 tokens \\
+Máximo de tokens nuevos & 1024 \\
+Pasos entre checkpoints & 32 \\
+Warmup & 0.03 \\
+Decaimiento de pesos & 0.0 \\
+Gradient checkpointing & activado \\
+Recuperación ante OOM & fallar la ejecución \\
+Configuraciones $\beta$ ejecutadas & 0.10 y 0.30 \\
+Política de referencia & modelo \texttt{serialized\_sft} congelado; log-probabilidades de referencia precomputadas \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Configuración de inferencia y evaluación}
+
+Durante la evaluación, todos los modelos generan texto en modo greedy, es decir, seleccionando en cada paso el token con mayor probabilidad sin muestreo. Esta elección
+elimina la varianza introducida por la temperatura y hace que los resultados sean deterministas, lo que facilita la comparación directa entre variantes. El límite de tokens
+nuevos varía según el formato de salida esperado: la línea base y el SFT serializado generan representaciones más compactas, mientras que el two-head genera únicamente contenido
+y metadatos de posición sin incluir el nivel en la cadena de texto, lo que puede requerir secuencias más largas para completar el mismo número de líneas.
+
+\begin{table}[htbp]
+\centering
+\caption{Configuración de inferencia por variante experimental.}
+\label{tab:AnexoA_inference}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Parámetro} & \textbf{Baseline} & \textbf{serialized\_sft} & \textbf{two\_head (todas)} \\
+\midrule
+Temperatura & 0.0 & 0.0 & 0.0 \\
+top\_p & 1.0 & 1.0 & 1.0 \\
+Máximo de tokens nuevos & 320 & 512 & 1024 \\
+Batch de inferencia & 1 & 1 & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Reproducibilidad y trazabilidad}
+
+El diseño del sistema de entrenamiento incorpora varios mecanismos para garantizar que los experimentos puedan reproducirse o reanudarse sin pérdida de estado.
+En primer lugar, la semilla aleatoria se fija a 42 en todos los experimentos, tanto para la inicialización de los adaptadores LoRA como para los procesos estocásticos
+internos de PyTorch y Python. En segundo lugar, el conjunto de entrenamiento se procesa en orden secuencial sin mezcla, de modo que el orden de presentación de los ejemplos
+es idéntico en cada ejecución. En tercer lugar, los puntos de control almacenan no solo los pesos del adaptador sino también el estado completo del optimizador y el planificador
+de tasa de aprendizaje, lo que permite reanudar el entrenamiento exactamente desde el último paso guardado.
+
+Cuando un microbatch provoca un error de memoria de GPU (\textit{CUDA out of memory}), el sistema lo registra en el fichero \texttt{oom\_skipped\_batches.jsonl}, lo excluye
+del paso de optimización y continúa con el siguiente. Este mecanismo evita que un único ejemplo problemático interrumpa la ejecución, a costa de que ese ejemplo no contribuya
+a la actualización del modelo en ese paso. Finalmente, todas las ejecuciones de entrenamiento y validación intermedia se registran en la plataforma Weights \& Biases bajo el
+proyecto \texttt{llm-structured-semantic-generation}, con logs de pérdida, métricas de validación por paso de \textit{checkpoint} y configuración completa del experimento.

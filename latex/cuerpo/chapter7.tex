@@ -1,0 +1,137 @@
+% called by main.tex
+%
+\chapter{Alineación Mediante Optimización de Preferencias Directa}
+\label{ch::chapter7}
+
+El capítulo anterior mostró que las variantes con cabezal explícito de nivel son metodológicamente
+interesantes, pero no constituyen todavía la base más estable para una fase posterior de alineación.
+Por ese motivo, la etapa de DPO se aplica sobre el mejor modelo operativo disponible:
+\texttt{serialized\_sft}. La pregunta cambia ligeramente respecto a los capítulos anteriores. Ya no se
+trata de comprobar si el modelo puede aprender la superficie estructurada básica, sino de estudiar si
+un modelo que ya genera \texttt{blocks\_tsv\_v1} de forma competente puede refinarse mediante
+preferencias automáticas sin perder la estabilidad estructural que lo hace útil.
+
+DPO (\textit{Direct Preference Optimization}) permite ajustar una política a partir de pares de
+respuestas preferidas y rechazadas sin entrenar un modelo de recompensa separado ni ejecutar una fase
+de refuerzo \textit{online} \citep{rafailov2023dpo}. En este trabajo, esas preferencias no proceden de
+juicios humanos, sino de señales automáticas derivadas del parser, de la adecuación al prompt y de los
+checks de dominio Kubernetes. Precisamente por eso, antes de hablar del etiquetado de pares o del
+entrenamiento DPO, es necesario justificar cómo se generó el conjunto de candidatos sobre el que se
+construyeron esas preferencias.
+
+%----------------------------------------------------------------------
+\section{Generación de candidatos para DPO}
+\label{sec:ch7_candidate_generation}
+%----------------------------------------------------------------------
+
+La construcción de un dataset de preferencias no empieza con el etiquetado, sino con una decisión
+más básica: cuántas salidas generar para cada prompt y con qué nivel de diversidad. Si el modelo
+produce candidatos demasiado parecidos, la comparación entre salidas apenas aporta señal. Si, por el
+contrario, la decodificación es demasiado agresiva, los pares resultantes pueden quedar dominados por
+errores triviales de formato o de parseabilidad. El objetivo de esta fase fue encontrar un punto
+intermedio: generar suficientes variantes por prompt para que aparezcan contrastes útiles, pero sin
+salir de la distribución aprendida por \texttt{serialized\_sft}.
+
+Para ello se probaron varias estrategias de muestreo sobre el split de entrenamiento. La primera
+familia generaba cuatro candidatos por prompt con temperaturas moderadas. La segunda ampliaba a seis
+candidatos, pero mantenía un rango bajo-medio de temperatura. La tercera, que acabó siendo la base
+del conjunto final, también generaba seis candidatos, pero cubría un rango más amplio:
+\(0{,}45\), \(0{,}65\), \(0{,}85\), \(1{,}0\), \(1{,}1\) y \(1{,}2\), con \texttt{top\_p=0.95}.
+La Figura~\ref{fig:ch7_candidate_strategy_comparison} resume la comparación entre estas estrategias.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/chapter7/fig7_1_candidate_strategy_comparison.png}
+\caption{Comparación de estrategias de generación de candidatos para DPO. Los pilotos se ejecutaron
+         sobre subconjuntos distintos, por lo que deben leerse como una exploración metodológica y no
+         como una comparación controlada exacta. La fila \texttt{C6 hot final} agrega las 426 unidades
+         de prompt usadas en la generación principal.}
+\label{fig:ch7_candidate_strategy_comparison}
+\end{figure}
+
+La lectura principal no es que una estrategia maximice todas las métricas a la vez, sino que cada una
+ofrece un equilibrio distinto. El piloto \texttt{C6 wide} conserva una adecuación al prompt muy alta
+(92~\%), pero genera una tasa de duplicados también elevada. El rango \texttt{C6 hot}, en cambio, reduce la fidelidad
+media al prompt, pero introduce más variabilidad y recupera candidatos que sí pasan el \textit{gate}
+Kubernetes. Esta diferencia es importante porque DPO no necesita únicamente buenas salidas; necesita
+pares comparables donde una salida sea preferible a otra por razones reconocibles.
+
+El análisis por temperatura confirma esa tensión. Como muestra la
+Figura~\ref{fig:ch7_metrics_by_temperature}, las temperaturas bajas mantienen mejor parseabilidad,
+mejor F1 de prompt y mayor score preferencial medio. A \(0{,}45\) y \(0{,}65\), la tasa de YAML
+parseable se mantiene cerca del 99~\%, mientras que a \(1{,}2\) cae al 87~\% y aumenta la
+proporción de candidatos inválidos. Sin embargo, las temperaturas altas no se descartan por completo:
+su utilidad no está en producir el mejor candidato medio, sino en generar rechazados informativos
+cuando el resto de salidas del mismo prompt son estructuralmente válidas.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/chapter7/fig7_2_metrics_by_temperature.png}
+\caption{Efecto de la temperatura en los candidatos generados con la configuración \texttt{C6 hot}.
+         Las temperaturas bajas conservan mejor la calidad media; las temperaturas altas incrementan
+         el riesgo de candidatos inválidos y reducen la adecuación al prompt.}
+\label{fig:ch7_metrics_by_temperature}
+\end{figure}
+
+Esta interpretación se ve con más claridad al observar qué temperatura produce el mejor y el peor
+candidato dentro de cada prompt. En la Figura~\ref{fig:ch7_best_worst_temperature}, la temperatura
+\(0{,}45\) genera aproximadamente la mitad de los mejores candidatos, mientras que \(1{,}2\) aparece
+como peor candidata en casi la mitad de los prompts. La configuración final no busca que todas las
+temperaturas sean igual de buenas, sino que el conjunto de seis candidatos contenga una mezcla
+razonable de respuestas fuertes, respuestas aceptables y errores útiles para construir contrastes.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/chapter7/fig7_3_best_worst_temperature.png}
+\caption{Temperatura que produce el mejor y el peor candidato por prompt en la generación principal
+         \texttt{C6 hot}. La distribución muestra que las temperaturas bajas dominan entre los mejores
+         candidatos, mientras que las más altas aportan una parte importante de los peores casos.}
+\label{fig:ch7_best_worst_temperature}
+\end{figure}
+
+Antes de calcular esos contrastes, cada candidata recibe un score preferencial auxiliar. Para una salida candidata \(y\)
+generada ante un prompt \(x\), el score usado en esta fase se define como:
+
+\[
+\begin{aligned}
+s(y \mid x) ={}&
+1{,}00 \cdot \mathrm{PRF1}
++ 0{,}75 \cdot \mathrm{KDV}
++ 0{,}50 \cdot \mathrm{RFC} \\
+&+ 0{,}25 \cdot \mathrm{LevelAcc}
++ 0{,}25 \cdot \mathrm{Gate}
+- \mathrm{penalizaciones}.
+\end{aligned}
+\]
+
+En esta expresión, \(\mathrm{PRF1}\) mide la adecuación al prompt, \(\mathrm{KDV}\) resume la
+validez de dominio Kubernetes, \(\mathrm{RFC}\) mide la completitud de campos obligatorios,
+\(\mathrm{LevelAcc}\) recoge la coincidencia exacta del nivel jerárquico y \(\mathrm{Gate}\)
+indica si la candidata supera la compuerta completa de dominio. Las penalizaciones recogen casos
+simples pero relevantes, como recursos inventados o diferencias severas en el número de líneas. La
+ponderación da prioridad a la adecuación al prompt y después a la validez de dominio, manteniendo la
+estructura como señal de retención.
+
+El último criterio fue comprobar si esa diversidad se traducía realmente en pares aprovechables para
+DPO. Para cada prompt se calculó la diferencia entre el mejor y el peor score preferencial disponible.
+La Figura~\ref{fig:ch7_pair_margin_distribution} muestra que 282 de las 426 unidades de prompt
+alcanzan un margen de al menos \(0{,}25\), que es el umbral principal utilizado para conservar pares
+con una diferencia suficientemente clara. Otros 21 prompts quedan en el intervalo exploratorio entre
+\(0{,}15\) y \(0{,}25\), mientras que 123 no producen contraste suficiente.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/chapter7/fig7_4_pair_margin_distribution.png}
+\caption{Distribución del margen entre el mejor y el peor candidato por prompt. El umbral principal
+         de \(0{,}25\) prioriza pares con una diferencia clara, reduciendo el riesgo de entrenar DPO
+         con preferencias ambiguas.}
+\label{fig:ch7_pair_margin_distribution}
+\end{figure}
+
+Con estos resultados se adoptó la estrategia \texttt{C6 hot} para la generación principal de
+candidatos. La decisión no se basa en que sea la configuración con mejor calidad media, sino en que
+ofrece una combinación más útil para una etapa de preferencias: mantiene una tasa alta de
+parseabilidad, reduce duplicados respecto al rango \texttt{wide} y genera suficientes diferencias
+entre candidatos como para seleccionar pares \texttt{chosen}/\texttt{rejected}.
+
+% TODO: desarrollar la siguiente sección sobre etiquetado y construcción de pares de preferencia.

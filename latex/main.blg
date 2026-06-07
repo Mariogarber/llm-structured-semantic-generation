@@ -13,12 +13,22 @@ Reallocating 'name_of_file' (item size: 1) to 20 items.
 A level-1 auxiliary file: cuerpo/chapter5.aux
 Reallocating 'name_of_file' (item size: 1) to 20 items.
 A level-1 auxiliary file: cuerpo/chapter6.aux
+Reallocating 'name_of_file' (item size: 1) to 20 items.
+A level-1 auxiliary file: cuerpo/chapter7.aux
+Reallocating 'name_of_file' (item size: 1) to 20 items.
+A level-1 auxiliary file: cuerpo/chapter8.aux
+Reallocating 'name_of_file' (item size: 1) to 20 items.
+A level-1 auxiliary file: cuerpo/chapter9.aux
+Reallocating 'name_of_file' (item size: 1) to 21 items.
+A level-1 auxiliary file: cuerpo/chapter10.aux
 Reallocating 'name_of_file' (item size: 1) to 17 items.
 The style file: cas-model2-names.bst
 Reallocating 'name_of_file' (item size: 1) to 11 items.
 Reallocating 'name_of_file' (item size: 1) to 15 items.
 Reallocating 'name_of_file' (item size: 1) to 20 items.
 A level-1 auxiliary file: cuerpo/x-Anexos.aux
+Reallocating 'name_of_file' (item size: 1) to 24 items.
+A level-1 auxiliary file: cuerpo/x-AnexoEtico.aux
 Database file #1: references.bib
 Database file #2: references_tfm.bib
 Reallocating 'singl_function' (item size: 4) to 100 items.
@@ -31,6 +41,7 @@ Warning--empty pages in hewitt2019structural
 Warning--empty pages in hokamp2017lexically
 Warning--empty pages in kendall2018multitask
 Warning--empty pages in li2023strucbench
+Warning--empty pages in perez2018film
 Warning--empty pages in pimparkhede2024doccgen
 Warning--empty pages in rabinovich2017asn
 Warning--empty pages in rafailov2023dpo
@@ -42,45 +53,45 @@ Warning--empty pages in wei2022scaling
 Warning--empty pages in xu2024dpoPpo
 Warning--empty pages in xu2024cloudevalyaml
 Warning--empty pages in yin2017syntactic
-You've used 42 entries,
+You've used 50 entries,
             2990 wiz_defined-function locations,
-            969 strings with 19065 characters,
-and the built_in function-call counts, 36776 in all, are:
-= -- 2405
-> -- 2556
-< -- 14
-+ -- 978
-- -- 927
-* -- 4635
-:= -- 5566
-add.period$ -- 127
-call.type$ -- 42
-change.case$ -- 514
-chr.to.int$ -- 41
-cite$ -- 62
-duplicate$ -- 2412
-empty$ -- 2034
-format.name$ -- 1067
-if$ -- 6532
+            1017 strings with 21085 characters,
+and the built_in function-call counts, 41402 in all, are:
+= -- 2764
+> -- 2732
+< -- 20
++ -- 1046
+- -- 987
+* -- 5088
+:= -- 6260
+add.period$ -- 155
+call.type$ -- 50
+change.case$ -- 577
+chr.to.int$ -- 49
+cite$ -- 71
+duplicate$ -- 2783
+empty$ -- 2364
+format.name$ -- 1141
+if$ -- 7396
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 549
-newline$ -- 226
-num.names$ -- 168
-pop$ -- 1002
+missing$ -- 617
+newline$ -- 270
+num.names$ -- 200
+pop$ -- 1149
 preamble$ -- 1
-purify$ -- 472
+purify$ -- 524
 quote$ -- 0
-skip$ -- 711
+skip$ -- 838
 stack$ -- 0
-substring$ -- 566
-swap$ -- 2017
-text.length$ -- 3
+substring$ -- 692
+swap$ -- 2256
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 378
-warning$ -- 20
-while$ -- 135
+type$ -- 450
+warning$ -- 21
+while$ -- 162
 width$ -- 0
-write$ -- 613
-(There were 20 warnings)
+write$ -- 732
+(There were 21 warnings)
