@@ -9,6 +9,9 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
+from llm_structured_semantic_generation.dataset_io import read_jsonl
+from llm_structured_semantic_generation.structure import yaml_to_blocks
+
 
 def load_dpo_candidates_module():
     module_name = "test_build_kubernetes_dpo_candidates"
@@ -59,6 +62,13 @@ class KubernetesDPOCandidateGenerationTest(unittest.TestCase):
 
         self.assertEqual([task[2] for task in tasks], ["q1::question::c00", "q1::question::c01"])
 
+    def test_select_sft_rows_applies_offset_before_limit(self) -> None:
+        rows = [{"sample_id": f"q{index}", "prompt_variant": "question"} for index in range(10)]
+
+        selected = self.module.select_sft_rows(rows, sample_offset=2, max_samples=3)
+
+        self.assertEqual([row["sample_id"] for row in selected], ["q2", "q3", "q4"])
+
     def test_preference_score_matches_documented_proxy_formula(self) -> None:
         evaluation = {
             "yaml_parse_ok": True,
@@ -92,6 +102,79 @@ class KubernetesDPOCandidateGenerationTest(unittest.TestCase):
 
         self.assertEqual(score["preference_score"], 0.0)
         self.assertTrue(score["hard_invalid"])
+
+    def test_candidate_metrics_can_be_reconciled_from_primary_artifact(self) -> None:
+        import tempfile
+
+        yaml_text = (
+            "apiVersion: v1\n"
+            "kind: ConfigMap\n"
+            "metadata:\n"
+            "  name: app\n"
+        )
+        candidate_row = {
+            "candidate_uid": "q1::question::c00",
+            "unit_id": "q1::question",
+            "candidate_id": "c00",
+            "candidate_index": 0,
+            "sample_id": "q1",
+            "prompt_variant": "question",
+            "split": "train",
+            "prompt": "Create a ConfigMap named app.",
+            "reference_yaml": yaml_text,
+            "checkpoint": "results/sft/checkpoint-step-1",
+            "generation_ok": True,
+            "generation_error_type": None,
+            "generation_error": None,
+            "generation_config": {
+                "candidate_id": "c00",
+                "candidate_index": 0,
+                "temperature": 0.2,
+                "seed": 42,
+                "top_p": 0.9,
+            },
+            "input_token_count": 10,
+            "generated_token_count": 20,
+            "model_output_text": "<blocks>",
+            "structured_output_parse_success": True,
+            "predicted_blocks": [block.to_dict() for block in yaml_to_blocks(yaml_text)],
+            "reconstructed_yaml": yaml_text,
+            "parser_errors": [],
+            "reconstruction_errors": [],
+            "generated_at": "2026-05-24T00:00:00Z",
+        }
+
+        with tempfile.TemporaryDirectory() as tmp:
+            run = self.module.ResumableRun.initialize(
+                run_dir=Path(tmp) / "dpo-candidates" / "run-001",
+                config={"run_id": "run-001", "resume_signature": {"stage": "test"}},
+                total_units=1,
+                unit_id_field="candidate_uid",
+                primary_artifact_name="candidates",
+                artifact_paths={
+                    "candidates": self.module.CANDIDATES_ARTIFACT,
+                    "candidate_metrics": self.module.CANDIDATE_METRICS_ARTIFACT,
+                },
+            )
+            run.record_batch([candidate_row])
+
+            resumed = self.module.ResumableRun.initialize(
+                run_dir=run.run_dir,
+                config={"run_id": "run-001", "resume_signature": {"stage": "test"}},
+                total_units=1,
+                unit_id_field="candidate_uid",
+                primary_artifact_name="candidates",
+                artifact_paths={
+                    "candidates": self.module.CANDIDATES_ARTIFACT,
+                    "candidate_metrics": self.module.CANDIDATE_METRICS_ARTIFACT,
+                },
+            )
+            self.module.reconcile_candidate_metrics(resumed)
+
+            metric_rows = read_jsonl(resumed.artifact_paths["candidate_metrics"])
+            self.assertEqual(len(metric_rows), 1)
+            self.assertEqual(metric_rows[0]["candidate_uid"], "q1::question::c00")
+            self.assertGreater(metric_rows[0]["preference_score"], 0.0)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DPO Preference Annotation</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>DPO Preference Annotation</h1>
+        <p id="summary">Loading...</p>
+      </div>
+      <div class="topbar-actions">
+        <button id="refreshBtn" type="button">Refresh</button>
+        <button id="exportBtn" type="button">Export final</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="sidebar">
+        <div class="filters">
+          <label for="statusFilter">Status</label>
+          <select id="statusFilter">
+            <option value="">All</option>
+            <option value="pending">Pending</option>
+            <option value="preference">Preference</option>
+            <option value="tie">Tie</option>
+            <option value="skip">Skip</option>
+          </select>
+        </div>
+        <div id="unitList" class="unit-list"></div>
+      </aside>
+
+      <section class="main-panel">
+        <details id="guidePanel" class="labeling-guide">
+          <summary>Labeling guide</summary>
+          <div id="guideContent" class="guide-content"></div>
+        </details>
+
+        <div id="emptyState" class="empty-state">Select a prompt to review.</div>
+        <article id="unitPanel" class="unit-panel hidden">
+          <div class="prompt-header">
+            <div>
+              <h2 id="unitTitle"></h2>
+              <p id="unitMeta"></p>
+            </div>
+            <button id="packetBtn" type="button">Copy decision packet</button>
+          </div>
+
+          <section class="prompt-section">
+            <h3>Prompt</h3>
+            <pre id="promptText"></pre>
+          </section>
+
+          <details class="reference-section">
+            <summary>Reference YAML and extracted prompt requirements</summary>
+            <div class="split-view">
+              <pre id="referenceYaml"></pre>
+              <pre id="promptRequirements"></pre>
+            </div>
+          </details>
+
+          <form id="decisionForm" class="decision-form">
+            <div class="decision-grid">
+              <label>
+                Decision
+                <select id="decision">
+                  <option value="preference">Preference</option>
+                  <option value="tie">Tie</option>
+                  <option value="skip">Skip</option>
+                </select>
+              </label>
+              <label>
+                Confidence
+                <select id="confidence">
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                  <option value="low">Low</option>
+                </select>
+              </label>
+              <label>
+                Metric flags
+                <input id="metricFlags" type="text" placeholder="prompt_metric_unreliable, wrong_resource_context">
+              </label>
+            </div>
+            <label>
+              Rationale
+              <textarea id="rationale" rows="3"></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="submit">Save human decision</button>
+              <span id="saveStatus"></span>
+            </div>
+          </form>
+
+          <section>
+            <h3>Candidates</h3>
+            <div id="candidateList" class="candidate-list"></div>
+          </section>
+
+          <section class="agent-section">
+            <h3>Agent suggestion import</h3>
+            <textarea id="agentSuggestion" rows="7" placeholder='{"decision":"preference","chosen_candidate_key":"...","rejected_candidate_key":"...","confidence":"medium","rationale":"...","metric_flags":[]}'></textarea>
+            <div class="form-actions">
+              <button id="importAgentBtn" type="button">Import as pending</button>
+              <span id="agentStatus"></span>
+            </div>
+            <div id="suggestions"></div>
+          </section>
+        </article>
+      </section>
+
+      <aside class="audit-panel">
+        <div class="audit-header">
+          <h2>Prompt Metric Audit</h2>
+          <button id="auditReportBtn" type="button">Report</button>
+        </div>
+        <div id="auditList" class="audit-list"></div>
+        <div id="auditEditor" class="audit-editor hidden">
+          <h3 id="auditTitle"></h3>
+          <pre id="auditPrompt"></pre>
+          <label>
+            Gold requirements JSON
+            <textarea id="goldRequirements" rows="10"></textarea>
+          </label>
+          <label>
+            Notes
+            <textarea id="goldNotes" rows="3"></textarea>
+          </label>
+          <button id="saveGoldBtn" type="button">Save gold case</button>
+          <pre id="auditReport"></pre>
+        </div>
+      </aside>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

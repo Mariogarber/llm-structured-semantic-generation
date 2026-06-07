@@ -51,16 +51,21 @@ def safe_read_text(path: Path) -> tuple[str, str | None]:
         return "", f"utf8_decode_error:{exc.reason}"
 
 
-def yaml_depth(value: Any) -> int:
+def yaml_depth(value: Any, _depth: int = 0) -> int:
+    """Return the depth of the deepest reachable leaf value.
+
+    Depth is the number of edges from the document root to the node.
+    The root itself has depth 0; its direct children have depth 1, etc.
+    """
     if isinstance(value, dict):
         if not value:
-            return 1
-        return 1 + max(yaml_depth(child) for child in value.values())
+            return _depth
+        return max(yaml_depth(child, _depth + 1) for child in value.values())
     if isinstance(value, list):
         if not value:
-            return 1
-        return 1 + max(yaml_depth(child) for child in value)
-    return 1
+            return _depth
+        return max(yaml_depth(child, _depth + 1) for child in value)
+    return _depth
 
 
 def yaml_node_counts(value: Any) -> dict[str, int]:
