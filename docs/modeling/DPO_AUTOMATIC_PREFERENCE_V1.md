@@ -200,10 +200,10 @@ Minimum command interface for the future script:
 Recommended first settings:
 
 ```text
-num_candidates = 4
-temperature = 0.4 and 0.7 as two candidate sources
-top_p = 0.9
-max_new_tokens = 1024
+num_candidates = 6
+temperature = 0.45, 0.65, 0.85, 1.0, 1.1, 1.2
+top_p = 0.95
+max_new_tokens = 512
 ```
 
 Candidate generation uses only the Kubernetes v1 training split for DPO
@@ -279,13 +279,64 @@ For each prompt:
 1. group candidates by `unit_id`;
 2. remove exact duplicate candidate text;
 3. compute preference scores;
-4. select the best valid candidate as `chosen`;
-5. select an informative lower-scoring candidate as `rejected`;
-6. retain the pair only if the score margin is at least `0.15`.
+4. select one or more informative `(chosen, rejected)` pairs from the same
+   prompt;
+5. retain each pair only if the score margin is large enough;
+6. cap the number of retained pairs per prompt to avoid overweighting prompts
+   with unusually noisy candidate sets.
+
+The default pair construction policy is:
+
+```text
+min_score_margin = 0.25
+max_pairs_per_prompt = 3
+```
+
+The builder may optionally allow:
+
+```text
+max_pairs_per_prompt = 4
+```
+
+but only for an explicit sensitivity run or when the fourth pair contributes a
+different preference signal, such as a Kubernetes gate-pass contrast that is not
+already represented by the strongest score-margin pairs. The dataset should not
+contain all possible pairwise comparisons between the six candidates. With six
+candidates there are up to fifteen ordered comparisons, but most of them would
+be redundant and would overrepresent a single prompt in the DPO objective.
+
+The preferred set of pairs for a prompt is:
+
+1. a strong pair: the best valid candidate against the worst informative
+   candidate;
+2. a hard-negative pair: the best or near-best candidate against a parseable but
+   clearly worse candidate;
+3. a domain-gate pair: a candidate that passes `kubernetes_domain_gate_pass`
+   against a candidate that does not, when this contrast exists and does not
+   contradict prompt adequacy.
+
+For the domain-gate pair, the first automatic policy may tolerate a small
+`Prompt F1` regression because the prompt-requirement extractor is approximate.
+The default tolerance is:
+
+```text
+prompt_f1(rejected) - prompt_f1(chosen) <= 0.05
+```
+
+The pair still requires `score_margin >= 0.25`, no visible loss of central
+prompt requirements, and no regression in required-field completeness. A looser
+tolerance up to `0.10` is allowed only as a separately reported sensitivity run.
+Pairs accepted through this relaxation must be flagged as
+`gate_pass_prompt_drift` and treated as medium-confidence automatic preferences
+unless manually reviewed.
 
 The preferred rejected candidate is a hard negative: parseable but worse. If no
 parseable rejected candidate exists, a non-parseable candidate may be used, but
 the pair must be marked as a trivial-invalid rejection.
+
+At most one trivial-invalid rejection should be retained per prompt. This keeps
+the dataset from becoming dominated by the easy distinction between parseable
+and non-parseable YAML, which is not the main residual problem after SFT.
 
 The final DPO dataset artifact is:
 
@@ -310,6 +361,8 @@ score_margin
 chosen_metrics
 rejected_metrics
 preference_score_version
+pair_selection_strategy
+pair_rank_for_prompt
 ```
 
 ## DPO Training
@@ -552,4 +605,3 @@ The following remain open for later experiments:
 - whether iterative DPO is useful;
 - whether PPO becomes worthwhile after reward validation;
 - whether KTO or ORPO should be tested as lighter alternatives.
-

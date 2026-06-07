@@ -160,6 +160,14 @@ where:
 - `chosen` is the candidate output preferred by the automatic scoring function;
 - `rejected` is a worse but informative candidate for the same prompt.
 
+Each prompt may contribute more than one preference triple. The default dataset
+construction policy is to retain up to three informative pairs per prompt, with
+a documented sensitivity option of four pairs when the fourth comparison adds a
+different signal rather than a redundant score contrast. The dataset must not
+include all possible pairwise comparisons between generated candidates, because
+that would overweight prompts with high candidate dispersion and would add many
+near-duplicate preference labels.
+
 Preferences will be built from automatic signals only. The main signals are:
 
 - `prompt_requirement_f1`;
@@ -237,4 +245,3 @@ that either:
   system.
 - Test data is reserved for final evaluation and is not used to tune scoring,
   beta, generation temperature, or interpolation alpha.
-

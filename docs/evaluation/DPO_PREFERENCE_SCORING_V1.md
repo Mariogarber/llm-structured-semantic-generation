@@ -166,10 +166,10 @@ For each prompt, generate multiple candidate outputs from the frozen
 Recommended first setting:
 
 ```text
-k = 4 candidates per prompt
-temperature in {0.4, 0.7}
-top_p = 0.9
-max_new_tokens = 1024
+k = 6 candidates per prompt
+temperature in {0.45, 0.65, 0.85, 1.0, 1.1, 1.2}
+top_p = 0.95
+max_new_tokens = 512
 ```
 
 For each prompt:
@@ -177,17 +177,64 @@ For each prompt:
 1. Evaluate all candidates.
 2. Remove duplicate candidate texts.
 3. Rank candidates by hard validity first and score second.
-4. Select the highest-scoring valid candidate as `chosen`.
-5. Select a lower-scoring candidate as `rejected`.
-6. Keep the pair only if the margin is large enough.
+4. Select up to a small number of informative preference pairs.
+5. Keep each pair only if the margin is large enough.
+6. Cap retained pairs per prompt so that a single prompt cannot dominate DPO.
 
-The minimum score margin is:
+The default minimum score margin is:
+
+```text
+score(chosen) - score(rejected) >= 0.25
+```
+
+For exploratory or low-yield cases, a looser margin may be reported separately:
 
 ```text
 score(chosen) - score(rejected) >= 0.15
 ```
 
-If no pair satisfies the margin, the prompt contributes no DPO pair.
+but the first training dataset should prefer the `0.25` margin unless it
+produces too few pairs. If no pair satisfies the selected margin, the prompt
+contributes no DPO pair.
+
+The recommended pair cap is:
+
+```text
+max_pairs_per_prompt = 3
+```
+
+An alternative cap of `4` pairs per prompt may be used only as a documented
+sensitivity setting. The fourth pair must add a different contrast, such as
+`kubernetes_domain_gate_pass = true` versus `false`, rather than merely adding
+another near-duplicate score comparison.
+
+With six candidates, the full set contains up to fifteen pairwise comparisons.
+The DPO dataset should not keep all of them. Most pairwise comparisons are
+redundant, and keeping them would overweight prompts whose candidates happened
+to be especially dispersed.
+
+The preferred pair types are:
+
+- strongest score-margin pair;
+- hard-negative pair, where the rejected output is parseable but worse;
+- Kubernetes gate-pass pair, when one candidate passes the full gate and another
+  comparable candidate does not.
+
+For the Kubernetes gate-pass pair, prompt adequacy is a guardrail rather than an
+absolute veto on tiny metric differences. The default automatic policy may
+accept:
+
+```text
+prompt_f1(rejected) - prompt_f1(chosen) <= 0.05
+score(chosen) - score(rejected) >= 0.25
+```
+
+provided that the chosen candidate is not visibly worse on central prompt
+requirements and is not worse on required-field completeness. A tolerance up to
+`0.10` may be used only as a separately reported sensitivity setting. Any
+gate-pass pair with lower `Prompt F1` for the chosen output must be flagged with
+`gate_pass_prompt_drift` and should not receive high confidence without manual
+inspection.
 
 ## Hard Negatives
 
@@ -202,6 +249,7 @@ The first choice for `rejected` should be a hard negative:
 
 If no parseable hard negative exists, a non-parseable output may be used as
 `rejected`, but those pairs should be counted separately in the dataset report.
+At most one non-parseable rejected output should be retained per prompt.
 
 Reason:
 
@@ -218,8 +266,11 @@ The preference dataset builder must produce a report with at least:
 - number of duplicate candidates removed;
 - number of valid candidates;
 - number of DPO pairs retained;
+- average retained pairs per prompt;
+- configured `max_pairs_per_prompt`;
 - number of pairs dropped for insufficient margin;
 - number of pairs with non-parseable rejected outputs;
+- number of prompts contributing zero, one, two, three, or four pairs;
 - score distribution for chosen outputs;
 - score distribution for rejected outputs;
 - margin distribution;
@@ -292,4 +343,3 @@ relative to the frozen `serialized_sft` validation reference.
 If DPO improves `kubernetes_domain_gate_pass_rate` but meaningfully reduces
 prompt adequacy, the result is not considered a clean success. It is interpreted
 as proxy over-optimization.
-

@@ -41,7 +41,7 @@ They describe dataset complexity and are used in descriptive plots.
 
 | Term | Meaning |
 | --- | --- |
-| `yaml_max_depth` | Maximum recursive depth of the parsed YAML documents in a sample. Scalars have depth `1`; empty mappings/lists have depth `1`; non-empty mappings/lists have depth `1 + max(child depths)`. For multi-document YAML, the sample value is the maximum over documents. |
+| `yaml_max_depth` | Maximum depth of the parsed YAML documents in a sample. Depth is the number of edges between a node and the document root: the root has depth 0, its direct children have depth 1, and so on. `yaml_max_depth` is the depth of the deepest reachable leaf value. For multi-document YAML, the sample value is the maximum over documents. |
 | `yaml_mapping_nodes` | Number of mapping objects, equivalent to parsed YAML dictionaries. Mapping keys themselves are not counted as separate scalar nodes. |
 | `yaml_list_nodes` | Number of list objects in the parsed YAML. |
 | `yaml_scalar_nodes` | Number of scalar values in the parsed YAML, including strings, numbers, booleans, and null-like values. |

@@ -136,13 +136,35 @@ Para reducir ruido, solo se conservaran pares donde la diferencia entre la
 salida preferida y la rechazada supere un margen minimo:
 
 ```text
-score(chosen) - score(rejected) >= 0.15
+score(chosen) - score(rejected) >= 0.25
 ```
 
 Este margen es importante porque DPO puede degradarse si se entrena con
 preferencias ambiguas o mal etiquetadas. En una tarea como esta, donde las
 metricas son automaticas y aproximadas, no conviene forzar pares cuando dos
-salidas son practicamente indistinguibles.
+salidas son practicamente indistinguibles. Un margen mas laxo, por ejemplo
+`0.15`, puede conservarse como analisis exploratorio o como variante si el
+dataset resultante fuera demasiado pequeno, pero no sera el criterio principal
+de la primera construccion.
+
+Como para cada prompt se generan varias candidatas, no es necesario limitarse a
+un unico par por prompt. Sin embargo, tampoco conviene conservar todas las
+comparaciones posibles. Con seis candidatas se podrian construir hasta quince
+pares, pero muchos de ellos serian redundantes y harian que un solo prompt
+tuviera demasiado peso en la perdida DPO. Por tanto, la politica metodologica
+sera conservar hasta tres pares informativos por prompt, con una variante de
+sensibilidad que permita llegar a cuatro si el cuarto par aporta una senal
+distinta. En la practica, estos pares deberian cubrir tres contrastes: una
+diferencia fuerte de score, un caso de hard negative parseable y, cuando exista,
+una comparacion entre una salida que supera `kubernetes_domain_gate_pass` y otra
+que no lo supera.
+
+El numero exacto de pares retenidos no sera fijo. Si un prompt genera salidas
+muy parecidas o con margenes pequenos, puede no contribuir ningun par. Si en
+cambio produce candidatas diversas y claramente ordenables, podra contribuir
+dos, tres o excepcionalmente cuatro pares. Esta decision mantiene el dataset
+centrado en preferencias con senal real, no en multiplicar ejemplos de forma
+mecanica.
 
 ## Papel de las metricas guia
 
@@ -271,4 +293,3 @@ contra schema. Lo que evalua es mas concreto y mas defendible: si un modelo ya
 estable en la superficie estructurada puede ser refinado mediante preferencias
 automaticas hacia salidas mas adecuadas y mas validas segun el conjunto de
 checks disponibles en el proyecto.
-

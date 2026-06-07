@@ -1,0 +1,144 @@
+{
+  "output_dir": "C:\\Users\\mario\\OneDrive\\Documentos\\UPM\\Master_Data\\llm-structured-semantic-generation\\docs\\memoria\\figures\\dpo_candidate_generation",
+  "strategy_rows": [
+    {
+      "label": "C4 warm",
+      "prompts": 20,
+      "yaml_parse": 1.0,
+      "duplicate_rate": 0.25,
+      "prompt_f1": 0.734375,
+      "kdv_score": 0.875,
+      "gate_pass": 0.275,
+      "best_score": 2.29214165
+    },
+    {
+      "label": "C6 wide",
+      "prompts": 30,
+      "yaml_parse": 0.9776536312849162,
+      "duplicate_rate": 0.8,
+      "prompt_f1": 0.9210250953267712,
+      "kdv_score": 0.8128491620111732,
+      "gate_pass": 0.0,
+      "best_score": 2.2961296333333334
+    },
+    {
+      "label": "C6 hot piloto",
+      "prompts": 30,
+      "yaml_parse": 0.9888268156424581,
+      "duplicate_rate": 0.5333333333333333,
+      "prompt_f1": 0.7969997247453895,
+      "kdv_score": 0.8454376163873372,
+      "gate_pass": 0.22346368715083798,
+      "best_score": 2.2019147
+    },
+    {
+      "label": "C6 hot final",
+      "prompts": 426,
+      "yaml_parse": 0.9436619718309859,
+      "duplicate_rate": 0.3403755868544601,
+      "prompt_f1": 0.7296799515541794,
+      "kdv_score": 0.8103808033385499,
+      "gate_pass": 0.229264475743349,
+      "best_score": 2.2418932394366196
+    }
+  ],
+  "temperature_rows": [
+    {
+      "temperature": 0.45,
+      "count": 426,
+      "yaml_parse_rate": 0.9882629107981221,
+      "prompt_requirement_f1": 0.7905788330084105,
+      "kubernetes_domain_validity_score": 0.8556338028169014,
+      "kubernetes_domain_gate_pass_rate": 0.25586854460093894,
+      "preference_score": 2.1051040516431923,
+      "hard_invalid_rate": 0.011737089201877934
+    },
+    {
+      "temperature": 0.65,
+      "count": 426,
+      "yaml_parse_rate": 0.9859154929577465,
+      "prompt_requirement_f1": 0.7777542423669184,
+      "kubernetes_domain_validity_score": 0.852112676056338,
+      "kubernetes_domain_gate_pass_rate": 0.2535211267605634,
+      "preference_score": 2.106519107981221,
+      "hard_invalid_rate": 0.014084507042253521
+    },
+    {
+      "temperature": 0.85,
+      "count": 426,
+      "yaml_parse_rate": 0.9671361502347418,
+      "prompt_requirement_f1": 0.7490487472881839,
+      "kubernetes_domain_validity_score": 0.8360719874804382,
+      "kubernetes_domain_gate_pass_rate": 0.24413145539906103,
+      "preference_score": 2.001581795774648,
+      "hard_invalid_rate": 0.03286384976525822
+    },
+    {
+      "temperature": 1.0,
+      "count": 426,
+      "yaml_parse_rate": 0.9295774647887324,
+      "prompt_requirement_f1": 0.7100892326244438,
+      "kubernetes_domain_validity_score": 0.7992957746478874,
+      "kubernetes_domain_gate_pass_rate": 0.22769953051643194,
+      "preference_score": 1.8861140469483568,
+      "hard_invalid_rate": 0.07042253521126761
+    },
+    {
+      "temperature": 1.1,
+      "count": 426,
+      "yaml_parse_rate": 0.92018779342723,
+      "prompt_requirement_f1": 0.6997494941156913,
+      "kubernetes_domain_validity_score": 0.7859937402190923,
+      "kubernetes_domain_gate_pass_rate": 0.21830985915492956,
+      "preference_score": 1.8225556338028168,
+      "hard_invalid_rate": 0.07981220657276995
+    },
+    {
+      "temperature": 1.2,
+      "count": 426,
+      "yaml_parse_rate": 0.8708920187793427,
+      "prompt_requirement_f1": 0.6508591599214283,
+      "kubernetes_domain_validity_score": 0.7331768388106416,
+      "kubernetes_domain_gate_pass_rate": 0.176056338028169,
+      "preference_score": 1.5627519788732396,
+      "hard_invalid_rate": 0.12910798122065728
+    }
+  ],
+  "best_temperature_distribution": {
+    "0.45": 212,
+    "0.65": 76,
+    "0.85": 38,
+    "1.0": 37,
+    "1.1": 35,
+    "1.2": 28
+  },
+  "worst_temperature_distribution": {
+    "0.45": 9,
+    "0.65": 7,
+    "0.85": 29,
+    "1.0": 78,
+    "1.1": 94,
+    "1.2": 209
+  },
+  "pair_margin": {
+    "prompt_count": 426,
+    "average": 1.0777291197183099,
+    "min": 0.0,
+    "max": 2.75,
+    "ge_0_25_count": 282,
+    "ge_0_15_lt_0_25_count": 21,
+    "lt_0_15_count": 123
+  },
+  "source_runs": {
+    "pilot_runs": [
+      "dpo-candidates-pilot20-c4-temp-warm-20260524",
+      "dpo-candidates-pilot30-offset20-c6-temp-wide-20260525",
+      "dpo-candidates-pilot30-offset50-c6-temp-hot-20260525"
+    ],
+    "train_runs": [
+      "dpo-candidates-train-offset000-n100-c6-hot-20260526",
+      "dpo-candidates-train-offset100-n200-c6-hot-20260528",
+      "dpo-candidates-train-offset300-n126-c6-hot-20260528"
+    ]
+  }
+}
