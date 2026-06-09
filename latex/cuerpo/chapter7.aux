@@ -15,8 +15,39 @@
 \newlabel{fig:ch7_best_worst_temperature}{{7.3}{72}{Temperatura que produce el mejor y el peor candidato por prompt en la generación principal \texttt {C6 hot}. La distribución muestra que las temperaturas bajas dominan entre los mejores candidatos, mientras que las más altas aportan una parte importante de los peores casos}{figure.caption.53}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7.4}{\ignorespaces Distribución del margen entre el mejor y el peor candidato por prompt. El umbral principal de \(0{,}25\) prioriza pares con una diferencia clara, reduciendo el riesgo de entrenar DPO con preferencias ambiguas.}}{72}{figure.caption.54}\protected@file@percent }
 \newlabel{fig:ch7_pair_margin_distribution}{{7.4}{72}{Distribución del margen entre el mejor y el peor candidato por prompt. El umbral principal de \(0{,}25\) prioriza pares con una diferencia clara, reduciendo el riesgo de entrenar DPO con preferencias ambiguas}{figure.caption.54}{}}
+\gdef \LT@i {\LT@entry 
+    {1}{201.58575pt}\LT@entry 
+    {1}{92.48228pt}\LT@entry 
+    {1}{84.76006pt}\LT@entry 
+    {1}{84.76006pt}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.2}Primer ajuste DPO sobre el dataset de preferencias v1}{73}{section.7.2}\protected@file@percent }
+\newlabel{sec:ch7_dpo_v1}{{7.2}{73}{Primer ajuste DPO sobre el dataset de preferencias v1}{section.7.2}{}}
+\citation{rafailov2023dpo}
+\@writefile{lot}{\contentsline {table}{\numberline {7.2}{\ignorespaces Comparación de validación entre el modelo de partida y DPO con \(\beta =0{,}10\). La columna de \(\beta =0{,}30\) se mantiene como marcador de resultados pendientes, porque la evaluación completa sobre los 70 ejemplos de validación no estaba disponible en el momento de redactar esta sección.}}{74}{table.caption.55}\protected@file@percent }
+\newlabel{tab:ch7_dpo_v1_validation}{{7.2}{74}{Comparación de validación entre el modelo de partida y DPO con \(\beta =0{,}10\). La columna de \(\beta =0{,}30\) se mantiene como marcador de resultados pendientes, porque la evaluación completa sobre los 70 ejemplos de validación no estaba disponible en el momento de redactar esta sección}{table.caption.55}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.3}Generación iterativa del dataset DPO v2}{74}{section.7.3}\protected@file@percent }
+\newlabel{sec:ch7_dpo_v2_generation}{{7.3}{74}{Generación iterativa del dataset DPO v2}{section.7.3}{}}
+\gdef \LT@ii {\LT@entry 
+    {1}{203.44173pt}\LT@entry 
+    {1}{92.48228pt}\LT@entry 
+    {1}{95.72627pt}}
+\gdef \LT@iii {\LT@entry 
+    {1}{109.78886pt}\LT@entry 
+    {1}{196.6428pt}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.5}{\ignorespaces Esquema iterativo seguido para pasar de DPO v1 a la generación del dataset DPO v2. La nueva política se usa para muestrear candidatos y la política anterior actúa como referencia de la siguiente actualización.}}{76}{figure.caption.56}\protected@file@percent }
+\newlabel{fig:ch7_dpo_iterative_cycle}{{7.5}{76}{Esquema iterativo seguido para pasar de DPO v1 a la generación del dataset DPO v2. La nueva política se usa para muestrear candidatos y la política anterior actúa como referencia de la siguiente actualización}{figure.caption.56}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.4}{\ignorespaces Comparación entre los datasets de preferencias DPO v1 y DPO v2. DPO v2 conserva menos pares, pero los pares retenidos tienen mayor margen medio y están más orientados a fallos estructurales y de dominio.}}{76}{table.caption.57}\protected@file@percent }
+\newlabel{tab:ch7_dpo_v1_v2_dataset_summary}{{7.4}{76}{Comparación entre los datasets de preferencias DPO v1 y DPO v2. DPO v2 conserva menos pares, pero los pares retenidos tienen mayor margen medio y están más orientados a fallos estructurales y de dominio}{table.caption.57}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.6}{\ignorespaces Restricciones principales del selector DPO v2. El objetivo no es maximizar una sola métrica, sino evitar pares donde la preferencia sea contradictoria con el contrato estructural de la tarea.}}{77}{table.caption.58}\protected@file@percent }
+\newlabel{tab:ch7_dpo_v2_guardrails}{{7.6}{77}{Restricciones principales del selector DPO v2. El objetivo no es maximizar una sola métrica, sino evitar pares donde la preferencia sea contradictoria con el contrato estructural de la tarea}{table.caption.58}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.6}{\ignorespaces Composición de tipos de pares en DPO v1 y DPO v2. La segunda iteración reduce el número total de pares, pero desplaza el foco hacia contrastes más específicos de dominio y estructura.}}{77}{figure.caption.59}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v1_v2_pair_types}{{7.6}{77}{Composición de tipos de pares en DPO v1 y DPO v2. La segunda iteración reduce el número total de pares, pero desplaza el foco hacia contrastes más específicos de dominio y estructura}{figure.caption.59}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.7}{\ignorespaces Distribución de niveles KDV entre salidas preferidas y rechazadas en DPO v2. Los \textit  {chosen} se concentran en niveles altos, mientras que los \textit  {rejected} contienen una proporción elevada de fallos de dominio severos.}}{78}{figure.caption.60}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v2_kdv_levels}{{7.7}{78}{Distribución de niveles KDV entre salidas preferidas y rechazadas en DPO v2. Los \textit {chosen} se concentran en niveles altos, mientras que los \textit {rejected} contienen una proporción elevada de fallos de dominio severos}{figure.caption.60}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.8}{\ignorespaces Diferencia media entre salida preferida y salida rechazada en el dataset DPO v2. Las diferencias positivas indican que el selector conserva pares donde la preferencia está apoyada por varias señales y no por una sola métrica aislada.}}{79}{figure.caption.61}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v2_metric_deltas}{{7.8}{79}{Diferencia media entre salida preferida y salida rechazada en el dataset DPO v2. Las diferencias positivas indican que el selector conserva pares donde la preferencia está apoyada por varias señales y no por una sola métrica aislada}{figure.caption.61}{}}
 \@setckpt{cuerpo/chapter7}{
-\setcounter{page}{74}
+\setcounter{page}{80}
 \setcounter{equation}{0}
 \setcounter{enumi}{4}
 \setcounter{enumii}{0}
@@ -26,16 +57,16 @@
 \setcounter{mpfootnote}{0}
 \setcounter{part}{0}
 \setcounter{chapter}{7}
-\setcounter{section}{1}
+\setcounter{section}{3}
 \setcounter{subsection}{0}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{4}
-\setcounter{table}{0}
+\setcounter{figure}{8}
+\setcounter{table}{6}
 \setcounter{parentequation}{0}
-\setcounter{LT@tables}{0}
-\setcounter{LT@chunks}{0}
+\setcounter{LT@tables}{3}
+\setcounter{LT@chunks}{1}
 \setcounter{subfigure}{0}
 \setcounter{lofdepth}{1}
 \setcounter{subtable}{0}
@@ -55,7 +86,7 @@
 \setcounter{section@level}{1}
 \setcounter{Item}{4}
 \setcounter{Hfootnote}{0}
-\setcounter{bookmark@seq@number}{70}
+\setcounter{bookmark@seq@number}{72}
 \setcounter{lstnumber}{7}
 \setcounter{caption@flags}{2}
 \setcounter{continuedfloat}{0}

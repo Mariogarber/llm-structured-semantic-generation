@@ -1,0 +1,48 @@
+\babel@toc {english}{}\relax 
+\babel@toc {spanish}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Balance del dataset por split y control de fugas entre entrenamiento, validación y test.}}{18}{figure.caption.9}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Distribución de \textit {kinds} en el corpus Kubernetes.}}{19}{figure.caption.10}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Distribución de versiones de API en los manifiestos del dataset.}}{19}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Distribución de bloques por nivel de indentación en el conjunto canónico.}}{21}{figure.caption.13}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Distribuciones de complejidad estructural en el dataset canónico.}}{22}{figure.caption.14}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Matriz de confusión del \textit {latent probe} para predicción de nivel de indentación.}}{23}{figure.caption.15}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Cobertura de campos semánticos relevantes en manifiestos Kubernetes del dataset.}}{24}{figure.caption.16}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Distribución de longitud de prompt por variante (\textit {question} y \textit {simplified}).}}{25}{figure.caption.17}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Similitud semántica entre variantes de prompt por muestra.}}{26}{figure.caption.18}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Relación entre longitud de prompt y complejidad estructural del YAML.}}{27}{figure.caption.19}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Pipeline metodológico desde la representación canónica hasta la evaluación.}}{32}{figure.caption.22}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Estado de las predicciones del baseline zero-shot en el split de validación. De las 70 muestras, 65 producen una salida estructurada parseable, pero solo 20 dan lugar a un YAML válido tras la reconstrucción determinista. El cuello de botella no es el formato de bloque sino la consistencia jerárquica dentro de él.}}{42}{figure.caption.26}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Curva de pérdida de entrenamiento del \texttt {serialized\_sft} (LoRA, 3 épocas, 159 pasos globales, 424 muestras de entrenamiento efectivas (426 nominales, 2 omitidas por OOM)). La pérdida desciende de 1{,}32 en el primer paso a valores inferiores a 0{,}2 al final de la primera época. Las épocas segunda y tercera refinan los casos más complejos, con valores de pérdida entre 0{,}03 y 0{,}09.}}{45}{figure.caption.28}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Comparativa de métricas clave entre el baseline zero-shot y el \texttt {serialized\_sft} en el split de validación. El salto de 31\,\% a 99\,\% en parseo YAML y de 28\,\% a 96\,\% en clave semántica muestra que el SFT resuelve de forma simultánea el problema estructural y el de cobertura semántica. La predicción de nivel exacto mejora de 11\,\% a 76\,\%, confirmando que la serialización implícita de jerarquía es suficiente para aprender indentaciones correctas.}}{45}{figure.caption.29}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Distribución de errores de dominio del \texttt {serialized\_sft} en el split de validación. Los cuatro antipatrones de seguridad (rojo) acumulan 470 instancias; los errores de semántica de dominio (verde) se limitan a 7 instancias. El perfil refleja que el SFT ha resuelto el problema estructural pero ha heredado los patrones inseguros presentes en los datos de entrenamiento.}}{49}{figure.caption.33}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Recall por nivel del mejor aproximador lineal (\texttt {line\_first\_token}) sobre las representaciones del modelo base. Los niveles 0--4 muestran señal sólida; a partir del nivel 5 el recall cae por debajo del 32\,\%, y los niveles 7--8 son inestables por escasez de muestras.}}{53}{figure.caption.34}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Arquitectura del \texttt {THM}: el backbone compartido alimenta simultáneamente el cabezal de lenguaje y el cabezal de nivel. La política \texttt {record\_prefix\_state} lee el estado oculto justo antes del primer token de cada bloque para supervisar la predicción de nivel.}}{54}{figure.caption.35}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Curvas de pérdida durante el entrenamiento del \texttt {THM v1}: pérdida total, componente LM y componente de nivel ($\lambda $ = 1,0, 3 épocas, 159 pasos globales).}}{56}{figure.caption.38}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Comparativa visual de métricas clave entre el baseline zero-shot y \texttt {THM v1} en el split de validación.}}{56}{figure.caption.39}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Distribución comparada de niveles: ground truth de validación (azul) y predicciones del \texttt {THM v1} (rojo). El modelo emite cero predicciones para los niveles 5 a 8; la zona sombreada marca la región de colapso.}}{57}{figure.caption.40}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Comparativa visual de las cuatro variantes ordinal en cuatro métricas: parseo YAML, coincidencia exacta de nivel, F1 de contenido textual y recall off-by-one en niveles profundos (5--8).}}{59}{figure.caption.42}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Evolución de los ocho umbrales $\tau _k$ durante el entrenamiento de la variante \textit {centered-gap05} (159 pasos, 3 épocas). Los umbrales superiores a 4 se desplazan.}}{61}{figure.caption.43}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Trade-off entre tasa de parseo YAML y recall exacto de niveles profundos (5--8) para las cinco variantes two-head probadas. Solo la variante \textit {centered} activa predicciones profundas, pero a costa de colapsar la generación de contenido.}}{61}{figure.caption.44}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Comparación entre el THO centrado y el THOP con concatenación final. La compresión de niveles 5--8 a 0--4 debe leerse en sentido inverso: valores más altos indican más colapso de niveles profundos hacia niveles superficiales.}}{65}{figure.caption.47}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Diagnóstico por cuartiles del experimento THOP con concatenación final. La figura muestra, a la izquierda, el exceso de predicciones \texttt {level=0}; a la derecha, la brecha entre la profundidad media de la referencia y la profundidad media predicha.}}{66}{figure.caption.48}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Progresión de métricas estructurales al introducir codificación posicional en el cabezal ordinal. El salto de THOP-FiLM es visible dentro de la rama ordinal-posicional, aunque sigue lejos del THM v1 en las métricas globales de validación.}}{68}{figure.caption.50}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Comparación de estrategias de generación de candidatos para DPO. Los pilotos se ejecutaron sobre subconjuntos distintos, por lo que deben leerse como una exploración metodológica y no como una comparación controlada exacta. La fila \texttt {C6 hot final} agrega las 426 unidades de prompt usadas en la generación principal.}}{70}{figure.caption.51}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Efecto de la temperatura en los candidatos generados con la configuración \texttt {C6 hot}. Las temperaturas bajas conservan mejor la calidad media; las temperaturas altas incrementan el riesgo de candidatos inválidos y reducen la adecuación al prompt.}}{71}{figure.caption.52}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Temperatura que produce el mejor y el peor candidato por prompt en la generación principal \texttt {C6 hot}. La distribución muestra que las temperaturas bajas dominan entre los mejores candidatos, mientras que las más altas aportan una parte importante de los peores casos.}}{72}{figure.caption.53}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Distribución del margen entre el mejor y el peor candidato por prompt. El umbral principal de \(0{,}25\) prioriza pares con una diferencia clara, reduciendo el riesgo de entrenar DPO con preferencias ambiguas.}}{72}{figure.caption.54}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Esquema iterativo seguido para pasar de DPO v1 a la generación del dataset DPO v2. La nueva política se usa para muestrear candidatos y la política anterior actúa como referencia de la siguiente actualización.}}{76}{figure.caption.56}%
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Composición de tipos de pares en DPO v1 y DPO v2. La segunda iteración reduce el número total de pares, pero desplaza el foco hacia contrastes más específicos de dominio y estructura.}}{77}{figure.caption.59}%
+\contentsline {figure}{\numberline {7.7}{\ignorespaces Distribución de niveles KDV entre salidas preferidas y rechazadas en DPO v2. Los \textit {chosen} se concentran en niveles altos, mientras que los \textit {rejected} contienen una proporción elevada de fallos de dominio severos.}}{78}{figure.caption.60}%
+\contentsline {figure}{\numberline {7.8}{\ignorespaces Diferencia media entre salida preferida y salida rechazada en el dataset DPO v2. Las diferencias positivas indican que el selector conserva pares donde la preferencia está apoyada por varias señales y no por una sola métrica aislada.}}{79}{figure.caption.61}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
