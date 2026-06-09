@@ -181,14 +181,14 @@ análisis debe combinar la validez sintáctica, fidelidad de estructura, adecuac
 \toprule
 \textbf{Familia} & \textbf{Ejemplos} & \textbf{Utilidad metodológica} \\
 \midrule
-Sintácticas de parseo & \texttt{yaml\_parse\_ok}, \texttt{block\_parse\_ok}, ratio de bloques válidos & Determinar si la salida es procesable sin intervención manual. \\
-Estructurales de jerarquía & \texttt{level\_exact\_match\_rate}, \texttt{level\_mae}, secuencia de índices & Medir fidelidad de la geometría de indentación y orden interno. \\
+Sintácticas de parseo & parseo de salida estructurada, parseo YAML, contrato de bloques & Determinar si la salida es procesable sin intervención manual. \\
+Estructurales de jerarquía & exactitud y MAE de nivel, recall profundo 5--8 & Medir fidelidad de la geometría de indentación y orden interno. \\
 Fidelidad textual & exactitud de contenido de línea, precisión/recobrado/F1 textual, BLEU/ROUGE auxiliares & Cuantificar cuánto contenido de referencia se conserva. \\
-Semántica Kubernetes & coincidencia de \texttt{kind}, \texttt{apiVersion}, claves semánticas, selectores/volúmenes & Verificar corrección funcional básica de
+Semántica Kubernetes & F1 de claves semánticas, coincidencia de \texttt{kind}, \texttt{apiVersion}, selectores/volúmenes & Verificar corrección funcional básica de
 recursos generados. \\
-Requisitos de prompt y campos requeridos & precisión/recobrado de requisitos, tasa de campos obligatorios presentes & Evaluar alineación entre petición natural y
+Requisitos de prompt y campos requeridos & precisión/recobrado de requisitos, campos obligatorios completos por muestra & Evaluar alineación entre petición natural y
 manifiesto resultante. \\
-Validez de dominio multinivel & nivel de validez 0--5, tasa de paso de compuertas de dominio & Integrar señales estructurales y semánticas en un criterio operativo único. \\
+Validez de dominio multinivel & score KDV, nivel de validez 0--5, tasa de paso de compuertas de dominio & Integrar señales estructurales y semánticas en un criterio operativo único. \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -196,14 +196,32 @@ Validez de dominio multinivel & nivel de validez 0--5, tasa de paso de compuerta
 \subsection{Métricas sintácticas y estructurales}
 \label{sec:ch4_metrics_structural}
 
-Las métricas de parseo son la primera barrera: sin parseo correcto, no tiene sentido discutir calidad semántica. Sin embargo, parsear no implica necesariamente
-fidelidad al objetivo. Por eso se añaden métricas estructurales por línea y por documento que detectan desorden de índices, errores de nivel o fuga de indentación.
+Las métricas de parseo son la primera barrera: sin parseo correcto, no tiene sentido discutir calidad semántica.
 
-Este bloque de métricas responde a la pregunta: \textit{\textquestiondown la salida es internamente coherente como objeto estructurado?} En un problema de generación YAML, esta
-pregunta es necesaria y no puede reemplazarse por una métrica textual global.
+Este bloque de métricas responde a la pregunta: \textit{\textquestiondown la salida es internamente coherente como objeto estructurado?}
 
-Las principales métricas de este bloque son la tasa de parseo YAML correcto (\texttt{yaml\_parse\_ok}), calculada simplemente como la fracción
-de muestras cuya salida el parser acepta sin error, y las métricas de fidelidad estructural por línea. De estas últimas, las dos más informativas son
+Las principales métricas de este bloque empiezan antes del propio YAML reconstruido. En primer lugar se registra si la salida textual del modelo puede convertirse en una secuencia
+de bloques válidos. Si \(S\) es el conjunto de filas generadas y \(E \subseteq S\) el subconjunto que supera el parseo de salida estructurada, la tasa
+\texttt{structured\_output\_parse\_success\_rate} se define como:
+
+\[
+\texttt{structured\_output\_parse\_success\_rate}
+= \frac{|E|}{|S|}.
+\]
+
+Sobre ese subconjunto evaluable se calcula después la tasa de parseo YAML correcto. Si \(\mathrm{yaml}(y_i)\) indica que la reconstrucción determinista de la predicción \(y_i\)
+puede cargarse como YAML sin error, entonces:
+
+\[
+\texttt{yaml\_parse\_success\_rate}
+= \frac{1}{|E|}\sum_{i \in E}\mathbf{1}[\mathrm{yaml}(y_i)].
+\]
+
+Esta separación es importante porque una salida puede respetar la superficie tabular esperada y, aun así, producir una trayectoria de niveles incompatible con un YAML parseable.
+
+\subsection{Métricas estructurales de jerarquía}
+
+Una vez superada esa primera frontera, se calculan las métricas de fidelidad estructural por línea. De estas últimas, las dos más informativas son
 la tasa de coincidencia exacta de nivel (\texttt{level\_exact\_match\_rate}) y el error absoluto medio de nivel (\texttt{level\_mae}). Sean $R = (r_1, \dots, r_n)$
 los niveles de referencia y $P = (p_1, \dots, p_m)$ los niveles predichos, y sea $k = \min(n, m)$ el número de líneas comparables:
 
@@ -215,7 +233,21 @@ Ambas se calculan solo sobre el prefijo común de longitud~$k$: si la predicció
 cuentan como coincidencias pero tampoco penalizan directamente el MAE. Esa elección de implementación implica que errores de recuento de líneas se
 capturan mejor con \texttt{line\_count\_match} que con \texttt{level\_mae}.
 
-\subsection{Métricas de contenido y semántica de dominio}
+Para los experimentos con cabezal explícito de nivel se introduce además una métrica centrada en la región profunda de la jerarquía, porque los niveles superficiales dominan el
+promedio global. Sea \(D = \{i \leq k \mid r_i \in \{5,6,7,8\}\}\) el conjunto de posiciones comparables cuyo nivel real pertenece a la zona profunda. El recall exacto sobre
+esa región es:
+
+\[
+\texttt{deep\_level\_exact\_recall\_5\_8}
+=
+\frac{\sum_{i=1}^{k}\mathbf{1}[r_i \in \{5,6,7,8\}]\,\mathbf{1}[p_i = r_i]}
+{\sum_{i=1}^{k}\mathbf{1}[r_i \in \{5,6,7,8\}]}.
+\]
+
+Si no existen líneas de referencia en niveles 5--8, el soporte profundo es cero y la implementación registra el recall como \(0\). Su función no es sustituir a la exactitud
+global, sino impedir que un modelo parezca estructuralmente sólido solo porque acierta los niveles más frecuentes.
+
+\subsection{Métricas de fidelidad textual y semántica}
 \label{sec:ch4_metrics_semantic}
 
 Una vez garantizada la estructura mínima, se analiza contenido. En este punto conviene precisar el papel de las métricas de solapamiento textual como
@@ -225,7 +257,8 @@ Kubernetes, sin embargo, resulta insuficiente como criterio principal: una salid
 producir un YAML que no parsea, porque una sola línea con la indentación incorrecta rompe la estructura del documento. A la inversa, una salida
 estructuralmente válida pero que emplea nombres de campo o valores distintos puede tener un ROUGE alto sin ser funcionalmente equivalente. Por eso
 BLEU y ROUGE se usan aquí en un rol auxiliar, como señal secundaria de solapamiento de contenido, pero no como criterio de corrección estructural
-ni de validez semántica en el dominio, una distinción coherente con la evaluación funcional de artefactos técnicos y con benchmarks específicos de YAML cloud-native \citep{chen2021evaluating, xu2024cloudevalyaml}.
+ni de validez semántica en el dominio, una distinción coherente con la evaluación funcional de artefactos técnicos y con benchmarks específicos de
+YAML cloud-native \citep{chen2021evaluating, xu2024cloudevalyaml}.
 
 Dentro de las métricas de fidelidad textual sí intervienen directamente en el análisis la precisión, el recobrado y el F1 de contenido de línea.
 Sean $\hat{T}$ el multiconjunto de líneas de texto predichas y $T$ el de referencia; los verdaderos positivos son el solapamiento multiconjunto
@@ -240,11 +273,74 @@ Las métricas semánticas de Kubernetes, por su parte, evalúan si la salida con
 selectores y etiquetas, correspondencia entre \texttt{volumeMounts} y \texttt{volumes}, presencia y corrección de \texttt{kind} y \texttt{apiVersion}.
 Estas señales apuntan a si el manifiesto generado es funcionalmente plausible, algo que ninguna métrica puramente textual puede capturar.
 
+La métrica \texttt{average\_semantic\_key\_f1} resume una parte de esa señal mediante presencia de claves. Sea \(\mathcal{K}\) el vocabulario fijo de claves semánticas relevantes
+para el dominio (por ejemplo \texttt{metadata}, \texttt{spec}, \texttt{containers}, \texttt{image}, \texttt{ports}, \texttt{volumes}, \texttt{volumeMounts},
+\texttt{selector} o \texttt{template}). Para una muestra \(i\), sean \(K_i^\star \subseteq \mathcal{K}\) las claves presentes en el YAML de referencia y
+\(\widehat{K}_i \subseteq \mathcal{K}\) las claves presentes en el YAML predicho. Entonces:
+
+\[
+\mathrm{SemPrec}_i = \frac{|K_i^\star \cap \widehat{K}_i|}{|\widehat{K}_i|}, \qquad
+\mathrm{SemRec}_i = \frac{|K_i^\star \cap \widehat{K}_i|}{|K_i^\star|},
+\]
+
+\[
+\mathrm{SemF1}_i =
+\frac{2 \cdot \mathrm{SemPrec}_i \cdot \mathrm{SemRec}_i}
+{\mathrm{SemPrec}_i + \mathrm{SemRec}_i},
+\qquad
+\texttt{average\_semantic\_key\_f1}
+= \frac{1}{|E|}\sum_{i \in E}\mathrm{SemF1}_i.
+\]
+
+Las divisiones con denominador cero se resuelven con la convención de implementación \(\mathrm{safe\_divide}(a,0)=0\). En la práctica, esto evita que una muestra sin claves
+semánticas predichas produzca valores indefinidos.
+
 Aquí la pregunta cambia: \textit{¿además de estar bien formado, el manifiesto representa lo que debe representar?} La combinación de señales
 textuales y semánticas evita dos falsos positivos habituales: salidas gramaticalmente válidas pero funcionalmente incorrectas, y salidas
 semánticamente plausibles pero estructuralmente frágiles.
 
-\subsection{Validez de dominio Kubernetes: escala por niveles}
+\subsection{Métricas de requisitos de prompt y campos requeridos}
+\label{sec:ch4_metrics_prompt}
+
+El sistema también evalúa la alineación con requisitos extraídos del prompt. La idea es que una predicción puede estar bien formada semánticamente
+y aun así ignorar restricciones concretas del usuario: el tipo de recurso pedido, el nombre, la imagen del contenedor o el número de réplicas.
+Para capturar esa brecha, el sistema extrae automáticamente un conjunto de requisitos~$Q$ desde el texto del prompt y un conjunto de
+campos cubiertos~$C$ desde el YAML predicho. La precisión y el recobrado de requisitos se definen entonces como:
+
+$$\text{Req-Precision} = \frac{|Q \cap C|}{|C|}, \qquad \text{Req-Recall} = \frac{|Q \cap C|}{|Q|}$$
+
+Cuando $|Q| = 0$, es decir, el prompt no contiene requisitos extraibles; la métrica se marca como no aplicable y no entra en los promedios
+del dataset. Cuando $|Q| = |C|$ y el conjunto coincide exactamente, la muestra cuenta como \texttt{prompt\_requirement\_exact\_match}.
+
+Por otro lado, el evaluador mide si los recursos generados contienen sus campos obligatorios mínimos. Sea \(R_i\) el conjunto de recursos Kubernetes predichos en la muestra \(i\),
+y sea \(F(\mathrm{kind}(r))\) el conjunto de campos requeridos para el tipo de recurso \(r\). Definimos primero la completitud de un recurso como:
+
+\[
+\mathrm{complete}(r) =
+\prod_{f \in F(\mathrm{kind}(r))}\mathbf{1}[f \in r].
+\]
+
+La muestra completa todos sus campos obligatorios si todos sus recursos aplicables son completos:
+
+\[
+\mathrm{RequiredCompleteSample}(y_i) =
+\prod_{r \in R_i}\mathrm{complete}(r).
+\]
+
+Agregada sobre el conjunto de muestras evaluadas con recursos aplicables, esta señal produce:
+
+\[
+\texttt{required\_field\_complete\_sample\_rate}
+=
+\frac{1}{|E_\mathrm{req}|}
+\sum_{i \in E_\mathrm{req}}
+\mathrm{RequiredCompleteSample}(y_i).
+\]
+
+Esta métrica es deliberadamente más estricta que una tasa de presencia de campos calculada recurso a recurso: una sola omisión en una muestra multi-recurso hace que la muestra no
+cuente como completa. Por eso se puede usar como indicador de integridad mínima del manifiesto completo.
+
+\subsection{Validez de dominio}
 \label{sec:ch4_metrics_domain}
 
 Las métricas anteriores responden a preguntas locales: si una línea tiene el nivel correcto, si el YAML parsea, si cierto campo está presente.
@@ -281,38 +377,34 @@ La escala es acumulativa: superar el nivel~$\ell$ implica haber superado todos l
 \frac{1}{|S|}\sum_{i \in S}\prod_{r=0}^{\ell}\mathbf{1}[c_r(y_i)].
 \]
 
-Esta definición la convierte en un criterio legible de comparación
+Además del nivel alcanzado y de la tasa de paso de cada compuerta, el evaluador conserva una señal graduada denominada \texttt{kubernetes\_domain\_validity\_score}. Para cada
+muestra se construye un vector binario de seis componentes \(Q_i = (q_{i,0}, \ldots, q_{i,5})\), donde \(q_{i,r}=1\) si el check individual asociado al nivel \(r\) se satisface
+y \(q_{i,r}=0\) en caso contrario. El score KDV de la muestra y su media agregada se definen como:
+
+\[
+\mathrm{KDV}(y_i) =
+\frac{1}{6}\sum_{r=0}^{5} q_{i,r},
+\qquad
+\overline{\mathrm{KDV}}
+=
+\frac{1}{|S|}\sum_{i \in S}\mathrm{KDV}(y_i).
+\]
+
+La media \(\overline{\mathrm{KDV}}\) se registra en los experimentos como \texttt{average\_\allowbreak kubernetes\_\allowbreak domain\_\allowbreak validity\_\allowbreak score}.
+Esta magnitud es más suave que \texttt{kubernetes\_\allowbreak domain\_\allowbreak gate\_\allowbreak pass\_\allowbreak rate}: una muestra que no alcanza el nivel~5 puede seguir recibiendo crédito parcial por los checks que sí
+satisface, aunque el nivel acumulativo se detenga en la primera compuerta fallida. Precisamente por eso resulta útil en comparaciones intermedias y en la construcción de preferencias automáticas, donde muchas candidatas pueden fallar la compuerta final
+pero diferir claramente en calidad de dominio.
+
+La definición acumulativa de \(\mathrm{pass}_{\ell}\) convierte la escala en un criterio legible de comparación
 entre formulaciones, más informativo que una media de métricas heterogéneas. Si un modelo pasa sistemáticamente el nivel~2 pero no el~3, el diagnóstico
 es claro: genera recursos identificables pero con incoherencias internas. Si se queda en el nivel~0, el problema es más básico: no produce YAML parseable.
 
 La compuerta final, el nivel~5, recoge requisitos de calidad que no son estrictamente obligatorios para que Kubernetes acepte el manifiesto, pero que
 sí son buenas prácticas habituales en entornos de producción. Precisamente por eso es la más difícil de superar y la que actúa como criterio de
-excelencia operativa, especialmente porque las configuraciones Kubernetes pueden ser sintácticamente válidas y aun así introducir riesgos de seguridad o mantenimiento \citep{rahman2023securityk8s, zhang2024generativeSmells}. La tasa de muestras que alcanzan el nivel~5 se registra como \texttt{kubernetes\_domain\_gate\_pass\_rate}, y será
+excelencia operativa, especialmente porque las configuraciones Kubernetes pueden ser sintácticamente válidas y aun así introducir riesgos de seguridad o mantenimiento \citep{rahman2023securityk8s, zhang2024generativeSmells}. La tasa de muestras que alcanzan el nivel~5 se registra como \texttt{kubernetes\_\allowbreak domain\_\allowbreak gate\_\allowbreak pass\_\allowbreak rate}, y será
 uno de los indicadores principales en el capítulo de resultados.
-
-\subsection{Métricas de cumplimiento de prompt y agregación}
-\label{sec:ch4_metrics_prompt}
-
-El sistema también evalúa la alineación con requisitos extraídos del prompt. La idea es que una predicción puede estar bien formada semánticamente
-y aun así ignorar restricciones concretas del usuario: el tipo de recurso pedido, el nombre, la imagen del contenedor o el número de réplicas.
-Para capturar esa brecha, el sistema extrae automáticamente un conjunto de requisitos~$Q$ desde el texto del prompt y un conjunto de
-campos cubiertos~$C$ desde el YAML predicho. La precisión y el recobrado de requisitos se definen entonces como:
-
-$$\text{Req-Precision} = \frac{|Q \cap C|}{|C|}, \qquad \text{Req-Recall} = \frac{|Q \cap C|}{|Q|}$$
-
-Cuando $|Q| = 0$ ---es decir, el prompt no contiene requisitos extraibles--- la métrica se marca como no aplicable y no entra en los promedios
-del dataset. Cuando $|Q| = |C|$ y el conjunto coincide exactamente, la muestra cuenta como \texttt{prompt\_requirement\_exact\_match}.
 
 Finalmente, todas las métricas se agregan a nivel de dataset para obtener tasas medias, varianzas y criterios de comparación entre formulaciones.
 Sea $S$ el conjunto de muestras evaluadas; para cualquier métrica binaria $x_i \in \{0,1\}$ la tasa agregada es simplemente
 $\bar{x} = \frac{1}{|S|}\sum_{i \in S} x_i$, y para métricas continuas como F1 o MAE se calcula la media aritmética excluyendo muestras
 no aplicables. Esta agregación permite pasar de diagnósticos locales a conclusiones experimentales robustas, que se desarrollarán en el capítulo de resultados.
-
-\section{Criterios de trazabilidad hacia resultados}
-\label{sec:ch4_traceability}
-
-El resultado de este capítulo es un marco de evaluación reproducible: contrato de datos explícito, pipeline de representación verificable y conjunto de métricas
-con interpretación clara. Con este marco, el capítulo siguiente puede centrarse en responder la pregunta comparativa sin reabrir definiciones metodológicas.
-
-En concreto, la discusión de resultados se apoyará en tres ejes: robustez estructural, fidelidad semántica y cumplimiento de requisitos de prompt. Mantener estos
-ejes separados facilita identificar dónde mejora cada formulación y dónde persisten limitaciones.
