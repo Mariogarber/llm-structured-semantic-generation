@@ -12,14 +12,6 @@ la línea base zero-shot y el ajuste fino supervisado con serialización de jera
 las arquitecturas al final del trabajo. Todos los resultados presentados aquí corresponden
 al split de validación.
 
-Conviene señalar una asimetría de representación antes de interpretar las cifras. La línea base
-genera su salida en formato \texttt{blocks\_tsv\_compact\_v1}, que omite la columna
-\texttt{line\_index} y la recupera implícitamente del orden de las filas. El SFT serializado
-genera en \texttt{blocks\_tsv\_v1}, que incluye \texttt{line\_index} de forma explícita. Ambas
-variantes pasan por el mismo parser determinista y el mismo protocolo de evaluación, por lo que
-las métricas sobre el YAML reconstruido son comparables entre sí. La diferencia de superficie
-es relevante para entender el diseño de cada etapa, pero no distorsiona la comparación de calidad.
-
 %----------------------------------------------------------------------
 \section{Línea base zero-shot}
 \label{sec:ch5_baseline}
@@ -232,16 +224,16 @@ nivel de compuerta.
          Los niveles son acumulativos: superar el nivel $k$ implica haber superado los
          niveles $0,\ldots,k-1$. La compuerta final corresponde al nivel 5.}
 \label{tab:ch5_domain_levels}
-\begin{tabular}{clc}
+\begin{tabular}{cp{0.62\textwidth}c}
 \toprule
 \textbf{Nivel} & \textbf{Criterio evaluado} & \textbf{Tasa de paso} \\
 \midrule
-0 & Identidad básica: \texttt{apiVersion} y \texttt{kind} reconocibles & 98{,}57\,\% \\
-1 & Metadatos mínimos: \texttt{metadata.name} presente               & 98{,}57\,\% \\
-2 & Campos obligatorios según el \texttt{kind}                        & 97{,}14\,\% \\
-3 & Estructura \texttt{spec} completa (contenedores, puertos)         & 91{,}43\,\% \\
-4 & Consistencia selector--template y coherencia de volúmenes         & 90{,}00\,\% \\
-5 & Prácticas de seguridad (límites de recursos, contexto, imagen)    & \textbf{14{,}29\,\%} \\
+0 & Parseo YAML                                                       & 98{,}57\,\% \\
+1 & Contrato de bloques parser-facing                                & 98{,}57\,\% \\
+2 & Identidad Kubernetes y campos obligatorios                        & 97{,}14\,\% \\
+3 & Invariantes intra-recurso (selectores, contenedores, puertos, volúmenes) & 91{,}43\,\% \\
+4 & Invariantes inter-recurso (referencias y selectores entre recursos) & 90{,}00\,\% \\
+5 & Calidad estática y seguridad (recursos, contexto, imagen)         & \textbf{14{,}29\,\%} \\
 \midrule
 \multicolumn{2}{l}{\texttt{kubernetes\_domain\_gate\_pass\_rate} (compuerta final)} & 14{,}29\,\% \\
 \bottomrule
@@ -249,15 +241,16 @@ nivel de compuerta.
 \end{table}
 
 Los niveles 0 a 4 se superan con tasas del 90\,\% al 99\,\%, lo que confirma que el SFT
-gestiona bien los aspectos estructurales y semánticos básicos de los manifiestos. El colapso
-se produce en el nivel 5, que evalúa prácticas de seguridad: especificación de límites de
+gestiona bien la cadena principal de parseabilidad, contrato estructural, identidad Kubernetes
+e invariantes de dominio. El colapso se produce en el nivel 5, que evalúa calidad estática y
+prácticas de seguridad: especificación de límites de
 recursos de CPU y memoria, configuración del contexto de seguridad del contenedor
 (\texttt{runAsNonRoot}, \texttt{readOnlyRootFilesystem}) y uso de etiquetas de imagen no
 flotantes. En ese nivel la tasa cae al 14{,}29\,\%. El nivel de validez de dominio promedio
 por muestra es de 3{,}9, coherente con el perfil observado: la mayoría de los manifiestos
-alcanzan el nivel 4 y fallan en el umbral de seguridad.
+alcanzan el nivel 4 y fallan en el umbral de calidad estática.
 
-La magnitud de ese cuello de botella puede expresarse como la caída entre la última compuerta semántica superada de forma mayoritaria y la compuerta de seguridad:
+La magnitud de ese cuello de botella puede expresarse como la caída entre la última compuerta de coherencia de dominio superada de forma mayoritaria y la compuerta de calidad estática:
 
 \[
 \mathrm{drop}_5 = \mathrm{pass}_4 - \mathrm{pass}_5
