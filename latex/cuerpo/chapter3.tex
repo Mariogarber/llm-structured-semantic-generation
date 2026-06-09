@@ -4,7 +4,7 @@
 \label{ch::chapter3}
 
 El objetivo de este capítulo es caracterizar el conjunto de datos y los prompts con los que trabajamos, no como una simple enumeración de estadísticas, sino como
-un análisis que muestre las tensiones estructurales del problema. El análisis inicial sirve para anclar las decisiones de diseño posteriores: explica por qué
+un análisis que muestre las tensiones estructurales del problema \citep{yang2025structeval, li2023strucbench}. El análisis inicial sirve para anclar las decisiones de diseño posteriores: explica por qué
 ciertos modelos fallan de formas específicas, por qué ciertas métricas son necesarias y qué esperamos ver en los experimentos. Además, contrasta estas observaciones
 con los resultados ya obtenidos, de forma que cada característica del dataset encuentra confirmación (o matiz) en lo que el modelo descubre durante el entrenamiento.
 
@@ -63,7 +63,7 @@ Los manifiestos en el dataset corresponden a varios tipos de recursos Kubernetes
 total de documentos. El resto distribuye entre tipos menos comunes: ConfigMap (12), ReplicaSet (9), Namespace (5), CronJob (4) y otros. Esta concentración tiene
 implicaciones para el aprendizaje del modelo, no solo en términos de frecuencia sino de complejidad estructural, que veremos luego.
 
-La distribución de versiones de API refleja el ecosistema real de Kubernetes: v1 (núcleo del API, 48\%), apps/v1 (workloads, 30\%), batch/v1 (tareas programadas, 8\%),
+La distribución de versiones de API refleja la variedad del ecosistema real de Kubernetes, un rasgo que se ve reflejado en estudios empíricos sobre configuraciones y defectos en manifiestos del dominio \citep{rahman2023securityk8s, zhang2025kubernetesdefects}: v1 (núcleo del API, 48\%), apps/v1 (workloads, 30\%), batch/v1 (tareas programadas, 8\%),
 rbac.authorization.k8s.io/v1 (control de acceso, 6\%) y otras versiones. Por último, respecto a la estructura de los manifiestos, casi todas las muestras (238 de 283)
 contienen un único recurso por manifiesto. Solo 36 muestras contienen dos recursos y 8 contienen tres. La mayoría de los problemas jerárquicos que encontramos están
 confinados a la estructura dentro de un único recurso, no en la orquestación de múltiples documentos.
@@ -270,7 +270,8 @@ restricciones'', capturando la esencia pero perdiendo especificidad.
 \subsection{Requisitos capturados}
 
 De los prompts se pueden extraer requisitos semánticos mediante patrones de regex: tipo de recurso (Pod, Deployment, etc.), nombres de aplicación, imágenes de contenedor, labels,
-puertos expuestos, número de replicas, volúmenes y mounts, variables de entorno, namespaces, y restricciones de scheduling (afinidad, tolerancias, etc.). El grado en que estos
+puertos expuestos, número de replicas, volúmenes y mounts, variables de entorno, namespaces, y restricciones de scheduling (afinidad, tolerancias, etc.). Esta lectura de la salida
+respecto a requisitos expresados en lenguaje natural sigue la línea de otras evaluaciones evaluaciones que separan validez técnica y adecuación a la intención \citep{ueno2024migrating, xu2024cloudevalyaml}. El grado en que estos
 requisitos aparecen explícitamente en el prompt varía. Algunos prompts especifican casi todos los requisitos; otros proporcionan solo los campos esenciales. Y de estos requisitos
 mencionados en el prompt, no todos aparecen en el manifest YAML ground truth. Un prompt puede especificar ``el contenedor debe ejecutarse como usuario no-root'', pero el manifest
 del dataset podría no incluir la sección \texttt{securityContext}, bien porque fue omitido deliberadamente o porque el contexto del dataset no cubre todos los requisitos
@@ -315,7 +316,7 @@ el nivel 5, una caída de casi el 50\%.
 
 \subsection{Sintaxis vs. estructura: la brecha del 86\%}
 
-Un YAML puede ser sintácticamente válido pero estructuralmente incorrecto. Entendemos por ``estructuralmente incorrecto'' un manifest que parsea correctamente pero cuya forma
+Un YAML puede ser sintácticamente válido pero estructuralmente incorrecto, una distinción especialmente relevante en benchmarks recientes de salidas estructuradas y generación YAML cloud-native \citep{yang2025structeval, geng2025jsonschemabench, xu2024cloudevalyaml}. Entendemos por ``estructuralmente incorrecto'' un manifest que parsea correctamente pero cuya forma
 canónica (después de parsing y reserialización) difiere del target. Esto puede ocurrir por reordenamiento de claves, por nesting incorrecto, o por omisión/adición de campos.
 
 El modelo fine-tuneado (SFT) alcanza una tasa de éxito de parsing del 98.57\% pero una tasa de igualdad estructural (\textit{parsed equal rate}) de apenas 11.43\%. La brecha
