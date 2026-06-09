@@ -170,7 +170,7 @@ por semántica de contenido, sino también por cómo la arquitectura aprende la 
 \section{Métricas de evaluación: familias y utilidad}
 \label{sec:ch4_metrics}
 
-La evaluación se organiza en familias complementarias. Ninguna métrica individual basta para caracterizar calidad estructural en YAML/Kubernetes. Por eso, el
+La evaluación se organiza en familias complementarias. Ninguna métrica individual basta para caracterizar calidad estructural en YAML/Kubernetes \citep{chen2021evaluating, yang2025structeval, xu2024cloudevalyaml}. Por eso, el
 análisis debe combinar la validez sintáctica, fidelidad de estructura, adecuación textual y consistencia de dominio si quiere ser útil como medida cuantitativa.
 
 \begin{table}[htbp]
@@ -302,7 +302,8 @@ semánticamente plausibles pero estructuralmente frágiles.
 \subsection{Métricas de requisitos de prompt y campos requeridos}
 \label{sec:ch4_metrics_prompt}
 
-El sistema también evalúa la alineación con requisitos extraídos del prompt. La idea es que una predicción puede estar bien formada semánticamente
+El sistema también evalúa la alineación con requisitos extraídos del prompt, una dimensión especialmente relevante en tareas que traducen intención natural a manifiestos
+técnicos \citep{ueno2024migrating, angi2025kgen}. La idea es que una predicción puede estar bien formada semánticamente
 y aun así ignorar restricciones concretas del usuario: el tipo de recurso pedido, el nombre, la imagen del contenedor o el número de réplicas.
 Para capturar esa brecha, el sistema extrae automáticamente un conjunto de requisitos~$Q$ desde el texto del prompt y un conjunto de
 campos cubiertos~$C$ desde el YAML predicho. La precisión y el recobrado de requisitos se definen entonces como:
@@ -347,7 +348,7 @@ Las métricas anteriores responden a preguntas locales: si una línea tiene el n
 Ninguna de ellas, por sí sola, dice si un manifiesto es operativamente aceptable. Para eso el sistema define una escala de validez de dominio
 estructurada en seis compuertas secuenciales, numeradas del 0 al 5, que se evalúan en orden y se detienen en la primera que falla.
 
-La idea es imitar la cadena de checks que un operador real aplicaría antes de aplicar un manifiesto a un clúster: primero que el YAML sea parseable,
+La idea es imitar la cadena de checks que un operador real aplicaría antes de aplicar un manifiesto a un clúster, teniendo en cuenta que los defectos de configuración no se reducen a errores de sintaxis y pueden requerir validaciones progresivas \citep{zhang2025kubernetesdefects, kakarla2024diffy}: primero que el YAML sea parseable,
 luego que la representación interna sea coherente, después que el recurso sea reconocible como Kubernetes, y así progresivamente hasta llegar a
 requisitos de calidad estática. El nivel que alcanza la predicción antes de fallar (o 5 si supera todas las compuertas) es el
 \texttt{kubernetes\_domain\_validity\_level}.
