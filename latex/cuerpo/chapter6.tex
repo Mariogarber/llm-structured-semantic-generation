@@ -387,9 +387,9 @@ Q4 (75--100\,\%) & 3,96 & 3,55 &  1,0\,\% &  1,7\,\% & 0,62 \\
 \end{tabular}
 \end{table}
 
-La Tabla~\ref{tab:ch6_quartile_level_drift} muestra la distribución de niveles por cuartil en el análisis de errores del THO centrado. En el primer cuartil es normal encontrar muchos niveles superficiales: todo manifiesto empieza con
-campos como \texttt{apiVersion}, \texttt{kind} y \texttt{metadata}. Por eso el exceso de ceros en Q1 no es, por sí solo, la prueba más importante. El punto decisivo aparece en Q2.
-Entre el 25\,\% y el 50\,\% de la secuencia, la referencia ya ha entrado de forma clara en niveles internos, pero el modelo todavía predice \texttt{level=0} en el 34,9\,\% de las
+La Tabla~\ref{tab:ch6_quartile_level_drift} muestra la distribución de niveles por cuartil en el análisis de errores del THO centrado. En el primer cuartil es normal encontrar muchos niveles
+superficiales: todo manifiesto empieza con campos como \texttt{apiVersion}, \texttt{kind} y \texttt{metadata}. Por eso el exceso de ceros en Q1 no es, por sí solo, la prueba más importante.
+El punto decisivo aparece en Q2. Entre el 25\,\% y el 50\,\% de la secuencia, la referencia ya ha entrado de forma clara en niveles internos, pero el modelo todavía predice \texttt{level=0} en el 34,9\,\% de las
 líneas. La lectura más precisa, por tanto, no es simplemente que el THO prefiera clases frecuentes, sino que su predicción de profundidad llega tarde: la estructura real desciende
 antes de que el cabezal empiece a seguirla.
 
@@ -433,7 +433,8 @@ relativas y absolutas en la secuencia.
 
 La primera variante se diseñó de forma simple. La posición utilizada es el índice de línea que se está generando, no la longitud final del manifiesto, por lo
 que no introduce información no disponible en inferencia. Ese índice se transforma mediante una codificación sinusoidal de 16 dimensiones, siguiendo la intuición general de los
-encodings posicionales de los Transformers y de las \textit{Fourier features} como mecanismo para representar coordenadas de baja dimensión \citep{vaswani2017attention, tancik2020fourierFeatures}, y se concatena justo antes de la proyección final del cabezal ordinal. De forma esquemática, la arquitectura
+encodings posicionales de los Transformers y de las \textit{Fourier features} como mecanismo para representar coordenadas de baja dimensión \citep{vaswani2017attention, tancik2020fourierFeatures}, y
+se concatena justo antes de la proyección final del cabezal ordinal. De forma esquemática, la arquitectura
 queda:
 
 \[
