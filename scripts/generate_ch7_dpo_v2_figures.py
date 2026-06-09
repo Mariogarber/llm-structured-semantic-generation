@@ -45,19 +45,19 @@ plt.rcParams.update(
 
 
 def save(fig: plt.Figure, name: str) -> None:
-    fig.savefig(OUT_DIR / name, dpi=220, bbox_inches="tight")
+    fig.savefig(OUT_DIR / name, dpi=220, bbox_inches="tight", pad_inches=0.18)
     plt.close(fig)
 
 
 def fig_iterative_cycle() -> None:
     fig, ax = plt.subplots(figsize=(10.8, 4.8))
-    ax.set_xlim(0, 10)
+    ax.set_xlim(-0.35, 10.35)
     ax.set_ylim(0, 4)
     ax.axis("off")
 
     nodes = [
         ("SFT\nserializado", (0.8, 2.2), COLORS["blue"]),
-        ("DPO v1\nbeta=0.10", (2.8, 2.2), COLORS["green"]),
+        ("DPO v1\nbeta=0,10", (2.8, 2.2), COLORS["green"]),
         ("Candidatos\nv2", (4.8, 2.2), COLORS["orange"]),
         ("Selector\nde preferencias", (6.8, 2.2), COLORS["purple"]),
         ("Dataset\nDPO v2", (8.8, 2.2), COLORS["red"]),
@@ -103,7 +103,7 @@ def fig_iterative_cycle() -> None:
     ax.text(
         5.8,
         0.58,
-        "Nueva politica ajustada como punto de partida de la siguiente iteracion",
+        "Nueva política ajustada como punto de partida de la siguiente iteración",
         ha="center",
         va="center",
         fontsize=10,
@@ -112,7 +112,7 @@ def fig_iterative_cycle() -> None:
     ax.text(
         5,
         3.45,
-        "Construccion iterativa de preferencias automaticas",
+        "Construcción iterativa de preferencias automáticas",
         ha="center",
         va="center",
         fontsize=14,
@@ -154,7 +154,7 @@ def fig_pair_types() -> None:
             ax.text(value + max(values) * 0.025, bar.get_y() + bar.get_height() / 2, str(value), va="center", fontsize=9)
         ax.set_xlim(0, max(values) * 1.22)
 
-    fig.suptitle("Composicion de pares de preferencia por iteracion", fontsize=15, weight="bold", y=1.02)
+    fig.suptitle("Composición de pares de preferencia por iteración", fontsize=15, weight="bold", y=1.02)
     fig.tight_layout()
     save(fig, "fig7_6_dpo_v1_v2_pair_types.png")
 
@@ -170,8 +170,8 @@ def fig_kdv_levels() -> None:
     ax.bar(levels + width / 2, rejected, width=width, label="rejected", color=COLORS["red"])
     ax.set_xticks(levels)
     ax.set_xlabel("nivel KDV")
-    ax.set_ylabel("numero de pares")
-    ax.set_title("Distribucion de niveles KDV en el dataset DPO v2", fontsize=14, weight="bold")
+    ax.set_ylabel("número de pares")
+    ax.set_title("Distribución de niveles KDV en el dataset DPO v2", fontsize=14, weight="bold")
     ax.grid(axis="y", color=COLORS["grid"], linewidth=0.8)
     ax.set_axisbelow(True)
     ax.legend(frameon=False, ncols=2, loc="upper right")
@@ -202,7 +202,7 @@ def fig_metric_deltas() -> None:
     ax.set_yticks(y_pos, labels)
     ax.invert_yaxis()
     ax.set_xlabel("diferencia media chosen - rejected")
-    ax.set_title("Separacion media de las preferencias DPO v2", fontsize=14, weight="bold")
+    ax.set_title("Separación media de las preferencias DPO v2", fontsize=14, weight="bold")
     ax.grid(axis="x", color=COLORS["grid"], linewidth=0.8)
     ax.set_axisbelow(True)
     ax.spines[["top", "right"]].set_visible(False)
