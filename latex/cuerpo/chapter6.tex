@@ -10,7 +10,7 @@ función de pérdida que le diga explícitamente que ese dígito representa una 
 supervisa directamente esta variable.
 
 La idea central de este capítulo es sencilla de enunciar: añadir un cabezal adicional que se supervisa directamente sobre la variable \texttt{level}, de modo que el modelo no solo
-aprenda a generar texto sino también a predecir la profundidad jerárquica de cada línea como una tarea separada. La arquitectura resultante, denominada THM (\textit{Two-Headed Model}),
+aprenda a generar texto sino también a predecir la profundidad jerárquica de cada línea como una tarea separada, en línea con la idea general de tratar ciertas salidas como objetos estructurados y no como etiquetas independientes \citep{joachims2009structured, belanger2017spen}. La arquitectura resultante, denominada THM (\textit{Two-Headed Model}),
 mantiene la misma superficie de generación que el SFT serializado pero desacopla la señal estructural de la señal textual. El texto y el nivel dejan de competir por el mismo token:
 el nivel se convierte en una etiqueta supervisada que el modelo aprende en paralelo a la generación.
 
@@ -36,7 +36,7 @@ línea vive bajo cuatro niveles de anidamiento previo, que eso depende de qué r
 malo sino que puede comprometer toda la estructura del documento.
 
 La hipótesis de partida de este capítulo es que separar la señal de nivel de la señal textual podría ayudar en dos sentidos. Por un lado, la función de pérdida vería el nivel
-como una variable explícita a optimizar, no como un subproducto de la generación. Por otro lado, el modelo podría apoyarse en representaciones latentes que, como demostró la sonda
+como una variable explícita a optimizar, no como un subproducto de la generación. Por otro lado, el modelo podría apoyarse en representaciones latentes que, como sugieren los trabajos sobre recuperación de estructura sintáctica en representaciones internas \citep{hewitt2019structural, clark2019bert} y como demostró la sonda
 diagnóstica del capítulo~\ref{ch::chapter3}, ya codifican información jerárquica aprovechable. Esa doble intuición es la que motiva el diseño del THM (\textit{Two-Headed Model}).
 
 
@@ -213,7 +213,8 @@ Se puede vislumbrar un patrón claro: el cabezal de nivel del \texttt{THM v1} no
 gold igual o superior a 5. Ninguna de ellas recibe una predicción correcta. El recall exacto para niveles 5--8 es del 0\,\%; el recall con tolerancia de un nivel (off-by-one) es del
 28\,\%, lo que indica que el modelo se acerca a esos niveles desde abajo pero nunca cruza el umbral de decisión.
 
-La causa estructural parecía ser el desbalanceo extremo de clases. El nivel 5 representa el 2,9\,\% de las líneas de entrenamiento. El nivel 6 el 2,6\,\%. El nivel 7 el 0,5\,\%. El nivel 8
+La causa estructural parecía ser el desbalanceo extremo de clases, un problema especialmente delicado cuando los valores raros no son categorías aisladas sino regiones poco frecuentes
+de una variable ordenada o continua \citep{yang2021imbalancedRegression, steininger2021density}. El nivel 5 representa el 2,9\,\% de las líneas de entrenamiento. El nivel 6 el 2,6\,\%. El nivel 7 el 0,5\,\%. El nivel 8
 el 0,1\,\%, lo que equivale a 8 líneas de entrenamiento sobre un total de 8336. Con una función de pérdida de entropía cruzada estándar y sin corrección de clase, el gradiente que
 proviene de las instancias de nivel 8 es aproximadamente 115 veces más débil que el de las instancias de nivel 0. En la práctica, el cabezal aprende que es seguro ignorar los niveles
 profundos: el coste de equivocarse en ellos es mínimo comparado con el coste de equivocarse en los niveles frecuentes.
@@ -234,7 +235,7 @@ el orden importa.
 
 La segunda familia de experimentos, denominada THO o variante ordinal versión 2, reformula la predicción de nivel como un problema de regresión ordinal. En lugar
 de producir directamente una distribución sobre nueve clases, el cabezal proyecta el estado oculto a un escalar continuo $z$ mediante un MLP, y ese escalar se compara con una
-secuencia de umbrales aprendibles $\tau_0 < \tau_1 < \ldots < \tau_7$. El nivel predicho es el número de umbrales que $z$ supera:
+secuencia de umbrales aprendibles $\tau_0 < \tau_1 < \ldots < \tau_7$ \citep{vargas2020cumulative}. El nivel predicho es el número de umbrales que $z$ supera:
 
 \[
 \hat{\ell} = \sum_{k=0}^{7} \mathbf{1}[z > \tau_k].
@@ -415,9 +416,9 @@ dentro del mismo cuartil. En términos intuitivos, un estado de \texttt{level=2}
 pertenecientes a otros niveles. Esta es precisamente la situación en la que una frontera global puede quedar mal calibrada.
 
 El análisis se reforzó con pruebas estadísticas sobre los mismos grupos. Primero, se aplicó MMD con kernel RBF para comparar Q1 frente a Q4 dentro de cada nivel con soporte
-suficiente. Todas las comparaciones evaluadas resultaron significativas tras corrección por comparaciones múltiples. Después, se aplicó PERMANOVA para comprobar si el cuartil
-explicaba variación multivariante dentro de un mismo nivel; de nuevo, el efecto apareció de forma sistemática. Finalmente, PERMDISP mostró que en muchos niveles la diferencia no
-era solo un desplazamiento del centroide, sino también un cambio en la dispersión interna de los estados.
+suficiente \citep{gretton2012kernel}. Todas las comparaciones evaluadas resultaron significativas tras corrección por comparaciones múltiples. Después, se aplicó PERMANOVA para comprobar si el cuartil
+explicaba variación multivariante dentro de un mismo nivel \citep{anderson2001permanova}; de nuevo, el efecto apareció de forma sistemática. Finalmente, PERMDISP mostró que en muchos niveles la diferencia no
+era solo un desplazamiento del centroide, sino también un cambio en la dispersión interna de los estados \citep{anderson2006permdisp}.
 
 \subsection{Condicionamiento posicional del cabezal ordinal}
 \label{sec:ch6_positional_encoder}
@@ -432,7 +433,7 @@ relativas y absolutas en la secuencia.
 
 La primera variante se diseñó de forma simple. La posición utilizada es el índice de línea que se está generando, no la longitud final del manifiesto, por lo
 que no introduce información no disponible en inferencia. Ese índice se transforma mediante una codificación sinusoidal de 16 dimensiones, siguiendo la intuición general de los
-encodings posicionales de los Transformers \citep{vaswani2017attention}, y se concatena justo antes de la proyección final del cabezal ordinal. De forma esquemática, la arquitectura
+encodings posicionales de los Transformers y de las \textit{Fourier features} como mecanismo para representar coordenadas de baja dimensión \citep{vaswani2017attention, tancik2020fourierFeatures}, y se concatena justo antes de la proyección final del cabezal ordinal. De forma esquemática, la arquitectura
 queda:
 
 \[

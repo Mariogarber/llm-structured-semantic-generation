@@ -1,11 +1,13 @@
 \relax 
 \providecommand\hyper@newdestlabel[2]{}
+\citation{joachims2009structured,belanger2017spen}
 \@writefile{toc}{\contentsline {chapter}{\numberline {6}Resultados II: Ajuste Fino con Predicción Explícita de Nivel}{51}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{ch::chapter6}{{6}{51}{Resultados II: Ajuste Fino con Predicción Explícita de Nivel}{chapter.6}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {6.1}Motivación: los límites de la supervisión implícita}{51}{section.6.1}\protected@file@percent }
 \newlabel{sec:ch6_motivation}{{6.1}{51}{Motivación: los límites de la supervisión implícita}{section.6.1}{}}
+\citation{hewitt2019structural,clark2019bert}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1.1}Análisis de la señal latente}{52}{subsection.6.1.1}\protected@file@percent }
 \newlabel{sec:ch6_latent_probe}{{6.1.1}{52}{Análisis de la señal latente}{subsection.6.1.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Recall por nivel del mejor aproximador lineal (\texttt  {line\_first\_token}) sobre las representaciones del modelo base. Los niveles 0--4 muestran señal sólida; a partir del nivel 5 el recall cae por debajo del 32\,\%, y los niveles 7--8 son inestables por escasez de muestras.}}{53}{figure.caption.34}\protected@file@percent }
@@ -24,31 +26,36 @@
 \newlabel{fig:ch6_train_loss}{{6.3}{56}{Curvas de pérdida durante el entrenamiento del \texttt {THM v1}: pérdida total, componente LM y componente de nivel ($\lambda $ = 1,0, 3 épocas, 159 pasos globales)}{figure.caption.38}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces Comparativa visual de métricas clave entre el baseline zero-shot y \texttt  {THM v1} en el split de validación.}}{56}{figure.caption.39}\protected@file@percent }
 \newlabel{fig:ch6_comparison_bars}{{6.4}{56}{Comparativa visual de métricas clave entre el baseline zero-shot y \texttt {THM v1} en el split de validación}{figure.caption.39}{}}
+\citation{yang2021imbalancedRegression,steininger2021density}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}Colapso hacia los niveles superficiales}{57}{subsection.6.3.1}\protected@file@percent }
 \newlabel{sec:ch6_level_collapse}{{6.3.1}{57}{Colapso hacia los niveles superficiales}{subsection.6.3.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces Distribución comparada de niveles: ground truth de validación (azul) y predicciones del \texttt  {THM v1} (rojo). El modelo emite cero predicciones para los niveles 5 a 8; la zona sombreada marca la región de colapso.}}{57}{figure.caption.40}\protected@file@percent }
 \newlabel{fig:ch6_level_dist}{{6.5}{57}{Distribución comparada de niveles: ground truth de validación (azul) y predicciones del \texttt {THM v1} (rojo). El modelo emite cero predicciones para los niveles 5 a 8; la zona sombreada marca la región de colapso}{figure.caption.40}{}}
+\citation{vargas2020cumulative}
 \@writefile{toc}{\contentsline {section}{\numberline {6.4}Los modelos clasificadores ordinales}{58}{section.6.4}\protected@file@percent }
 \newlabel{sec:ch6_ordinal}{{6.4}{58}{Los modelos clasificadores ordinales}{section.6.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}Variante inicial y tasa de aprendizaje de umbrales (lr25)}{58}{subsection.6.4.1}\protected@file@percent }
-\newlabel{sec:ch6_ordinal_initial}{{6.4.1}{58}{Variante inicial y tasa de aprendizaje de umbrales (lr25)}{subsection.6.4.1}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Comparativa de las cuatro variantes ordinales en el split de validación (70 muestras). La columna ``Recall exacto 5--8'' recoge el recall del cabezal sobre niveles profundos. La columna ``Off-by-1 profundo'' es el recall con tolerancia de $\pm $1 para niveles 5--8.}}{59}{table.caption.41}\protected@file@percent }
 \newlabel{tab:ch6_ordinal_variants}{{6.3}{59}{Comparativa de las cuatro variantes ordinales en el split de validación (70 muestras). La columna ``Recall exacto 5--8'' recoge el recall del cabezal sobre niveles profundos. La columna ``Off-by-1 profundo'' es el recall con tolerancia de $\pm $1 para niveles 5--8}{table.caption.41}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces Comparativa visual de las cuatro variantes ordinal en cuatro métricas: parseo YAML, coincidencia exacta de nivel, F1 de contenido textual y recall off-by-one en niveles profundos (5--8).}}{59}{figure.caption.42}\protected@file@percent }
 \newlabel{fig:ch6_ordinal_bars}{{6.6}{59}{Comparativa visual de las cuatro variantes ordinal en cuatro métricas: parseo YAML, coincidencia exacta de nivel, F1 de contenido textual y recall off-by-one en niveles profundos (5--8)}{figure.caption.42}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}Variante inicial y tasa de aprendizaje de umbrales (lr25)}{60}{subsection.6.4.1}\protected@file@percent }
+\newlabel{sec:ch6_ordinal_initial}{{6.4.1}{60}{Variante inicial y tasa de aprendizaje de umbrales (lr25)}{subsection.6.4.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}MLP de tres capas (mlp3)}{60}{subsection.6.4.2}\protected@file@percent }
 \newlabel{sec:ch6_ordinal_mlp3}{{6.4.2}{60}{MLP de tres capas (mlp3)}{subsection.6.4.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}Umbrales centrados: el primer acceso a los niveles profundos}{60}{subsection.6.4.3}\protected@file@percent }
 \newlabel{sec:ch6_centered}{{6.4.3}{60}{Umbrales centrados: el primer acceso a los niveles profundos}{subsection.6.4.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces Evolución de los ocho umbrales $\tau _k$ durante el entrenamiento de la variante \textit  {centered-gap05} (159 pasos, 3 épocas). Los umbrales superiores a 4 se desplazan.}}{61}{figure.caption.43}\protected@file@percent }
 \newlabel{fig:ch6_threshold_drift}{{6.7}{61}{Evolución de los ocho umbrales $\tau _k$ durante el entrenamiento de la variante \textit {centered-gap05} (159 pasos, 3 épocas). Los umbrales superiores a 4 se desplazan}{figure.caption.43}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Trade-off entre tasa de parseo YAML y recall exacto de niveles profundos (5--8) para las cinco variantes two-head probadas. Solo la variante \textit  {centered} activa predicciones profundas, pero a costa de colapsar la generación de contenido.}}{61}{figure.caption.44}\protected@file@percent }
-\newlabel{fig:ch6_tradeoff}{{6.8}{61}{Trade-off entre tasa de parseo YAML y recall exacto de niveles profundos (5--8) para las cinco variantes two-head probadas. Solo la variante \textit {centered} activa predicciones profundas, pero a costa de colapsar la generación de contenido}{figure.caption.44}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.5}Análisis de errores del THO centrado}{62}{section.6.5}\protected@file@percent }
-\newlabel{sec:ch6_positional_drift}{{6.5}{62}{Análisis de errores del THO centrado}{section.6.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Análisis de errores del THO centrado}{61}{section.6.5}\protected@file@percent }
+\newlabel{sec:ch6_positional_drift}{{6.5}{61}{Análisis de errores del THO centrado}{section.6.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Trade-off entre tasa de parseo YAML y recall exacto de niveles profundos (5--8) para las cinco variantes two-head probadas. Solo la variante \textit  {centered} activa predicciones profundas, pero a costa de colapsar la generación de contenido.}}{62}{figure.caption.44}\protected@file@percent }
+\newlabel{fig:ch6_tradeoff}{{6.8}{62}{Trade-off entre tasa de parseo YAML y recall exacto de niveles profundos (5--8) para las cinco variantes two-head probadas. Solo la variante \textit {centered} activa predicciones profundas, pero a costa de colapsar la generación de contenido}{figure.caption.44}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Distribución de niveles por cuartil en el análisis de errores del THO centrado. El patrón más relevante aparece en Q2: el YAML de referencia casi ya no está en \texttt  {level=0}, pero el modelo conserva una proporción elevada de predicciones superficiales.}}{62}{table.caption.45}\protected@file@percent }
 \newlabel{tab:ch6_quartile_level_drift}{{6.4}{62}{Distribución de niveles por cuartil en el análisis de errores del THO centrado. El patrón más relevante aparece en Q2: el YAML de referencia casi ya no está en \texttt {level=0}, pero el modelo conserva una proporción elevada de predicciones superficiales}{table.caption.45}{}}
-\citation{vaswani2017attention}
+\citation{gretton2012kernel}
+\citation{anderson2001permanova}
+\citation{anderson2006permdisp}
+\citation{vaswani2017attention,tancik2020fourierFeatures}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.5.1}Condicionamiento posicional del cabezal ordinal}{64}{subsection.6.5.1}\protected@file@percent }
 \newlabel{sec:ch6_positional_encoder}{{6.5.1}{64}{Condicionamiento posicional del cabezal ordinal}{subsection.6.5.1}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Comparativa entre la base \textit  {THO centered} y el primer experimento con codificación posicional por concatenación final (\textit  {THOP v1}). La compresión de niveles 5--8 a 0--4 debe leerse en sentido inverso: valores más altos indican más colapso hacia niveles superficiales.}}{65}{table.caption.46}\protected@file@percent }
