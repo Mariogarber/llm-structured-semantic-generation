@@ -162,7 +162,7 @@ Recuperación ante OOM & omitir el microbatch problemático cuando la variante l
 \shortstack[l]{\texttt{two\_head\_ordinal}\\\texttt{\_density}} & no documentado & Se añade como primera familia ordinal con pérdida ponderada por densidad. \\
 \shortstack[l]{\texttt{two\_head\_ordinal}\\\texttt{\_positional}} & documentado parcialmente & Se mantiene y se precisa como variante V1 con concatenación posicional final. \\
 \shortstack[l]{\texttt{two\_head\_ordinal\_film}\\\texttt{\_positional}} & no documentado & Se añade como experimento posterior en curso con modulación FiLM. \\
-\texttt{serialized\_sft\_dpo} & no documentado & Se añaden las dos ejecuciones DPO completas, con $\beta=0.10$ y $\beta=0.30$. \\
+\texttt{serialized\_sft\_dpo} & no documentado & Se añade la ejecución DPO completa con $\beta=0.10$, se deja $\beta=0.30$ como evaluación parcial pendiente y se documenta la generación del dataset DPO v2. \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -299,8 +299,32 @@ Warmup & 0.03 \\
 Decaimiento de pesos & 0.0 \\
 Gradient checkpointing & activado \\
 Recuperación ante OOM & fallar la ejecución \\
-Configuraciones $\beta$ ejecutadas & 0.10 y 0.30 \\
+Configuraciones $\beta$ ejecutadas & 0.10 completa; 0.30 con evaluación parcial pendiente \\
 Política de referencia & modelo \texttt{serialized\_sft} congelado; log-probabilidades de referencia precomputadas \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Parámetros de generación y selección del dataset de preferencias DPO v2.}
+\label{tab:AnexoA_dpo_v2_dataset}
+\begin{tabularx}{\textwidth}{p{0.34\textwidth}X}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} \\
+\midrule
+Política generadora & checkpoint final de DPO v1 con $\beta=0.10$ (\texttt{checkpoint-step-57}) \\
+Política de referencia prevista para la siguiente iteración & misma política generadora, congelada como \(\pi_{\mathrm{ref}}^{(2)}\) \\
+Split usado para generar candidatos & entrenamiento de \texttt{kubernetes\_v1} \\
+Prompts considerados & 426 \\
+Candidatos por prompt & 6 \\
+Candidatos evaluados & 2556 \\
+Pares finales seleccionados & 229 \\
+Prompts con al menos un par & 193 \\
+Tipos de pares & \texttt{domain\_invariant}, \texttt{gate\_crossing}, \texttt{level5\_practice}, \texttt{prompt\_fidelity}, \texttt{structural\_fidelity} \\
+Margen mínimo de preferencia & 0.25 \\
+Restricciones de conservación & no degradar en exceso fidelidad al prompt, F1 de líneas, exactitud de \texttt{level} ni campos obligatorios \\
+Estado del dataset & generado y analizado; entrenamiento posterior pendiente de evaluación completa \\
 \bottomrule
 \end{tabularx}
 \end{table}
