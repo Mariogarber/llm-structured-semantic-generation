@@ -348,7 +348,8 @@ Las métricas anteriores responden a preguntas locales: si una línea tiene el n
 Ninguna de ellas, por sí sola, dice si un manifiesto es operativamente aceptable. Para eso el sistema define una escala de validez de dominio
 estructurada en seis compuertas secuenciales, numeradas del 0 al 5, que se evalúan en orden y se detienen en la primera que falla.
 
-La idea es imitar la cadena de checks que un operador real aplicaría antes de aplicar un manifiesto a un clúster, teniendo en cuenta que los defectos de configuración no se reducen a errores de sintaxis y pueden requerir validaciones progresivas \citep{zhang2025kubernetesdefects, kakarla2024diffy}: primero que el YAML sea parseable,
+La idea es imitar la cadena de checks que un operador real aplicaría antes de aplicar un manifiesto a un clúster, teniendo en cuenta que los defectos de configuración no se reducen
+a errores de sintaxis y pueden requerir validaciones progresivas \citep{zhang2025kubernetesdefects, kakarla2024diffy}: primero que el YAML sea parseable,
 luego que la representación interna sea coherente, después que el recurso sea reconocible como Kubernetes, y así progresivamente hasta llegar a
 requisitos de calidad estática. El nivel que alcanza la predicción antes de fallar (o 5 si supera todas las compuertas) es el
 \texttt{kubernetes\_domain\_validity\_level}.
@@ -371,7 +372,8 @@ requisitos de calidad estática. El nivel que alcanza la predicción antes de fa
 \end{tabular}
 \end{table}
 
-La escala es acumulativa: superar el nivel~$\ell$ implica haber superado todos los anteriores. Si \(c_r(y_i)\) representa que la muestra \(i\) supera la compuerta \(r\), la tasa de paso del nivel~\(\ell\) sobre un conjunto de evaluación \(S\) puede escribirse como:
+La escala es acumulativa: superar el nivel~$\ell$ implica haber superado todos los anteriores. Si \(c_r(y_i)\) representa que la muestra \(i\) supera la compuerta \(r\),
+la tasa de paso del nivel~\(\ell\) sobre un conjunto de evaluación \(S\) puede escribirse como:
 
 \[
 \mathrm{pass}_{\ell} =
@@ -392,9 +394,9 @@ y \(q_{i,r}=0\) en caso contrario. El score KDV de la muestra y su media agregad
 \]
 
 La media \(\overline{\mathrm{KDV}}\) se registra en los experimentos como \texttt{average\_\allowbreak kubernetes\_\allowbreak domain\_\allowbreak validity\_\allowbreak score}.
-Esta magnitud es más suave que \texttt{kubernetes\_\allowbreak domain\_\allowbreak gate\_\allowbreak pass\_\allowbreak rate}: una muestra que no alcanza el nivel~5 puede seguir recibiendo crédito parcial por los checks que sí
-satisface, aunque el nivel acumulativo se detenga en la primera compuerta fallida. Precisamente por eso resulta útil en comparaciones intermedias y en la construcción de preferencias automáticas, donde muchas candidatas pueden fallar la compuerta final
-pero diferir claramente en calidad de dominio.
+Esta magnitud es más suave que \texttt{kubernetes\_\allowbreak domain\_\allowbreak gate\_\allowbreak pass\_\allowbreak rate}: una muestra que no alcanza el nivel~5 puede seguir
+recibiendo crédito parcial por los checks que sí satisface, aunque el nivel acumulativo se detenga en la primera compuerta fallida. Precisamente por eso resulta útil en comparaciones
+intermedias y en la construcción de preferencias automáticas, donde muchas candidatas pueden fallar la compuerta final pero diferir claramente en calidad de dominio.
 
 La definición acumulativa de \(\mathrm{pass}_{\ell}\) convierte la escala en un criterio legible de comparación
 entre formulaciones, más informativo que una media de métricas heterogéneas. Si un modelo pasa sistemáticamente el nivel~2 pero no el~3, el diagnóstico
@@ -402,7 +404,9 @@ es claro: genera recursos identificables pero con incoherencias internas. Si se 
 
 La compuerta final, el nivel~5, recoge requisitos de calidad que no son estrictamente obligatorios para que Kubernetes acepte el manifiesto, pero que
 sí son buenas prácticas habituales en entornos de producción. Precisamente por eso es la más difícil de superar y la que actúa como criterio de
-excelencia operativa, especialmente porque las configuraciones Kubernetes pueden ser sintácticamente válidas y aun así introducir riesgos de seguridad o mantenimiento \citep{rahman2023securityk8s, zhang2024generativeSmells}. La tasa de muestras que alcanzan el nivel~5 se registra como \texttt{kubernetes\_\allowbreak domain\_\allowbreak gate\_\allowbreak pass\_\allowbreak rate}, y será
+excelencia operativa, especialmente porque las configuraciones Kubernetes pueden ser sintácticamente válidas y aun así introducir riesgos de seguridad o
+mantenimiento \citep{rahman2023securityk8s, zhang2024generativeSmells}. La tasa de muestras que alcanzan el nivel~5 se registra como
+\texttt{kubernetes\_\allowbreak domain\_\allowbreak gate\_\allowbreak pass\_\allowbreak rate}, y será
 uno de los indicadores principales en el capítulo de resultados.
 
 Finalmente, todas las métricas se agregan a nivel de dataset para obtener tasas medias, varianzas y criterios de comparación entre formulaciones.

@@ -1,4 +1,4 @@
-\begin{thebibliography}{50}
+\begin{thebibliography}{57}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\href}[2]{#2}
@@ -19,6 +19,24 @@
 \newblock
   \bibinfo{howpublished}{\url{https://github.com/alibaba/CloudEval-YAML}}.
 \newblock \bibinfo{note}{MIT License}.
+%Type = Article
+\bibitem[{Anderson(2001)}]{anderson2001permanova}
+\bibinfo{author}{Anderson, M.J.}, \bibinfo{year}{2001}.
+\newblock \bibinfo{title}{A new method for non-parametric multivariate analysis
+  of variance}.
+\newblock \bibinfo{journal}{Austral Ecology} \bibinfo{volume}{26},
+  \bibinfo{pages}{32--46}.
+\newblock \URLprefix \url{https://doi.org/10.1046/j.1442-9993.2001.01070.x},
+  \DOIprefix\doi{10.1046/j.1442-9993.2001.01070.x}.
+%Type = Article
+\bibitem[{Anderson(2006)}]{anderson2006permdisp}
+\bibinfo{author}{Anderson, M.J.}, \bibinfo{year}{2006}.
+\newblock \bibinfo{title}{Distance-based tests for homogeneity of multivariate
+  dispersions}.
+\newblock \bibinfo{journal}{Biometrics} \bibinfo{volume}{62},
+  \bibinfo{pages}{245--253}.
+\newblock \URLprefix \url{https://doi.org/10.1111/j.1541-0420.2005.00440.x},
+  \DOIprefix\doi{10.1111/j.1541-0420.2005.00440.x}.
 %Type = Article
 \bibitem[{Andor et~al.(2016)Andor, Alberti, Weiss, Severyn, Presta, Ganchev,
   Petrov and Collins}]{andor2016globally}
@@ -205,6 +223,16 @@
   without finetuning}, in: \bibinfo{booktitle}{Proceedings of the 2023
   Conference on Empirical Methods in Natural Language Processing}.
 \newblock \URLprefix \url{https://arxiv.org/abs/2305.13971}.
+%Type = Article
+\bibitem[{Gretton et~al.(2012)Gretton, Borgwardt, Rasch, Schoelkopf and
+  Smola}]{gretton2012kernel}
+\bibinfo{author}{Gretton, A.}, \bibinfo{author}{Borgwardt, K.M.},
+  \bibinfo{author}{Rasch, M.J.}, \bibinfo{author}{Schoelkopf, B.},
+  \bibinfo{author}{Smola, A.}, \bibinfo{year}{2012}.
+\newblock \bibinfo{title}{A kernel two-sample test}.
+\newblock \bibinfo{journal}{Journal of Machine Learning Research}
+  \bibinfo{volume}{13}, \bibinfo{pages}{723--773}.
+\newblock \URLprefix \url{https://www.jmlr.org/papers/v13/gretton12a.html}.
 %Type = Inproceedings
 \bibitem[{Hewitt and Manning(2019)}]{hewitt2019structural}
 \bibinfo{author}{Hewitt, J.}, \bibinfo{author}{Manning, C.D.},
@@ -403,6 +431,30 @@
   parsers}, in: \bibinfo{booktitle}{Proceedings of the 2021 Conference on
   Empirical Methods in Natural Language Processing}.
 \newblock \URLprefix \url{https://aclanthology.org/2021.emnlp-main.608/}.
+%Type = Article
+\bibitem[{Steininger et~al.(2021)Steininger, Kobs, Davidson, Krause and
+  Hotho}]{steininger2021density}
+\bibinfo{author}{Steininger, M.}, \bibinfo{author}{Kobs, K.},
+  \bibinfo{author}{Davidson, P.}, \bibinfo{author}{Krause, A.},
+  \bibinfo{author}{Hotho, A.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Density-based weighting for imbalanced regression}.
+\newblock \bibinfo{journal}{Machine Learning} \bibinfo{volume}{110},
+  \bibinfo{pages}{2187--2211}.
+\newblock \URLprefix \url{https://doi.org/10.1007/s10994-021-06023-5},
+  \DOIprefix\doi{10.1007/s10994-021-06023-5}.
+%Type = Inproceedings
+\bibitem[{Tancik et~al.(2020)Tancik, Srinivasan, Mildenhall, Fridovich-Keil,
+  Raghavan, Singhal, Ramamoorthi, Barron and Ng}]{tancik2020fourierFeatures}
+\bibinfo{author}{Tancik, M.}, \bibinfo{author}{Srinivasan, P.P.},
+  \bibinfo{author}{Mildenhall, B.}, \bibinfo{author}{Fridovich-Keil, S.},
+  \bibinfo{author}{Raghavan, N.}, \bibinfo{author}{Singhal, U.},
+  \bibinfo{author}{Ramamoorthi, R.}, \bibinfo{author}{Barron, J.T.},
+  \bibinfo{author}{Ng, R.}, \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Fourier features let networks learn high frequency
+  functions in low dimensional domains}, in: \bibinfo{booktitle}{Advances in
+  Neural Information Processing Systems}, pp. \bibinfo{pages}{7537--7547}.
+\newblock \URLprefix
+  \url{https://papers.nips.cc/paper/2020/hash/55053683268957697aa39fba6f231c68-Abstract.html}.
 %Type = Inproceedings
 \bibitem[{Ueno and Uchiumi(2024)}]{ueno2024migrating}
 \bibinfo{author}{Ueno, M.}, \bibinfo{author}{Uchiumi, T.},
@@ -413,6 +465,17 @@
   \bibinfo{publisher}{IEEE}. pp. \bibinfo{pages}{701--706}.
 \newblock \URLprefix \url{https://arxiv.org/abs/2408.11428},
   \DOIprefix\doi{10.1109/ICSME58944.2024.00074}.
+%Type = Article
+\bibitem[{Vargas-Yun et~al.(2020)Vargas-Yun, Gutierrez and
+  Hervas-Martinez}]{vargas2020cumulative}
+\bibinfo{author}{Vargas-Yun, V.M.}, \bibinfo{author}{Gutierrez, P.A.},
+  \bibinfo{author}{Hervas-Martinez, C.}, \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Cumulative link models for deep ordinal
+  classification}.
+\newblock \bibinfo{journal}{Neurocomputing} \bibinfo{volume}{401},
+  \bibinfo{pages}{48--58}.
+\newblock \URLprefix \url{https://doi.org/10.1016/j.neucom.2020.03.034},
+  \DOIprefix\doi{10.1016/j.neucom.2020.03.034}.
 %Type = Inproceedings
 \bibitem[{Vaswani et~al.(2017)Vaswani, Shazeer, Parmar, Uszkoreit, Jones,
   Gomez, Kaiser and Polosukhin}]{vaswani2017attention}
@@ -506,6 +569,17 @@
   generate structural outputs}.
 \newblock \bibinfo{journal}{arXiv preprint arXiv:2505.20139} \URLprefix
   \url{https://arxiv.org/abs/2505.20139}.
+%Type = Inproceedings
+\bibitem[{Yang et~al.(2021)Yang, Zha, Chen, Wang and
+  Katabi}]{yang2021imbalancedRegression}
+\bibinfo{author}{Yang, Y.}, \bibinfo{author}{Zha, K.}, \bibinfo{author}{Chen,
+  Y.}, \bibinfo{author}{Wang, H.}, \bibinfo{author}{Katabi, D.},
+  \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Delving into deep imbalanced regression}, in:
+  \bibinfo{booktitle}{Proceedings of the 38th International Conference on
+  Machine Learning}, \bibinfo{publisher}{PMLR}. pp.
+  \bibinfo{pages}{11842--11851}.
+\newblock \URLprefix \url{https://proceedings.mlr.press/v139/yang21m.html}.
 %Type = Inproceedings
 \bibitem[{Yin and Neubig(2017)}]{yin2017syntactic}
 \bibinfo{author}{Yin, P.}, \bibinfo{author}{Neubig, G.}, \bibinfo{year}{2017}.

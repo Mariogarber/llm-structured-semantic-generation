@@ -53,45 +53,45 @@ Warning--empty pages in wei2022scaling
 Warning--empty pages in xu2024dpoPpo
 Warning--empty pages in xu2024cloudevalyaml
 Warning--empty pages in yin2017syntactic
-You've used 50 entries,
+You've used 57 entries,
             2990 wiz_defined-function locations,
-            1017 strings with 21085 characters,
-and the built_in function-call counts, 41402 in all, are:
-= -- 2764
-> -- 2732
-< -- 20
-+ -- 1046
-- -- 987
-* -- 5088
-:= -- 6260
-add.period$ -- 155
-call.type$ -- 50
-change.case$ -- 577
-chr.to.int$ -- 49
-cite$ -- 71
-duplicate$ -- 2783
-empty$ -- 2364
-format.name$ -- 1141
-if$ -- 7396
+            1076 strings with 22976 characters,
+and the built_in function-call counts, 47172 in all, are:
+= -- 3237
+> -- 2978
+< -- 24
++ -- 1144
+- -- 1074
+* -- 5742
+:= -- 7077
+add.period$ -- 181
+call.type$ -- 57
+change.case$ -- 641
+chr.to.int$ -- 56
+cite$ -- 78
+duplicate$ -- 3181
+empty$ -- 2756
+format.name$ -- 1245
+if$ -- 8496
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 617
-newline$ -- 270
-num.names$ -- 200
-pop$ -- 1149
+missing$ -- 696
+newline$ -- 310
+num.names$ -- 228
+pop$ -- 1266
 preamble$ -- 1
-purify$ -- 524
+purify$ -- 581
 quote$ -- 0
-skip$ -- 838
+skip$ -- 976
 stack$ -- 0
-substring$ -- 692
-swap$ -- 2256
-text.length$ -- 4
+substring$ -- 980
+swap$ -- 2578
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 450
+type$ -- 513
 warning$ -- 21
-while$ -- 162
+while$ -- 199
 width$ -- 0
-write$ -- 732
+write$ -- 847
 (There were 21 warnings)
