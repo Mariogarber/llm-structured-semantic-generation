@@ -219,8 +219,8 @@ proviene de las instancias de nivel 8 es aproximadamente 115 veces más débil q
 profundos: el coste de equivocarse en ellos es mínimo comparado con el coste de equivocarse en los niveles frecuentes.
 
 Las muestras con parseo YAML fallido presentan una tasa de presencia de contenedores (\texttt{containers}) del 97,2\,\%,
-frente al 79,4\,\% en las muestras parseables. Los manifests de tipo Deployment o StatefulSet, que son precisamente los que generan estructuras de nivel 5 o superior a través del
-anidamiento \texttt{spec\textrightarrow{}template\textrightarrow{}spec\textrightarrow{}containers\textrightarrow{}volumeMounts}, concentran de forma desproporcionada los fallos.
+frente al 79,4\,\% en las muestras parseables. Los manifests de tipo Deployment o StatefulSet son precisamente los que generan estructuras de nivel 5 o superior a través del
+anidamiento \texttt{spec\textrightarrow{}template\textrightarrow{}spec\textrightarrow{}containers\textrightarrow{}volumeMounts}.
 
 
 %----------------------------------------------------------------------
@@ -241,7 +241,9 @@ secuencia de umbrales aprendibles $\tau_0 < \tau_1 < \ldots < \tau_7$. El nivel 
 \]
 
 La pérdida se define como la suma de entropías cruzadas binarias para cada uno de los ocho problemas de umbral: ``¿es el nivel mayor que $k$?''. Esta formulación obliga al modelo a
-aprender una representación continua que respeta el orden entre clases, y permite que los umbrales sean aprendidos conjuntamente con el resto de la red.
+aprender una representación continua que respeta el orden entre clases, y permite que los umbrales sean aprendidos conjuntamente con el resto de la red. El objetivo es conseguir acceder
+a los niveles profundos sin que el modelo tenga que aprender a predecirlos directamente como clases raras, sino a través de una representación latente que pueda cruzar umbrales de
+forma más fluida.
 
 Se probaron cuatro variantes dentro de esta familia, progresivamente modificadas en función de los diagnósticos obtenidos en cada run. La Tabla~\ref{tab:ch6_ordinal_variants} resume
 los resultados de las cuatro variantes en el split de validación.
@@ -282,9 +284,9 @@ centered (gap=0,5)   &  2{,}86\,\%     & 1{,}07\,\%      & 0{,}456        &  1{,
 
 La variante inicial establece los umbrales con espaciado uniforme de 1,0 unidad ($\tau_0$ = 0,5, $\tau_1$ = 1,5, \ldots, $\tau_7$ = 7,5) y usa la misma tasa de aprendizaje
 para todos los parámetros. Los resultados son peores que el THM v1 en parseo YAML (25,71\,\% frente a 48,57\,\%) pero no mejores en recall de niveles profundos:
-sigue siendo cero el recall exacto para niveles 5-8, aunque el off-by-one alcanza el 21,9\,\%, indicando que el escalar $z$ se acerca al umbral pero no lo cruza.
+seguimos sin conseguir que el modelo prediga ningún nivel mayor o igual a 5.
 
-El diagnóstico de los umbrales revela el problema de fondo: durante el entrenamiento completo (159 pasos), los umbrales apenas se desplazan. La variación total de $\tau_0$ a
+El diagnóstico de los umbrales revela que durante el entrenamiento completo (159 pasos), los umbrales apenas se desplazan. La variación total de $\tau_0$ a
 $\tau_7$ es del orden de $10^{-3}$, mientras que el escalar latente $z$ oscila en un rango de $-$3 a +9. El modelo aprende ajustando $z$ y no los umbrales. La interpretación es que
 el gradiente de la pérdida de umbral, pequeño en relación con el gradiente de la pérdida de contenido, es insuficiente para mover parámetros de umbral cuya inicialización ya permite
 una clasificación aproximada de los casos frecuentes.
@@ -300,13 +302,12 @@ pero no suficiente para romper el patrón de colapso.
 %----------------------------------------------------------------------
 
 La variante mlp3 aumenta la capacidad del cabezal de nivel a un MLP de tres capas con dimensiones (512, 256), lo que da al sistema más expresividad para proyectar el estado oculto
-al escalar latente $z$. También aumenta el factor multiplicador de la tasa de aprendizaje de umbrales a 50. Los resultados son los peores de la familia: 14,29\,\% de parseo YAML y
-un off-by-one de nivel profundo del 0\,\%. La hipótesis más plausible es que la mayor capacidad del cabezal produce gradientes de nivel más grandes que interfieren con la generación
-textual, empujando al backbone hacia representaciones que dificultan el seguimiento de la secuencia de texto.
+al escalar latente $z$. También aumenta el factor multiplicador de la tasa de aprendizaje de umbrales a 50. Los resultados no mejoran los anteriores experimentos: 14,29\,\% de parseo YAML y
+un off-by-one de nivel profundo del 0\,\%. Seguramente esto se deba a un aumento de la capacidad del modelo sin mejoras en la entrada del entrenamiento ni en el número de muestras.
 
 
 %----------------------------------------------------------------------
-\section{Umbrales centrados: el primer acceso a los niveles profundos}
+\subsection{Umbrales centrados: el primer acceso a los niveles profundos}
 \label{sec:ch6_centered}
 %----------------------------------------------------------------------
 
@@ -319,14 +320,12 @@ dirección positiva puede activar predicciones de nivel profundo.
 \centering
 \includegraphics[width=0.82\textwidth]{figures/chapter6/fig6_7_threshold_drift.png}
 \caption{Evolución de los ocho umbrales $\tau_k$ durante el entrenamiento de la variante
-         \textit{centered-gap05} (159 pasos, 3 épocas). A pesar del alto factor de tasa de aprendizaje
-         (×50), los umbrales apenas se desplazan respecto a su inicialización.}
+         \textit{centered-gap05} (159 pasos, 3 épocas). Los umbrales superiores a 4 se desplazan.}
 \label{fig:ch6_threshold_drift}
 \end{figure}
 
-La Figura~\ref{fig:ch6_threshold_drift} muestra la evolución de los umbrales durante el entrenamiento. Como en las variantes anteriores, los umbrales apenas se mueven: la
-variación total es del orden de 0,5 unidades a lo largo de 159 pasos, lo que contrasta con la magnitud del escalar $z$. El aprendizaje sigue ocurriendo principalmente en $z$,
-no en los umbrales.
+La Figura~\ref{fig:ch6_threshold_drift} muestra la evolución de los umbrales durante el entrenamiento. Parece que el aprendizaje sigue ocurriendo principalmente en $z$,
+aunque los umbrales comienzan a moverse ligeramente.
 
 Sin embargo, por primera vez en la familia de experimentos two-head, el modelo emite predicciones de nivel mayor o igual a 5. El recall exacto para niveles 5--8 es del 21,74\,\%, y
 el off-by-one alcanza el 56,52\,\%, lo que indica que el sistema está activando predicciones en la zona profunda de la jerarquía de forma no trivial. Este resultado es cualitativamente
@@ -350,7 +349,7 @@ nulo. La variante \textit{centered} activa el recall profundo pero destruye el p
 \section{Análisis de errores del THO centrado}
 
 A primera vista, el THO centrado podía leerse como una degradación clara: las métricas globales eran malas, el YAML generado era mayoritariamente inválido y la utilidad práctica del
-modelo quedaba muy por debajo del THM v1. Sin embargo, precisamente porque esta variante consiguió activar niveles profundos por primera vez, su fallo resultaba informativo. El
+modelo quedaba muy por debajo del THM v1. Sin embargo, precisamente porque esta variante consiguió activar niveles profundos por primera vez, debíamos de analizar que había ocurrido. El
 análisis cualitativo de las salidas mostró que el problema no era solo la aparición de etiquetas raras, sino la posición en la que esas etiquetas aparecían dentro de la trayectoria
 del manifiesto.
 \label{sec:ch6_positional_drift}
@@ -364,7 +363,7 @@ que el cabezal asignaba a esas líneas.
 
 Al inspeccionar esos fallos, el error no parecía distribuirse de forma uniforme a lo largo del manifiesto. El modelo no solo fallaba en los niveles profundos al final de la salida,
 sino que tendía a retrasar la entrada en la jerarquía desde las primeras fases de generación. En otras palabras, mantenía demasiadas líneas en \texttt{level=0} cuando el YAML de
-referencia ya había descendido a campos como \texttt{metadata}, \texttt{spec}, \texttt{selector} o \texttt{template}. Para comprobar si esta impresión era solo anecdótica, cada
+referencia ya había descendido a campos como \texttt{metadata}, \texttt{spec}, \texttt{selector} o \texttt{template}. Para comprobar esta hipótesis, cada
 manifiesto se dividió en cuatro cuartiles relativos de longitud y se comparó la distribución de niveles predicha con la distribución real.
 
 \begin{table}[htbp]
@@ -387,14 +386,15 @@ Q4 (75--100\,\%) & 3,96 & 3,55 &  1,0\,\% &  1,7\,\% & 0,62 \\
 \end{tabular}
 \end{table}
 
-La Tabla~\ref{tab:ch6_quartile_level_drift} permite matizar el diagnóstico. En el primer cuartil es normal encontrar muchos niveles superficiales: todo manifiesto empieza con
+La Tabla~\ref{tab:ch6_quartile_level_drift} muestra la distribución de niveles por cuartil en el análisis de errores del THO centrado. En el primer cuartil es normal encontrar muchos niveles superficiales: todo manifiesto empieza con
 campos como \texttt{apiVersion}, \texttt{kind} y \texttt{metadata}. Por eso el exceso de ceros en Q1 no es, por sí solo, la prueba más importante. El punto decisivo aparece en Q2.
 Entre el 25\,\% y el 50\,\% de la secuencia, la referencia ya ha entrado de forma clara en niveles internos, pero el modelo todavía predice \texttt{level=0} en el 34,9\,\% de las
 líneas. La lectura más precisa, por tanto, no es simplemente que el THO prefiera clases frecuentes, sino que su predicción de profundidad llega tarde: la estructura real desciende
 antes de que el cabezal empiece a seguirla.
 
 Esta observación llevó a formular el problema en términos temporales. La predicción de nivel no es una clasificación aislada de líneas independientes. Durante la generación
-autoregresiva, cada paso produce un estado oculto de alta dimensión y, a partir de ese estado, el cabezal estima el nivel jerárquico correspondiente. Si se denota por $h_t$ el
+autoregresiva, cada paso produce un estado oculto de alta dimensión y, a partir de ese estado, el cabezal estima el nivel jerárquico correspondiente gracias a la representación $h$.
+Si se denota por $h_t$ el
 estado latente usado para predecir el nivel en la posición $t$, la salida puede entenderse como una serie temporal multivariante:
 
 \[
@@ -403,12 +403,12 @@ estado latente usado para predecir el nivel en la posición $t$, la salida puede
 \]
 
 Desde esta perspectiva, no hay razones para asumir que la distribución de los estados $h_t$ sea estacionaria a lo largo del YAML. Los estados del comienzo se calculan con menos
-contexto generado; los estados posteriores incorporan una historia más larga de claves, listas, recursos y decisiones previas del propio modelo. Esto no significa necesariamente
-que los estados iniciales sean peores o menos informativos. La hipótesis más prudente es otra: el espacio latente sobre el que opera el cabezal de nivel cambia con la posición de
+contexto generado, mientras que los estados posteriores incorporan una historia más larga de claves, listas, recursos y decisiones previas del propio modelo. Esto no significa necesariamente
+que los estados iniciales sean peores o menos informativos. La hipótesis formulada va en otra dirección: el espacio latente sobre el que opera el cabezal de nivel cambia con la posición de
 la línea, de modo que una misma etiqueta \texttt{level} puede ocupar regiones distintas al comienzo y al final del manifiesto. El cabezal ordinal, sin embargo, aprende una frontera
 global que trata todos esos estados como si fueran muestras intercambiables de una única distribución.
 
-Para comprobar si esta hipótesis tenía soporte empírico, se reutilizaron los estados ocultos extraídos en el análisis latente previo y se calcularon distancias entre cuartiles
+Para comprobar si esta hipótesis tenía soporte, se reutilizaron los estados ocultos extraídos en el análisis latente previo y se calcularon distancias entre cuartiles
 manteniendo fijo el nivel real. La estrategia más relevante fue \texttt{record\_prefix\_state}, porque es la misma política de lectura utilizada por el cabezal del THM. El resultado
 fue significativo: para esa estrategia, la distancia media entre cuartiles dentro del mismo \texttt{level} fue prácticamente igual a la distancia media entre niveles distintos
 dentro del mismo cuartil. En términos intuitivos, un estado de \texttt{level=2} al comienzo del YAML podía estar tan lejos de otro estado de \texttt{level=2} al final como de estados
@@ -417,22 +417,18 @@ pertenecientes a otros niveles. Esta es precisamente la situación en la que una
 El análisis se reforzó con pruebas estadísticas sobre los mismos grupos. Primero, se aplicó MMD con kernel RBF para comparar Q1 frente a Q4 dentro de cada nivel con soporte
 suficiente. Todas las comparaciones evaluadas resultaron significativas tras corrección por comparaciones múltiples. Después, se aplicó PERMANOVA para comprobar si el cuartil
 explicaba variación multivariante dentro de un mismo nivel; de nuevo, el efecto apareció de forma sistemática. Finalmente, PERMDISP mostró que en muchos niveles la diferencia no
-era solo un desplazamiento del centroide, sino también un cambio en la dispersión interna de los estados. Este último matiz es importante: el problema no consiste únicamente en
-que el espacio se desplace suavemente, sino en que las regiones latentes cambian también su forma y variabilidad a lo largo de la secuencia.
-
-Estos tests no demuestran por sí solos que la deriva posicional sea la causa directa del fallo generativo del THO. Los vectores analizados proceden de una extracción controlada y
-no de toda la dinámica libre de generación del modelo ajustado. Aun así, ofrecen una explicación coherente para el patrón observado: el cabezal de nivel está intentando aprender
-una regla global sobre una serie latente que no parece estacionaria. Por eso, incluso cuando la formulación ordinal consigue activar niveles profundos, esos niveles no aparecen
-necesariamente en las posiciones correctas ni forman una trayectoria de indentación estable. La dificultad no está solo en predecir etiquetas raras, sino en leer correctamente el
-estado estructural del modelo en cada momento de la generación.
+era solo un desplazamiento del centroide, sino también un cambio en la dispersión interna de los estados.
 
 \subsection{Condicionamiento posicional del cabezal ordinal}
 \label{sec:ch6_positional_encoder}
 
-El diagnóstico anterior sugiere una intervención bastante natural: si el espacio latente cambia con la posición de la línea, el cabezal de nivel no debería recibir únicamente el
+Con todo lo anterior aparece una solución bastante natural: si el espacio latente cambia con la posición de la línea, el cabezal de nivel no debería recibir únicamente el
 estado oculto del modelo, sino también alguna señal explícita sobre el momento de la generación en el que se encuentra. Esta idea no pretende convertir la posición en una nueva
 etiqueta ni multiplicar el problema en clases del tipo \texttt{level} por tramo posicional. La variable que se sigue prediciendo es el mismo nivel ordinal $\ell_t$. Lo que cambia es
 la información disponible para estimarlo: además del estado latente $h_t$, el cabezal recibe una codificación causal de la posición absoluta de la línea generada.
+
+Esto además es algo natural en el contexto de los Transformers, donde la codificación posicional es un componente estándar para que el modelo pueda distinguir entre posiciones
+relativas y absolutas en la secuencia.
 
 La primera variante se diseñó de forma simple. La posición utilizada es el índice de línea que se está generando, no la longitud final del manifiesto, por lo
 que no introduce información no disponible en inferencia. Ese índice se transforma mediante una codificación sinusoidal de 16 dimensiones, siguiendo la intuición general de los
@@ -448,32 +444,34 @@ z_t &= w^\top [u_t; p_t] + b.
 \]
 
 Aquí $z_t$ es el score ordinal que después se compara con los umbrales aprendidos para obtener el nivel predicho. La rama $f_h$ proyecta el estado oculto mediante capas lineales,
-normalización y activación no lineal, mientras que $f_p$ solo normaliza la codificación posicional sinusoidal. Esta elección tenía una ventaja metodológica: permitía comprobar si una
-señal temporal sencilla era útil antes de introducir mecanismos de condicionamiento más expresivos.
-
-El experimento asociado, THOP, llegó al final del entrenamiento y se evaluó finalmente sobre las 70 muestras de validación.
+normalización y activación no lineal, mientras que $f_p$ solo normaliza la codificación posicional sinusoidal. El objetivo de esta primera aproximación era comprobar si la señal
+posicional efectivamente podía ayudar al modelo a activar niveles profundos a la vez que se mantenía un parseo YAML razonable.
 
 \begin{table}[htbp]
 \centering
 \small
-\setlength{\tabcolsep}{6pt}
-\caption{Resultado final del primer experimento con codificación posicional por concatenación final.}
+\setlength{\tabcolsep}{5pt}
+\caption{Comparativa entre la base \textit{THO centered} y el primer experimento con codificación posicional por concatenación final (\textit{THOP v1}).
+         La compresión de niveles 5--8 a 0--4 debe leerse en sentido inverso: valores más altos indican más colapso hacia niveles superficiales.}
 \label{tab:ch6_positional_v1_final}
-\begin{tabular}{lc}
+\begin{tabular}{lcc}
 \toprule
-\textbf{Métrica} & \textbf{Valor} \\
+\textbf{Métrica} & \textbf{THO centered} & \textbf{THOP v1} \\
 \midrule
-Predicciones de validación generadas & 70 / 70 \\
-Ejemplos evaluados & 69 \\
-Parseo de la salida estructurada & 98,57\,\% \\
-Parseo YAML & 7,25\,\% \\
-Exact match medio de nivel & 2,23\,\% \\
-MAE medio de nivel & 1,024 \\
-Recall exacto en niveles 5--8 & 13,79\,\% \\
-Recall \textit{off-by-one} en niveles 5--8 & 49,66\,\% \\
-Compresión de niveles 5--8 a 0--4 & 69,66\,\% \\
-KDV score medio & 5,07\,\% \\
-KDV gate pass & 0,00\,\% \\
+Predicciones de validación generadas & 70 / 70 & 70 / 70 \\
+Ejemplos evaluados & 70 & 69 \\
+Parseo de la salida estructurada & 100,00\,\% & 98,57\,\% \\
+Parseo YAML & 2,86\,\% & 7,25\,\% \\
+Exact match medio de nivel & 1,07\,\% & 2,23\,\% \\
+MAE medio de nivel & 0,456 & 1,024 \\
+Recall exacto en niveles 5--8 & 21,74\,\% & 13,79\,\% \\
+Recall \textit{off-by-one} en niveles 5--8 & 56,52\,\% & 49,66\,\% \\
+Compresión de niveles 5--8 a 0--4 & 60,14\,\% & 69,66\,\% \\
+F1 medio de línea & 1,45\,\% & 4,55\,\% \\
+F1 medio de requisitos del prompt & 1,43\,\% & 4,76\,\% \\
+F1 semántico medio & 2,18\,\% & 6,38\,\% \\
+KDV score medio & 2,38\,\% & 5,07\,\% \\
+KDV gate pass & 0,00\,\% & 0,00\,\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -486,11 +484,12 @@ KDV gate pass & 0,00\,\% \\
 \label{fig:ch6_thop_metrics_comparison}
 \end{figure}
 
-La Tabla~\ref{tab:ch6_positional_v1_final} y la Figura~\ref{fig:ch6_thop_metrics_comparison} muestran que la codificación posicional no resolvió el problema de fondo. La tasa de parseo YAML siguió siendo muy baja y el exact match
-de nivel quedó prácticamente anulado. El diagnóstico por cuartiles confirmó además que el colapso inicial hacia \texttt{level=0} persistía: en el primer cuartil, el modelo predijo
-\texttt{level=0} en el 94,7\,\% de las líneas, frente al 62,2\,\% de la referencia; en el segundo cuartil, donde la referencia solo tenía un 6,6\,\% de líneas en \texttt{level=0},
-el modelo todavía asignó ese nivel al 51,8\,\% de las líneas. Es decir, la señal de posición no bastó para adelantar la entrada en la jerarquía ni para estabilizar la trayectoria de
-indentación.
+La Tabla~\ref{tab:ch6_positional_v1_final} y la Figura~\ref{fig:ch6_thop_metrics_comparison} muestran que la codificación posicional no resolvió el problema completamente. La tasa de
+parseo YAML siguió siendo muy baja, aunque subió de 2,86\,\% a 7,25\,\% respecto al \textit{THO centered}, y también mejoraron las métricas de contenido y adecuación al prompt.
+El diagnóstico por cuartiles confirmó además que el colapso inicial hacia \texttt{level=0} persistía: en el primer cuartil, el
+modelo predijo \texttt{level=0} en el 94,7\,\% de las líneas, frente al 62,2\,\% de la referencia; en el segundo cuartil, donde la referencia solo tenía un 6,6\,\% de líneas en
+\texttt{level=0}, el modelo todavía asignó ese nivel al 51,8\,\% de las líneas. Por tanto, el resultado no convierte a THOP v1 en una mejora global, pero sí indica que la posición
+empieza a mover algunas métricas de reconstrucción, lo que justifica explorar formas de condicionamiento más expresivas.
 
 \begin{figure}[htbp]
 \centering
@@ -501,7 +500,7 @@ indentación.
 \label{fig:ch6_positional_v1_quartiles}
 \end{figure}
 
-Lo importante, sin embargo, es que el cabezal posicional no fue simplemente ignorado. El análisis del proyector final mostró que la rama posicional tenía un peso no trivial: la norma
+También observé que el cabezal no fue simplemente ignorado. El análisis del proyector final mostró que la rama posicional tenía un peso no trivial: la norma
 asociada a sus dimensiones representaba aproximadamente un 47\,\% de la norma de la rama latente. Además, la correlación entre la posición de línea y el score ordinal fue alta
 ($r=0{,}8460$). Con estos resultados vemos que la posición sí estaba afectando al score, pero lo hacía principalmente como una rampa temporal añadida
 al valor ordinal. Dado que la interacción se produce en la última capa lineal, el modelo solo puede expresar una forma del tipo:
@@ -514,10 +513,6 @@ En esta formulación, la posición corrige el score mediante un sesgo aditivo, p
 la limitación. La jerarquía YAML no es una función suave del índice de línea: una misma posición relativa puede contener una entrada en \texttt{metadata}, un descenso hacia
 \texttt{spec.template}, un elemento de lista o una vuelta a un nivel menos profundo. Por eso, una señal posicional tardía puede aprender que, en promedio, las líneas posteriores
 son más profundas, pero no necesariamente ayudar al cabezal a distinguir las transiciones estructurales locales.
-
-Este primer experimento debe entenderse, por tanto, como un resultado útil dentro de la rama ordinal, no como una mejora respecto al THM v1. La señal posicional empieza a mover algunas
-métricas parser-facing frente al THO centrado, pero el diagnóstico posterior muestra que la forma de interacción entre posición y latente no es todavía la adecuada para recuperar la
-estabilidad que tenía la formulación categórica inicial ni para resolver el problema de fondo.
 
 \subsection{Segundo experimento posicional: modulación FiLM/gating}
 \label{sec:ch6_positional_film}
