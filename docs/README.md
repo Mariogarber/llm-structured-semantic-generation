@@ -32,6 +32,7 @@ Use this file as the first stop when looking for documentation.
 - DPO beta 0.10 full validation result: [`experiments/dpo/runs/DPO_BETA010_FULL_VALIDATION_RESULT_2026-05-30.md`](experiments/dpo/runs/DPO_BETA010_FULL_VALIDATION_RESULT_2026-05-30.md)
 - DPO beta 0.30 matched validation comparison: [`experiments/dpo/runs/DPO_BETA030_VALIDATION_COMPARISON_2026-05-31.md`](experiments/dpo/runs/DPO_BETA030_VALIDATION_COMPARISON_2026-05-31.md)
 - DPO v2 aggressive second-iteration result: [`experiments/dpo/runs/DPO_V2_AGGRESSIVE_SECOND_ITERATION_RESULT_2026-06-09.md`](experiments/dpo/runs/DPO_V2_AGGRESSIVE_SECOND_ITERATION_RESULT_2026-06-09.md)
+- DPO v2 lr1e-5 second-iteration result: [`experiments/dpo/runs/DPO_V2_LR1E5_SECOND_ITERATION_RESULT_2026-06-10.md`](experiments/dpo/runs/DPO_V2_LR1E5_SECOND_ITERATION_RESULT_2026-06-10.md)
 - Two-head SFT contract: [`modeling/TWO_HEAD_SFT_V1.md`](modeling/TWO_HEAD_SFT_V1.md)
 - Two-head SFT run reports: [`experiments/two_head_sft/runs/`](experiments/two_head_sft/runs/)
 - Ordinal density proposal: [`modeling/TWO_HEAD_ORDINAL_DENSITY_V2.md`](modeling/TWO_HEAD_ORDINAL_DENSITY_V2.md)
