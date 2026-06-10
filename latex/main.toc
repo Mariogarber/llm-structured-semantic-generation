@@ -34,73 +34,72 @@
 \contentsline {subsection}{\numberline {3.3.3}Requisitos capturados}{25}{subsection.3.3.3}%
 \contentsline {subsection}{\numberline {3.3.4}Correlación entre longitud y complejidad}{26}{subsection.3.3.4}%
 \contentsline {section}{\numberline {3.4}Observaciones con implicaciones de diseño}{26}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}La pared del nivel 5: desbalanceo de profundidad}{27}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Sintaxis vs. estructura: la brecha del 86\%}{27}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Anti-patrones de seguridad presentes en el training data}{28}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.1}La pared del nivel 5}{26}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Anti-patrones de seguridad presentes en el training data}{27}{subsection.3.4.2}%
 \contentsline {chapter}{\numberline {4}Diseño Experimental y Métricas de Evaluación}{29}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Planteamiento experimental y comparabilidad}{29}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Formulaciones supervisadas}{30}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.1}Formulaciones supervisadas}{29}{subsection.4.1.1}%
 \contentsline {section}{\numberline {4.2}Formato de datos y representación habitual}{30}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Unidad básica: bloque estructural}{30}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.2.2}Granularidad del dataset durante los experimentos}{31}{subsection.4.2.2}%
 \contentsline {subsection}{\numberline {4.2.3}Pipeline de transformación: YAML a CSV/TSV}{31}{subsection.4.2.3}%
 \contentsline {section}{\numberline {4.3}Protocolo de entrenamiento y evaluación}{32}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Métricas de evaluación: familias y utilidad}{33}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Métricas sintácticas y estructurales}{34}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.1}Métricas sintácticas y estructurales}{33}{subsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.4.2}Métricas estructurales de jerarquía}{34}{subsection.4.4.2}%
 \contentsline {subsection}{\numberline {4.4.3}Métricas de fidelidad textual y semántica}{35}{subsection.4.4.3}%
 \contentsline {subsection}{\numberline {4.4.4}Métricas de requisitos de prompt y campos requeridos}{36}{subsection.4.4.4}%
 \contentsline {subsection}{\numberline {4.4.5}Validez de dominio}{37}{subsection.4.4.5}%
-\contentsline {chapter}{\numberline {5}Resultados I: Línea base y ajuste supervisado serializado}{41}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Línea base zero-shot}{41}{section.5.1}%
-\contentsline {section}{\numberline {5.2}\texttt {serialized\_sft}: ajuste con jerarquía en superficie}{43}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Análisis de errores del SFT serializado}{47}{section.5.3}%
-\contentsline {chapter}{\numberline {6}Resultados II: Ajuste Fino con Predicción Explícita de Nivel}{51}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Motivación: los límites de la supervisión implícita}{51}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Análisis de la señal latente}{52}{subsection.6.1.1}%
-\contentsline {section}{\numberline {6.2}Diseño de la arquitectura de dos cabezales}{53}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Resultados del experimento base: THM v1}{55}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Colapso hacia los niveles superficiales}{57}{subsection.6.3.1}%
-\contentsline {section}{\numberline {6.4}Los modelos clasificadores ordinales}{58}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Variante inicial y tasa de aprendizaje de umbrales (lr25)}{60}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}MLP de tres capas (mlp3)}{60}{subsection.6.4.2}%
-\contentsline {subsection}{\numberline {6.4.3}Umbrales centrados: el primer acceso a los niveles profundos}{60}{subsection.6.4.3}%
-\contentsline {section}{\numberline {6.5}Análisis de errores del THO centrado}{61}{section.6.5}%
-\contentsline {subsection}{\numberline {6.5.1}Condicionamiento posicional del cabezal ordinal}{64}{subsection.6.5.1}%
-\contentsline {subsection}{\numberline {6.5.2}Segundo experimento posicional: modulación FiLM/gating}{66}{subsection.6.5.2}%
-\contentsline {chapter}{\numberline {7}Alineación Mediante Optimización de Preferencias Directa}{69}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Generación de candidatos para DPO}{69}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Primer ajuste DPO sobre el dataset de preferencias V1}{73}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Generación iterativa del dataset DPO v2}{74}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Planteamiento del enfoque iterativo}{74}{subsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.3.2}Construcción del dataset DPO V2}{76}{subsection.7.3.2}%
-\contentsline {section}{\numberline {7.4}Segundo ajuste DPO sobre el dataset de preferencias v2}{78}{section.7.4}%
-\contentsline {subsection}{\numberline {7.4.1}Experimento con lr 1e-5}{78}{subsection.7.4.1}%
-\contentsline {subsection}{\numberline {7.4.2}Experimento con lr 1e-4}{81}{subsection.7.4.2}%
-\contentsline {chapter}{\numberline {8}Impacto Social y Ética}{85}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Naturaleza y alcance del sistema}{85}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Encaje regulatorio y jurídico}{86}{section.8.2}%
-\contentsline {section}{\numberline {8.3}Riesgos principales}{87}{section.8.3}%
-\contentsline {section}{\numberline {8.4}Medidas de mitigación y responsabilidad}{87}{section.8.4}%
-\contentsline {section}{\numberline {8.5}Resumen de impacto}{88}{section.8.5}%
-\contentsline {chapter}{\numberline {9}Análisis Comparativo de Resultados}{89}{chapter.9}%
-\contentsline {section}{\numberline {9.1}Criterios de comparación}{89}{section.9.1}%
-\contentsline {section}{\numberline {9.2}De la línea base al SFT serializado}{90}{section.9.2}%
-\contentsline {section}{\numberline {9.3}Jerarquía serializada frente a jerarquía explícita}{91}{section.9.3}%
-\contentsline {section}{\numberline {9.4}Evolución de la rama two-head}{92}{section.9.4}%
-\contentsline {section}{\numberline {9.5}Efecto de DPO sobre la referencia serializada}{93}{section.9.5}%
-\contentsline {section}{\numberline {9.6}Evaluación final en test}{93}{section.9.6}%
-\contentsline {section}{\numberline {9.7}Discusión transversal}{94}{section.9.7}%
-\contentsline {chapter}{\numberline {10}Conclusiones y Trabajo Futuro}{97}{chapter.10}%
-\contentsline {chapter}{Configuración experimental y reproducibilidad}{105}{appendix*.73}%
-\contentsline {section}{\numberline {.1}Entorno de hardware y software}{105}{section.Alph0.1}%
-\contentsline {section}{\numberline {.2}Modelo base y cuantización}{106}{section.Alph0.2}%
-\contentsline {section}{\numberline {.3}Configuración LoRA}{106}{section.Alph0.3}%
-\contentsline {section}{\numberline {.4}Hiperparámetros de entrenamiento por variante}{108}{section.Alph0.4}%
-\contentsline {section}{\numberline {.5}Configuración de inferencia y evaluación}{114}{section.Alph0.5}%
-\contentsline {section}{\numberline {.6}Reproducibilidad y trazabilidad}{115}{section.Alph0.6}%
-\contentsline {chapter}{Evaluación ética y matriz de riesgos}{117}{appendix*.88}%
-\contentsline {section}{\numberline {.7}Clasificación bajo el AI Act}{117}{section.Alph0.7}%
-\contentsline {section}{\numberline {.8}Factores RGPD}{117}{section.Alph0.8}%
-\contentsline {section}{\numberline {.9}Checklist ética AI HLEG}{118}{section.Alph0.9}%
-\contentsline {section}{\numberline {.10}Matriz de riesgos}{118}{section.Alph0.10}%
+\contentsline {chapter}{\numberline {5}Línea base y ajuste supervisado serializado}{39}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Línea base zero-shot}{39}{section.5.1}%
+\contentsline {section}{\numberline {5.2}\texttt {serialized\_sft}: ajuste con jerarquía en superficie}{41}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Análisis de errores del SFT serializado}{45}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Ajuste Fino con Predicción Explícita de Nivel}{49}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Motivación: los límites de la supervisión implícita}{49}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Análisis de la señal latente}{50}{subsection.6.1.1}%
+\contentsline {section}{\numberline {6.2}Diseño de la arquitectura de dos cabezales}{51}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Resultados del experimento base: THM v1}{53}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Colapso hacia los niveles superficiales}{55}{subsection.6.3.1}%
+\contentsline {section}{\numberline {6.4}Los modelos clasificadores ordinales}{56}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Variante inicial y tasa de aprendizaje de umbrales (lr25)}{58}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}MLP de tres capas (mlp3)}{58}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}Umbrales centrados: el primer acceso a los niveles profundos}{58}{subsection.6.4.3}%
+\contentsline {section}{\numberline {6.5}Análisis de errores del THO centrado}{59}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Condicionamiento posicional del cabezal ordinal}{62}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Segundo experimento posicional: modulación FiLM/gating}{64}{subsection.6.5.2}%
+\contentsline {chapter}{\numberline {7}Alineación Mediante Optimización de Preferencias Directa}{67}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Generación de candidatos para DPO}{67}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Primer ajuste DPO sobre el dataset de preferencias V1}{71}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Generación iterativa del dataset DPO v2}{72}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Planteamiento del enfoque iterativo}{72}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Construcción del dataset DPO V2}{74}{subsection.7.3.2}%
+\contentsline {section}{\numberline {7.4}Segundo ajuste DPO sobre el dataset de preferencias v2}{76}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Experimento con lr 1e-5}{76}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Experimento con lr 1e-4}{79}{subsection.7.4.2}%
+\contentsline {chapter}{\numberline {8}Impacto Social y Ética}{83}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Naturaleza y alcance del sistema}{83}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Encaje regulatorio y jurídico}{84}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Riesgos principales}{85}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Medidas de mitigación y responsabilidad}{85}{section.8.4}%
+\contentsline {section}{\numberline {8.5}Resumen de impacto}{86}{section.8.5}%
+\contentsline {chapter}{\numberline {9}Análisis Comparativo de Resultados}{87}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Criterios de comparación}{87}{section.9.1}%
+\contentsline {section}{\numberline {9.2}De la línea base al SFT serializado}{88}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Jerarquía serializada frente a jerarquía explícita}{89}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Evolución de la rama two-head}{90}{section.9.4}%
+\contentsline {section}{\numberline {9.5}Efecto de DPO sobre la referencia serializada}{91}{section.9.5}%
+\contentsline {section}{\numberline {9.6}Evaluación final en test}{91}{section.9.6}%
+\contentsline {section}{\numberline {9.7}Discusión transversal}{92}{section.9.7}%
+\contentsline {chapter}{\numberline {10}Conclusiones y Trabajo Futuro}{95}{chapter.10}%
+\contentsline {chapter}{Configuración experimental y reproducibilidad}{103}{appendix*.73}%
+\contentsline {section}{\numberline {.1}Entorno de hardware y software}{103}{section.Alph0.1}%
+\contentsline {section}{\numberline {.2}Modelo base y cuantización}{104}{section.Alph0.2}%
+\contentsline {section}{\numberline {.3}Configuración LoRA}{104}{section.Alph0.3}%
+\contentsline {section}{\numberline {.4}Hiperparámetros de entrenamiento por variante}{106}{section.Alph0.4}%
+\contentsline {section}{\numberline {.5}Configuración de inferencia y evaluación}{112}{section.Alph0.5}%
+\contentsline {section}{\numberline {.6}Reproducibilidad y trazabilidad}{113}{section.Alph0.6}%
+\contentsline {chapter}{Evaluación ética y matriz de riesgos}{115}{appendix*.88}%
+\contentsline {section}{\numberline {.7}Clasificación bajo el AI Act}{115}{section.Alph0.7}%
+\contentsline {section}{\numberline {.8}Factores RGPD}{115}{section.Alph0.8}%
+\contentsline {section}{\numberline {.9}Checklist ética AI HLEG}{116}{section.Alph0.9}%
+\contentsline {section}{\numberline {.10}Matriz de riesgos}{116}{section.Alph0.10}%

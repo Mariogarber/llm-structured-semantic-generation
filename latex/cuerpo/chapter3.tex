@@ -3,10 +3,10 @@
 \chapter{Análisis inicial}
 \label{ch::chapter3}
 
-El objetivo de este capítulo es caracterizar el conjunto de datos y los prompts con los que trabajamos, no como una simple enumeración de estadísticas, sino como
-un análisis que muestre las tensiones estructurales del problema \citep{yang2025structeval, li2023strucbench}. El análisis inicial sirve para anclar las decisiones de diseño posteriores: explica por qué
-ciertos modelos fallan de formas específicas, por qué ciertas métricas son necesarias y qué esperamos ver en los experimentos. Además, contrasta estas observaciones
-con los resultados ya obtenidos, de forma que cada característica del dataset encuentra confirmación (o matiz) en lo que el modelo descubre durante el entrenamiento.
+El objetivo de este capítulo es caracterizar el conjunto de datos y los prompts con los que trabajamos,
+un análisis que muestre las tensiones estructurales del problema \citep{yang2025structeval, li2023strucbench}. El análisis inicial sirve para anclar las decisiones de 
+diseño posteriores: explicará por qué
+ciertos modelos fallan de formas específicas, por qué ciertas métricas son necesarias y qué esperamos ver en los experimentos.
 
 Todos los manifiestos analizados aquí son \textit{canónicos}: han sido parseados, validados y serializados de forma determinista, partiendo del mismo tipo de pares
 prompt--manifiesto que emplean benchmarks recientes de generación de YAML cloud-native \citep{xu2024cloudevalyaml, cloudeval2023}. El proceso seguido es simple: dado un
@@ -26,7 +26,7 @@ todas ellas fueron agrupadas en el mismo conjunto (siempre entrenamiento). Adem�
 con similitud mayor a 0.97, que también fueron agrupados para evitar que el modelo entrenara en una muestra y evaluara en su duplicado.
 
 Cabe destacar que cada muestra es usada 2 veces. Por un lado aparecerá como objetivo del promt más elaborado (question) y por otro como objetivo del prompt simplificado
-(simplified). Esto no es un problema de fuga, ya que el modelo no ve ambos prompts durante el entrenamiento.
+(simplified).
 
 \begin{table}[htbp]
 \centering
@@ -65,8 +65,7 @@ implicaciones para el aprendizaje del modelo, no solo en términos de frecuencia
 
 La distribución de versiones de API refleja la variedad del ecosistema real de Kubernetes, un rasgo que se ve reflejado en estudios empíricos sobre configuraciones y defectos en manifiestos del dominio \citep{rahman2023securityk8s, zhang2025kubernetesdefects}: v1 (núcleo del API, 48\%), apps/v1 (workloads, 30\%), batch/v1 (tareas programadas, 8\%),
 rbac.authorization.k8s.io/v1 (control de acceso, 6\%) y otras versiones. Por último, respecto a la estructura de los manifiestos, casi todas las muestras (238 de 283)
-contienen un único recurso por manifiesto. Solo 36 muestras contienen dos recursos y 8 contienen tres. La mayoría de los problemas jerárquicos que encontramos están
-confinados a la estructura dentro de un único recurso, no en la orquestación de múltiples documentos.
+contienen un único recurso por manifiesto. Solo 36 muestras contienen dos recursos y 8 contienen tres.
 
 \begin{figure}[htbp]
 \centering
@@ -86,10 +85,9 @@ confinados a la estructura dentro de un único recurso, no en la orquestación d
 
 \subsection{El contrato de estructura}
 
-En este capítulo usamos la representación secuencia-nivel-línea como lente descriptiva para estudiar distribución de complejidad y patrones de dificultad. La
+En este capítulo se usa la representación secuencia-nivel-línea como lente descriptiva para estudiar distribución de complejidad y patrones de dificultad. La
 especificación formal del contrato de datos, la definición operacional de \texttt{document\_index}/\texttt{line\_index}/\texttt{level} y el pipeline de transformación
-de YAML canónico a formato tabular se desarrolla de forma completa en el capítulo \ref{ch::chapter4}, sección \ref{sec:ch4_contract}. Aquí nos centramos en la evidencia
-empírica que motiva ese diseño metodológico.
+de YAML canónico a formato tabular se desarrolla de forma completa en el capítulo \ref{ch::chapter4}, sección \ref{sec:ch4_contract}.
 
 \subsection{Estadísticas de profundidad y complejidad}
 
@@ -101,13 +99,15 @@ La profundidad máxima de indentación por muestra (\texttt{max\_block\_level}) 
 Esto significa que algunos manifests tienen nesting profundo (caso típico: Deployment con spec \(\rightarrow\) template \(\rightarrow\) spec \(\rightarrow\) containers),
 mientras que otros permanecen en niveles superficiales.
 
-Pero el rasgo más importante es la \textit{distribución de niveles en el conjunto completo de bloques}. Si \(N_b\) denota el número total de bloques y \(\ell_i\) el nivel del bloque \(i\), la proporción de bloques en cada nivel \(k\) puede definirse como:
+Pero el rasgo más importante es la \textit{distribución de niveles en el conjunto completo de bloques}. Si \(N_b\) denota el número total de bloques y \(\ell_i\)
+el nivel del bloque \(i\), la proporción de bloques en cada nivel \(k\) puede definirse como:
 
 \[
 p_k = \frac{1}{N_b}\sum_{i=1}^{N_b}\mathbf{1}[\ell_i = k].
 \]
 
-Esta definición permite separar la intuición visual de la figura de una magnitud concreta: cuando contamos cuántos bloques del dataset completo caen en cada nivel de indentación, emerge un patrón claro:
+Esta definición permite separar la intuición visual de la figura de una magnitud concreta: cuando contamos cuántos bloques del dataset completo caen en
+cada nivel de indentación, emerge un patrón claro:
 
 \begin{itemize}
 \item Nivel 0: 1.443 bloques (primeras claves del manifest: \texttt{apiVersion}, \texttt{kind}, \texttt{metadata}, \texttt{spec})
@@ -152,20 +152,22 @@ directas para el aprendizaje: un modelo que intenta predecir \texttt{level} como
 por tanto, poco incentivo para aprender a predecirlos correctamente.
 
 Precisamente en este punto se introdujo un experimento diagnóstico previo al entrenamiento estructural. Su objetivo fue verificar 
-una pregunta metodológica más básica: si los estados ocultos del modelo base ya contienen señal recuperable sobre la variable \texttt{level}, siguiendo la intuición de los trabajos de \textit{structural probing} sobre representaciones internas de modelos de lenguaje \citep{hewitt2019structural, clark2019bert}. En este sentido, 
+una pregunta metodológica más básica: si los estados ocultos del modelo base ya contienen señal recuperable sobre la variable \texttt{level}, siguiendo
+la intuición de los trabajos de \textit{structural probing} sobre representaciones internas de modelos de lenguaje \citep{hewitt2019structural, clark2019bert}. En este sentido, 
 el experimento actúa como una comprobación de factibilidad para la hipótesis estructural del trabajo.
 
-Formalmente, el probe puede verse como un clasificador ligero que intenta reconstruir el nivel jerárquico a partir de un estado oculto del modelo:
+Formalmente, el experimento puede verse como un clasificador ligero que intenta reconstruir el nivel jerárquico a partir de un estado oculto del modelo:
 
 \[
 \hat{\ell}_i = g_\phi(h_i),
 \]
 
-donde \(h_i\) es la representación latente asociada a la línea \(i\), \(g_\phi\) es el clasificador entrenado sobre esas representaciones, y \(\hat{\ell}_i\) es el nivel estimado. Esta formulación es deliberadamente limitada: no demuestra que la arquitectura final vaya a generar mejor YAML, pero sí permite medir si existe una señal estructural aprovechable antes de introducir un cabezal explícito.
+donde \(h_i\) es la representación latente asociada a la línea \(i\), \(g_\phi\) es el clasificador entrenado sobre esas representaciones, y \(\hat{\ell}_i\) es el
+nivel estimado.
 
 El diseño del experimento se planteó de forma conservadora para evitar conclusiones infladas. Primero, la etiqueta \texttt{level} se eliminó de la superficie de entrada
 del modelo durante la extracción de representaciones, de modo que el clasificador no pudiera ``leer'' la respuesta directamente. Segundo, la evaluación se realizó sobre
-\textit{train} y \textit{validation}, reservando \textit{test} para fases posteriores del proyecto. Tercero, se contrastaron probes aprendidos frente a baselines simples
+\textit{train} y \textit{validation}, reservando \textit{test} para fases posteriores del proyecto. Tercero, se contrastaron los modelos aprendidos frente a baselines simples
 (clase mayoritaria y nivel previo), precisamente para distinguir señal latente real de regularidades triviales del corpus.
 
 Bajo ese marco, los resultados más sólidos muestran un patrón coherente con el análisis de distribución de niveles: la recuperación de \texttt{level} es alta en zonas
@@ -197,7 +199,8 @@ Esto produce nesting de profundidad 8 - 10 o más.
 
 Esto significa que la dificultad estructural no es uniforme: cuando el modelo ve un Pod, tiene muchas más muestras de nesting profundo que cuando ve un ConfigMap.
 En este sentido, el sesgo de frecuencia en el dataset (Pod y DaemonSet dominan con 33\% del total) está correlacionado con una mayor complejidad estructural. Esto es un
-matiz importante: no es que el modelo tenga sesgo hacia tipos simples (que sería un problema de falta de cobertura), sino que ha visto muchos ejemplos de estructuras complejas.
+matiz importante: no es que el modelo tenga sesgo hacia tipos simples (que sería un problema de falta de cobertura), sino que ha visto muchos ejemplos de
+estructuras complejas.
 
 \subsection{Presencia de campos semánticos}
 
@@ -229,13 +232,14 @@ de alta varianza: a veces \texttt{spec} contiene containers, a veces contiene re
 
 \subsection{Variantes y longitud}
 
-Como ya hemos visto, cada muestra tiene asociados dos prompts: una versión más descriptiva (\textit{question}) y una versión simplificada (\textit{simplified}). El objetivo es capturar la robustez
-del sistema ante diferentes formas de expresar la misma especificación. La versión question tiene una longitud mediana de 54 palabras, con máximo de 176. La versión simplified
-tiene mediana de 36 palabras, con máximo de 139. El rango es amplio en ambos casos, reflejando que algunos manifests requieren especificación detallada (por ejemplo, un
-Deployment con múltiples contenedores y restricciones de scheduling) mientras que otros son triviales.
+Como ya se ha visto, cada muestra tiene asociados dos prompts: una versión más descriptiva (\textit{question}) y una versión simplificada (\textit{simplified}). El
+objetivo es capturar la robustez
+del sistema ante diferentes formas de expresar la misma especificación. La versión question tiene una longitud mediana de 54 palabras, con máximo de 176. La versión
+simplified
+tiene mediana de 36 palabras, con máximo de 139.
 
 En cuanto a tokens del tokenizador del modelo base (Qwen 2.5 - 7B), los prompts question tienen longitud mediana de aproximadamente 45 tokens, mientras que simplified tiene
-mediana de 27 tokens. La diferencia entre conteo de palabras y conteo de tokens es relevante porque ciertos identificadores de Kubernetes (como nombres en camelCase o paths)
+mediana de 27 tokens. La diferencia entre conteo de palabras y conteo de tokens es importante porque ciertos identificadores de Kubernetes (como nombres en camelCase o paths)
 se tokenizan de forma subóptima, fragmentándose en múltiples tokens. Esto aumenta la longitud efectiva del prompt para el modelo respecto a lo que el conteo de palabras sugeriría.
 
 \begin{figure}[htbp]
@@ -269,23 +273,31 @@ restricciones'', capturando la esencia pero perdiendo especificidad.
 
 \subsection{Requisitos capturados}
 
-De los prompts se pueden extraer requisitos semánticos mediante patrones de regex: tipo de recurso (Pod, Deployment, etc.), nombres de aplicación, imágenes de contenedor, labels,
-puertos expuestos, número de replicas, volúmenes y mounts, variables de entorno, namespaces, y restricciones de scheduling (afinidad, tolerancias, etc.). Esta lectura de la salida
-respecto a requisitos expresados en lenguaje natural sigue la línea de otras evaluaciones evaluaciones que separan validez técnica y adecuación a la intención \citep{ueno2024migrating, xu2024cloudevalyaml}. El grado en que estos
-requisitos aparecen explícitamente en el prompt varía. Algunos prompts especifican casi todos los requisitos; otros proporcionan solo los campos esenciales. Y de estos requisitos
-mencionados en el prompt, no todos aparecen en el manifest YAML ground truth. Un prompt puede especificar ``el contenedor debe ejecutarse como usuario no-root'', pero el manifest
+De los prompts se pueden extraer requisitos semánticos mediante patrones de regex: tipo de recurso (Pod, Deployment, etc.), nombres de aplicación, imágenes de contenedor,
+labels,
+puertos expuestos, número de replicas, volúmenes y mounts, variables de entorno, namespaces, y restricciones de scheduling (afinidad, tolerancias, etc.). Esta lectura de
+la salida
+respecto a requisitos expresados en lenguaje natural sigue la línea de otras evaluaciones evaluaciones que separan validez técnica y adecuación a la intención
+\citep{ueno2024migrating, xu2024cloudevalyaml}. El grado en que estos
+requisitos aparecen explícitamente en el prompt varía. Algunos prompts especifican casi todos los requisitos; otros proporcionan solo los campos esenciales.
+Y de estos requisitos
+mencionados en el prompt, no todos aparecen en el manifest YAML ground truth. Un prompt puede especificar ``el contenedor debe ejecutarse como usuario no-root'',
+pero el manifest
 del dataset podría no incluir la sección \texttt{securityContext}, bien porque fue omitido deliberadamente o porque el contexto del dataset no cubre todos los requisitos
-mencionados. Esta ambigüedad es un aspecto del problema que veremos reflejado en las métricas de cobertura de requisitos.
+mencionados.
 
-De esta extracción de requesitos construiremos métricas de cobertura semántica, que nos ayudarán a evaluar no solo si el manifest es sintácticamente correcto, sino si cumple con
-los requisitos explícitos del prompt. Por ejemplo, si el prompt menciona un puerto específico, ¿está ese puerto presente en el manifest generado? Si el prompt especifica un número 
-de replicas, ¿coincide con el valor en el YAML? Esto nos liberará del uso de métricas como BLEU o ROUGE, que no capturan adecuadamente la corrección semántica en este dominio cuando la salida es un artefacto técnico validable \citep{chen2021evaluating, xu2024cloudevalyaml}.
+De esta extracción de requesitos construiremos métricas de cobertura semántica, que nos ayudarán a evaluar no solo si el manifest es sintácticamente correcto,
+sino si cumple con
+los requisitos explícitos del prompt. Por ejemplo, si el prompt menciona un puerto específico, ¿está ese puerto presente en el manifest generado? Si el prompt
+especifica un número 
+de replicas, ¿coincide con el valor en el YAML? Esto nos liberará del uso de métricas como BLEU o ROUGE, que no capturan adecuadamente la corrección semántica
+en este dominio cuando la salida es un artefacto técnico validable \citep{chen2021evaluating, xu2024cloudevalyaml}.
 
 \subsection{Correlación entre longitud y complejidad}
 
 Un aspecto relevante es si prompts más largos producen manifests más complejos. Existe una correlación positiva moderada entre la longitud del prompt (en palabras o tokens) y
-la complejidad del manifest, medida como número de líneas (\texttt{block\_count}) o número de nodos en el árbol parseado (\texttt{yaml\_total\_nodes}). Esto es intuitivo:
-especificaciones más detalladas tienden a generar manifests más grandes. Pero la correlación no es perfecta: hay prompts relativamente breves que generan manifests complejos
+la complejidad del manifest, medida como número de líneas (\texttt{block\_count}) o número de nodos en el árbol parseado (\texttt{yaml\_total\_nodes}). Sin embargo,
+la correlación no es perfecta: hay prompts relativamente breves que generan manifests complejos
 (por ejemplo, ``crea un Deployment'' en un contexto donde Deployment implica naturalmente múltiples contenedores y volúmenes) y prompts largos con manifests simples (por ejemplo,
 explicaciones verbosas de un ConfigMap simple).
 
@@ -301,7 +313,7 @@ explicaciones verbosas de un ConfigMap simple).
 El análisis anterior revela patrones del dataset que tienen consecuencias directas para cómo el modelo aprenderá a generar manifests. En esta sección contrastamos estas
 observaciones con los resultados de los experimentos realizados hasta ahora.
 
-\subsection{La pared del nivel 5: desbalanceo de profundidad}
+\subsection{La pared del nivel 5}
 
 El dataset tiene <8\% de bloques en niveles de indentación $\geq 5$. En términos de la distribución anterior, esta región profunda se resume como:
 
@@ -309,26 +321,10 @@ El dataset tiene <8\% de bloques en niveles de indentación $\geq 5$. En términ
 p_{\geq 5} = \sum_{k=5}^{8} p_k.
 \]
 
-Esta escasez no es una simple incomodidad estadística: afecta a la capacidad del modelo de aprender a
-predecir niveles profundos. El experimento anterior confirma que la representación latente del modelo base codifica información de profundidad jerárquica, pero la fidelidad cae en picada
-a partir del nivel 5. Concretamente, mientras que la capacidad de predecir si una línea está al nivel 0 - 4 es consistente (recall $>$ 0.61), el modelo solo logra recall de 0.32 en
-el nivel 5, una caída de casi el 50\%.
-
-\subsection{Sintaxis vs. estructura: la brecha del 86\%}
-
-Un YAML puede ser sintácticamente válido pero estructuralmente incorrecto, una distinción especialmente relevante en benchmarks recientes de salidas estructuradas y generación YAML cloud-native \citep{yang2025structeval, geng2025jsonschemabench, xu2024cloudevalyaml}. Entendemos por ``estructuralmente incorrecto'' un manifest que parsea correctamente pero cuya forma
-canónica (después de parsing y reserialización) difiere del target. Esto puede ocurrir por reordenamiento de claves, por nesting incorrecto, o por omisión/adición de campos.
-
-El modelo fine-tuneado (SFT) alcanza una tasa de éxito de parsing del 98.57\% pero una tasa de igualdad estructural (\textit{parsed equal rate}) de apenas 11.43\%. La brecha
-de 86 puntos porcentuales es significativa: nos viene a decir que la gran mayoría de los manifests que el modelo genera son válidos según el parser YAML, pero no coinciden exactamente
-con el target canónico. El modelo base sin fine-tuning amplifica este problema: logra parsing en solo 30.77\% de los casos y coincidencia estructural en 3.08\%.
-
-Esta observación estructura el sistema de evaluación en capas: primero, validez de parseo (¿es YAML válido?); segundo, equivalencia estructural (¿es el mismo manifest?); tercero,
-corrección semántica (¿cumple con los requesitos y las buenas prácticas de seguridad?). Solo la primera es necesaria pero no suficiente.
-
 \subsection{Anti-patrones de seguridad presentes en el training data}
 
-Los manifests del dataset no son perfectos desde el punto de vista de seguridad. El análisis realizado detecta varios anti-patrones en las salidas generadas, muchos de los cuales
+Los manifests del dataset no son perfectos desde el punto de vista de seguridad. El análisis realizado detecta varios anti-patrones en las salidas generadas, muchos de
+los cuales
 están presentes también en los targets del training data:
 
 \begin{itemize}
@@ -341,5 +337,7 @@ están presentes también en los targets del training data:
 
 \noindent El evaluador de dominio de Kubernetes reporta que solo el 14.29\% de las muestras pasan todos los niveles de validación de buenas prácticas. Sin embargo, este número
 oculta un dato importante: el modelo *sí* genera configuraciones completamente conformes en algunas muestras (~10 de 70), lo que sugiere que posee la capacidad estructural de
-producir código seguro pero no está sesgado hacia ello. El modelo aprende de los datos y replica los anti-patrones que encuentra, un riesgo coherente con la literatura sobre errores y smells de seguridad en manifiestos Kubernetes \citep{rahman2023securityk8s, zhang2024generativeSmells}. Esto tiene implicación directa para fases posteriores:
-una señal explícita de preferencia o recompensa sobre seguridad, por ejemplo mediante optimización directa de preferencias, puede redirigir el comportamiento sin necesidad de reentrenamiento desde cero \citep{rafailov2023dpo}.
+producir código seguro pero no está sesgado hacia ello. El modelo aprende de los datos y replica los anti-patrones que encuentra, un riesgo coherente con la literatura sobre
+errores y smells de seguridad en manifiestos Kubernetes \citep{rahman2023securityk8s, zhang2024generativeSmells}. Esto tiene implicación directa para fases posteriores:
+una señal explícita de preferencia o recompensa sobre seguridad, por ejemplo mediante optimización directa de preferencias, puede redirigir el comportamiento sin necesidad de
+reentrenamiento desde cero \citep{rafailov2023dpo}.

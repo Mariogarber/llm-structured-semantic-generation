@@ -16,12 +16,12 @@ salidas estructuradas únicamente desde su parecido superficial \citep{yang2025s
 \label{sec:ch4_design}
 
 La pregunta experimental central es: hasta qué punto una formulación puramente secuencial puede capturar jerarquía, y qué impacto tiene sobre la
-calidad estructural supervisar esa jerarquía de forma explícita en lugar de aprenderla como texto serializado, una tensión cercana a la formulación clásica de la predicción estructurada \citep{joachims2009structured, belanger2017spen}. Para responder de forma controlada,
-ambas ramas comparten modelo base, conjunto de datos canónico, parser determinista y protocolo de evaluación.
+calidad estructural supervisar esa jerarquía de forma explícita en lugar de aprenderla como texto serializado, una tensión cercana a la formulación clásica de
+la predicción estructurada \citep{joachims2009structured, belanger2017spen}. Para responder de forma controlada,
+ambas ramas comparten modelo base, conjunto de datos, parser determinista y protocolo de evaluación.
 
 De este modo, cualquier diferencia observada en resultados puede atribuirse a la formulación de salida y a la señal de entrenamiento estructural, no a
-cambios en datos o infraestructura. Esta decisión metodológica evita comparaciones injustas y facilita interpretar causalmente el efecto de cada
-elección de representación.
+cambios en datos o infraestructura. De esta forma evitamos comparaciones injustas y facilitamos la interpretación de resultados.
 
 \subsection{Formulaciones supervisadas}
 \label{sec:ch4_formulations}
@@ -88,7 +88,7 @@ representaciones distintas: una trabaja sobre el texto renderizado, la otra sobr
 \subsection{Granularidad del dataset durante los experimentos}
 \label{sec:ch4_granularity}
 
-Para evitar ambigüedades terminológicas, el dataset se maneja con cuatro niveles de granularidad:
+Para evitar ambigüedades en la terminología, el dataset se maneja con cuatro niveles de granularidad:
 
 \begin{itemize}
 \item \textbf{Muestra} (\texttt{sample}): unidad conceptual asociada a una petición en lenguaje natural y su salida esperada.
@@ -97,7 +97,7 @@ Para evitar ambigüedades terminológicas, el dataset se maneja con cuatro nivel
 \item \textbf{Nivel de línea} (\texttt{line level}): profundidad de indentación de una línea concreta, usada tanto en entrenamiento como en evaluación estructural.
 \end{itemize}
 
-Esta jerarquía de granularidad permite construir métricas locales (por línea), métricas de consistencia (por documento) y métricas de éxito operativo (por muestra).
+Esta jerarquía de granularidad permite construir métricas locales (por línea), métricas de consistencia (por documento) y métricas de éxito (por muestra).
 En la práctica, las métricas se van a construir a nivel de muestra o a nivel de línea, dependiendo de la señal que se quiera capturar. Por ejemplo, la tasa de parseo
 es una métrica de muestra (¿parsea el documento completo?), mientras que la exactitud de nivel es una métrica de línea (¿predice el nivel correcto para esta línea?).
 
@@ -114,10 +114,11 @@ El flujo de datos habitual durante los experimentos sigue cuatro etapas:
 \end{enumerate}
 
 La elección de una representación tabular se justifica por su versatilidad. Permite entrenar con una interfaz textual homogénea, inspeccionar errores por columna y trazar
-fallos estructurales de forma reproducible. Además, al mantener \texttt{document\_index} y \texttt{line\_index}, la evaluación conserva orden y segmentación
-sin depender de heurísticas posteriores.
+fallos. Además, al mantener \texttt{document\_index} y \texttt{line\_index}, la evaluación conserva orden y segmentación.
 
-El parser cumple aquí una función de control estructural: no repara la predicción ni inventa campos, sino que delimita qué salidas pueden reconstruirse de forma segura. Esta idea se relaciona con trabajos de generación guiada y parsers incrementales, donde la validez formal de la salida se incorpora como frontera explícita del proceso de generación o validación \citep{scholak2021picard, geng2023grammar, willard2023efficient}.
+El parser cumple aquí una función de control estructural: delimita qué salidas pueden reconstruirse de forma segura. Esta idea se relaciona con trabajos
+de generación guiada y parsers incrementales, donde la validez formal de la salida se incorpora como frontera explícita del proceso de generación o
+validación \citep{scholak2021picard, geng2023grammar, willard2023efficient}.
 
 \begin{table}[htbp]
 \centering
@@ -152,19 +153,14 @@ YAML canónico $\rightarrow$ Bloques estructurados $\rightarrow$ Serialización 
 La comparativa experimental se apoya en tres principios: mismo split de datos entre formulaciones, misma base de modelo y mismo mecanismo de
 reconstrucción y evaluación. El modelo base es Qwen2.5-7B-Instruct \citep{qwen2024qwen25} en cuantización de 4 bits. La cuantización consiste en representar los pesos
 del modelo con una precisión reducida (cuatro bits por parámetro frente a los 16 o 32 habituales), lo que reduce de forma
-importante el consumo de memoria de la GPU sin comprometer en exceso la calidad de las representaciones internas \citep{dettmers2023qlora}. La adaptación al dominio se realiza
-mediante LoRA (\textit{Low-Rank Adaptation}), una técnica de ajuste fino que introduce matrices de adaptación de bajo rango (rango 8 en este
+importante el consumo de memoria de la GPU sin comprometer en exceso la calidad de las representaciones internas \citep{dettmers2023qlora}. Para adaptar el modelo al 
+hardware disponible, el ajuste fino se
+realiza mediante LoRA (\textit{Low-Rank Adaptation}), una técnica que introduce matrices de adaptación de bajo rango (rango 8 en este
 trabajo) en las proyecciones de atención del modelo. Esto permite modificar su comportamiento sin tocar los pesos originales ni requerir los
 recursos de un entrenamiento completo \citep{hu2021lora}.
 
-Un matiz relevante para la interpretación de los experimentos es que el presupuesto de tokens de salida difiere entre ramas: la rama \textit{Serialized
-SFT} opera con un límite de 512 tokens, mientras que \textit{Two-Head SFT} dispone de 1024. La diferencia refleja la asimetría entre las dos
-superficies objetivo: la rama serializada incluye \texttt{level} como columna explícita en la cadena generada, mientras que la rama Two-Head lo
-delega al cabezal estructural y genera únicamente contenido y metadatos de posición. Esta asimetría es una decisión de diseño documentada, pero el
-lector debe tenerla presente al interpretar métricas sensibles a truncación o completitud de salida.
-
-En este marco, la diferencia relevante entre ramas no es el tamaño del modelo ni el conjunto de datos, sino la forma en la que se representa y
-supervisa la jerarquía. Esa decisión es coherente con la hipótesis central del trabajo: los errores de generación estructurada no se explican solo
+En este trabajo la principal diferencia entre ramas es la forma en la que se representa y
+supervisa la jerarquía. Recordemos que partimos de la hipótesis de que los errores de generación estructurada no se explican solo
 por semántica de contenido, sino también por cómo la arquitectura aprende la señal de profundidad.
 
 \section{Métricas de evaluación: familias y utilidad}
