@@ -20,14 +20,16 @@
     {1}{92.48228pt}\LT@entry 
     {1}{84.76006pt}\LT@entry 
     {1}{84.76006pt}}
-\citation{rafailov2023dpo}
 \@writefile{toc}{\contentsline {section}{\numberline {7.2}Primer ajuste DPO sobre el dataset de preferencias V1}{73}{section.7.2}\protected@file@percent }
 \newlabel{sec:ch7_dpo_v1}{{7.2}{73}{Primer ajuste DPO sobre el dataset de preferencias V1}{section.7.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.3}Generación iterativa del dataset DPO v2}{73}{section.7.3}\protected@file@percent }
-\newlabel{sec:ch7_dpo_v2_generation}{{7.3}{73}{Generación iterativa del dataset DPO v2}{section.7.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.1}Planteamiento del enfoque iterativo}{73}{subsection.7.3.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {7.2}{\ignorespaces Comparación de validación entre el modelo de partida y DPO con \(\beta =0{,}10\). La columna de \(\beta =0{,}30\) se mantiene como marcador de resultados pendientes, porque la evaluación completa sobre los 70 ejemplos de validación no estaba disponible en el momento de redactar esta sección.}}{74}{table.caption.55}\protected@file@percent }
-\newlabel{tab:ch7_dpo_v1_validation}{{7.2}{74}{Comparación de validación entre el modelo de partida y DPO con \(\beta =0{,}10\). La columna de \(\beta =0{,}30\) se mantiene como marcador de resultados pendientes, porque la evaluación completa sobre los 70 ejemplos de validación no estaba disponible en el momento de redactar esta sección}{table.caption.55}{}}
+\citation{rafailov2023dpo}
+\@writefile{lot}{\contentsline {table}{\numberline {7.2}{\ignorespaces Comparación de validación entre el modelo de partida y los dos primeros ajustes DPO sobre el dataset de preferencias V1. Todas las columnas se calculan sobre los 70 ejemplos del split de validación.}}{74}{table.caption.55}\protected@file@percent }
+\newlabel{tab:ch7_dpo_v1_validation}{{7.2}{74}{Comparación de validación entre el modelo de partida y los dos primeros ajustes DPO sobre el dataset de preferencias V1. Todas las columnas se calculan sobre los 70 ejemplos del split de validación}{table.caption.55}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.3}Generación iterativa del dataset DPO v2}{74}{section.7.3}\protected@file@percent }
+\newlabel{sec:ch7_dpo_v2_generation}{{7.3}{74}{Generación iterativa del dataset DPO v2}{section.7.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.1}Planteamiento del enfoque iterativo}{74}{subsection.7.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7.5}{\ignorespaces Esquema iterativo seguido para pasar de DPO v1 a la generación del dataset DPO v2. La nueva política se usa para muestrear candidatos y la política anterior actúa como referencia de la siguiente actualización.}}{75}{figure.caption.56}\protected@file@percent }
+\newlabel{fig:ch7_dpo_iterative_cycle}{{7.5}{75}{Esquema iterativo seguido para pasar de DPO v1 a la generación del dataset DPO v2. La nueva política se usa para muestrear candidatos y la política anterior actúa como referencia de la siguiente actualización}{figure.caption.56}{}}
 \gdef \LT@ii {\LT@entry 
     {1}{203.44173pt}\LT@entry 
     {1}{92.48228pt}\LT@entry 
@@ -35,22 +37,52 @@
 \gdef \LT@iii {\LT@entry 
     {1}{109.78886pt}\LT@entry 
     {1}{196.6428pt}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7.5}{\ignorespaces Esquema iterativo seguido para pasar de DPO v1 a la generación del dataset DPO v2. La nueva política se usa para muestrear candidatos y la política anterior actúa como referencia de la siguiente actualización.}}{75}{figure.caption.56}\protected@file@percent }
-\newlabel{fig:ch7_dpo_iterative_cycle}{{7.5}{75}{Esquema iterativo seguido para pasar de DPO v1 a la generación del dataset DPO v2. La nueva política se usa para muestrear candidatos y la política anterior actúa como referencia de la siguiente actualización}{figure.caption.56}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.2}Construcción del dataset DPO V2}{75}{subsection.7.3.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {7.4}{\ignorespaces Comparación entre los datasets de preferencias DPO v1 y DPO v2. DPO v2 conserva menos pares, pero los pares retenidos tienen mayor margen medio y están más orientados a fallos estructurales y de dominio.}}{75}{table.caption.57}\protected@file@percent }
-\newlabel{tab:ch7_dpo_v1_v2_dataset_summary}{{7.4}{75}{Comparación entre los datasets de preferencias DPO v1 y DPO v2. DPO v2 conserva menos pares, pero los pares retenidos tienen mayor margen medio y están más orientados a fallos estructurales y de dominio}{table.caption.57}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {7.6}{\ignorespaces Restricciones principales del selector DPO v2. El objetivo no es maximizar una sola métrica, sino evitar pares donde la preferencia sea contradictoria con el contrato estructural de la tarea.}}{76}{table.caption.58}\protected@file@percent }
-\newlabel{tab:ch7_dpo_v2_guardrails}{{7.6}{76}{Restricciones principales del selector DPO v2. El objetivo no es maximizar una sola métrica, sino evitar pares donde la preferencia sea contradictoria con el contrato estructural de la tarea}{table.caption.58}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7.6}{\ignorespaces Composición de tipos de pares en DPO v1 y DPO v2. La segunda iteración reduce el número total de pares, pero desplaza el foco hacia contrastes más específicos de dominio y estructura.}}{76}{figure.caption.59}\protected@file@percent }
-\newlabel{fig:ch7_dpo_v1_v2_pair_types}{{7.6}{76}{Composición de tipos de pares en DPO v1 y DPO v2. La segunda iteración reduce el número total de pares, pero desplaza el foco hacia contrastes más específicos de dominio y estructura}{figure.caption.59}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7.7}{\ignorespaces Distribución de niveles KDV entre salidas preferidas y rechazadas en DPO v2. Los \textit  {chosen} se concentran en niveles altos, mientras que los \textit  {rejected} contienen una proporción elevada de fallos de dominio severos.}}{77}{figure.caption.60}\protected@file@percent }
-\newlabel{fig:ch7_dpo_v2_kdv_levels}{{7.7}{77}{Distribución de niveles KDV entre salidas preferidas y rechazadas en DPO v2. Los \textit {chosen} se concentran en niveles altos, mientras que los \textit {rejected} contienen una proporción elevada de fallos de dominio severos}{figure.caption.60}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.4}Segundo ajuste DPO sobre dataset de preferencias V2}{77}{section.7.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7.8}{\ignorespaces Diferencia media entre salida preferida y salida rechazada en el dataset DPO v2. Las diferencias positivas indican que el selector conserva pares donde la preferencia está apoyada por varias señales y no por una sola métrica aislada.}}{78}{figure.caption.61}\protected@file@percent }
-\newlabel{fig:ch7_dpo_v2_metric_deltas}{{7.8}{78}{Diferencia media entre salida preferida y salida rechazada en el dataset DPO v2. Las diferencias positivas indican que el selector conserva pares donde la preferencia está apoyada por varias señales y no por una sola métrica aislada}{figure.caption.61}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.2}Construcción del dataset DPO V2}{76}{subsection.7.3.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7.4}{\ignorespaces Comparación entre los datasets de preferencias DPO v1 y DPO v2. DPO v2 conserva menos pares, pero los pares retenidos tienen mayor margen medio y están más orientados a fallos estructurales y de dominio.}}{76}{table.caption.57}\protected@file@percent }
+\newlabel{tab:ch7_dpo_v1_v2_dataset_summary}{{7.4}{76}{Comparación entre los datasets de preferencias DPO v1 y DPO v2. DPO v2 conserva menos pares, pero los pares retenidos tienen mayor margen medio y están más orientados a fallos estructurales y de dominio}{table.caption.57}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.6}{\ignorespaces Restricciones principales del selector DPO v2. El objetivo no es maximizar una sola métrica, sino evitar pares donde la preferencia sea contradictoria con el contrato estructural de la tarea.}}{77}{table.caption.58}\protected@file@percent }
+\newlabel{tab:ch7_dpo_v2_guardrails}{{7.6}{77}{Restricciones principales del selector DPO v2. El objetivo no es maximizar una sola métrica, sino evitar pares donde la preferencia sea contradictoria con el contrato estructural de la tarea}{table.caption.58}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.6}{\ignorespaces Composición de tipos de pares en DPO v1 y DPO v2. La segunda iteración reduce el número total de pares, pero desplaza el foco hacia contrastes más específicos de dominio y estructura.}}{77}{figure.caption.59}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v1_v2_pair_types}{{7.6}{77}{Composición de tipos de pares en DPO v1 y DPO v2. La segunda iteración reduce el número total de pares, pero desplaza el foco hacia contrastes más específicos de dominio y estructura}{figure.caption.59}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.7}{\ignorespaces Distribución de niveles KDV entre salidas preferidas y rechazadas en DPO v2. Los \textit  {chosen} se concentran en niveles altos, mientras que los \textit  {rejected} contienen una proporción elevada de fallos de dominio severos.}}{78}{figure.caption.60}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v2_kdv_levels}{{7.7}{78}{Distribución de niveles KDV entre salidas preferidas y rechazadas en DPO v2. Los \textit {chosen} se concentran en niveles altos, mientras que los \textit {rejected} contienen una proporción elevada de fallos de dominio severos}{figure.caption.60}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.4}Segundo ajuste DPO sobre el dataset de preferencias v2}{78}{section.7.4}\protected@file@percent }
+\newlabel{sec:ch7_dpo_v2_training}{{7.4}{78}{Segundo ajuste DPO sobre el dataset de preferencias v2}{section.7.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4.1}Experimento con lr 1e-5}{78}{subsection.7.4.1}\protected@file@percent }
+\newlabel{subsec:ch7_dpo_v2_lr1e5}{{7.4.1}{78}{Experimento con lr 1e-5}{subsection.7.4.1}{}}
+\gdef \LT@iv {\LT@entry 
+    {1}{201.58575pt}\LT@entry 
+    {1}{57.58095pt}\LT@entry 
+    {1}{56.86412pt}\LT@entry 
+    {1}{56.86412pt}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.8}{\ignorespaces Diferencia media entre salida preferida y salida rechazada en el dataset DPO v2. Las diferencias positivas indican que el selector conserva pares donde la preferencia está apoyada por varias señales y no por una sola métrica aislada.}}{79}{figure.caption.61}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v2_metric_deltas}{{7.8}{79}{Diferencia media entre salida preferida y salida rechazada en el dataset DPO v2. Las diferencias positivas indican que el selector conserva pares donde la preferencia está apoyada por varias señales y no por una sola métrica aislada}{figure.caption.61}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.8}{\ignorespaces Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta =0{,}30\) y DPO v2.}}{79}{table.caption.63}\protected@file@percent }
+\newlabel{tab:ch7_dpo_v2_lr1e5_validation}{{7.8}{79}{Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta =0{,}30\) y DPO v2}{table.caption.63}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.9}{\ignorespaces Evolución de la pérdida, el margen de recompensa, la precisión de recompensa y la norma del gradiente durante el entrenamiento DPO v2. Las líneas verticales punteadas separan aproximadamente las tres épocas.}}{80}{figure.caption.62}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v2_lr1e5_training_dynamics}{{7.9}{80}{Evolución de la pérdida, el margen de recompensa, la precisión de recompensa y la norma del gradiente durante el entrenamiento DPO v2. Las líneas verticales punteadas separan aproximadamente las tres épocas}{figure.caption.62}{}}
+\gdef \LT@v {\LT@entry 
+    {1}{159.1554pt}\LT@entry 
+    {1}{47.45218pt}\LT@entry 
+    {1}{81.77519pt}\LT@entry 
+    {1}{68.59454pt}\LT@entry 
+    {1}{68.59454pt}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.10}{\ignorespaces Comparación de métricas principales entre el baseline zero-shot, DPO v1 con \(\beta =0{,}30\) y DPO v2. La figura resume el salto de régimen respecto al modelo base y el refinamiento más pequeño respecto a DPO v1.}}{81}{figure.caption.64}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v2_lr1e5_headline_metrics}{{7.10}{81}{Comparación de métricas principales entre el baseline zero-shot, DPO v1 con \(\beta =0{,}30\) y DPO v2. La figura resume el salto de régimen respecto al modelo base y el refinamiento más pequeño respecto a DPO v1}{figure.caption.64}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4.2}Experimento con lr 1e-4}{81}{subsection.7.4.2}\protected@file@percent }
+\newlabel{subsec:ch7_dpo_v2_lr1e4}{{7.4.2}{81}{Experimento con lr 1e-4}{subsection.7.4.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.10}{\ignorespaces Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta =0{,}30\) y las dos variantes DPO v2.}}{81}{table.caption.67}\protected@file@percent }
+\newlabel{tab:ch7_dpo_v2_lr1e4_validation}{{7.10}{81}{Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta =0{,}30\) y las dos variantes DPO v2}{table.caption.67}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.11}{\ignorespaces Tasa de paso por niveles KDV para el baseline, DPO v1 con \(\beta =0{,}30\) y DPO v2 con \(lr=10^{-5}\). La segunda iteración conserva los niveles iniciales y mejora el nivel 5, aunque este sigue siendo el punto más exigente.}}{82}{figure.caption.65}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v2_lr1e5_kdv_levels}{{7.11}{82}{Tasa de paso por niveles KDV para el baseline, DPO v1 con \(\beta =0{,}30\) y DPO v2 con \(lr=10^{-5}\). La segunda iteración conserva los niveles iniciales y mejora el nivel 5, aunque este sigue siendo el punto más exigente}{figure.caption.65}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.12}{\ignorespaces Evolución de la pérdida, el margen de recompensa, la precisión de recompensa y la norma del gradiente durante el entrenamiento DPO v2 con \(lr=10^{-4}\). Las líneas verticales separan aproximadamente las tres épocas.}}{83}{figure.caption.66}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v2_lr1e4_training_dynamics}{{7.12}{83}{Evolución de la pérdida, el margen de recompensa, la precisión de recompensa y la norma del gradiente durante el entrenamiento DPO v2 con \(lr=10^{-4}\). Las líneas verticales separan aproximadamente las tres épocas}{figure.caption.66}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.13}{\ignorespaces Comparación de métricas principales entre el baseline, DPO v1 con \(\beta =0{,}30\), DPO v2 con \(lr=10^{-5}\) y DPO v2 con \(lr=10^{-4}\). El aumento de tasa de aprendizaje reduce la estabilidad estructural y no compensa en las métricas semánticas.}}{84}{figure.caption.68}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v2_lr1e4_headline_metrics}{{7.13}{84}{Comparación de métricas principales entre el baseline, DPO v1 con \(\beta =0{,}30\), DPO v2 con \(lr=10^{-5}\) y DPO v2 con \(lr=10^{-4}\). El aumento de tasa de aprendizaje reduce la estabilidad estructural y no compensa en las métricas semánticas}{figure.caption.68}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.14}{\ignorespaces Tasa de paso por niveles KDV para el baseline, DPO v1 con \(\beta =0{,}30\) y las dos variantes DPO v2. El entrenamiento con \(lr=10^{-4}\) mantiene parte de la mejora básica, pero se separa de la variante conservadora en los niveles de dominio más exigentes.}}{84}{figure.caption.69}\protected@file@percent }
+\newlabel{fig:ch7_dpo_v2_lr1e4_kdv_levels}{{7.14}{84}{Tasa de paso por niveles KDV para el baseline, DPO v1 con \(\beta =0{,}30\) y las dos variantes DPO v2. El entrenamiento con \(lr=10^{-4}\) mantiene parte de la mejora básica, pero se separa de la variante conservadora en los niveles de dominio más exigentes}{figure.caption.69}{}}
 \@setckpt{cuerpo/chapter7}{
-\setcounter{page}{79}
+\setcounter{page}{85}
 \setcounter{equation}{0}
 \setcounter{enumi}{4}
 \setcounter{enumii}{0}
@@ -61,14 +93,14 @@
 \setcounter{part}{0}
 \setcounter{chapter}{7}
 \setcounter{section}{4}
-\setcounter{subsection}{0}
+\setcounter{subsection}{2}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{8}
-\setcounter{table}{6}
+\setcounter{figure}{14}
+\setcounter{table}{10}
 \setcounter{parentequation}{0}
-\setcounter{LT@tables}{3}
+\setcounter{LT@tables}{5}
 \setcounter{LT@chunks}{1}
 \setcounter{subfigure}{0}
 \setcounter{lofdepth}{1}
@@ -86,10 +118,10 @@
 \setcounter{blind@randommax}{0}
 \setcounter{blind@pangramcount}{0}
 \setcounter{blind@pangrammax}{0}
-\setcounter{section@level}{1}
+\setcounter{section@level}{2}
 \setcounter{Item}{4}
 \setcounter{Hfootnote}{0}
-\setcounter{bookmark@seq@number}{75}
+\setcounter{bookmark@seq@number}{77}
 \setcounter{lstnumber}{7}
 \setcounter{caption@flags}{2}
 \setcounter{continuedfloat}{0}

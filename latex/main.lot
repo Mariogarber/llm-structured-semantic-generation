@@ -24,30 +24,33 @@
 \contentsline {table}{\numberline {6.5}{\ignorespaces Comparativa entre la base \textit {THO centered} y el primer experimento con codificación posicional por concatenación final (\textit {THOP v1}). La compresión de niveles 5--8 a 0--4 debe leerse en sentido inverso: valores más altos indican más colapso hacia niveles superficiales.}}{65}{table.caption.46}%
 \contentsline {table}{\numberline {6.6}{\ignorespaces Resultado final del experimento THOP-FiLM con modulación posicional sobre el cuello de 512 dimensiones.}}{67}{table.caption.49}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {7.2}{\ignorespaces Comparación de validación entre el modelo de partida y DPO con \(\beta =0{,}10\). La columna de \(\beta =0{,}30\) se mantiene como marcador de resultados pendientes, porque la evaluación completa sobre los 70 ejemplos de validación no estaba disponible en el momento de redactar esta sección.}}{74}{table.caption.55}%
-\contentsline {table}{\numberline {7.4}{\ignorespaces Comparación entre los datasets de preferencias DPO v1 y DPO v2. DPO v2 conserva menos pares, pero los pares retenidos tienen mayor margen medio y están más orientados a fallos estructurales y de dominio.}}{75}{table.caption.57}%
-\contentsline {table}{\numberline {7.6}{\ignorespaces Restricciones principales del selector DPO v2. El objetivo no es maximizar una sola métrica, sino evitar pares donde la preferencia sea contradictoria con el contrato estructural de la tarea.}}{76}{table.caption.58}%
+\contentsline {table}{\numberline {7.2}{\ignorespaces Comparación de validación entre el modelo de partida y los dos primeros ajustes DPO sobre el dataset de preferencias V1. Todas las columnas se calculan sobre los 70 ejemplos del split de validación.}}{74}{table.caption.55}%
+\contentsline {table}{\numberline {7.4}{\ignorespaces Comparación entre los datasets de preferencias DPO v1 y DPO v2. DPO v2 conserva menos pares, pero los pares retenidos tienen mayor margen medio y están más orientados a fallos estructurales y de dominio.}}{76}{table.caption.57}%
+\contentsline {table}{\numberline {7.6}{\ignorespaces Restricciones principales del selector DPO v2. El objetivo no es maximizar una sola métrica, sino evitar pares donde la preferencia sea contradictoria con el contrato estructural de la tarea.}}{77}{table.caption.58}%
+\contentsline {table}{\numberline {7.8}{\ignorespaces Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta =0{,}30\) y DPO v2.}}{79}{table.caption.63}%
+\contentsline {table}{\numberline {7.10}{\ignorespaces Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta =0{,}30\) y las dos variantes DPO v2.}}{81}{table.caption.67}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {9.1}{\ignorespaces Resumen comparativo en validación de los modelos principales. Los valores de DPO corresponden a la run \texttt {beta=0.10}; la variante DPO v2 se mantiene fuera de la tabla hasta completar su validación final.}}{84}{table.caption.62}%
-\contentsline {table}{\numberline {9.2}{\ignorespaces Matriz de evaluación final en test. Las filas pendientes no deben usarse para selección de modelo, sino como confirmación de modelos previamente fijados en validación.}}{88}{table.caption.63}%
+\contentsline {table}{\numberline {9.1}{\ignorespaces Resumen comparativo en validación de los modelos principales. Los valores de DPO corresponden a la run \texttt {beta=0.10}; la variante DPO v2 se mantiene fuera de la tabla hasta completar su validación final.}}{90}{table.caption.70}%
+\contentsline {table}{\numberline {9.2}{\ignorespaces Matriz de evaluación final en test. Las filas pendientes no deben usarse para selección de modelo, sino como confirmación de modelos previamente fijados en validación.}}{94}{table.caption.71}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {1}{\ignorespaces Especificaciones del entorno de hardware.}}{99}{table.caption.66}%
-\contentsline {table}{\numberline {2}{\ignorespaces Versiones mínimas de las dependencias principales.}}{100}{table.caption.67}%
-\contentsline {table}{\numberline {3}{\ignorespaces Arquitectura del modelo base Qwen2.5-7B-Instruct.}}{101}{table.caption.68}%
-\contentsline {table}{\numberline {4}{\ignorespaces Configuración LoRA común a todos los experimentos de ajuste fino.}}{101}{table.caption.69}%
-\contentsline {table}{\numberline {5}{\ignorespaces Parámetros de entrenamiento comunes a las variantes SFT supervisadas.}}{102}{table.caption.70}%
-\contentsline {table}{\numberline {7}{\ignorespaces Inventario de experimentos respecto al contenido previo del anexo.}}{103}{table.caption.71}%
-\contentsline {table}{\numberline {9}{\ignorespaces Parámetros específicos de \texttt {serialized\_sft}.}}{103}{table.caption.72}%
-\contentsline {table}{\numberline {11}{\ignorespaces Parámetros específicos de \texttt {two\_head\_sft}.}}{104}{table.caption.73}%
-\contentsline {table}{\numberline {13}{\ignorespaces Serie de variantes ordinales previas a la incorporación explícita de posición.}}{104}{table.caption.74}%
-\contentsline {table}{\numberline {15}{\ignorespaces Parámetros específicos de las variantes ordinales con información posicional.}}{105}{table.caption.75}%
-\contentsline {table}{\numberline {17}{\ignorespaces Parámetros específicos de las ejecuciones DPO sobre \texttt {serialized\_sft}.}}{106}{table.caption.76}%
-\contentsline {table}{\numberline {19}{\ignorespaces Parámetros de generación y selección del dataset de preferencias DPO v2.}}{107}{table.caption.77}%
-\contentsline {table}{\numberline {21}{\ignorespaces Configuración de inferencia por variante experimental.}}{108}{table.caption.78}%
+\contentsline {table}{\numberline {1}{\ignorespaces Especificaciones del entorno de hardware.}}{105}{table.caption.74}%
+\contentsline {table}{\numberline {2}{\ignorespaces Versiones mínimas de las dependencias principales.}}{106}{table.caption.75}%
+\contentsline {table}{\numberline {3}{\ignorespaces Arquitectura del modelo base Qwen2.5-7B-Instruct.}}{107}{table.caption.76}%
+\contentsline {table}{\numberline {4}{\ignorespaces Configuración LoRA común a todos los experimentos de ajuste fino.}}{107}{table.caption.77}%
+\contentsline {table}{\numberline {5}{\ignorespaces Parámetros de entrenamiento comunes a las variantes SFT supervisadas.}}{108}{table.caption.78}%
+\contentsline {table}{\numberline {7}{\ignorespaces Inventario de experimentos respecto al contenido previo del anexo.}}{109}{table.caption.79}%
+\contentsline {table}{\numberline {9}{\ignorespaces Parámetros específicos de \texttt {serialized\_sft}.}}{109}{table.caption.80}%
+\contentsline {table}{\numberline {11}{\ignorespaces Parámetros específicos de \texttt {two\_head\_sft}.}}{110}{table.caption.81}%
+\contentsline {table}{\numberline {13}{\ignorespaces Serie de variantes ordinales previas a la incorporación explícita de posición.}}{110}{table.caption.82}%
+\contentsline {table}{\numberline {15}{\ignorespaces Parámetros específicos de las variantes ordinales con información posicional.}}{111}{table.caption.83}%
+\contentsline {table}{\numberline {17}{\ignorespaces Parámetros específicos de las ejecuciones DPO sobre \texttt {serialized\_sft}.}}{112}{table.caption.84}%
+\contentsline {table}{\numberline {19}{\ignorespaces Parámetros de generación y selección del dataset de preferencias DPO v2.}}{113}{table.caption.85}%
+\contentsline {table}{\numberline {21}{\ignorespaces Parámetros específicos de las ejecuciones DPO v2 sobre la política DPO v1.}}{114}{table.caption.86}%
+\contentsline {table}{\numberline {23}{\ignorespaces Configuración de inferencia por variante experimental.}}{114}{table.caption.87}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {22}{\ignorespaces Niveles de riesgo del AI Act y aplicabilidad al sistema propuesto.}}{109}{table.caption.80}%
-\contentsline {table}{\numberline {23}{\ignorespaces Factores de riesgo RGPD relevantes para el sistema en su configuración actual.}}{110}{table.caption.81}%
-\contentsline {table}{\numberline {24}{\ignorespaces Resumen de cumplimiento de los requisitos éticos del AI HLEG para el sistema propuesto.}}{111}{table.caption.82}%
-\contentsline {table}{\numberline {25}{\ignorespaces Principales riesgos del sistema, valoración y medidas de mitigación.}}{112}{table.caption.83}%
+\contentsline {table}{\numberline {24}{\ignorespaces Niveles de riesgo del AI Act y aplicabilidad al sistema propuesto.}}{117}{table.caption.89}%
+\contentsline {table}{\numberline {25}{\ignorespaces Factores de riesgo RGPD relevantes para el sistema en su configuración actual.}}{118}{table.caption.90}%
+\contentsline {table}{\numberline {26}{\ignorespaces Resumen de cumplimiento de los requisitos éticos del AI HLEG para el sistema propuesto.}}{119}{table.caption.91}%
+\contentsline {table}{\numberline {27}{\ignorespaces Principales riesgos del sistema, valoración y medidas de mitigación.}}{120}{table.caption.92}%

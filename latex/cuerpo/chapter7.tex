@@ -140,8 +140,8 @@ entre candidatos como para seleccionar pares \texttt{chosen}/\texttt{rejected}.
 %----------------------------------------------------------------------
 
 A partir de la generación anterior se construyó el primer conjunto de preferencias DPO. El dataset
-final contiene 454 tripletas \((x,y^+,y^-)\), distribuidos sobre 230 prompts de entrenamiento. En cada tripleta,
-\(y^+\) representa la candidata preferida y \(y^-\) la candidata rechazada. La selección la hize a través
+final contiene 454 tripletas \((x,y^+,y^-)\), distribuidas sobre 230 prompts de entrenamiento. En cada tripleta,
+\(y^+\) representa la candidata preferida y \(y^-\) la candidata rechazada. La selección se hizo a través de
 una interfaz desarrollada ad hoc, que permitía visualizar los candidatos de cada prompt con sus métricas y
 su valor de puntuación, de modo que podía elegir el par más informativo para cada unidad de prompt en base a
 mi criterio y al score preferencial definido en la sección anterior.
@@ -170,9 +170,9 @@ La expresión anterior es útil porque hace visible el papel de \(\beta\). Un va
 actualización y restringe más el desplazamiento respecto a la referencia; un valor mayor permite que
 la diferencia entre la respuesta preferida y la rechazada pese más en la actualización. En este
 trabajo se probaron dos valores, \(\beta=0{,}10\) y \(\beta=0{,}30\), manteniendo como referencia el
-modelo de partida \texttt{serialized\_sft}.
-
-TODO AQUÍ
+modelo de partida \texttt{serialized\_sft}. Ambos modelos se evaluaron finalmente sobre los 70 ejemplos
+del split de validación, lo que permite separar dos preguntas: si DPO mejora al modelo supervisado de
+partida y si un valor mayor de \(\beta\) desplaza la política de forma útil o introduce degradaciones.
 
 \begin{table}[htbp]
 \centering
@@ -184,27 +184,51 @@ TODO AQUÍ
 \textbf{DPO \(\beta=0{,}10\)} &
 \textbf{DPO \(\beta=0{,}30\)} \\
 \midrule
-YAML parseable & 98,57\,\% & 97,14\,\% & pendiente \\
-Bloques parseables & 98,57\,\% & 97,14\,\% & pendiente \\
-Manifiesto reconstruido exacto & 11,43\,\% & 14,29\,\% & pendiente \\
-Coincidencia en número de documentos & 92,86\,\% & 94,29\,\% & pendiente \\
-F1 medio de líneas & 0,8206 & 0,8092 & pendiente \\
-Exactitud media de \texttt{level} & 0,7578 & 0,7422 & pendiente \\
-F1 medio de requisitos del prompt & 0,8531 & 0,8368 & pendiente \\
-F1 medio de claves semánticas & 0,9552 & 0,9406 & pendiente \\
-Score KDV medio & 0,8310 & 0,8286 & pendiente \\
-\textit{Domain gate} completo & 14,29\,\% & 12,86\,\% & pendiente \\
-Nivel KDV medio & 3,9000 & 3,9429 & pendiente \\
+YAML parseable & 98,57\,\% & 97,14\,\% & 98,57\,\% \\
+Bloques parseables & 98,57\,\% & 97,14\,\% & 98,57\,\% \\
+Manifiesto reconstruido exacto & 11,43\,\% & 14,29\,\% & 14,29\,\% \\
+Coincidencia en número de documentos & 92,86\,\% & 94,29\,\% & 94,29\,\% \\
+F1 medio de líneas & 0,8206 & 0,8092 & 0,8193 \\
+Exactitud media de \texttt{level} & 0,7578 & 0,7422 & 0,7495 \\
+F1 medio de requisitos del prompt & 0,8531 & 0,8368 & 0,8511 \\
+F1 medio de claves semánticas & 0,9552 & 0,9406 & 0,9548 \\
+Score KDV medio & 0,8310 & 0,8286 & 0,8429 \\
+\textit{Domain gate} completo & 14,29\,\% & 12,86\,\% & 14,29\,\% \\
+Nivel KDV medio & 3,9000 & 3,9429 & 4,0286 \\
 \bottomrule
 \end{tabularx}
-\caption{Comparación de validación entre el modelo de partida y DPO con \(\beta=0{,}10\). La columna
-         de \(\beta=0{,}30\) se mantiene como marcador de resultados pendientes, porque la evaluación
-         completa sobre los 70 ejemplos de validación no estaba disponible en el momento de redactar
-         esta sección.}
+\caption{Comparación de validación entre el modelo de partida y los dos primeros ajustes DPO sobre
+         el dataset de preferencias V1. Todas las columnas se calculan sobre los 70 ejemplos del
+         split de validación.}
 \label{tab:ch7_dpo_v1_validation}
 \end{table}
 
-TODO AQUÍ
+La primera conclusión es que DPO no actúa aquí como una mejora uniforme del SFT. Con
+\(\beta=0{,}10\), el modelo aumenta la tasa de reconstrucción exacta y mejora ligeramente la
+coincidencia en número de documentos, pero paga ese desplazamiento con una caída en parseabilidad,
+F1 de líneas, exactitud de \texttt{level}, adecuación al prompt y score KDV medio. Esta lectura es
+importante porque el conjunto de preferencias se había construido precisamente con señales
+estructurales y de dominio: el hecho de optimizar esas preferencias no garantiza por sí solo que la
+política resultante conserve todas las propiedades útiles del modelo supervisado. En un problema
+donde la salida debe atravesar un parser, una pequeña pérdida de regularidad superficial puede tener
+un efecto desproporcionado en la evaluación final.
+
+La variante con \(\beta=0{,}30\) ofrece una imagen más favorable. Frente a
+\(\beta=0{,}10\), recupera la parseabilidad del modelo SFT, mejora el F1 de líneas, la exactitud de
+niveles, la adecuación al prompt y el score KDV medio. También iguala el \textit{domain gate} del SFT
+con un 14,29~\%, mientras que \(\beta=0{,}10\) quedaba en 12,86~\%. Por otro lado, frente al modelo de
+partida sigue quedando ligeramente por debajo en F1 de líneas, exactitud jerárquica y F1 de requisitos
+del prompt. Por tanto, el resultado muestra una señal útil: una
+optimización de preferencias suficientemente fuerte puede mejorar la validez de dominio sin romper la
+parseabilidad estructural.
+
+La mejora más interpretable aparece en las métricas KDV. El nivel medio de validez pasa de 3,9000 en
+\texttt{serialized\_sft} a 4,0286 con \(\beta=0{,}30\), y el score KDV medio sube de 0,8310 a 0,8429.
+Esto sugiere que el modelo no está aprendiendo únicamente a reproducir mejor la superficie textual,
+sino a desplazar algunas decisiones hacia manifiestos más coherentes desde el punto de vista de las
+restricciones de dominio implementadas. Aun así, el \textit{gate} final no supera al SFT, sino que lo
+iguala. Parece que esta primera fase de DPO ayuda a reorganizar ciertos errores de
+dominio, pero todavía no resuelve el cuello de botella final de validez Kubernetes.
 
 %----------------------------------------------------------------------
 \section{Generación iterativa del dataset DPO v2}
@@ -279,7 +303,7 @@ indefinidamente pares producidos por el modelo SFT inicial, cuyos \textit{gaps} 
 
 \subsection{Construcción del dataset DPO V2}
 
-En la práctica, DPO v2 se generó a partir del modelo final de la ejecución con \(\beta=0{,}10\). 
+En la práctica, DPO v2 se generó a partir del modelo final de la ejecución con \(\beta=0{,}30\). 
 Se mantuvieron los 426 prompts de entrenamiento como universo de generación y se
 produjeron seis candidatos por prompt, con el mismo espíritu de diversidad controlada de la fase
 anterior. La diferencia está en la intuición que usé para el etiquetado. Cuando estudié las métricas en el dataset 
@@ -295,7 +319,7 @@ estructural.
 \toprule
 \textbf{Elemento} & \textbf{DPO v1} & \textbf{DPO v2} \\
 \midrule
-Política usada para generar candidatos & \texttt{serialized\_sft} & DPO v1 \(\beta=0{,}10\) \\
+Política usada para generar candidatos & \texttt{serialized\_sft} & DPO v1 \(\beta=0{,}30\) \\
 Prompts de entrenamiento considerados & 426 & 426 \\
 Candidatos evaluados & 2556 & 2556 \\
 Pares finales & 454 & 229 \\
@@ -346,7 +370,7 @@ La composición de tipos de pares cambia de forma clara entre ambas iteraciones.
 Figura~\ref{fig:ch7_dpo_v1_v2_pair_types}, el dataset DPO v1 estaba dominado por pares de margen amplio y
 negativos intermedios. El dataset DPO v2, en cambio, reparte la señal entre invariantes de dominio, cruces de
 compuerta, fidelidad al prompt y fidelidad estructural. Esta era la idea que queríamos seguir: 
-si \(\beta=0{,}10\) ya corrige parte de los contrastes más evidentes, la siguiente
+si \(\beta=0{,}30\) ya corrige parte de los contrastes más evidentes, la siguiente
 iteración debe concentrarse en errores más cercanos a la frontera de validez.
 
 \begin{figure}[htbp]
@@ -390,4 +414,187 @@ que tiene que preservar una jerarquía reconstruible.
 \label{fig:ch7_dpo_v2_metric_deltas}
 \end{figure}
 
-\section{Segundo ajuste DPO sobre dataset de preferencias V2}
+\section{Segundo ajuste DPO sobre el dataset de preferencias v2}
+\label{sec:ch7_dpo_v2_training}
+
+\subsection{Experimento con lr 1e-5}
+\label{subsec:ch7_dpo_v2_lr1e5}
+
+El objetivo de este entrenamiento en el nuevo dataset de preferencias era confirmar que un enfoque iterativo
+podría refinar la política y mejorar las métricas semánticas sin perder la estabilidad estructural. Además,
+para comprobar el efecto de otros hiperparámetros, se mantuvo el valor de \(\beta=0{,}30\), aunque aumenté el número
+de épocas a 3 y reduje el batch efectivo a 1 con acumulación de gradiente. 
+
+Como se observa en la Figura~\ref{fig:ch7_dpo_v2_lr1e5_training_dynamics}, el margen
+de recompensa aumenta de forma gradual y la \textit{reward accuracy} se acerca a valores altos sin que
+la pérdida quede saturada desde los primeros pasos. Esta gráfica ayuda a entender las dinámicas del propio entrenamiento,
+viendo de hecho los ciclos que corresponden a las distintas épocas. Esto es una prueba más de la heterogeneidad del dataset
+de preferencias, y de la diferencia en su dificultad.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/chapter7/fig7_12_dpo_v2_lr1e5_training_dynamics.png}
+\caption{Evolución de la pérdida, el margen de recompensa, la precisión de recompensa y la norma del
+         gradiente durante el entrenamiento DPO v2. Las líneas verticales punteadas
+         separan aproximadamente las tres épocas.}
+\label{fig:ch7_dpo_v2_lr1e5_training_dynamics}
+\end{figure}
+
+La Tabla~\ref{tab:ch7_dpo_v2_lr1e5_validation} recoge la comparación principal entre el baseline del que
+partimos, DPO v1 con \(\beta=0{,}30\) y DPO v2. La lectura más relevante es la comparación entre la
+mejor variante de la primera iteración y el nuevo ajuste sobre el dataset v2.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{Xrrr}
+\toprule
+\textbf{Métrica de validación} & \textbf{Baseline} & \textbf{DPO v1} & \textbf{DPO v2} \\
+\midrule
+Salida estructurada parseable & 92,86\,\% & 100,00\,\% & 100,00\,\% \\
+YAML parseable & 30,77\,\% & 98,57\,\% & 98,57\,\% \\
+Manifiesto reconstruido exacto & 3,08\,\% & 14,29\,\% & 15,71\,\% \\
+Coincidencia en número de documentos & 81,54\,\% & 94,29\,\% & 94,29\,\% \\
+Coincidencia en número de líneas & 13,85\,\% & 32,86\,\% & 30,00\,\% \\
+F1 medio de líneas & 0,2086 & 0,8193 & 0,7986 \\
+Exactitud media de \texttt{level} & 0,1131 & 0,7495 & 0,7196 \\
+MAE medio de \texttt{level} & 0,7896 & 0,2747 & 0,3422 \\
+F1 medio de requisitos del prompt & 0,2213 & 0,8511 & 0,8583 \\
+F1 medio de claves semánticas & 0,2778 & 0,9548 & 0,9596 \\
+Completitud de campos obligatorios & 0,7059 & 1,0000 & 0,9855 \\
+Score KDV medio & 0,2538 & 0,8429 & 0,8632 \\
+\textit{Domain gate} completo & 7,69\,\% & 14,29\,\% & 21,42\,\% \\
+Nivel KDV medio & 0,2308 & 4,0286 & 4,1944 \\
+\bottomrule
+\end{tabularx}
+\caption{Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta=0{,}30\) y DPO v2.}
+\label{tab:ch7_dpo_v2_lr1e5_validation}
+\end{table}
+
+La primera lectura es clara: frente al baseline, DPO v2 mantiene su superioridad por completo en el régimen de calidad. La
+parseabilidad YAML pasa de 30,77\,\% a 98,57\,\%, el F1 de líneas sube de 0,2086 a 0,7986, la
+exactitud de \texttt{level} pasa de 0,1131 a 0,7196 y el F1 de requisitos del prompt crece de 0,2213 a
+0,8583.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/chapter7/fig7_9_dpo_v2_lr1e5_headline_metrics.png}
+\caption{Comparación de métricas principales entre el baseline zero-shot, DPO v1 con \(\beta=0{,}30\) y DPO v2.
+         La figura resume el salto de régimen respecto al modelo base y el refinamiento
+         más pequeño respecto a DPO v1.}
+\label{fig:ch7_dpo_v2_lr1e5_headline_metrics}
+\end{figure}
+
+La comparación con DPO v1 es más interesante. DPO v2 iguala la parseabilidad YAML y mejora
+la reconstrucción exacta, la adecuación al prompt, el F1 de claves semánticas, el score KDV medio,
+el nivel KDV medio y el paso por la compuerta completa de dominio. Sin embargo, no domina a
+DPO v1 en las métricas estructurales finas: baja ligeramente el F1 de líneas, la exactitud de
+\texttt{level}, el MAE de \texttt{level} y la completitud de campos obligatorios. Aquí es donde se ve el efecto del \textit{Alignment-Tax}
+que ya comentaban algunos autores: el ajuste por preferencias puede mejorar la adecuación
+y el dominio, pero si no se controla con cuidado puede degradar la fidelidad estructural. Aunque en este caso apenas
+hemos visto degradación.
+
+Esta lectura se ve mejor al separar la validez Kubernetes por niveles. La
+Figura~\ref{fig:ch7_dpo_v2_lr1e5_kdv_levels} muestra que DPO v2 mantiene los niveles 0 y 1, queda
+ligeramente por debajo de DPO v1 en los niveles 2, 3 y 4, y mejora el paso por el nivel 5.
+El nivel 5 sigue siendo el cuello de botella principal, pero ya no aparece como una regresión respecto
+a DPO v1. Esto encaja con la interpretación general del capítulo:
+los métodos de preferencia automática pueden desplazar la política hacia salidas más coherentes, pero
+el último salto de validez Kubernetes exige señales más específicas que las que ofrece el proxy actual.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/chapter7/fig7_10_dpo_v2_lr1e5_kdv_levels.png}
+\caption{Tasa de paso por niveles KDV para el baseline, DPO v1 con \(\beta=0{,}30\) y DPO v2 con \(lr=10^{-5}\). La segunda
+         iteración conserva los niveles iniciales y mejora el nivel 5, aunque este
+         sigue siendo el punto más exigente.}
+\label{fig:ch7_dpo_v2_lr1e5_kdv_levels}
+\end{figure}
+
+\subsection{Experimento con lr 1e-4}
+\label{subsec:ch7_dpo_v2_lr1e4}
+
+La segunda variante sobre el dataset DPO v2 mantiene la misma política de partida y el mismo valor
+de \(\beta=0{,}30\), pero aumenta la tasa de aprendizaje a \(1\times10^{-4}\). La intención de este experimento
+era explorar nuevas líneas de hiperparámetros que no había modificado en anteriores iteraciones, para comprobar
+si un ajuste más agresivo podía mejorar la convergencia o el cierre del experimento. Sin embargo, el resultado
+no fue positivo, sino que mostró una dinámica de entrenamiento inestable y una validación peor que el caso anterior.
+
+Esta tensión aparece ya durante el entrenamiento. La Figura~\ref{fig:ch7_dpo_v2_lr1e4_training_dynamics}
+muestra una dinámica mucho más brusca que en el caso anterior: la pérdida cae hasta valores casi
+nulos y el margen de recompensa crece con rapidez, mientras que la \textit{reward accuracy} alcanza
+valores altos muy pronto. A primera vista esto podría parecer positivo, pero en DPO una separación
+excesivamente rápida entre respuestas aceptadas y rechazadas no garantiza mejor validación. En este
+caso, de hecho, funciona como una señal de que el ajuste ha sido más agresivo de lo que permite la
+estabilidad estructural del formato.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/chapter7/fig7_13_dpo_v2_lr1e4_training_dynamics.png}
+\caption{Evolución de la pérdida, el margen de recompensa, la precisión de recompensa y la norma del
+         gradiente durante el entrenamiento DPO v2 con \(lr=10^{-4}\). Las líneas verticales
+         separan aproximadamente las tres épocas.}
+\label{fig:ch7_dpo_v2_lr1e4_training_dynamics}
+\end{figure}
+
+La Tabla~\ref{tab:ch7_dpo_v2_lr1e4_validation} compara esta variante con el baseline, DPO v1 con
+\(\beta=0{,}30\) y el DPO v2 conservador.
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{Xrrrr}
+\toprule
+\textbf{Métrica de validación} & \textbf{Baseline} & \textbf{DPO v1 \(\beta=0{,}30\)} & \textbf{DPO v2 \(10^{-5}\)} & \textbf{DPO v2 \(10^{-4}\)} \\
+\midrule
+Salida estructurada parseable & 92,86\,\% & 100,00\,\% & 100,00\,\% & 82,86\,\% \\
+YAML parseable & 30,77\,\% & 98,57\,\% & 98,57\,\% & 94,83\,\% \\
+Manifiesto reconstruido exacto & 3,08\,\% & 14,29\,\% & 15,71\,\% & 1,72\,\% \\
+Coincidencia en número de documentos & 81,54\,\% & 94,29\,\% & 94,29\,\% & 86,21\,\% \\
+Coincidencia en número de líneas & 13,85\,\% & 32,86\,\% & 30,00\,\% & 12,07\,\% \\
+F1 medio de líneas & 0,2086 & 0,8193 & 0,7986 & 0,5888 \\
+Exactitud media de \texttt{level} & 0,1131 & 0,7495 & 0,7196 & 0,5358 \\
+MAE medio de \texttt{level} & 0,7896 & 0,2747 & 0,3422 & 0,6066 \\
+F1 medio de requisitos del prompt & 0,2213 & 0,8511 & 0,8583 & 0,7918 \\
+F1 medio de claves semánticas & 0,2778 & 0,9548 & 0,9596 & 0,8924 \\
+Completitud de campos obligatorios & 0,7059 & 1,0000 & 0,9855 & 0,9455 \\
+Score KDV medio & 0,2538 & 0,8429 & 0,8632 & 0,7701 \\
+\textit{Domain gate} completo & 7,69\,\% & 14,29\,\% & 21,42\,\% & 8,62\,\% \\
+Nivel KDV medio & 0,2308 & 4,0286 & 4,1944 & 3,2241 \\
+\bottomrule
+\end{tabularx}
+\caption{Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta=0{,}30\) y las dos variantes DPO v2.}
+\label{tab:ch7_dpo_v2_lr1e4_validation}
+\end{table}
+
+En la comparativa vemos como aquellas métricas más relacionadas con la fidelidad al prompt y la semántica
+del dominio se mantienen por encima del baseline, aunque con una caída respecto a las otras variantes.
+Sin embargo, las métricas estructurales sufren un deterioro más acusado. La salida parseable baja a 82,86\,\%, la
+coincidencia en número de líneas cae a 12,07\,\%, la exactitud de \texttt{level} se reduce a 0,5358 y el MAE
+de \texttt{level} sube a 0,6066. De nuevo, esto confirma que el \textit{Aligment-Tax} es un fenómeno real y que
+forzar demasiado la optimización por preferencias puede pagar un coste estructural que no compensa en las métricas
+de calidad.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/chapter7/fig7_14_dpo_v2_lr1e4_headline_metrics.png}
+\caption{Comparación de métricas principales entre el baseline, DPO v1 con \(\beta=0{,}30\), DPO v2 con \(lr=10^{-5}\)
+         y DPO v2 con \(lr=10^{-4}\). El aumento de tasa de aprendizaje reduce la estabilidad
+         estructural y no compensa en las métricas semánticas.}
+\label{fig:ch7_dpo_v2_lr1e4_headline_metrics}
+\end{figure}
+
+La pérdida de calidad no es uniforme. La Figura~\ref{fig:ch7_dpo_v2_lr1e4_kdv_levels} muestra que los
+niveles iniciales de KDV ya comienzan a sufrir, con una ligera caída desde el nivel 0. A partir del nivel 2
+la caída es más acusada, mostrando la degradación estructural que se ha producido. Entre el nivel 3 y 4 apenas 
+hay diferencia. La caída en el nivel 3 se corresponde con un descenso en la coherencia intra-recurso, lo que
+significa que el modelo no ha sido capaz en muchos casos de mantener una estructura válida dentro de cada recurso.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/chapter7/fig7_15_dpo_v2_lr1e4_kdv_levels.png}
+\caption{Tasa de paso por niveles KDV para el baseline, DPO v1 con \(\beta=0{,}30\) y las dos variantes DPO v2. El
+         entrenamiento con \(lr=10^{-4}\) mantiene parte de la mejora básica, pero se separa de
+         la variante conservadora en los niveles de dominio más exigentes.}
+\label{fig:ch7_dpo_v2_lr1e4_kdv_levels}
+\end{figure}

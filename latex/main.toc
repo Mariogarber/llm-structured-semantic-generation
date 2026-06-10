@@ -71,34 +71,36 @@
 \contentsline {chapter}{\numberline {7}Alineación Mediante Optimización de Preferencias Directa}{69}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Generación de candidatos para DPO}{69}{section.7.1}%
 \contentsline {section}{\numberline {7.2}Primer ajuste DPO sobre el dataset de preferencias V1}{73}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Generación iterativa del dataset DPO v2}{73}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Planteamiento del enfoque iterativo}{73}{subsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.3.2}Construcción del dataset DPO V2}{75}{subsection.7.3.2}%
-\contentsline {section}{\numberline {7.4}Segundo ajuste DPO sobre dataset de preferencias V2}{77}{section.7.4}%
-\contentsline {chapter}{\numberline {8}Impacto Social y Ética}{79}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Naturaleza y alcance del sistema}{79}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Encaje regulatorio y jurídico}{80}{section.8.2}%
-\contentsline {section}{\numberline {8.3}Riesgos principales}{81}{section.8.3}%
-\contentsline {section}{\numberline {8.4}Medidas de mitigación y responsabilidad}{81}{section.8.4}%
-\contentsline {section}{\numberline {8.5}Resumen de impacto}{82}{section.8.5}%
-\contentsline {chapter}{\numberline {9}Análisis Comparativo de Resultados}{83}{chapter.9}%
-\contentsline {section}{\numberline {9.1}Criterios de comparación}{83}{section.9.1}%
-\contentsline {section}{\numberline {9.2}De la línea base al SFT serializado}{84}{section.9.2}%
-\contentsline {section}{\numberline {9.3}Jerarquía serializada frente a jerarquía explícita}{85}{section.9.3}%
-\contentsline {section}{\numberline {9.4}Evolución de la rama two-head}{86}{section.9.4}%
-\contentsline {section}{\numberline {9.5}Efecto de DPO sobre la referencia serializada}{87}{section.9.5}%
-\contentsline {section}{\numberline {9.6}Evaluación final en test}{87}{section.9.6}%
-\contentsline {section}{\numberline {9.7}Discusión transversal}{88}{section.9.7}%
-\contentsline {chapter}{\numberline {10}Conclusiones y Trabajo Futuro}{91}{chapter.10}%
-\contentsline {chapter}{Configuración experimental y reproducibilidad}{99}{appendix*.65}%
-\contentsline {section}{\numberline {.1}Entorno de hardware y software}{99}{section.Alph0.1}%
-\contentsline {section}{\numberline {.2}Modelo base y cuantización}{100}{section.Alph0.2}%
-\contentsline {section}{\numberline {.3}Configuración LoRA}{100}{section.Alph0.3}%
-\contentsline {section}{\numberline {.4}Hiperparámetros de entrenamiento por variante}{102}{section.Alph0.4}%
-\contentsline {section}{\numberline {.5}Configuración de inferencia y evaluación}{108}{section.Alph0.5}%
-\contentsline {section}{\numberline {.6}Reproducibilidad y trazabilidad}{108}{section.Alph0.6}%
-\contentsline {chapter}{Evaluación ética y matriz de riesgos}{109}{appendix*.79}%
-\contentsline {section}{\numberline {.7}Clasificación bajo el AI Act}{109}{section.Alph0.7}%
-\contentsline {section}{\numberline {.8}Factores RGPD}{109}{section.Alph0.8}%
-\contentsline {section}{\numberline {.9}Checklist ética AI HLEG}{110}{section.Alph0.9}%
-\contentsline {section}{\numberline {.10}Matriz de riesgos}{110}{section.Alph0.10}%
+\contentsline {section}{\numberline {7.3}Generación iterativa del dataset DPO v2}{74}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Planteamiento del enfoque iterativo}{74}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Construcción del dataset DPO V2}{76}{subsection.7.3.2}%
+\contentsline {section}{\numberline {7.4}Segundo ajuste DPO sobre el dataset de preferencias v2}{78}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Experimento con lr 1e-5}{78}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Experimento con lr 1e-4}{81}{subsection.7.4.2}%
+\contentsline {chapter}{\numberline {8}Impacto Social y Ética}{85}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Naturaleza y alcance del sistema}{85}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Encaje regulatorio y jurídico}{86}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Riesgos principales}{87}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Medidas de mitigación y responsabilidad}{87}{section.8.4}%
+\contentsline {section}{\numberline {8.5}Resumen de impacto}{88}{section.8.5}%
+\contentsline {chapter}{\numberline {9}Análisis Comparativo de Resultados}{89}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Criterios de comparación}{89}{section.9.1}%
+\contentsline {section}{\numberline {9.2}De la línea base al SFT serializado}{90}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Jerarquía serializada frente a jerarquía explícita}{91}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Evolución de la rama two-head}{92}{section.9.4}%
+\contentsline {section}{\numberline {9.5}Efecto de DPO sobre la referencia serializada}{93}{section.9.5}%
+\contentsline {section}{\numberline {9.6}Evaluación final en test}{93}{section.9.6}%
+\contentsline {section}{\numberline {9.7}Discusión transversal}{94}{section.9.7}%
+\contentsline {chapter}{\numberline {10}Conclusiones y Trabajo Futuro}{97}{chapter.10}%
+\contentsline {chapter}{Configuración experimental y reproducibilidad}{105}{appendix*.73}%
+\contentsline {section}{\numberline {.1}Entorno de hardware y software}{105}{section.Alph0.1}%
+\contentsline {section}{\numberline {.2}Modelo base y cuantización}{106}{section.Alph0.2}%
+\contentsline {section}{\numberline {.3}Configuración LoRA}{106}{section.Alph0.3}%
+\contentsline {section}{\numberline {.4}Hiperparámetros de entrenamiento por variante}{108}{section.Alph0.4}%
+\contentsline {section}{\numberline {.5}Configuración de inferencia y evaluación}{114}{section.Alph0.5}%
+\contentsline {section}{\numberline {.6}Reproducibilidad y trazabilidad}{115}{section.Alph0.6}%
+\contentsline {chapter}{Evaluación ética y matriz de riesgos}{117}{appendix*.88}%
+\contentsline {section}{\numberline {.7}Clasificación bajo el AI Act}{117}{section.Alph0.7}%
+\contentsline {section}{\numberline {.8}Factores RGPD}{117}{section.Alph0.8}%
+\contentsline {section}{\numberline {.9}Checklist ética AI HLEG}{118}{section.Alph0.9}%
+\contentsline {section}{\numberline {.10}Matriz de riesgos}{118}{section.Alph0.10}%

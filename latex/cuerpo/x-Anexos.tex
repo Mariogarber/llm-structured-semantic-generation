@@ -162,7 +162,7 @@ Recuperación ante OOM & omitir el microbatch problemático cuando la variante l
 \shortstack[l]{\texttt{two\_head\_ordinal}\\\texttt{\_density}} & no documentado & Se añade como primera familia ordinal con pérdida ponderada por densidad. \\
 \shortstack[l]{\texttt{two\_head\_ordinal}\\\texttt{\_positional}} & documentado parcialmente & Se mantiene y se precisa como variante V1 con concatenación posicional final. \\
 \shortstack[l]{\texttt{two\_head\_ordinal\_film}\\\texttt{\_positional}} & no documentado & Se añade como experimento posterior en curso con modulación FiLM. \\
-\texttt{serialized\_sft\_dpo} & no documentado & Se añade la ejecución DPO completa con $\beta=0.10$, se deja $\beta=0.30$ como evaluación parcial pendiente y se documenta la generación del dataset DPO v2. \\
+\texttt{serialized\_sft\_dpo} & no documentado & Se añaden las ejecuciones DPO completas con \(\beta=0{,}10\) y \(\beta=0{,}30\), y se documenta la generación del dataset DPO v2. \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -299,7 +299,7 @@ Warmup & 0.03 \\
 Decaimiento de pesos & 0.0 \\
 Gradient checkpointing & activado \\
 Recuperación ante OOM & fallar la ejecución \\
-Configuraciones $\beta$ ejecutadas & 0.10 completa; 0.30 con evaluación parcial pendiente \\
+Configuraciones \(\beta\) ejecutadas & \(0{,}10\) completa; \(0{,}30\) completa \\
 Política de referencia & modelo \texttt{serialized\_sft} congelado; log-probabilidades de referencia precomputadas \\
 \bottomrule
 \end{tabularx}
@@ -313,7 +313,7 @@ Política de referencia & modelo \texttt{serialized\_sft} congelado; log-probabi
 \toprule
 \textbf{Parámetro} & \textbf{Valor} \\
 \midrule
-Política generadora & checkpoint final de DPO v1 con $\beta=0.10$ (\texttt{checkpoint-step-57}) \\
+Política generadora & checkpoint final de DPO v1 con \(\beta=0{,}30\) (\texttt{checkpoint-step-57}) \\
 Política de referencia prevista para la siguiente iteración & misma política generadora, congelada como \(\pi_{\mathrm{ref}}^{(2)}\) \\
 Split usado para generar candidatos & entrenamiento de \texttt{kubernetes\_v1} \\
 Prompts considerados & 426 \\
@@ -324,7 +324,33 @@ Prompts con al menos un par & 193 \\
 Tipos de pares & \texttt{domain\_invariant}, \texttt{gate\_crossing}, \texttt{level5\_practice}, \texttt{prompt\_fidelity}, \texttt{structural\_fidelity} \\
 Margen mínimo de preferencia & 0.25 \\
 Restricciones de conservación & no degradar en exceso fidelidad al prompt, F1 de líneas, exactitud de \texttt{level} ni campos obligatorios \\
-Estado del dataset & generado y analizado; entrenamiento posterior pendiente de evaluación completa \\
+Estado del dataset & generado, analizado y usado en dos entrenamientos DPO v2 con evaluación de validación completa o parcialmente evaluable según parseo estructurado \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Parámetros específicos de las ejecuciones DPO v2 sobre la política DPO v1.}
+\label{tab:AnexoA_dpo_v2_training}
+\begin{tabularx}{\textwidth}{p{0.34\textwidth}X}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} \\
+\midrule
+Política inicial y de referencia & DPO v1 con \(\beta=0{,}30\), \texttt{checkpoint-step-57} \\
+Dataset de preferencias & \texttt{agent-full-auto-v2/preferences\_final.jsonl} \\
+Pares de preferencia & 229 \\
+Formato de salida & \texttt{blocks\_tsv\_v1} \\
+Épocas de entrenamiento & 3 \\
+Tamaño de batch & 1 \\
+Pasos de acumulación de gradiente & 8 \\
+Configuración \(\beta\) & \(0{,}30\) \\
+Tasas de aprendizaje ejecutadas & \(1\times10^{-5}\) y \(1\times10^{-4}\) \\
+Longitud máxima de secuencia & 2048 tokens \\
+Máximo de tokens nuevos en validación & 1024 \\
+Pasos entre checkpoints & 29 \\
+Checkpoint final evaluado & \texttt{checkpoint-step-87} en ambas variantes \\
+Política de referencia & log-probabilidades precomputadas antes de cargar la política entrenable \\
 \bottomrule
 \end{tabularx}
 \end{table}
