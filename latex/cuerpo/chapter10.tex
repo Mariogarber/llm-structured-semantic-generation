@@ -172,6 +172,83 @@ posteriores de optimización, donde he necesitado el uso de métricas de apoyo p
 
 \section{Revisión de objetivos}
 
+A continuación vamos a revisitar los objetivos planteados en el Capítulo~\ref{ch::chapter1} y comprobar cómo se han completado a lo largo
+del trabajo.
 
+En primer lugar, el trabajo abordó la caracterización del conjunto de datos y la definición de una forma adecuada de evaluar el problema.
+El análisis inicial del Capítulo~\ref{ch::chapter3} permitió estudiar el tamaño del dataset, la distribución de recursos, la complejidad
+de los prompts y la profundidad de los manifiestos. A partir de esa lectura, el Capítulo~\ref{ch::chapter4} formalizó una evaluación en
+varios niveles: parseabilidad YAML, reconstrucción desde bloques, exactitud de \texttt{level}, adecuación al prompt y métricas específicas
+de Kubernetes.
+
+Esa misma lógica llevó a definir la representación intermedia basada en bloques de línea. Cada unidad contiene el texto visible de la
+línea y su nivel jerárquico \texttt{level}, lo que permite separar la generación secuencial del modelo de la reconstrucción controlada
+del YAML final. De este modo, la jerarquía deja de ser solo una consecuencia implícita de la indentación y pasa a convertirse en una
+variable supervisable, medible y comparable entre modelos. Esta decisión conecta directamente con el objetivo de estudiar mecanismos
+de control estructural, porque hace posible analizar si la estructura se aprende mejor como parte de la superficie textual o como
+una señal diferenciada.
+
+Sobre esa base se desarrollaron las estrategias de adaptación del modelo. En el Capítulo~\ref{ch::chapter5}, el ajuste supervisado
+serializado mostró que un modelo base puede especializarse en el contrato de salida propuesto mediante técnicas eficientes como
+LoRA, pasando de una generación libre y poco estable a una producción mucho más compatible con la reconstrucción parser-facing.
+Después, el Capítulo~\ref{ch::chapter6} permitió comparar esa estrategia con \texttt{two\_head\_sft}, donde el nivel jerárquico
+se predice mediante un cabezal estructural explícito. La comparación no se reduce a una victoria de una rama sobre otra: la
+propuesta serializada resultó más robusta en la salida final, mientras que la arquitectura con cabezal explícito hizo visible
+la dificultad de coordinar contenido, nivel predicho y reconstrucción YAML dentro de un mismo proceso generativo.
+
+La evaluación experimental completó esa comparación y permitió identificar tanto avances como límites. Los resultados del
+Capítulo~\ref{ch::chapter9} muestran una mejora clara respecto a la línea base en parseabilidad, estructura y adecuación al
+prompt, especialmente en la rama \texttt{serialized\_sft} y en la posterior optimización mediante DPO. Al mismo tiempo, los
+experimentos con predicción explícita de nivel, variantes ordinales y condicionamiento posicional muestran que introducir más
+estructura en la arquitectura no garantiza por sí solo una salida final más estable. Esta parte responde al objetivo de evaluar
+el sistema sobre un conjunto de prueba e interpretar sus patrones de error, no solo desde la métrica agregada, sino desde la
+relación entre representación, jerarquía y validez del manifiesto.
+
+En conjunto, el objetivo general del trabajo queda abordado a través de este recorrido. Se ha diseñado y evaluado un sistema
+basado en modelos de lenguaje para generar manifiestos YAML de Kubernetes a partir de instrucciones en lenguaje natural, incorporando
+una representación intermedia, un parser de reconstrucción y una evaluación centrada en validez sintáctica, coherencia estructural,
+adecuación al prompt y señales de dominio. La conclusión principal es que la generación de manifiestos Kubernetes no puede tratarse
+como una simple tarea de producción textual, su dificultad aparece precisamente en la tensión entre una generación plana token a
+token y una salida cuya corrección depende de una organización jerárquica.
 
 \section{Trabajo futuro}
+
+El trabajo deja abiertas varias líneas de continuación que surgen de forma bastante natural a partir de los resultados obtenidos.
+La primera de ellas está relacionada con la familia de modelos THM. En esta memoria se exploró la idea de separar
+la generación del contenido y la predicción del nivel jerárquico, pero esa línea no quedó agotada. Una posible continuación sería
+revisar la representación usada por el cabezal estructural. La elección de \texttt{record\_prefix\_state} tenía sentido desde el
+punto de vista metodológico, porque obligaba al modelo a predecir la profundidad antes de observar la línea correspondiente.
+Sin embargo, los resultados muestran que esa decisión también convierte la tarea en un problema más difícil. Por ello, sería
+interesante estudiar otras representaciones internas, por ejemplo estados posteriores a la generación de la línea, combinaciones
+de varios estados ocultos o mecanismos que permitan al cabezal observar información local sin perder la separación entre contenido y estructura.
+
+Dentro de esa misma línea, también queda margen para rediseñar la arquitectura del cabezal y la función de pérdida. El problema de
+predicción de \texttt{level} no se comporta como una clasificación plana convencional: los niveles están ordenados, aparecen de
+forma muy desbalanceada y los errores no tienen el mismo significado si desplazan una línea un nivel que si rompen una región
+completa del manifiesto. Por tanto, futuras versiones podrían explorar MLPs más expresivos, pérdidas ordinales mejor adaptadas,
+reponderación por frecuencia de nivel o funciones de coste que penalicen de manera distinta los errores según su impacto en la
+reconstrucción final. Del mismo modo, la línea de codificación posicional podría desarrollarse con más profundidad, especialmente
+a partir de la hipótesis de que el estado latente cambia según la posición de la línea dentro del manifiesto. En este trabajo se
+probaron algunas variantes, pero el objetivo principal no era optimizar de forma exhaustiva esta arquitectura, sino comparar
+formulaciones del problema. Una exploración más centrada en THM podría estudiar con más calma cómo introducir información posicional,
+cómo combinarla con el estado oculto y cómo hacer que esa señal mejore realmente la trayectoria jerárquica completa.
+
+Otra línea de trabajo futuro aparece en la optimización por preferencias. Los resultados de DPO fueron suficientemente buenos como
+para mostrar que el enfoque es útil cuando parte de una política supervisada estable. Aun así, la estrategia iterativa podría haberse
+desarrollado más. En particular, sería interesante repetir el ciclo de generación de candidatos, construcción de preferencias y
+actualización de la política de referencia para comprobar si el modelo sigue mejorando o si aparece un punto de saturación. Esta
+línea permitiría estudiar con más fuerza la idea de adaptar progresivamente el conjunto de preferencias al comportamiento de la
+política actual. En esta memoria no se profundizó más en esa dirección por una combinación de tiempo disponible y buen rendimiento
+de las primeras versiones: al obtener ya mejoras claras, el valor marginal de producir nuevas iteraciones era menor que el de
+analizar con detalle las ramas principales del trabajo.
+
+Finalmente, una extensión natural sería trasladar el planteamiento a otros dominios donde la salida no sea simplemente texto,
+sino una estructura de datos con relaciones internas. Kubernetes ha servido como caso de estudio porque combina lenguaje natural,
+serialización YAML, jerarquía y restricciones de dominio, pero el problema de fondo aparece también en muchos otros contextos:
+generación de objetos JSON anidados, árboles de decisión, esquemas de datos, representaciones tipo AST, grafos, tablas con relaciones
+entre campos o estructuras intermedias usadas por otros sistemas. En todos estos casos, el modelo produce una secuencia de tokens,
+pero lo que se espera de esa secuencia es un objeto con organización interna, tipos, dependencias y restricciones. Probar la
+metodología en este tipo de estructuras permitiría separar qué conclusiones pertenecen específicamente a Kubernetes y cuáles son
+propias del problema más general de convertir lenguaje natural en datos estructurados. También ayudaría a estudiar si ideas como la
+representación intermedia, la predicción explícita de variables estructurales o la optimización mediante preferencias pueden
+funcionar como mecanismos generales de control, más allá del formato YAML concreto utilizado en esta memoria.

@@ -92,16 +92,16 @@
 \contentsline {subsection}{\numberline {10.1.3}Análisis de la optimización por preferencias}{93}{subsection.10.1.3}%
 \contentsline {section}{\numberline {10.2}Limitaciones}{94}{section.10.2}%
 \contentsline {section}{\numberline {10.3}Revisión de objetivos}{95}{section.10.3}%
-\contentsline {section}{\numberline {10.4}Trabajo futuro}{95}{section.10.4}%
-\contentsline {chapter}{Configuración experimental y reproducibilidad}{103}{appendix*.74}%
-\contentsline {section}{\numberline {.1}Entorno de hardware y software}{103}{section.Alph0.1}%
-\contentsline {section}{\numberline {.2}Modelo base y cuantización}{104}{section.Alph0.2}%
-\contentsline {section}{\numberline {.3}Configuración LoRA}{104}{section.Alph0.3}%
-\contentsline {section}{\numberline {.4}Hiperparámetros de entrenamiento por variante}{106}{section.Alph0.4}%
-\contentsline {section}{\numberline {.5}Configuración de inferencia y evaluación}{112}{section.Alph0.5}%
-\contentsline {section}{\numberline {.6}Reproducibilidad y trazabilidad}{113}{section.Alph0.6}%
-\contentsline {chapter}{Evaluación ética y matriz de riesgos}{115}{appendix*.89}%
-\contentsline {section}{\numberline {.7}Clasificación bajo el AI Act}{115}{section.Alph0.7}%
-\contentsline {section}{\numberline {.8}Factores RGPD}{115}{section.Alph0.8}%
-\contentsline {section}{\numberline {.9}Checklist ética AI HLEG}{116}{section.Alph0.9}%
-\contentsline {section}{\numberline {.10}Matriz de riesgos}{116}{section.Alph0.10}%
+\contentsline {section}{\numberline {10.4}Trabajo futuro}{96}{section.10.4}%
+\contentsline {chapter}{Configuración experimental y reproducibilidad}{105}{appendix*.74}%
+\contentsline {section}{\numberline {.1}Entorno de hardware y software}{105}{section.Alph0.1}%
+\contentsline {section}{\numberline {.2}Modelo base y cuantización}{106}{section.Alph0.2}%
+\contentsline {section}{\numberline {.3}Configuración LoRA}{106}{section.Alph0.3}%
+\contentsline {section}{\numberline {.4}Hiperparámetros de entrenamiento por variante}{108}{section.Alph0.4}%
+\contentsline {section}{\numberline {.5}Configuración de inferencia y evaluación}{114}{section.Alph0.5}%
+\contentsline {section}{\numberline {.6}Reproducibilidad y trazabilidad}{115}{section.Alph0.6}%
+\contentsline {chapter}{Evaluación ética y matriz de riesgos}{117}{appendix*.89}%
+\contentsline {section}{\numberline {.7}Clasificación bajo el AI Act}{117}{section.Alph0.7}%
+\contentsline {section}{\numberline {.8}Factores RGPD}{117}{section.Alph0.8}%
+\contentsline {section}{\numberline {.9}Checklist ética AI HLEG}{118}{section.Alph0.9}%
+\contentsline {section}{\numberline {.10}Matriz de riesgos}{118}{section.Alph0.10}%
