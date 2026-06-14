@@ -82,5 +82,19 @@ Las dos variantes DPO se mantienen muy cerca del \texttt{serialized\_sft}. DPO v
 y el F1 de requisitos del prompt, sin cambiar la parseabilidad YAML ni el paso por la compuerta completa de dominio. DPO v2 desplaza algo más el score Kubernetes,
 de 81{,}67\,\% a 84{,}62\,\%, alcanza el mejor F1 de requisitos del prompt con 72{,}60\,\% y también el mejor F1 de claves semánticas con 94{,}50\,\%. Además, es
 la única variante que llega al 100{,}00\,\% de parseabilidad YAML y eleva la \texttt{kubernetes\_gate\_pass\_rate} hasta el 24{,}28\,\%. Esta mejora viene de la mano
-del planteamiento iterativo sobre el dataset, donde la primera versión de las tripletas de entrenamiento se centraba más en la sintaxis, y la seguna versión en 
+del planteamiento iterativo sobre el dataset, donde la primera versión de las tripletas de entrenamiento se centraba más en la sintaxis, y la segunda versión en
 adecuación del prompt y el nivel de completitud de Kubernetes.
+
+La lectura del \textit{gate} completo es especialmente interesante al compararla con las propias referencias del dataset original. Al aplicar la misma compuerta automática
+KDV a los YAML esperados, solo el 14{,}29\,\% supera el nivel final. Por tanto, DPO v2 no solo mejora a las demás variantes evaluadas, sino que produce una proporción
+mayor de manifiestos que pasan la compuerta automática de buenas prácticas que las propias muestras de referencia del conjunto de test. Esta comparación muestra que la
+optimización por preferencias puede desplazar la generación hacia criterios de calidad que no estaban
+garantizados en todas las referencias supervisadas.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\textwidth]{figures/chapter8/fig8_2_test_gate_reference_comparison.png}
+\caption{Comparación de la \texttt{kubernetes\_gate\_pass\_rate} en test entre las referencias del split y las variantes más fuertes de la rama serializada. La compuerta
+corresponde al nivel final de la métrica KDV automática}
+\label{fig:ch9_test_gate_reference_comparison}
+\end{figure}
