@@ -3,8 +3,151 @@
 \chapter{Conclusiones y Trabajo Futuro}
 \label{ch::chapter10}
 
-% TODO: Contenido del capítulo de conclusiones
-% Incluir: resumen de contribuciones (representación jerárquica, parser determinista,
-% sistema de métricas multinivel, evidencia empírica sobre antipatrones de seguridad),
-% conclusiones sobre la hipótesis central, limitaciones del trabajo y líneas futuras
-% (extensión del dataset, validación con esquema oficial Kubernetes, RLHF con expertos).
+%----------------------------------------------------------------------
+\section{Conclusiones principales}
+\label{sec:ch10_conclusiones_principales}
+%----------------------------------------------------------------------
+
+Para cerrar el trabajo con las conclusiones, queremos recuperar la pregunta con la que se
+inició el planteamiento. Y es que la pregunta que ha guiado este trabajo no era únicamente si un modelo de lenguaje puede
+generar texto con apariencia de YAML. Ese sería, en cierto modo, el planteamiento más
+superficial del problema. La cuestión de fondo era si un modelo autoregresivo, cuyo
+mecanismo natural consiste en producir una secuencia plana de tokens, puede generar una
+salida cuya corrección depende de una organización jerárquica: documentos, líneas, listas,
+claves, valores y niveles de indentación que deben encajar entre sí. Los resultados del
+Capítulo~\ref{ch::chapter9} permiten responder a esa pregunta con una conclusión matizada:
+la estructura puede hacerse mucho más fiable cuando se convierte en un objeto explícito de
+generación, reconstrucción y evaluación, pero eso no implica que cualquier mecanismo
+explícito de predicción jerárquica mejore automáticamente al aprendizaje serializado.
+
+\subsection{Análisis de la propuesta serializada}
+
+El resultado más claro aparece al comparar la línea base con el modelo
+\texttt{serialized\_sft}. En test, la tasa de YAML parseable pasa del 46{,}77\,\% al
+97{,}14\,\%, y el salto se repite en las métricas que miden contenido, jerarquía y
+adecuación al prompt. El F1 de líneas sube de 31{,}75\,\% a 79{,}09\,\%, la exactitud de
+\texttt{level} pasa de 22{,}26\,\% a 62{,}98\,\%, el F1 de requisitos del prompt aumenta
+de 32{,}30\,\% a 69{,}32\,\% y el F1 de claves semánticas llega al 92{,}11\,\%. Esta
+mejora no debe interpretarse solo como una ganancia de formato. Lo importante es que el
+modelo aprende a producir una representación intermedia que un parser determinista puede transformar
+de forma estable en manifiestos YAML. En otras palabras, la supervisión no solo mejora la
+fluidez de la salida, sino que cambia el régimen del sistema: de generar texto
+aproximadamente estructurado pasa a generar bloques que conservan suficiente información
+jerárquica como para ser reconstruidos. De esta forma, hemos conseguido que un modelo autoregresivo, cuya
+naturaleza es secuencial, pueda producir una salida que respeta una jerarquía de niveles y
+listas, y que esa jerarquía sea observable, medible y evaluable.
+
+\subsection{Análisis de la propuesta Two-Head}
+
+Esta conclusión da valor a la representación por bloques y al uso de \texttt{level}, pero
+no confirma la hipótesis más fuerte de que separar la jerarquía en un cabezal adicional sea,
+por sí mismo, la mejor estrategia. El modelo THM v1 mejora a la línea base en varias
+dimensiones y obtiene un MAE de nivel competitivo, pero no alcanza la robustez global del
+SFT serializado. Su 51{,}61\,\% de YAML parseable queda lejos del 97{,}14\,\% de
+\texttt{serialized\_sft}, y la pérdida de parseabilidad arrastra también las métricas de
+contenido y adecuación. Esto no invalida la idea de predecir la jerarquía como una señal
+estructural diferenciada, pero sí muestra que esa separación introduce una frontera
+delicada: el texto de la línea, el nivel predicho y el parser deben quedar suficientemente
+acoplados. Si esa coordinación falla, el sistema puede producir fragmentos reconocibles y,
+al mismo tiempo, no llegar a un YAML utilizable.
+
+Una primera explicación de este comportamiento está en el desbalanceo de la propia variable
+\texttt{level}. Los niveles profundos aparecen con mucha menos frecuencia que los niveles
+superficiales, de modo que el cabezal recibe poca señal efectiva para aprender las clases
+5--8. En esas condiciones, es razonable que una pérdida de clasificación estándar favorezca
+las regiones más frecuentes de la jerarquía y que el modelo tienda a comprimir la profundidad
+hacia los niveles 0--4. Técnicas de reponderación, muestreo o pérdidas más sensibles a la
+densidad de cada nivel podrían haber reducido este efecto y mejorado la exactitud del cabezal.
+Sin embargo, sería demasiado simple leer el resultado solo desde la frecuencia de clases. Los
+niveles profundos no son etiquetas raras en abstracto: suelen aparecer precisamente en las
+partes más difíciles del dominio, como plantillas de pod, contenedores, comandos, volúmenes,
+\texttt{volumeMounts} y listas anidadas. El desbalanceo, por tanto, coincide con una zona de
+mayor complejidad estructural.
+
+A esta dificultad se suma el desacoplamiento que introduce la propia arquitectura. En
+\texttt{serialized\_sft}, el nivel forma parte de la misma superficie textual que el contenido
+de la línea. El modelo aprende a emitir ambos elementos dentro de una única secuencia
+autoregresiva, y puede capturar correlaciones locales entre lo que escribe y la profundidad a
+la que suele escribirse. En THM v1, en cambio, el contenido lo genera el cabezal de lenguaje y
+el nivel lo predice un cabezal estructural separado. Esa separación es conceptualmente más
+limpia, porque convierte \texttt{level} en una variable supervisada explícita, pero también
+elimina una dependencia práctica: el nivel predicho no vuelve al generador de texto y, por
+tanto, no condiciona directamente las líneas siguientes. De ahí que el modelo pueda producir
+contenido Kubernetes reconocible y, aun así, fallar en la reconstrucción final si la trayectoria
+de niveles que acompaña a ese contenido no es coherente.
+
+La elección de \texttt{record\_prefix\_state} refuerza esta lectura. En el diseño del THM v1,
+el cabezal de nivel lee el estado oculto inmediatamente anterior al registro de una nueva
+línea. Esta decisión era metodológicamente atractiva porque evita que el cabezal vea el
+contenido de la línea antes de predecir su profundidad. La predicción de \texttt{level} no se
+apoya, por tanto, en pistas textuales ya generadas, sino en el estado autoregresivo acumulado
+hasta ese punto. Desde el punto de vista de la hipótesis del capítulo, esto hace que la prueba
+sea más limpia: se pregunta si el modelo ha organizado internamente la información estructural
+antes de escribir la siguiente línea.
+
+Sin embargo, esa misma limpieza convierte la tarea en una predicción más exigente. En un
+manifiesto Kubernetes, muchas transiciones de profundidad dependen de la función concreta de
+la línea que empieza: si abre una lista, si continúa un bloque \texttt{command}, si introduce
+un \texttt{volumeMount}, si vuelve a un campo hermano o si entra en
+\texttt{spec.template.spec}. Al usar \texttt{record\_prefix\_state}, el cabezal debe anticipar
+esa decisión antes de observar la línea. Esto puede ser suficiente para niveles frecuentes y
+transiciones simples, pero se vuelve frágil en regiones profundas y locales de la jerarquía.
+Por eso, parte del fallo del THM v1 no debe leerse únicamente como un problema de capacidad
+del cabezal, sino también como una consecuencia de haber elegido una alineación causal estricta.
+
+Esta interpretación ayuda también a leer las métricas con más cuidado. La caída global del
+THM v1 está muy condicionada por la parseabilidad: cuando una salida no llega a YAML válido,
+muchas métricas posteriores quedan arrastradas o directamente dejan de ser informativas. En
+los casos en los que la salida sí supera esa frontera, la distancia con \texttt{serialized\_sft}
+se reduce. Por tanto, la conclusión no es que la arquitectura sea incapaz de generar contenido
+Kubernetes razonable, sino que no consigue mantener de forma estable la interfaz entre línea
+generada, nivel predicho y reconstrucción parser-facing. El problema no es solo acertar clases
+de \texttt{level} de manera aislada, sino sostener una trayectoria jerárquica completa.
+
+Las variantes ordinales y posicionales refuerzan esta lectura. El objetivo de esos
+experimentos era atacar una limitación real de la predicción de niveles, especialmente en
+profundidades mayores y en zonas donde el estado latente cambia con la posición de la
+línea. Esta evolución no fue un desvío del planteamiento principal, sino una continuación
+natural del diagnóstico anterior. Si el estado usado por el cabezal cambia según el momento
+del manifiesto, una única frontera global para predecir \texttt{level} puede quedar mal
+calibrada. La introducción de codificación posicional y, más tarde, de modulación FiLM,
+intentaba precisamente condicionar cómo se interpreta ese estado oculto según la posición de
+la línea dentro de la secuencia YAML. Sin embargo, los resultados de THOP-FiLM muestran que
+añadir estructura explícita o condicionamiento posicional no basta si la arquitectura completa
+no mantiene la estabilidad parser-facing. En test, esta variante queda por debajo incluso del
+THM v1 en las métricas globales. Su interés, por tanto, no está en haber producido el mejor
+sistema final, sino en haber hecho visible una dificultad más precisa: representar la
+profundidad de una línea no es una tarea aislada, sino una decisión que depende del contenido
+generado, del contexto previo y de cómo esa línea será reconstruida dentro del árbol YAML.
+
+\subsection{Análisis de la propuesta de RLHF}
+
+La fase de DPO ofrece una conclusión distinta. A diferencia de las variantes two-head, DPO
+parte del modelo \texttt{serialized\_sft}, es decir, de una política que ya domina
+razonablemente el contrato estructural. En ese contexto, las preferencias automáticas sí
+consiguen mover el modelo en una dirección útil sin romper la superficie de salida. DPO v2
+alcanza el 100{,}00\,\% de parseabilidad YAML en test, mejora el F1 de requisitos del
+prompt hasta el 72{,}60\,\%, eleva el F1 de claves semánticas hasta el 94{,}50\,\% y
+obtiene el mejor \texttt{kubernetes\_domain\_score}, con un 84{,}62\,\%. La mejora no es
+absoluta en todas las métricas: algunas señales estructurales finas quedan muy cerca del
+SFT o ligeramente por debajo. Precisamente por eso, el resultado debe leerse como un
+refinamiento post-SFT, no como una sustitución de la supervisión ni como una validación
+completa de Kubernetes.
+
+El cierre más importante del trabajo aparece al separar parseabilidad de validez de
+dominio. El mejor modelo consigue que casi todas las salidas sean YAML reconstruible y, en
+el caso de DPO v2, que todas las muestras de test superen esa frontera sintáctica. Sin
+embargo, la \texttt{kubernetes\_gate\_pass\_rate} solo alcanza el 24{,}28\,\%. Esta
+diferencia resume el límite principal del sistema: producir YAML válido es una condición
+necesaria, pero no suficiente para producir un manifiesto Kubernetes plenamente correcto.
+Muchos errores residuales ya no pertenecen a la indentación ni a la gramática YAML, sino a
+prácticas de dominio, completitud, seguridad y coherencia semántica. En este sentido, el
+parser actúa como una frontera de control estructural, no como un mecanismo de reparación
+semántica ni como garantía de corrección operativa.
+
+
+% TODO: Añadir sección de cumplimiento de objetivos.
+\section{Revisión de objetivos}
+
+% TODO: Añadir sección de trabajo futuro.
+\section{Trabajo futuro}

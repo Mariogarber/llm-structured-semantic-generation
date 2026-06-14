@@ -502,7 +502,7 @@ empieza a mover algunas métricas de reconstrucción, lo que justifica explorar 
 \label{fig:ch6_positional_v1_quartiles}
 \end{figure}
 
-También observé que el cabezal no fue simplemente ignorado. El análisis del proyector final mostró que la rama posicional tenía un peso no trivial: la norma
+También observé que el cabezal no parecía ser ignorado. El análisis final mostró que la rama posicional tenía un peso no trivial: la norma
 asociada a sus dimensiones representaba aproximadamente un 47\,\% de la norma de la rama latente. Además, la correlación entre la posición de línea y el score ordinal fue alta
 ($r=0{,}8460$). Con estos resultados vemos que la posición sí estaba afectando al score, pero lo hacía principalmente como una rampa temporal añadida
 al valor ordinal. Dado que la interacción se produce en la última capa lineal, el modelo solo puede expresar una forma del tipo:
@@ -511,9 +511,10 @@ al valor ordinal. Dado que la interacción se produce en la última capa lineal,
 z_t = w_h^\top u_t + w_p^\top p_t + b.
 \]
 
-En esta formulación, la posición corrige el score mediante un sesgo aditivo, pero no modifica la manera en que se interpreta el estado latente $h_t$. Y precisamente ahí parece estar
-la limitación. La jerarquía YAML no es una función suave del índice de línea: una misma posición relativa puede contener una entrada en \texttt{metadata}, un descenso hacia
-\texttt{spec.template}, un elemento de lista o una vuelta a un nivel menos profundo. Por eso, una señal posicional tardía puede aprender que, en promedio, las líneas posteriores
+En esta formulación, la posición corrige el score mediante un sesgo aditivo, pero no modifica la manera en que se interpreta el estado latente $h_t$. Y ahí parece estar
+la limitación. La jerarquía YAML no es una función suave del índice de línea: una misma posición relativa puede contener entradas muy distintas, que evolucionan igualmente
+de forma distinta. Por eso, una señal
+posicional tardía puede aprender que, en promedio, las líneas posteriores
 son más profundas, pero no necesariamente ayudar al cabezal a distinguir las transiciones estructurales locales.
 
 \subsection{Segundo experimento posicional: modulación FiLM/gating}
@@ -542,9 +543,8 @@ La inicialización también es importante. La última capa del generador FiLM se
 $\tilde{r}_t \approx r_t$. Esto evita que la nueva rama posicional destruya desde el primer paso la representación ya aprendida, pero deja espacio para que, durante el entrenamiento,
 la posición aprenda a reponderar dimensiones concretas del estado latente.
 
-El experimento final con esta variante se evaluó sobre las 70 muestras de validación. A diferencia del THOP por concatenación final, la salida estructurada fue parseable en todos los
-casos, y la tasa de parseo YAML aumentó hasta el 28,57\,\%. Esta mejora es real respecto a las variantes ordinal-posicionales inmediatamente anteriores, pero queda lejos del 48,57\,\%
-alcanzado por el THM v1. La Tabla~\ref{tab:ch6_film_positional_final} recoge las métricas principales del experimento.
+A diferencia del THOP por concatenación final, la salida estructurada fue parseable en todos los
+casos, y la tasa de parseo YAML aumentó hasta el 28,57\,\%. La Tabla~\ref{tab:ch6_film_positional_final} recoge las métricas principales del experimento.
 
 \begin{table}[htbp]
 \centering
@@ -583,9 +583,4 @@ KDV gate pass & 0,00\,\% \\
 
 La diferencia entre las dos variantes posicionales ayuda a sacar conclusiones. En la concatenación final, la posición actúa como un sesgo añadido al score ordinal. En THOP-FiLM,
 en cambio, la posición modula las características intermedias antes de que el score se calcule. Esta segunda forma de interacción parece más adecuada que la concatenación tardía, porque
-no fuerza a la posición a competir en la última capa con todo el estado latente, sino que le permite alterar la forma en que ese estado se interpreta. Aun así, el resultado no debe
-leerse como una arquitectura ganadora: THOP-FiLM sigue degradando de forma severa el contenido, la exactitud de nivel y la parseabilidad global frente al THM v1. La conclusión más
-prudente es que la posición sí contiene información útil para leer el estado latente, pero que incorporarla dentro de una formulación ordinal ya inestable no basta para recuperar un
-generador robusto. Una línea natural para trabajo futuro sería volver al cabezal categórico del THM v1, que fue el mejor punto de la rama two-head en validación, y estudiar si un
-condicionamiento tipo FiLM puede ayudarle a corregir su fallo específico en niveles profundos sin introducir el cuello de botella de un score ordinal único.
-
+no fuerza a la posición a competir en la última capa con todo el estado latente, sino que le permite alterar la forma en que ese estado se interpreta.

@@ -48,6 +48,7 @@
 \contentsline {figure}{\numberline {7.13}{\ignorespaces Comparación de métricas principales entre el baseline, DPO v1 con \(\beta =0{,}30\), DPO v2 con \(lr=10^{-5}\) y DPO v2 con \(lr=10^{-4}\). El aumento de tasa de aprendizaje reduce la estabilidad estructural y no compensa en las métricas semánticas.}}{82}{figure.caption.68}%
 \contentsline {figure}{\numberline {7.14}{\ignorespaces Tasa de paso por niveles KDV para el baseline, DPO v1 con \(\beta =0{,}30\) y las dos variantes DPO v2. El entrenamiento con \(lr=10^{-4}\) mantiene parte de la mejora básica, pero se separa de la variante conservadora en los niveles de dominio más exigentes.}}{82}{figure.caption.69}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Comparativa visual de las métricas principales en test a partir de la Tabla~\ref {tab:ch9_test_results}. Se omite \texttt {average\_level\_mae} porque su escala se interpreta en sentido inverso: valores menores indican menor error medio de nivel.}}{84}{figure.caption.71}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

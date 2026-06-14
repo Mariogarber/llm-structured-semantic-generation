@@ -1,261 +1,180 @@
 % called by main.tex
 %
-\chapter{Análisis Comparativo de Resultados}
-\label{ch::chapter9}
+\chapter{Impacto Social y Ética}
+\label{ch::chapter8}
 
-Los capítulos anteriores han presentado los experimentos de forma progresiva: primero la línea base y el ajuste supervisado serializado, después las variantes con predicción explícita
-de nivel y, finalmente, la construcción de preferencias para la etapa de DPO. Este capítulo reúne esos resultados desde una perspectiva comparativa.
+El propósito central de este trabajo es técnico: estudiar si una representación explícita de
+la jerarquía estructural mejora la generación de manifiestos Kubernetes respecto a enfoques
+puramente secuenciales. Sin embargo, el objeto generado no es un texto neutro. Un manifiesto
+YAML puede definir permisos, límites de recursos, políticas de ejecución, relaciones entre
+servicios y condiciones de exposición de una aplicación. Por eso, incluso en un prototipo
+académico, la evaluación del sistema no puede terminar en la parseabilidad ni en la similitud
+con el corpus de entrenamiento: también debe preguntarse qué tipo de errores podría facilitar
+si se usara como apoyo en un entorno real.
 
-Como ya he introducido, el problema estudiado no consiste únicamente en producir texto parecido a
-YAML, sino en generar una representación intermedia que pueda reconstruirse de forma determinista como un manifiesto Kubernetes. Por tanto, las métricas más informativas son aquellas
-que atraviesan esa frontera: la parseabilidad de la salida estructurada, la parseabilidad del YAML reconstruido, la precisión de la variable \texttt{level}, la adecuación al prompt y
-las señales aproximadas de validez de dominio. Las métricas de similitud textual o de igualdad exacta con la referencia se conservan como contexto, pero no constituyen el criterio
-principal de éxito.
+Este capítulo resume ese análisis desde un enfoque de \textit{Ethics by Design}
+\citep{ec2021ethics}, apoyado en las Directrices Éticas para una IA Fiable del Grupo de
+Expertos de Alto Nivel \citep{aihleg2019}, el Reglamento de Inteligencia Artificial de la Unión
+Europea \citep{aiact2024} y el RGPD \citep{rgpd2016}. El detalle tabular de la clasificación
+regulatoria, los factores RGPD, la checklist ética y la matriz de riesgos se recoge en el
+anexo \nameref{ch::AnexoEtico}. En el cuerpo principal se conserva únicamente el razonamiento
+necesario para interpretar el sistema dentro del hilo de la memoria.
 
-%----------------------------------------------------------------------
-\section{Criterios de comparación}
-\label{sec:ch9_criteria}
-%----------------------------------------------------------------------
-
-La comparación se organiza alrededor de tres preguntas. La primera es si el ajuste supervisado sobre una superficie estructurada mejora de forma clara la generación zero-shot. Esta
-pregunta corresponde a la transición entre la línea base y \texttt{serialized\_sft}. La segunda es si la jerarquía debe permanecer serializada como texto o si conviene predecirla
-mediante una cabeza estructural explícita. Esta es la comparación central entre \texttt{serialized\_sft} y las variantes \texttt{two\_head}. La tercera pregunta aparece después del
-SFT: si un modelo ya estable en la superficie de bloques puede refinarse mediante preferencias sin perder la regularidad estructural aprendida.
-
-La Tabla~\ref{tab:ch9_validation_summary} resume las métricas principales disponibles en validación para las familias más representativas.
-
-\begin{table}[htbp]
-\centering
-\caption{Resumen comparativo en validación de los modelos principales. Los valores de DPO corresponden a la run \texttt{beta=0.10}; la variante DPO v2 se mantiene fuera de la tabla
-         hasta completar su validación final.}
-\label{tab:ch9_validation_summary}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lccccc}
-\toprule
-\textbf{Métrica} & \textbf{Baseline} & \textbf{SFT} & \textbf{THM v1} & \textbf{THOP-FiLM} & \textbf{DPO 0.10} \\
-\midrule
-\texttt{yaml\_parse\_success\_rate}      & 30{,}77 & 98{,}57 & 48{,}57 & 28{,}57 & 97{,}14 \\
-\texttt{average\_line\_text\_f1}         & 20{,}86 & 82{,}06 & 37{,}43 &  7{,}82 & 80{,}92 \\
-\texttt{average\_level\_exact\_match}    & 11{,}31 & 75{,}78 & 35{,}04 &  2{,}78 & 74{,}22 \\
-\texttt{average\_level\_mae}             & 0{,}7896 & 0{,}2723 & 0{,}2392 & 0{,}8430 & 0{,}2630 \\
-\texttt{average\_prompt\_requirement\_f1} & 22{,}13 & 85{,}31 & 42{,}06 &  7{,}99 & 83{,}68 \\
-\texttt{average\_semantic\_key\_f1}       & 27{,}78 & 95{,}52 & 45{,}92 & 10{,}13 & 94{,}06 \\
-\texttt{kubernetes\_domain\_score}        & -- & 83{,}10 & 42{,}38 & 12{,}50 & 82{,}86 \\
-\texttt{kubernetes\_gate\_pass\_rate}     & -- & 14{,}29 & 12{,}86 &  0{,}00 & 12{,}86 \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-La tabla muestra una primera lectura bastante nítida: el salto más grande del proyecto ocurre entre la línea base y el SFT serializado. Dentro de la rama con predicción explícita de
-nivel, el mejor punto global sigue siendo el THM v1. Las variantes ordinales y posicionales posteriores no deben entenderse como mejoras sucesivas de rendimiento, sino como intentos
-de explicar y corregir el fallo específico de esa primera arquitectura en los niveles profundos. DPO, por su parte, conserva buena parte del comportamiento del SFT, pero no lo mejora
-de forma global en su primera configuración completa.
 
 %----------------------------------------------------------------------
-\section{De la línea base al SFT serializado}
-\label{sec:ch9_baseline_sft}
+\section{Naturaleza y alcance del sistema}
+\label{sec:ch8_context}
 %----------------------------------------------------------------------
 
-La línea base zero-shot ya permite observar una separación que recorre toda la memoria: seguir un formato textual no equivale a mantener una estructura jerárquica válida. En validación,
-el baseline produce una salida estructurada parseable en la mayoría de los casos, pero solo el 30{,}77\,\% de las muestras se reconstruye como YAML válido. La diferencia entre ambos
-valores indica que el modelo entiende en parte la instrucción de formato, pero no conserva de forma robusta la relación entre niveles, listas y mappings a lo largo de toda la secuencia.
+El sistema propuesto transforma instrucciones en lenguaje natural en manifiestos YAML de
+Kubernetes. Esta delimitación es importante porque reduce de forma notable el espacio de
+riesgo respecto a un modelo conversacional de propósito general: no se diseña para aconsejar
+sobre personas, tomar decisiones administrativas, priorizar candidatos ni intervenir en
+servicios esenciales. Su salida esperada es siempre un artefacto técnico de infraestructura,
+con una gramática y un vocabulario de dominio relativamente acotados.
 
-El \texttt{serialized\_sft} cambia esa situación de manera sustancial. Al entrenar el modelo directamente sobre \texttt{blocks\_tsv\_v1}, la jerarquía se incorpora a la superficie
-generada mediante la columna \texttt{level}. A primera vista, esta decisión podría parecer poco sofisticada: el nivel sigue siendo texto y no una variable estructural separada. Sin
-embargo, los resultados del Capítulo~\ref{ch::chapter5} muestran que esta formulación es muy efectiva. La tasa de parseabilidad YAML sube hasta el 98{,}57\,\%, la coincidencia exacta
-de nivel alcanza el 75{,}78\,\% y las métricas de prompt y claves semánticas mejoran de forma igualmente marcada.
+Precisamente por esa acotación, los riesgos más relevantes no son los habituales en sistemas
+de IA aplicados a personas, como discriminación directa, manipulación del usuario o perfilado
+individual. El problema ético principal aparece en otro punto: una configuración técnica
+generada por el modelo puede parecer correcta, superar validaciones sintácticas y aun así
+contener prácticas inseguras. En otras palabras, el riesgo no nace de que el sistema actúe
+autónomamente sobre individuos, sino de que facilite una confianza excesiva en un artefacto
+técnico que requiere revisión experta.
 
-La lectura relevante no es solo que el SFT mejore al baseline, algo esperable en una tarea supervisada, sino que la representación elegida encaja bien con el parser. El modelo aprende
-a emitir una superficie que contiene suficiente información estructural para reconstruir el YAML casi siempre. Dicho de otro modo, el SFT serializado no resuelve la jerarquía porque
-entienda formalmente el árbol YAML, sino porque aprende una convención textual que hace visible esa jerarquía para el módulo determinista posterior. Esa combinación entre superficie
-aprendida y parser explica por qué \texttt{serialized\_sft} se convierte en la referencia fuerte del resto del trabajo.
+En el escenario analizado, el proveedor sería el equipo responsable del diseño, entrenamiento,
+documentación y evaluación del sistema. El usuario final sería un ingeniero o técnico de
+infraestructura que introduce el prompt, revisa el resultado y decide si lo despliega. Los
+afectados indirectos serían los usuarios de los servicios que se ejecutasen sobre una
+infraestructura configurada con ayuda del sistema. Esta separación de responsabilidades marca
+el resto del capítulo: el modelo puede asistir en la generación, pero no debe desplazar el
+juicio técnico ni la responsabilidad operativa del usuario experto.
 
-También conviene conservar una limitación de esta etapa. El buen resultado estructural no implica corrección Kubernetes completa. Como se discutió en el Capítulo~\ref{ch::chapter5},
-el \texttt{kubernetes\_domain\_gate\_pass\_rate} permanece en el 14{,}29\,\%, principalmente por antipatrones de seguridad y buenas prácticas que no impiden el parseo YAML. Por tanto,
-el SFT serializado demuestra que la superficie estructurada es aprendible, pero no agota la evaluación de dominio.
-
-%----------------------------------------------------------------------
-\section{Jerarquía serializada frente a jerarquía explícita}
-\label{sec:ch9_sft_twohead}
-%----------------------------------------------------------------------
-
-La comparación entre \texttt{serialized\_sft} y \texttt{two\_head\_sft} es la comparación conceptual más importante del trabajo. En la primera formulación, el nivel se genera como un
-campo textual ordinario dentro de la secuencia. En la segunda, el texto de la línea y la profundidad jerárquica se separan: el modelo genera \texttt{content\_blocks\_v1} y una cabeza
-adicional predice \texttt{level} a partir de estados latentes del transformer. Esta separación responde directamente a la hipótesis de que la jerarquía podría modelarse mejor como una
-señal estructural explícita.
-
-La comparación global en validación favorece claramente al SFT serializado. Frente al 98{,}57\,\% de YAML parseable de \texttt{serialized\_sft}, el primer \texttt{two\_head\_sft}
-alcanza el 48{,}57\,\%. También cae el F1 de texto de línea, la coincidencia exacta de nivel, la adecuación al prompt y la cobertura semántica aproximada. Si se considerase únicamente
-esta tabla agregada, la lectura sería sencilla: la serialización de \texttt{level} como texto funciona mejor que la cabeza explícita.
-
-Sin embargo, esa lectura sería incompleta. El análisis condicionado a salidas parseables muestra que una parte importante de la caída global procede del cuello de botella
-parser-facing. Cuando \texttt{two\_head\_sft} sí produce YAML parseable, sus métricas se acercan mucho más a las de \texttt{serialized\_sft}. En los mismos 34 ejemplos donde la rama
-two-head cruza el parser, el F1 de texto queda relativamente próximo, la métrica de claves semánticas es prácticamente equivalente y el error absoluto medio de nivel favorece
-ligeramente al modelo con cabeza explícita. Esta vista no invalida la comparación global, porque las salidas no parseables siguen siendo fallos reales, pero matiza qué tipo de fallo
-se está observando.
-
-El problema principal de \texttt{two\_head\_sft} no es que genere siempre contenido irreconocible, sino que la frontera entre contenido generado, nivel predicho y reconstrucción
-determinista se vuelve frágil. Los errores se concentran en listas y mappings anidados, especialmente en estructuras con \texttt{containers}, \texttt{command}, \texttt{volumeMounts}
-y \texttt{volumes}. En esos casos, desplazar una línea uno o dos niveles no produce solo un error local, sino que puede hacer que el parser interprete una lista como un mapping, un
-campo como un elemento de secuencia o un fragmento de comando como una clave YAML mal formada.
-
-Esta diferencia permite formular una lectura más justa de la comparación principal. Como sistema final, \texttt{serialized\_sft} es superior en el estado actual del trabajo. Como
-experimento de investigación, \texttt{two\_head\_sft} revela algo que el SFT serializado ocultaba: separar explícitamente la jerarquía del texto no basta si el estado latente elegido
-no contiene una señal suficientemente estable para los niveles profundos y para los cambios locales de estructura.
 
 %----------------------------------------------------------------------
-\section{Evolución de la rama two-head}
-\label{sec:ch9_twohead_evolution}
+\section{Encaje regulatorio y jurídico}
+\label{sec:ch8_aiact}
 %----------------------------------------------------------------------
 
-Los experimentos posteriores de la rama two-head pueden leerse como intentos de explicar y corregir esa fragilidad, no como una sustitución directa del THM v1. El primer resultado
-relevante fue que una clasificación categórica estándar de \texttt{level} ofrecía el mejor rendimiento global de la familia, pero tendía a refugiarse en los niveles más frecuentes.
-Esto era coherente con la distribución del dataset, donde los niveles 0 a 4 concentran la mayor parte de las líneas, pero era insuficiente para Kubernetes: muchas estructuras con
-listas internas requieren niveles 5, 6, 7 u 8.
+Desde el punto de vista del AI Act, el sistema se interpreta como una herramienta generativa de
+dominio específico con riesgo limitado. No encaja en los supuestos de riesgo inaceptable ni en
+los ámbitos de alto riesgo del Anexo III: no evalúa personas, no decide sobre empleo,
+educación, justicia, migración, acceso a servicios esenciales ni derechos fundamentales. Tampoco
+se presenta como modelo de propósito general, ya que su funcionalidad queda restringida a la
+producción de configuraciones Kubernetes. Esta lectura no elimina las obligaciones de
+transparencia y documentación, pero sí desplaza el foco hacia la supervisión humana y el uso
+responsable.
 
-La reformulación ordinal introdujo una hipótesis más adecuada: los niveles no son clases independientes, sino valores ordenados. Esta decisión permitió por primera vez activar niveles
-profundos en algunas variantes, pero también hizo visible otro problema. La trayectoria del score ordinal no dependía solo de la estructura YAML, sino también del momento de la
-generación. El modelo parecía aprender una relación fuerte entre posición temporal y profundidad, una relación parcialmente útil porque los documentos suelen comenzar por niveles
-superficiales y profundizar más adelante, pero insuficiente para representar la jerarquía real.
+La supervisión humana no es solo una exigencia formal. Los resultados del
+Capítulo~\ref{ch::chapter5} muestran que el modelo puede alcanzar una tasa de parseabilidad
+YAML del 98{,}57\,\% tras el ajuste fino serializado, mientras que solo el 14{,}29\,\% de las
+muestras supera la compuerta completa de validez de dominio
+(Tabla~\ref{tab:ch5_domain_levels}). Ese contraste resume el riesgo central del sistema: la
+salida puede estar bien formada como YAML y seguir siendo inadecuada para producción. Por tanto,
+cualquier uso práctico tendría que comunicar de forma explícita que el resultado es una
+propuesta técnica que requiere validación, no una configuración lista para desplegarse.
 
-El análisis por cuartiles del YAML hizo especialmente visible este fenómeno. En las primeras partes de la secuencia, la cabeza tendía a predecir niveles demasiado superficiales; en
-las zonas intermedias y finales aparecía una rampa de profundidad más clara, pero los niveles profundos seguían comprimidos. La hipótesis de deriva posicional latente encaja con ese
-patrón: el mismo nivel jerárquico no se presenta necesariamente igual en el espacio oculto al principio, en la mitad o al final de la generación.
+La exposición al RGPD es reducida en el prototipo actual. El ajuste fino se realiza sobre
+\texttt{CloudEval-YAML} \citep{cloudeval2023}, un dataset técnico de pares prompt - manifiesto
+YAML publicado bajo licencia MIT, sin metadatos de desarrollo, nombres de usuario, correos
+electrónicos ni registros de interacción con personas. Además, el prototipo no almacena
+consultas de usuarios durante inferencia. Si en una versión posterior se registrasen prompts
+para mejorar el modelo, esa fase sí exigiría una base jurídica específica, criterios de
+minimización, mecanismos de seudonimización y una política clara de exclusión u
+\textit{opt-out}. En el estado actual del trabajo, ese tratamiento no forma parte del sistema.
 
-La variante THOP-FiLM se diseñó precisamente para introducir la posición como una señal de condicionamiento más rica. Frente a la concatenación posicional tardía, FiLM modula
-representaciones intermedias del cabezal ordinal. El resultado mejora la parseabilidad respecto a las variantes ordinal-posicionales anteriores y reduce algunos errores de mapping,
-pero no resuelve el problema completo: en validación final, el modelo sigue mostrando una compresión fuerte de niveles profundos y una tasa de parseabilidad muy inferior tanto a la del
-SFT serializado como a la del THM v1. Por tanto, THOP-FiLM no debe presentarse como una arquitectura ganadora, sino como un diagnóstico adicional: la posición importa, pero puede
-convertirse en un atajo si no se separa con cuidado de la profundidad estructural.
+El análisis de propiedad intelectual apunta en la misma dirección: los dos componentes
+principales tienen licencias permisivas. El modelo base Qwen2.5-7B-Instruct
+\citep{qwen2024qwen25} se distribuye bajo Apache 2.0 y el dataset de ajuste bajo MIT. El riesgo
+residual de memorización existe, como en cualquier ajuste generativo, pero queda limitado por el
+tamaño del corpus y por el carácter técnico y estructurado de las muestras. Jurídicamente, el
+sistema no puede atribuirse autoría sobre los manifiestos generados; la responsabilidad sobre su
+uso, revisión y eventual despliegue recae en el operador que decide incorporarlos a una
+infraestructura real.
 
-Esta evolución deja una enseñanza metodológica para el análisis comparativo. La rama two-head no fracasa por una única causa simple. Su comportamiento combina desbalanceo de niveles,
-calibración ordinal, elección del hidden state, deriva posicional y sensibilidad del parser ante errores locales de indentación. La secuencia experimental sugiere una lectura concreta:
-el THM v1 era el generador explícito más estable, pero ocultaba un fallo importante en niveles profundos; al atacar ese fallo con umbrales ordinales se hizo visible una nueva dificultad,
-la no estacionariedad de la señal latente a lo largo de la generación. FiLM ayuda a formular esa dificultad, aunque todavía no la resuelve dentro de la arquitectura ordinal. Esta mezcla
-explica por qué añadir una cabeza estructural es una intervención conceptualmente atractiva, pero experimentalmente más exigente que serializar la jerarquía como texto.
-
-%----------------------------------------------------------------------
-\section{Efecto de DPO sobre la referencia serializada}
-\label{sec:ch9_dpo}
-%----------------------------------------------------------------------
-
-DPO parte de una situación distinta. La pregunta ya no es si el modelo puede aprender una representación estructurada básica, porque \texttt{serialized\_sft} ya lo ha demostrado. La
-pregunta es si un modelo que genera bloques estructurados con alta estabilidad puede ser desplazado hacia salidas más adecuadas al prompt y más coherentes con ciertos criterios de
-dominio mediante preferencias automáticas.
-
-El primer experimento completo, con \(\beta=0{,}10\), ofrece una respuesta mixta. La parseabilidad YAML baja ligeramente respecto al SFT, del 98{,}57\,\% al 97{,}14\,\%, y también
-descienden de forma leve el F1 de texto de línea, la coincidencia exacta de nivel, la adecuación al prompt y las claves semánticas. Al mismo tiempo, DPO mejora algunas señales
-localizadas: sube el \texttt{parsed\_equal\_rate}, mejora ligeramente el ajuste del número de documentos y reduce ciertos errores de dominio, como \texttt{volume\_mount\_without\_volume}.
-La descomposición por niveles Kubernetes muestra además una mejora en niveles intermedios de validez, aunque el gate final no mejora.
-
-Esta combinación es importante porque muestra el riesgo de una fase de alineamiento automática. DPO no actúa como una mejora monotónica sobre el SFT, sino como una reponderación del
-comportamiento del modelo. Puede empujar algunas propiedades de dominio en la dirección deseada, pero ese desplazamiento también puede degradar la regularidad superficial que hacía
-que el SFT fuese tan estable. En una tarea parser-facing, esta regularidad no es secundaria: una pequeña caída de parseabilidad condiciona todas las métricas posteriores.
-
-El experimento con \(\beta=0{,}30\) no modifica sustancialmente la lectura. Sobre las 42 muestras comparables, las salidas son prácticamente idénticas a las de \(\beta=0{,}10\) en 41
-casos. Esto sugiere que, con el primer dataset de preferencias, aumentar \(\beta\) no proporciona una palanca clara de mejora. El siguiente movimiento metodológico no pasa tanto por
-seguir elevando \(\beta\), sino por construir preferencias más discriminativas, especialmente con negativos duros que sean parseables y plausibles.
-
-En el momento de redactar este capítulo, la segunda iteración DPO v2 se mantiene como experimento pendiente de cierre. Su configuración es deliberadamente más agresiva y parte del
-checkpoint DPO v1, con un conjunto de preferencias más pequeño pero más estricto. Por esta razón, no debe anticiparse su conclusión. En la versión final de este capítulo, DPO v2 debe
-añadirse solo después de completar su validación, comparándolo al menos con \texttt{serialized\_sft} y con DPO v1 sobre el mismo protocolo de métricas.
-
-% TODO: incorporar aquí los resultados finales de DPO v2 cuando termine la validación.
 
 %----------------------------------------------------------------------
-\section{Evaluación final en test}
-\label{sec:ch9_test_plan}
+\section{Riesgos principales}
+\label{sec:ch8_risks}
 %----------------------------------------------------------------------
 
-Hasta este punto, la mayor parte de la discusión se apoya en validación, porque ese split ha servido para desarrollar, comparar y diagnosticar las variantes experimentales. Para cerrar
-el análisis comparativo sin contaminar el test, la evaluación final debe reservarse a un conjunto reducido de modelos ya seleccionados. La función del test no es elegir hiperparámetros
-ni decidir entre variantes exploratorias, sino comprobar si la lectura obtenida en validación se mantiene en datos no usados durante el desarrollo.
+El primer riesgo es la generación de configuraciones inseguras. El análisis de errores del
+\texttt{serialized\_sft} identifica 470 antipatrones de seguridad en 70 muestras de validación:
+contenedores sin límites de CPU o memoria, ejecución como \texttt{root}, sistemas de ficheros
+raíz con escritura habilitada e imágenes con etiqueta \texttt{:latest}
+(Tabla~\ref{tab:ch5_error_profile}). Estos errores son especialmente relevantes porque no
+impiden necesariamente el parseo del manifiesto. Un YAML puede ser válido, coherente con el
+prompt e incluso funcional, pero incorporar decisiones que aumentan la superficie de ataque o
+reducen la reproducibilidad del despliegue.
 
-La Tabla~\ref{tab:ch9_test_matrix} recoge la matriz propuesta para esa evaluación final. El baseline ya dispone de una ejecución en test y puede actuar como punto de partida. El SFT
-serializado debe evaluarse porque es la referencia supervisada fuerte. La rama two-head debe representarse mediante el THM v1, que es el mejor resultado global de esa familia en
-validación. Las variantes ordinales y posicionales quedan como análisis diagnóstico y como base para trabajo futuro, pero no como candidatas principales a test salvo que se quiera
-confirmar explícitamente el fallo observado. DPO debe evaluarse solo cuando se haya decidido, usando validación, cuál es el checkpoint final que merece pasar a test.
+El segundo riesgo es la dependencia técnica. Una herramienta que convierte lenguaje natural en
+configuración puede reducir trabajo repetitivo, pero también puede desplazar parte del esfuerzo
+de comprensión hacia una revisión superficial del resultado. En ese escenario, el usuario no
+pierde formalmente el control, pero sí puede delegar demasiado pronto en una salida que parece
+ordenada y profesional. La frontera ética del sistema está precisamente ahí: debe diseñarse como
+asistente para acelerar la redacción y la exploración de manifiestos, no como sustituto del
+criterio de un operador con conocimiento de Kubernetes.
 
-\begin{table}[htbp]
-\centering
-\caption{Matriz de evaluación final en test. Las filas pendientes no deben usarse para selección de modelo, sino como confirmación de modelos previamente fijados en validación.}
-\label{tab:ch9_test_matrix}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lll}
-\toprule
-\textbf{Modelo} & \textbf{Estado} & \textbf{Función en la comparación} \\
-\midrule
-Baseline zero-shot & Ejecutado en test & Punto de partida sin ajuste supervisado \\
-\texttt{serialized\_sft} & Pendiente de test & Referencia supervisada principal \\
-THM v1 & Pendiente de test & Mejor representante validado de la rama con jerarquía explícita \\
-DPO final & Pendiente de selección y test & Refinamiento post-SFT mediante preferencias automáticas \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
+El tercer riesgo procede de la cobertura limitada del dataset. El corpus de entrenamiento tiene
+213 muestras base, ampliadas mediante variantes de prompt, y reproduce los patrones presentes
+en \texttt{CloudEval-YAML}. Esto introduce sesgos técnicos, no sociales: sobre-representación de
+ciertos recursos, tecnologías o estilos de configuración, y posible falta de señal en prácticas
+de seguridad que no aparecen de forma sistemática en los datos. En este sentido, la caída en la
+compuerta de seguridad no se interpreta como un simple defecto de entrenamiento, sino como una
+limitación de la señal supervisada disponible.
 
-Las métricas de esta evaluación deberían mantenerse alineadas con el resto del trabajo. En concreto, conviene agruparlas en cuatro bloques:
+Por último, existen riesgos residuales de transparencia y trazabilidad. Los modelos basados en
+transformers no ofrecen una explicación completa de su proceso interno, aunque el trabajo aporta
+evidencia indirecta mediante análisis de representaciones latentes: un modelo lineal alcanza un
+85{,}94\,\% de precisión al predecir el nivel de indentación a partir de estados ocultos. Ese
+resultado ayuda a interpretar la presencia de información estructural en el modelo, pero no
+convierte sus salidas en explicables ni verificadas por construcción. La trazabilidad debe
+apoyarse, por tanto, en registros de inferencia, métricas de validación y documentación del
+alcance del sistema.
 
-\begin{center}
-\small
-\begin{tabular}{ll}
-\toprule
-\textbf{Bloque} & \textbf{Métricas} \\
-\midrule
-Parseabilidad &
-\texttt{yaml\_parse\_success\_rate} \\
-&
-\texttt{block\_parse\_success\_rate} \\
-\addlinespace
-Fidelidad estructural &
-\texttt{average\_line\_text\_f1} \\
-&
-\texttt{average\_level\_exact\_match\_rate} \\
-&
-\texttt{average\_level\_mae} \\
-\addlinespace
-Adecuación al contenido &
-\texttt{average\_prompt\_requirement\_f1} \\
-&
-\texttt{average\_semantic\_key\_f1} \\
-\addlinespace
-Dominio Kubernetes &
-\texttt{average\_kubernetes\_domain\_validity\_score} \\
-&
-\texttt{kubernetes\_domain\_gate\_pass\_rate} \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-Este conjunto permite comprobar no solo si el modelo genera YAML válido, sino también si conserva la jerarquía, responde al prompt y evita parte de los errores de dominio observados.
-
-% TODO: sustituir esta sección por la tabla de resultados finales en test cuando estén disponibles las ejecuciones de SFT, THM v1 y DPO final.
 
 %----------------------------------------------------------------------
-\section{Discusión transversal}
-\label{sec:ch9_cross_discussion}
+\section{Medidas de mitigación y responsabilidad}
+\label{sec:ch8_mitigation}
 %----------------------------------------------------------------------
 
-Al poner juntas las tres líneas experimentales aparece una lectura más matizada que la que ofrecería cualquier métrica aislada. El SFT serializado es el sistema más fuerte porque
-convierte una tarea jerárquica en una superficie textual muy regular y fácil de consumir por el parser. Esto no demuestra que el modelo haya aprendido una representación formal del
-árbol YAML, pero sí demuestra que una serialización explícita de la jerarquía puede ser una estrategia práctica muy eficaz para generación estructurada.
+La medida de mitigación más importante es mantener una frontera explícita entre generación y
+despliegue. El sistema no ejecuta comandos, no aplica manifiestos sobre un clúster y no dispone
+de una ruta automática hacia producción. Su salida es un fichero de texto estructurado que debe
+pasar por validación sintáctica, revisión de dominio y revisión humana antes de cualquier uso
+operativo. Esta separación no elimina los errores, pero evita que un fallo del modelo se
+convierta directamente en un fallo de infraestructura.
 
-La rama two-head, por el contrario, separa de manera más limpia la pregunta investigadora. Al sacar \texttt{level} de la superficie textual y predecirlo con una cabeza estructural,
-permite estudiar si el modelo contiene información jerárquica aprovechable en sus estados latentes. El THM v1 muestra que esa separación puede producir un generador razonablemente
-estable, aunque incapaz de recuperar niveles profundos por el desbalanceo de clases. Las variantes posteriores muestran el reverso del problema: cuando se fuerza al cabezal a entrar
-en esa zona profunda mediante una formulación ordinal, la calibración de la trayectoria y la posición de la línea se vuelven críticas. La frontera entre generación de contenido,
-predicción de nivel y reconstrucción parser-facing se convierte así en el punto frágil de la arquitectura.
+La segunda medida es comunicar las limitaciones del sistema de forma concreta. No basta con un
+aviso genérico de que el contenido ha sido generado por IA. En este caso, la documentación debe
+explicar que la parseabilidad YAML no equivale a seguridad, que el parser actúa como control
+estructural y que las métricas de dominio usadas en la memoria son
+aproximadas. Esta distinción es coherente con el argumento general del trabajo: producir una
+estructura válida en superficie es necesario, pero no garantiza que el manifiesto sea adecuado
+para un despliegue real.
 
-DPO añade una tercera dimensión a la comparación. En lugar de cambiar la arquitectura, modifica la política aprendida a partir de preferencias automáticas. Su efecto inicial confirma
-que las señales de dominio pueden mover el comportamiento del modelo, pero también que ese movimiento tiene coste. La mejora de algunas propiedades Kubernetes no compensa todavía las
-pequeñas pérdidas de parseabilidad y fidelidad al prompt. En este sentido, DPO se interpreta mejor como una herramienta de refinamiento que como una sustitución directa del SFT.
+Finalmente, la responsabilidad debe permanecer distribuida de forma clara. El proveedor es
+responsable de documentar el alcance, las limitaciones, los datos utilizados, las métricas de
+validación y los riesgos conocidos. El usuario experto es responsable de revisar, adaptar y
+validar los manifiestos antes de desplegarlos. Esta división no pretende trasladar todo el peso
+al usuario, sino evitar una ambigüedad peligrosa: el sistema puede ayudar a escribir
+configuraciones, pero no puede asumir la responsabilidad operativa de una infraestructura.
 
-La comparación global refuerza, por tanto, la necesidad de evaluar por niveles. Si solo se observara la parseabilidad YAML, el SFT serializado parecería cerrar el problema. Si solo se
-observara la predicción de \texttt{level}, se perdería el hecho de que una pequeña desviación puede romper todo el documento. Si solo se observaran métricas de dominio, se ignoraría
-que muchas buenas prácticas Kubernetes dependen de checks más estrictos que la sintaxis. El valor del análisis comparativo está precisamente en mantener juntas estas capas sin
-confundirlas.
 
-Este capítulo deja así preparada la lectura final del trabajo: los resultados no apuntan a una única técnica dominante en todos los sentidos, sino a una tensión metodológica entre
-superficie serializada, señal estructural explícita y alineamiento automático. La interpretación de esa tensión, junto con las limitaciones y las líneas de continuidad, se desarrolla
-en el capítulo siguiente.
+%----------------------------------------------------------------------
+\section{Resumen de impacto}
+\label{sec:ch8_synthesis}
+%----------------------------------------------------------------------
+
+El impacto social del sistema es limitado y, en un escenario bien controlado, potencialmente
+positivo: puede reducir esfuerzo en tareas repetitivas de configuración y ayudar a explorar
+soluciones estructuradas a partir de descripciones en lenguaje natural. Sin embargo, ese valor
+solo aparece si el sistema se mantiene dentro de su papel de asistencia. El resultado principal
+del análisis ético no es que la herramienta sea peligrosa por naturaleza, sino que su apariencia
+de corrección puede ser más convincente que su seguridad real.
+
+En este sentido, el capítulo refuerza la tesis técnica de la memoria. La generación estructurada
+no se evalúa únicamente porque produzca YAML más limpio, sino porque permite separar mejor los
+niveles de validez: sintaxis, jerarquía, reconstrucción parser-facing, dominio y adecuación al
+prompt. Esa separación también es una medida ética. Hace visible dónde termina el control
+automático y dónde empieza la responsabilidad humana, que es precisamente la frontera que debe
+respetarse si el sistema llega a usarse fuera del contexto experimental.

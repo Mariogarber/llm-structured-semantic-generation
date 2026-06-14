@@ -935,6 +935,14 @@ OUTPUT cuerpo\chapter8.aux
 INPUT .\cuerpo\chapter8.tex
 INPUT .\cuerpo\chapter8.tex
 INPUT cuerpo\chapter8.tex
+INPUT C:\Users\mario\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtk10.tfm
+INPUT .\figures\chapter8\fig8_1_test_metric_heatmap.png
+INPUT .\figures\chapter8\fig8_1_test_metric_heatmap.png
+INPUT .\figures\chapter8\fig8_1_test_metric_heatmap.png
+INPUT .\figures\chapter8\fig8_1_test_metric_heatmap.png
+INPUT .\figures\chapter8\fig8_1_test_metric_heatmap.png
+INPUT .\figures\chapter8\fig8_1_test_metric_heatmap.png
+INPUT .\figures\chapter8\fig8_1_test_metric_heatmap.png
 INPUT .\cuerpo\chapter9.tex
 INPUT .\cuerpo\chapter9.tex
 OUTPUT cuerpo\chapter9.aux
