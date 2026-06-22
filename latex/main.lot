@@ -34,22 +34,22 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {A.1}{\ignorespaces Especificaciones del entorno de hardware.}}{107}{table.caption.73}%
-\contentsline {table}{\numberline {A.3}{\ignorespaces Versiones mínimas de las dependencias principales.}}{108}{table.caption.74}%
-\contentsline {table}{\numberline {A.4}{\ignorespaces Arquitectura del modelo base Qwen2.5-7B-Instruct.}}{109}{table.caption.75}%
-\contentsline {table}{\numberline {A.5}{\ignorespaces Configuración LoRA común a todos los experimentos de ajuste fino.}}{109}{table.caption.76}%
-\contentsline {table}{\numberline {A.6}{\ignorespaces Parámetros de entrenamiento comunes a las variantes SFT supervisadas.}}{110}{table.caption.77}%
-\contentsline {table}{\numberline {A.8}{\ignorespaces Inventario de experimentos respecto al contenido previo del anexo.}}{111}{table.caption.78}%
-\contentsline {table}{\numberline {A.10}{\ignorespaces Parámetros específicos de \texttt {serialized\_sft}.}}{111}{table.caption.79}%
-\contentsline {table}{\numberline {A.12}{\ignorespaces Parámetros específicos de \texttt {two\_head\_sft}.}}{112}{table.caption.80}%
-\contentsline {table}{\numberline {A.14}{\ignorespaces Serie de variantes ordinales previas a la incorporación explícita de posición.}}{112}{table.caption.81}%
-\contentsline {table}{\numberline {A.16}{\ignorespaces Parámetros específicos de las variantes ordinales con información posicional.}}{113}{table.caption.82}%
-\contentsline {table}{\numberline {A.18}{\ignorespaces Parámetros específicos de las ejecuciones DPO sobre \texttt {serialized\_sft}.}}{114}{table.caption.83}%
-\contentsline {table}{\numberline {A.20}{\ignorespaces Parámetros de generación y selección del dataset de preferencias DPO v2.}}{115}{table.caption.84}%
-\contentsline {table}{\numberline {A.22}{\ignorespaces Parámetros específicos de las ejecuciones DPO v2 sobre la política DPO v1.}}{116}{table.caption.85}%
-\contentsline {table}{\numberline {A.24}{\ignorespaces Configuración de inferencia por variante experimental.}}{116}{table.caption.86}%
+\contentsline {table}{\numberline {A.1}{\ignorespaces Especificaciones del entorno de hardware.}}{109}{table.caption.73}%
+\contentsline {table}{\numberline {A.3}{\ignorespaces Versiones mínimas de las dependencias principales.}}{110}{table.caption.74}%
+\contentsline {table}{\numberline {A.4}{\ignorespaces Arquitectura del modelo base Qwen2.5-7B-Instruct.}}{111}{table.caption.75}%
+\contentsline {table}{\numberline {A.5}{\ignorespaces Configuración LoRA común a todos los experimentos de ajuste fino.}}{111}{table.caption.76}%
+\contentsline {table}{\numberline {A.6}{\ignorespaces Parámetros de entrenamiento comunes a las variantes SFT supervisadas.}}{112}{table.caption.77}%
+\contentsline {table}{\numberline {A.8}{\ignorespaces Inventario de experimentos respecto al contenido previo del anexo.}}{113}{table.caption.78}%
+\contentsline {table}{\numberline {A.10}{\ignorespaces Parámetros específicos de \texttt {serialized\_sft}.}}{113}{table.caption.79}%
+\contentsline {table}{\numberline {A.12}{\ignorespaces Parámetros específicos de \texttt {two\_head\_sft}.}}{114}{table.caption.80}%
+\contentsline {table}{\numberline {A.14}{\ignorespaces Serie de variantes ordinales previas a la incorporación explícita de posición.}}{114}{table.caption.81}%
+\contentsline {table}{\numberline {A.16}{\ignorespaces Parámetros específicos de las variantes ordinales con información posicional.}}{115}{table.caption.82}%
+\contentsline {table}{\numberline {A.18}{\ignorespaces Parámetros específicos de las ejecuciones DPO sobre \texttt {serialized\_sft}.}}{116}{table.caption.83}%
+\contentsline {table}{\numberline {A.20}{\ignorespaces Parámetros de generación y selección del dataset de preferencias DPO v2.}}{117}{table.caption.84}%
+\contentsline {table}{\numberline {A.22}{\ignorespaces Parámetros específicos de las ejecuciones DPO v2 sobre la política DPO v1.}}{118}{table.caption.85}%
+\contentsline {table}{\numberline {A.24}{\ignorespaces Configuración de inferencia por variante experimental.}}{118}{table.caption.86}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {B.1}{\ignorespaces Niveles de riesgo del AI Act y aplicabilidad al sistema propuesto.}}{121}{table.caption.90}%
-\contentsline {table}{\numberline {B.2}{\ignorespaces Factores de riesgo RGPD relevantes para el sistema en su configuración actual.}}{122}{table.caption.91}%
-\contentsline {table}{\numberline {B.3}{\ignorespaces Resumen de cumplimiento de los requisitos éticos del AI HLEG para el sistema propuesto.}}{123}{table.caption.92}%
-\contentsline {table}{\numberline {B.4}{\ignorespaces Principales riesgos del sistema, valoración y medidas de mitigación.}}{124}{table.caption.93}%
+\contentsline {table}{\numberline {B.1}{\ignorespaces Niveles de riesgo del AI Act y aplicabilidad al sistema propuesto.}}{123}{table.caption.90}%
+\contentsline {table}{\numberline {B.2}{\ignorespaces Factores de riesgo RGPD relevantes para el sistema en su configuración actual.}}{124}{table.caption.91}%
+\contentsline {table}{\numberline {B.3}{\ignorespaces Resumen de cumplimiento de los requisitos éticos del AI HLEG para el sistema propuesto.}}{125}{table.caption.92}%
+\contentsline {table}{\numberline {B.4}{\ignorespaces Principales riesgos del sistema, valoración y medidas de mitigación.}}{126}{table.caption.93}%

@@ -37,7 +37,7 @@
   \bibinfo{pages}{245--253}.
 \newblock \URLprefix \url{https://doi.org/10.1111/j.1541-0420.2005.00440.x},
   \DOIprefix\doi{10.1111/j.1541-0420.2005.00440.x}.
-%Type = Article
+%Type = Inproceedings
 \bibitem[{Andor et~al.(2016)Andor, Alberti, Weiss, Severyn, Presta, Ganchev,
   Petrov and Collins}]{andor2016globally}
 \bibinfo{author}{Andor, D.}, \bibinfo{author}{Alberti, C.},
@@ -46,9 +46,12 @@
   \bibinfo{author}{Petrov, S.}, \bibinfo{author}{Collins, M.},
   \bibinfo{year}{2016}.
 \newblock \bibinfo{title}{Globally normalized transition-based neural
-  networks}.
-\newblock \bibinfo{journal}{arXiv preprint arXiv:1603.06042} \URLprefix
-  \url{https://arxiv.org/abs/1603.06042}.
+  networks}, in: \bibinfo{booktitle}{Proceedings of the 54th Annual Meeting of
+  the Association for Computational Linguistics (Volume 1: Long Papers)},
+  \bibinfo{publisher}{Association for Computational Linguistics},
+  \bibinfo{address}{Berlin, Germany}. pp. \bibinfo{pages}{2442--2452}.
+\newblock \URLprefix \url{https://aclanthology.org/P16-1231/},
+  \DOIprefix\doi{10.18653/v1/P16-1231}.
 %Type = Inproceedings
 \bibitem[{Angi et~al.(2025)Angi, Nedoshivina, Sacco, Braghin and
   Purcell}]{angi2025kgen}
@@ -63,6 +66,18 @@
   \bibinfo{pages}{345--354}.
 \newblock \URLprefix \url{https://aclanthology.org/2025.acl-industry.27/},
   \DOIprefix\doi{10.18653/v1/2025.acl-industry.27}.
+%Type = Inproceedings
+\bibitem[{Barletta et~al.(2024)Barletta, Cinque, Di~Martino, Kalbarczyk and
+  Iyer}]{fonseca2024mutiny}
+\bibinfo{author}{Barletta, M.}, \bibinfo{author}{Cinque, M.},
+  \bibinfo{author}{Di~Martino, C.}, \bibinfo{author}{Kalbarczyk, Z.T.},
+  \bibinfo{author}{Iyer, R.K.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Mutiny! how does kubernetes fail, and what can we do
+  about it?}, in: \bibinfo{booktitle}{2024 54th Annual IEEE/IFIP International
+  Conference on Dependable Systems and Networks (DSN)},
+  \bibinfo{publisher}{IEEE}. pp. \bibinfo{pages}{1--14}.
+\newblock \URLprefix \url{https://doi.org/10.1109/DSN58291.2024.00016},
+  \DOIprefix\doi{10.1109/DSN58291.2024.00016}.
 %Type = Inproceedings
 \bibitem[{Belanger and McCallum(2017)}]{belanger2017spen}
 \bibinfo{author}{Belanger, D.}, \bibinfo{author}{McCallum, A.},
@@ -88,8 +103,10 @@
   \bibinfo{year}{2025}.
 \newblock \bibinfo{title}{Inside job: Defending kubernetes clusters against
   network misconfigurations}.
-\newblock \bibinfo{journal}{arXiv preprint arXiv:2506.21134} \URLprefix
-  \url{https://arxiv.org/abs/2506.21134}.
+\newblock \bibinfo{journal}{Proceedings of the ACM on Networking}
+  \bibinfo{volume}{3}, \bibinfo{pages}{1--25}.
+\newblock \URLprefix \url{https://dl.acm.org/doi/10.1145/3749220},
+  \DOIprefix\doi{10.1145/3749220}.
 %Type = Inproceedings
 \bibitem[{Bunel et~al.(2018)Bunel, Hausknecht, Devlin, Singh and
   Kohli}]{bunel2018leveraginggrammar}
@@ -140,16 +157,27 @@
 \newblock \bibinfo{title}{Evaluating large language models trained on code}.
 \newblock \bibinfo{journal}{arXiv preprint arXiv:2107.03374} \URLprefix
   \url{https://arxiv.org/abs/2107.03374}.
+%Type = Article
+\bibitem[{Chung et~al.(2024)Chung, Hou, Longpre et~al.}]{wei2022scaling}
+\bibinfo{author}{Chung, H.W.}, \bibinfo{author}{Hou, L.},
+  \bibinfo{author}{Longpre, S.}, et~al., \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Scaling instruction-finetuned language models}.
+\newblock \bibinfo{journal}{Journal of Machine Learning Research}
+  \bibinfo{volume}{25}, \bibinfo{pages}{1--53}.
+\newblock \URLprefix \url{https://jmlr.org/papers/v25/23-0870.html}.
 %Type = Inproceedings
 \bibitem[{Clark et~al.(2019)Clark, Khandelwal, Levy and
   Manning}]{clark2019bert}
 \bibinfo{author}{Clark, K.}, \bibinfo{author}{Khandelwal, U.},
   \bibinfo{author}{Levy, O.}, \bibinfo{author}{Manning, C.D.},
   \bibinfo{year}{2019}.
-\newblock \bibinfo{title}{What does bert look at? an analysis of bert's
+\newblock \bibinfo{title}{What does {BERT} look at? an analysis of {BERT}'s
   attention}, in: \bibinfo{booktitle}{Proceedings of the 2019 ACL Workshop
-  BlackboxNLP}.
-\newblock \URLprefix \url{https://arxiv.org/abs/1906.04341}.
+  BlackboxNLP: Analyzing and Interpreting Neural Networks for NLP},
+  \bibinfo{publisher}{Association for Computational Linguistics},
+  \bibinfo{address}{Florence, Italy}. pp. \bibinfo{pages}{276--286}.
+\newblock \URLprefix \url{https://aclanthology.org/W19-4828/},
+  \DOIprefix\doi{10.18653/v1/W19-4828}.
 %Type = Inproceedings
 \bibitem[{Dauphin et~al.(2017)Dauphin, Fan, Auli and
   Grangier}]{dauphin2017language}
@@ -158,17 +186,18 @@
   \bibinfo{year}{2017}.
 \newblock \bibinfo{title}{Language modeling with gated convolutional networks},
   in: \bibinfo{booktitle}{Proceedings of the 34th International Conference on
-  Machine Learning}, pp. \bibinfo{pages}{933--941}.
-\newblock \URLprefix \url{https://arxiv.org/abs/1612.08083}.
+  Machine Learning}, \bibinfo{publisher}{PMLR}. pp. \bibinfo{pages}{933--941}.
+\newblock \URLprefix \url{https://proceedings.mlr.press/v70/dauphin17a.html}.
 %Type = Inproceedings
 \bibitem[{Dettmers et~al.(2023)Dettmers, Pagnoni, Holtzman and
   Zettlemoyer}]{dettmers2023qlora}
 \bibinfo{author}{Dettmers, T.}, \bibinfo{author}{Pagnoni, A.},
   \bibinfo{author}{Holtzman, A.}, \bibinfo{author}{Zettlemoyer, L.},
   \bibinfo{year}{2023}.
-\newblock \bibinfo{title}{Qlora: Efficient finetuning of quantized llms}, in:
+\newblock \bibinfo{title}{{QLoRA}: Efficient finetuning of quantized llms}, in:
   \bibinfo{booktitle}{Advances in Neural Information Processing Systems}.
-\newblock \URLprefix \url{https://arxiv.org/abs/2305.14314}.
+\newblock \URLprefix
+  \url{https://proceedings.neurips.cc/paper_files/paper/2023/hash/1feb87871436031bdc0f2beaa62a049b-Abstract-Conference.html}.
 %Type = Techreport
 \bibitem[{{European Commission}(2021)}]{ec2021ethics}
 \bibinfo{author}{{European Commission}}, \bibinfo{year}{2021}.
@@ -199,13 +228,6 @@
   legislative acts}.
 \newblock \bibinfo{note}{OJ L, 2024/1689}.
 %Type = Article
-\bibitem[{Fonseca et~al.(2024)}]{fonseca2024mutiny}
-\bibinfo{author}{Fonseca, J.}, et~al., \bibinfo{year}{2024}.
-\newblock \bibinfo{title}{Mutiny! how does kubernetes fail, and what can we do
-  about it?}
-\newblock \bibinfo{journal}{arXiv preprint arXiv:2404.11169} \URLprefix
-  \url{https://arxiv.org/abs/2404.11169}.
-%Type = Article
 \bibitem[{Geng et~al.(2025)Geng, Cooper, Moskal
   et~al.}]{geng2025jsonschemabench}
 \bibinfo{author}{Geng, S.}, \bibinfo{author}{Cooper, H.},
@@ -221,8 +243,11 @@
   \bibinfo{year}{2023}.
 \newblock \bibinfo{title}{Grammar-constrained decoding for structured nlp tasks
   without finetuning}, in: \bibinfo{booktitle}{Proceedings of the 2023
-  Conference on Empirical Methods in Natural Language Processing}.
-\newblock \URLprefix \url{https://arxiv.org/abs/2305.13971}.
+  Conference on Empirical Methods in Natural Language Processing},
+  \bibinfo{publisher}{Association for Computational Linguistics},
+  \bibinfo{address}{Singapore}. pp. \bibinfo{pages}{10932--10952}.
+\newblock \URLprefix \url{https://aclanthology.org/2023.emnlp-main.674/},
+  \DOIprefix\doi{10.18653/v1/2023.emnlp-main.674}.
 %Type = Article
 \bibitem[{Gretton et~al.(2012)Gretton, Borgwardt, Rasch, Schoelkopf and
   Smola}]{gretton2012kernel}
@@ -240,8 +265,11 @@
 \newblock \bibinfo{title}{A structural probe for finding syntax in word
   representations}, in: \bibinfo{booktitle}{Proceedings of the 2019 Conference
   of the North American Chapter of the Association for Computational
-  Linguistics}.
-\newblock \URLprefix \url{https://arxiv.org/abs/1906.04284}.
+  Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)},
+  \bibinfo{publisher}{Association for Computational Linguistics},
+  \bibinfo{address}{Minneapolis, Minnesota}. pp. \bibinfo{pages}{4129--4138}.
+\newblock \URLprefix \url{https://aclanthology.org/N19-1419/},
+  \DOIprefix\doi{10.18653/v1/N19-1419}.
 %Type = Techreport
 \bibitem[{{High-Level Expert Group on Artificial
   Intelligence}(2019)}]{aihleg2019}
@@ -258,16 +286,17 @@
   generation using grid beam search}, in: \bibinfo{booktitle}{Proceedings of
   the 55th Annual Meeting of the Association for Computational Linguistics}.
 \newblock \URLprefix \url{https://aclanthology.org/P17-1141/}.
-%Type = Article
-\bibitem[{Hu et~al.(2021)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang and
+%Type = Inproceedings
+\bibitem[{Hu et~al.(2022)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang and
   Chen}]{hu2021lora}
 \bibinfo{author}{Hu, E.J.}, \bibinfo{author}{Shen, Y.},
   \bibinfo{author}{Wallis, P.}, \bibinfo{author}{Allen-Zhu, Z.},
   \bibinfo{author}{Li, Y.}, \bibinfo{author}{Wang, S.}, \bibinfo{author}{Wang,
-  L.}, \bibinfo{author}{Chen, W.}, \bibinfo{year}{2021}.
-\newblock \bibinfo{title}{Lora: Low-rank adaptation of large language models}.
-\newblock \bibinfo{journal}{arXiv preprint arXiv:2106.09685} \URLprefix
-  \url{https://arxiv.org/abs/2106.09685}.
+  L.}, \bibinfo{author}{Chen, W.}, \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Lora: Low-rank adaptation of large language models},
+  in: \bibinfo{booktitle}{International Conference on Learning
+  Representations}.
+\newblock \URLprefix \url{https://openreview.net/forum?id=nZeVKeeFYf9}.
 %Type = Article
 \bibitem[{Joachims et~al.(2009)Joachims, Hofmann, Yue and
   Yu}]{joachims2009structured}
@@ -291,8 +320,11 @@
   \bibinfo{author}{Cipolla, R.}, \bibinfo{year}{2018}.
 \newblock \bibinfo{title}{Multi-task learning using uncertainty to weigh losses
   for scene geometry and semantics}, in: \bibinfo{booktitle}{Proceedings of the
-  IEEE Conference on Computer Vision and Pattern Recognition}.
-\newblock \URLprefix \url{https://arxiv.org/abs/1705.07115}.
+  IEEE Conference on Computer Vision and Pattern Recognition}, pp.
+  \bibinfo{pages}{7482--7491}.
+\newblock \URLprefix
+  \url{https://openaccess.thecvf.com/content_cvpr_2018/html/Kendall_Multi-Task_Learning_Using_CVPR_2018_paper.html},
+  \DOIprefix\doi{10.1109/CVPR.2018.00781}.
 %Type = Article
 \bibitem[{Lee et~al.(2024)}]{lee2024structuredrag}
 \bibinfo{author}{Lee, B.}, et~al., \bibinfo{year}{2024}.
@@ -300,14 +332,6 @@
   language models}.
 \newblock \bibinfo{journal}{arXiv preprint arXiv:2408.11061} \URLprefix
   \url{https://arxiv.org/abs/2408.11061}.
-%Type = Inproceedings
-\bibitem[{Li et~al.(2024)}]{li2023strucbench}
-\bibinfo{author}{Li, M.}, et~al., \bibinfo{year}{2024}.
-\newblock \bibinfo{title}{Struc-bench: Are large language models really good at
-  generating complex structured data?}, in: \bibinfo{booktitle}{Proceedings of
-  the 2024 Conference of the North American Chapter of the Association for
-  Computational Linguistics}.
-\newblock \URLprefix \url{https://arxiv.org/abs/2309.08963}.
 %Type = Article
 \bibitem[{Liu et~al.(2023)Liu, Yuan, Fu, Jiang, Hayashi and
   Neubig}]{liu2023pretrain}
@@ -328,19 +352,24 @@
 \newblock \bibinfo{title}{{FiLM}: Visual reasoning with a general conditioning
   layer}, in: \bibinfo{booktitle}{Proceedings of the AAAI Conference on
   Artificial Intelligence}.
-\newblock \URLprefix \url{https://arxiv.org/abs/1709.07871}.
+\newblock \URLprefix
+  \url{https://ojs.aaai.org/index.php/AAAI/article/view/11671},
+  \DOIprefix\doi{10.1609/aaai.v32i1.11671}.
 %Type = Inproceedings
 \bibitem[{Pimparkhede et~al.(2024)Pimparkhede, Kammakomati, Tamilselvam, Kumar,
-  Pon~Kumar and Bhattacharyya}]{pimparkhede2024doccgen}
+  Kumar and Bhattacharyya}]{pimparkhede2024doccgen}
 \bibinfo{author}{Pimparkhede, S.}, \bibinfo{author}{Kammakomati, M.},
-  \bibinfo{author}{Tamilselvam, S.}, \bibinfo{author}{Kumar, P.},
-  \bibinfo{author}{Pon~Kumar, A.}, \bibinfo{author}{Bhattacharyya, P.},
+  \bibinfo{author}{Tamilselvam, S.G.}, \bibinfo{author}{Kumar, P.},
+  \bibinfo{author}{Kumar, A.P.}, \bibinfo{author}{Bhattacharyya, P.},
   \bibinfo{year}{2024}.
-\newblock \bibinfo{title}{Doccgen: Document-based controlled code generation},
-  in: \bibinfo{booktitle}{Proceedings of the 2024 Conference on Empirical
-  Methods in Natural Language Processing}.
-\newblock \URLprefix \url{https://arxiv.org/abs/2406.11925}.
-%Type = Article
+\newblock \bibinfo{title}{{DocCGen}: Document-based controlled code
+  generation}, in: \bibinfo{booktitle}{Proceedings of the 2024 Conference on
+  Empirical Methods in Natural Language Processing},
+  \bibinfo{publisher}{Association for Computational Linguistics},
+  \bibinfo{address}{Miami, Florida, USA}. pp. \bibinfo{pages}{18681--18697}.
+\newblock \URLprefix \url{https://aclanthology.org/2024.emnlp-main.1040/},
+  \DOIprefix\doi{10.18653/v1/2024.emnlp-main.1040}.
+%Type = Inproceedings
 \bibitem[{Pujar et~al.(2023)Pujar, Buratti, Guo, Dupuis, Lewis, Suneja, Sood,
   Nalawade, Jones, Morari and Puri}]{pujar2023automatedyaml}
 \bibinfo{author}{Pujar, S.}, \bibinfo{author}{Buratti, L.},
@@ -349,10 +378,12 @@
   \bibinfo{author}{Sood, A.}, \bibinfo{author}{Nalawade, G.},
   \bibinfo{author}{Jones, M.}, \bibinfo{author}{Morari, A.},
   \bibinfo{author}{Puri, R.}, \bibinfo{year}{2023}.
-\newblock \bibinfo{title}{Automated code generation for information technology
-  tasks in yaml through large language models}.
-\newblock \bibinfo{journal}{arXiv preprint arXiv:2305.02783} \URLprefix
-  \url{https://arxiv.org/abs/2305.02783}.
+\newblock \bibinfo{title}{Invited: Automated code generation for information
+  technology tasks in {YAML} through large language models}, in:
+  \bibinfo{booktitle}{2023 60th ACM/IEEE Design Automation Conference (DAC)},
+  \bibinfo{publisher}{IEEE}. pp. \bibinfo{pages}{1--4}.
+\newblock \URLprefix \url{https://ieeexplore.ieee.org/document/10247987/},
+  \DOIprefix\doi{10.1109/DAC56929.2023.10247987}.
 %Type = Article
 \bibitem[{{Qwen Team}(2024)}]{qwen2024qwen25}
 \bibinfo{author}{{Qwen Team}}, \bibinfo{year}{2024}.
@@ -366,8 +397,11 @@
   \bibinfo{author}{Klein, D.}, \bibinfo{year}{2017}.
 \newblock \bibinfo{title}{Abstract syntax networks for code generation and
   semantic parsing}, in: \bibinfo{booktitle}{Proceedings of the 55th Annual
-  Meeting of the Association for Computational Linguistics}.
-\newblock \URLprefix \url{https://arxiv.org/abs/1704.07535}.
+  Meeting of the Association for Computational Linguistics (Volume 1: Long
+  Papers)}, \bibinfo{publisher}{Association for Computational Linguistics},
+  \bibinfo{address}{Vancouver, Canada}. pp. \bibinfo{pages}{1139--1149}.
+\newblock \URLprefix \url{https://aclanthology.org/P17-1105/},
+  \DOIprefix\doi{10.18653/v1/P17-1105}.
 %Type = Inproceedings
 \bibitem[{Rafailov et~al.(2023)Rafailov, Sharma, Mitchell, Ermon, Manning and
   Finn}]{rafailov2023dpo}
@@ -378,7 +412,8 @@
 \newblock \bibinfo{title}{Direct preference optimization: Your language model
   is secretly a reward model}, in: \bibinfo{booktitle}{Advances in Neural
   Information Processing Systems}.
-\newblock \URLprefix \url{https://arxiv.org/abs/2305.18290}.
+\newblock \URLprefix
+  \url{https://papers.nips.cc/paper_files/paper/2023/hash/a85b405ed65c6477a4fe8302b5e06ce7-Abstract-Conference.html}.
 %Type = Article
 \bibitem[{Rahman et~al.(2023)}]{rahman2023securityk8s}
 \bibinfo{author}{Rahman, A.}, et~al., \bibinfo{year}{2023}.
@@ -413,11 +448,14 @@
   Bahdanau}]{scholak2021picard}
 \bibinfo{author}{Scholak, T.}, \bibinfo{author}{Schucher, N.},
   \bibinfo{author}{Bahdanau, D.}, \bibinfo{year}{2021}.
-\newblock \bibinfo{title}{Picard: Parsing incrementally for constrained
+\newblock \bibinfo{title}{{PICARD}: Parsing incrementally for constrained
   auto-regressive decoding from language models}, in:
   \bibinfo{booktitle}{Proceedings of the 2021 Conference on Empirical Methods
-  in Natural Language Processing}.
-\newblock \URLprefix \url{https://arxiv.org/abs/2109.05093}.
+  in Natural Language Processing}, \bibinfo{publisher}{Association for
+  Computational Linguistics}, \bibinfo{address}{Online and Punta Cana,
+  Dominican Republic}. pp. \bibinfo{pages}{9895--9901}.
+\newblock \URLprefix \url{https://aclanthology.org/2021.emnlp-main.779/},
+  \DOIprefix\doi{10.18653/v1/2021.emnlp-main.779}.
 %Type = Inproceedings
 \bibitem[{Shin et~al.(2021)Shin, Lin, Thomson, Chen, Roy, Platanios, Pauls,
   Klein, Eisner and Van~Durme}]{shin2021constrainedsemanticparsers}
@@ -456,6 +494,22 @@
 \newblock \URLprefix
   \url{https://papers.nips.cc/paper/2020/hash/55053683268957697aa39fba6f231c68-Abstract.html}.
 %Type = Inproceedings
+\bibitem[{Tang et~al.(2024)Tang, Zong, Phang, Zhao, Zhou, Cohan and
+  Gerstein}]{li2023strucbench}
+\bibinfo{author}{Tang, X.}, \bibinfo{author}{Zong, Y.}, \bibinfo{author}{Phang,
+  J.}, \bibinfo{author}{Zhao, Y.}, \bibinfo{author}{Zhou, W.},
+  \bibinfo{author}{Cohan, A.}, \bibinfo{author}{Gerstein, M.},
+  \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Struc-bench: Are large language models good at
+  generating complex structured tabular data?}, in:
+  \bibinfo{booktitle}{Proceedings of the 2024 Conference of the North American
+  Chapter of the Association for Computational Linguistics: Human Language
+  Technologies (Volume 2: Short Papers)}, \bibinfo{publisher}{Association for
+  Computational Linguistics}, \bibinfo{address}{Mexico City, Mexico}. pp.
+  \bibinfo{pages}{12--34}.
+\newblock \URLprefix \url{https://aclanthology.org/2024.naacl-short.2/},
+  \DOIprefix\doi{10.18653/v1/2024.naacl-short.2}.
+%Type = Inproceedings
 \bibitem[{Ueno and Uchiumi(2024)}]{ueno2024migrating}
 \bibinfo{author}{Ueno, M.}, \bibinfo{author}{Uchiumi, T.},
   \bibinfo{year}{2024}.
@@ -463,7 +517,7 @@
   {LLM} based approach and evaluation}, in: \bibinfo{booktitle}{2024 IEEE
   International Conference on Software Maintenance and Evolution},
   \bibinfo{publisher}{IEEE}. pp. \bibinfo{pages}{701--706}.
-\newblock \URLprefix \url{https://arxiv.org/abs/2408.11428},
+\newblock \URLprefix \url{https://ieeexplore.ieee.org/document/10795024/},
   \DOIprefix\doi{10.1109/ICSME58944.2024.00074}.
 %Type = Article
 \bibitem[{Vargas-Yun et~al.(2020)Vargas-Yun, Gutierrez and
@@ -486,7 +540,8 @@
   \bibinfo{year}{2017}.
 \newblock \bibinfo{title}{Attention is all you need}, in:
   \bibinfo{booktitle}{Advances in Neural Information Processing Systems}.
-\newblock \URLprefix \url{https://arxiv.org/abs/1706.03762}.
+\newblock \URLprefix
+  \url{https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html}.
 %Type = Inproceedings
 \bibitem[{Wang et~al.(2023)Wang, Kordi, Mishra, Liu, Smith, Khashabi and
   Hajishirzi}]{wang2022selfinstruct}
@@ -496,19 +551,12 @@
   \bibinfo{author}{Hajishirzi, H.}, \bibinfo{year}{2023}.
 \newblock \bibinfo{title}{Self-instruct: Aligning language models with
   self-generated instructions}, in: \bibinfo{booktitle}{Proceedings of the 61st
-  Annual Meeting of the Association for Computational Linguistics}.
-\newblock \URLprefix \url{https://arxiv.org/abs/2212.10560}.
-%Type = Inproceedings
-\bibitem[{Wei et~al.(2022)Wei, Wang, Schuurmans, Bosma, Ichter, Xia, Chi, Le
-  and Zhou}]{wei2022scaling}
-\bibinfo{author}{Wei, J.}, \bibinfo{author}{Wang, X.},
-  \bibinfo{author}{Schuurmans, D.}, \bibinfo{author}{Bosma, M.},
-  \bibinfo{author}{Ichter, B.}, \bibinfo{author}{Xia, F.},
-  \bibinfo{author}{Chi, E.H.}, \bibinfo{author}{Le, Q.V.},
-  \bibinfo{author}{Zhou, D.}, \bibinfo{year}{2022}.
-\newblock \bibinfo{title}{Scaling instruction-finetuned language models}, in:
-  \bibinfo{booktitle}{International Conference on Learning Representations}.
-\newblock \URLprefix \url{https://arxiv.org/abs/2210.11416}.
+  Annual Meeting of the Association for Computational Linguistics (Volume 1:
+  Long Papers)}, \bibinfo{publisher}{Association for Computational
+  Linguistics}, \bibinfo{address}{Toronto, Canada}. pp.
+  \bibinfo{pages}{13484--13508}.
+\newblock \URLprefix \url{https://aclanthology.org/2023.acl-long.754/},
+  \DOIprefix\doi{10.18653/v1/2023.acl-long.754}.
 %Type = Article
 \bibitem[{Willard and Louf(2023)}]{willard2023efficient}
 \bibinfo{author}{Willard, B.T.}, \bibinfo{author}{Louf, R.},
@@ -538,8 +586,9 @@
   \bibinfo{author}{Wu, Y.}, \bibinfo{year}{2024}a.
 \newblock \bibinfo{title}{Is dpo superior to ppo for llm alignment? a
   comprehensive study}, in: \bibinfo{booktitle}{Proceedings of the 41st
-  International Conference on Machine Learning}.
-\newblock \URLprefix \url{https://arxiv.org/abs/2404.10719}.
+  International Conference on Machine Learning}, \bibinfo{publisher}{PMLR}. pp.
+  \bibinfo{pages}{54983--54998}.
+\newblock \URLprefix \url{https://proceedings.mlr.press/v235/xu24h.html}.
 %Type = Inproceedings
 \bibitem[{Xu et~al.(2024b)Xu, Chen, Zhang, Lin, Hu, Ma, Lu, Du, Mao, Zhai and
   Cai}]{xu2024cloudevalyaml}
@@ -553,22 +602,22 @@
   the Seventh Annual Conference on Machine Learning and Systems}.
 \newblock \URLprefix \url{https://cloudeval-yaml.github.io/}.
 %Type = Article
-\bibitem[{Yang et~al.(2025)Yang, Jiang, He, Siu, Zhang, Liao, Li, Zeng, Jia,
+\bibitem[{Yang et~al.(2026)Yang, Jiang, He, Siu, Zhang, Liao, Li, Zeng, Jia,
   Wang, Schneider, Ruan, Ma, Lyu, Wang, Lu, Do, Jiang, Nie and
   Chen}]{yang2025structeval}
 \bibinfo{author}{Yang, J.}, \bibinfo{author}{Jiang, D.}, \bibinfo{author}{He,
-  L.}, \bibinfo{author}{Siu, S.}, \bibinfo{author}{Zhang, Y.},
+  T.}, \bibinfo{author}{Siu, S.}, \bibinfo{author}{Zhang, Y.},
   \bibinfo{author}{Liao, D.}, \bibinfo{author}{Li, Z.}, \bibinfo{author}{Zeng,
   H.}, \bibinfo{author}{Jia, Y.}, \bibinfo{author}{Wang, H.},
   \bibinfo{author}{Schneider, B.}, \bibinfo{author}{Ruan, C.},
   \bibinfo{author}{Ma, W.}, \bibinfo{author}{Lyu, Z.}, \bibinfo{author}{Wang,
   Y.}, \bibinfo{author}{Lu, Y.}, \bibinfo{author}{Do, Q.D.},
   \bibinfo{author}{Jiang, Z.}, \bibinfo{author}{Nie, P.},
-  \bibinfo{author}{Chen, W.}, \bibinfo{year}{2025}.
+  \bibinfo{author}{Chen, W.}, \bibinfo{year}{2026}.
 \newblock \bibinfo{title}{Structeval: Benchmarking llms' capabilities to
   generate structural outputs}.
-\newblock \bibinfo{journal}{arXiv preprint arXiv:2505.20139} \URLprefix
-  \url{https://arxiv.org/abs/2505.20139}.
+\newblock \bibinfo{journal}{Transactions on Machine Learning Research}
+  \URLprefix \url{https://openreview.net/forum?id=buDwV7LUA7}.
 %Type = Inproceedings
 \bibitem[{Yang et~al.(2021)Yang, Zha, Chen, Wang and
   Katabi}]{yang2021imbalancedRegression}
@@ -585,8 +634,11 @@
 \bibinfo{author}{Yin, P.}, \bibinfo{author}{Neubig, G.}, \bibinfo{year}{2017}.
 \newblock \bibinfo{title}{A syntactic neural model for general-purpose code
   generation}, in: \bibinfo{booktitle}{Proceedings of the 55th Annual Meeting
-  of the Association for Computational Linguistics}.
-\newblock \URLprefix \url{https://arxiv.org/abs/1704.01696}.
+  of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  \bibinfo{publisher}{Association for Computational Linguistics},
+  \bibinfo{address}{Vancouver, Canada}. pp. \bibinfo{pages}{440--450}.
+\newblock \URLprefix \url{https://aclanthology.org/P17-1041/},
+  \DOIprefix\doi{10.18653/v1/P17-1041}.
 %Type = Inproceedings
 \bibitem[{Zhang et~al.(2024)Zhang, Meredith, Reaves, Coriolano, Babar and
   Rahman}]{zhang2024generativeSmells}
@@ -603,30 +655,26 @@
   \url{https://akondrahman.github.io/files/papers/k8s-msr2024.pdf},
   \DOIprefix\doi{10.1145/3643991.3645079}.
 %Type = Article
-\bibitem[{Zhang et~al.(2025)Zhang, Paul, d'Amorim and
+\bibitem[{Zhang et~al.(2026)Zhang, Paul, d'Amorim and
   Rahman}]{zhang2025kubernetesdefects}
 \bibinfo{author}{Zhang, Y.}, \bibinfo{author}{Paul, U.},
   \bibinfo{author}{d'Amorim, M.}, \bibinfo{author}{Rahman, A.},
-  \bibinfo{year}{2025}.
+  \bibinfo{year}{2026}.
 \newblock \bibinfo{title}{Configuration defects in kubernetes}.
-\newblock \bibinfo{journal}{arXiv preprint arXiv:2512.05062} \URLprefix
-  \url{https://arxiv.org/abs/2512.05062}.
+\newblock \bibinfo{journal}{IEEE Transactions on Software Engineering}
+  \bibinfo{volume}{52}, \bibinfo{pages}{1125--1144}.
+\newblock \URLprefix
+  \url{https://www.computer.org/csdl/journal/ts/2026/03/11373907/2dZTvlGuUbC},
+  \DOIprefix\doi{10.1109/TSE.2026.3659785}.
 %Type = Article
-\bibitem[{Zhao et~al.(2023)Zhao, Zhou, Li, Tang, Wang, Hou, Min, Zhang, Zhang,
-  Dong, Du, Yang, Chen, Chen, Jiang, Ren, Li, Tang, Liu, Liu, Nie and
-  Wen}]{zhao2023surveyllm}
+\bibitem[{Zhao et~al.(2026)Zhao, Zhou, Li et~al.}]{zhao2023surveyllm}
 \bibinfo{author}{Zhao, W.X.}, \bibinfo{author}{Zhou, K.}, \bibinfo{author}{Li,
-  J.}, \bibinfo{author}{Tang, T.}, \bibinfo{author}{Wang, X.},
-  \bibinfo{author}{Hou, Y.}, \bibinfo{author}{Min, Y.}, \bibinfo{author}{Zhang,
-  B.}, \bibinfo{author}{Zhang, J.}, \bibinfo{author}{Dong, Z.},
-  \bibinfo{author}{Du, Y.}, \bibinfo{author}{Yang, C.}, \bibinfo{author}{Chen,
-  Y.}, \bibinfo{author}{Chen, Z.}, \bibinfo{author}{Jiang, J.},
-  \bibinfo{author}{Ren, R.}, \bibinfo{author}{Li, Y.}, \bibinfo{author}{Tang,
-  X.}, \bibinfo{author}{Liu, Z.}, \bibinfo{author}{Liu, P.},
-  \bibinfo{author}{Nie, J.Y.}, \bibinfo{author}{Wen, J.R.},
-  \bibinfo{year}{2023}.
+  J.}, et~al., \bibinfo{year}{2026}.
 \newblock \bibinfo{title}{A survey of large language models}.
-\newblock \bibinfo{journal}{arXiv preprint arXiv:2303.18223} \URLprefix
-  \url{https://arxiv.org/abs/2303.18223}.
+\newblock \bibinfo{journal}{Frontiers of Computer Science}
+  \bibinfo{volume}{20}, \bibinfo{pages}{2012627}.
+\newblock \URLprefix
+  \url{https://link.springer.com/article/10.1007/s11704-026-60308-3},
+  \DOIprefix\doi{10.1007/s11704-026-60308-3}.
 
 \end{thebibliography}

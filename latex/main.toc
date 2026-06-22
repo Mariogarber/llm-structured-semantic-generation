@@ -92,16 +92,16 @@
 \contentsline {section}{\numberline {10.2}Limitaciones}{96}{section.10.2}%
 \contentsline {section}{\numberline {10.3}Revisión de objetivos}{97}{section.10.3}%
 \contentsline {section}{\numberline {10.4}Trabajo futuro}{98}{section.10.4}%
-\contentsline {chapter}{\numberline {A}Configuración experimental y reproducibilidad}{107}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Entorno de hardware y software}{107}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Modelo base y cuantización}{108}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Configuración LoRA}{108}{section.A.3}%
-\contentsline {section}{\numberline {A.4}Hiperparámetros de entrenamiento por variante}{110}{section.A.4}%
-\contentsline {section}{\numberline {A.5}Configuración de inferencia y evaluación}{110}{section.A.5}%
-\contentsline {section}{\numberline {A.6}Reproducibilidad y trazabilidad}{117}{section.A.6}%
-\contentsline {section}{\numberline {A.7}Ejemplos de entrada y salida del mejor sistema}{117}{section.A.7}%
-\contentsline {chapter}{\numberline {B}Evaluación ética y matriz de riesgos}{121}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Clasificación bajo el AI Act}{121}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Factores RGPD}{121}{section.B.2}%
-\contentsline {section}{\numberline {B.3}Checklist ética AI HLEG}{122}{section.B.3}%
-\contentsline {section}{\numberline {B.4}Matriz de riesgos}{122}{section.B.4}%
+\contentsline {chapter}{\numberline {A}Configuración experimental y reproducibilidad}{109}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Entorno de hardware y software}{109}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Modelo base y cuantización}{110}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Configuración LoRA}{110}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Hiperparámetros de entrenamiento por variante}{112}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Configuración de inferencia y evaluación}{112}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Reproducibilidad y trazabilidad}{119}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Ejemplos de entrada y salida del mejor sistema}{119}{section.A.7}%
+\contentsline {chapter}{\numberline {B}Evaluación ética y matriz de riesgos}{123}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Clasificación bajo el AI Act}{123}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Factores RGPD}{123}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Checklist ética AI HLEG}{124}{section.B.3}%
+\contentsline {section}{\numberline {B.4}Matriz de riesgos}{124}{section.B.4}%
