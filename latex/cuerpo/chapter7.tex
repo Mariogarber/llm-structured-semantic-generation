@@ -13,11 +13,7 @@ preferencias automáticas sin perder la estabilidad estructural que lo hace úti
 
 DPO (\textit{Direct Preference Optimization}) permite ajustar una política a partir de pares de
 respuestas preferidas y rechazadas sin entrenar un modelo de recompensa separado ni ejecutar una fase
-de refuerzo \textit{online} \citep{rafailov2023dpo}. En este trabajo, esas preferencias no proceden de
-juicios humanos, sino de señales automáticas derivadas del parser, de la adecuación al prompt y de los
-checks de dominio Kubernetes. Precisamente por eso, antes de hablar del etiquetado de pares o del
-entrenamiento DPO, es necesario justificar cómo se generó el conjunto de candidatos sobre el que se
-construyeron esas preferencias.
+de refuerzo \textit{online} \citep{rafailov2023dpo}.
 
 %----------------------------------------------------------------------
 \section{Generación de candidatos para DPO}
@@ -143,8 +139,8 @@ A partir de la generación anterior se construyó el primer conjunto de preferen
 final contiene 454 tripletas \((x,y^+,y^-)\), distribuidas sobre 230 prompts de entrenamiento. En cada tripleta,
 \(y^+\) representa la candidata preferida y \(y^-\) la candidata rechazada. La selección se hizo a través de
 una interfaz desarrollada ad hoc, que permitía visualizar los candidatos de cada prompt con sus métricas y
-su valor de puntuación, de modo que podía elegir el par más informativo para cada unidad de prompt en base a
-mi criterio y al score preferencial definido en la sección anterior.
+su valor de puntuación, de modo que era posible elegir el par más informativo para cada unidad de prompt a partir del
+criterio de selección y del score preferencial definido en la sección anterior.
 
 Formalmente, DPO ajusta una política \(\pi_\theta\) frente a una política de referencia
 \(\pi_{\mathrm{ref}}\). Para cada tripleta de preferencia, la pérdida usada por DPO puede escribirse
@@ -176,6 +172,10 @@ partida y si un valor mayor de \(\beta\) desplaza la política de forma útil o 
 
 \begin{table}[htbp]
 \centering
+\caption{Comparación de validación entre el modelo de partida y los dos primeros ajustes DPO sobre
+         el dataset de preferencias V1. Todas las columnas se calculan sobre los 70 ejemplos del
+         split de validación.}
+\label{tab:ch7_dpo_v1_validation}
 \small
 \begin{tabularx}{\textwidth}{Xrrr}
 \toprule
@@ -197,10 +197,6 @@ Score KDV medio & 0,8310 & 0,8286 & 0,8429 \\
 Nivel KDV medio & 3,9000 & 3,9429 & 4,0286 \\
 \bottomrule
 \end{tabularx}
-\caption{Comparación de validación entre el modelo de partida y los dos primeros ajustes DPO sobre
-         el dataset de preferencias V1. Todas las columnas se calculan sobre los 70 ejemplos del
-         split de validación.}
-\label{tab:ch7_dpo_v1_validation}
 \end{table}
 
 La primera conclusión es que DPO no actúa aquí como una mejora uniforme del SFT. Con
@@ -289,7 +285,7 @@ actualizada:
 La Figura~\ref{fig:ch7_dpo_iterative_cycle} resume esta idea en forma de esquema. El punto central es que el ciclo no
 promete una mejora automática en cada vuelta. Lo que permite es hacer que el siguiente dataset de
 preferencias esté condicionado por los errores de la política que realmente se quiere seguir
-ajustando. En concreto para mi tarea, esto puede resultar más útil y producir mejores resultados que repetir
+ajustando. En concreto para esta tarea, esto puede resultar más útil y producir mejores resultados que repetir
 indefinidamente pares producidos por el modelo SFT inicial, cuyos \textit{gaps} pueden haber sido ya corregidos.
 
 \begin{figure}[htbp]
@@ -306,14 +302,18 @@ indefinidamente pares producidos por el modelo SFT inicial, cuyos \textit{gaps} 
 En la práctica, DPO v2 se generó a partir del modelo final de la ejecución con \(\beta=0{,}30\). 
 Se mantuvieron los 426 prompts de entrenamiento como universo de generación y se
 produjeron seis candidatos por prompt, con el mismo espíritu de diversidad controlada de la fase
-anterior. La diferencia está en la intuición que usé para el etiquetado. Cuando estudié las métricas en el dataset 
-v1 vi que predominaban pares de margen amplio y negativos
-intermedios. Sin embargo, en el dataset v2 busqué que los contrastes fueran más diagnósticos: cruces de compuerta
+anterior. La diferencia está en la intuición usada para el etiquetado. Al estudiar las métricas en el dataset
+v1 se observó que predominaban pares de margen amplio y negativos
+intermedios. Sin embargo, en el dataset v2 se buscó que los contrastes fueran más diagnósticos: cruces de compuerta
 Kubernetes, práctica de nivel KDV 5, invariantes de dominio, fidelidad al prompt y fidelidad
 estructural.
 
 \begin{table}[htbp]
 \centering
+\caption{Comparación entre los datasets de preferencias DPO v1 y DPO v2. DPO v2 conserva menos pares,
+         pero los pares retenidos tienen mayor margen medio y están más orientados a fallos
+         estructurales y de dominio.}
+\label{tab:ch7_dpo_v1_v2_dataset_summary}
 \small
 \begin{tabularx}{\textwidth}{Xrr}
 \toprule
@@ -332,22 +332,22 @@ Pares de cruce de compuerta & 40 & 62 \\
 Cruces con deriva de prompt & 20 & 1 \\
 \bottomrule
 \end{tabularx}
-\caption{Comparación entre los datasets de preferencias DPO v1 y DPO v2. DPO v2 conserva menos pares,
-         pero los pares retenidos tienen mayor margen medio y están más orientados a fallos
-         estructurales y de dominio.}
-\label{tab:ch7_dpo_v1_v2_dataset_summary}
 \end{table}
 
-No debemos interpretar la reducción de 454 a 229 pares como una pérdida de datos, sino como una selección más
+No conviene interpretar la reducción de 454 a 229 pares como una pérdida de datos, sino como una selección más
 cuidadosa. Se supone que el modelo DPO v1 ya habrá corregido parte de los errores más evidentes, por lo que el
 siguiente paso es centrarse en los contrastes más específicos de dominio y estructura. La
-Tabla~\ref{tab:ch7_dpo_v2_guardrails} muestra las principales restricciones en las que me apoyé para aceptar un
+Tabla~\ref{tab:ch7_dpo_v2_guardrails} muestra las principales restricciones usadas para aceptar un
 par. Todas ellas comparan la salida preferida con la rechazada y funcionan como barreras contra
-mejoras aparentes: por ejemplo, nunca aceptaré una candidata como \textit{chosen} si gana en dominio
+mejoras aparentes: por ejemplo, no se acepta una candidata como \textit{chosen} si gana en dominio
 pero pierde demasiada fidelidad al prompt o destruye la estructura de bloques.
 
 \begin{table}[htbp]
 \centering
+\caption{Restricciones principales del selector DPO v2. El objetivo no es maximizar una sola métrica,
+         sino evitar pares donde la preferencia sea contradictoria con el contrato estructural de la
+         tarea.}
+\label{tab:ch7_dpo_v2_guardrails}
 \small
 \begin{tabularx}{\textwidth}{lX}
 \toprule
@@ -360,10 +360,6 @@ Jerarquía \texttt{level} & \(\mathrm{LevelAcc}(y^+) \geq \mathrm{LevelAcc}(y^-)
 Campos obligatorios & \(\mathrm{ReqFields}(y^+) \geq \mathrm{ReqFields}(y^-) - 0{,}05\) \\
 \bottomrule
 \end{tabularx}
-\caption{Restricciones principales del selector DPO v2. El objetivo no es maximizar una sola métrica,
-         sino evitar pares donde la preferencia sea contradictoria con el contrato estructural de la
-         tarea.}
-\label{tab:ch7_dpo_v2_guardrails}
 \end{table}
 
 La composición de tipos de pares cambia de forma clara entre ambas iteraciones. Como se observa en la
@@ -402,7 +398,7 @@ iteración no solo introduce pares de dominio, sino también diferencias estruct
 Figura~\ref{fig:ch7_dpo_v2_metric_deltas} resume las diferencias medias en algunas de las métricas.
 La mejora relativa en exactitud de \texttt{level} y F1 de líneas es
 especialmente relevante para este caso, porque conecta la etapa de preferencias con la hipótesis
-central de la que partimos: la salida no debe evaluarse como una cadena plana, sino como una representación
+central del trabajo: la salida no debe evaluarse como una cadena plana, sino como una representación
 que tiene que preservar una jerarquía reconstruible.
 
 \begin{figure}[htbp]
@@ -413,6 +409,7 @@ que tiene que preservar una jerarquía reconstruible.
          apoyada por varias señales y no por una sola métrica aislada.}
 \label{fig:ch7_dpo_v2_metric_deltas}
 \end{figure}
+\clearpage
 
 \section{Segundo ajuste DPO sobre el dataset de preferencias v2}
 \label{sec:ch7_dpo_v2_training}
@@ -422,8 +419,8 @@ que tiene que preservar una jerarquía reconstruible.
 
 El objetivo de este entrenamiento en el nuevo dataset de preferencias era confirmar que un enfoque iterativo
 podría refinar la política y mejorar las métricas semánticas sin perder la estabilidad estructural. Además,
-para comprobar el efecto de otros hiperparámetros, se mantuvo el valor de \(\beta=0{,}30\), aunque aumenté el número
-de épocas a 3 y reduje el batch efectivo a 1 con acumulación de gradiente. 
+para comprobar el efecto de otros hiperparámetros, se mantuvo el valor de \(\beta=0{,}30\), aunque se aumentó el número
+de épocas a 3 y se redujo el batch efectivo a 1 con acumulación de gradiente.
 
 Como se observa en la Figura~\ref{fig:ch7_dpo_v2_lr1e5_training_dynamics}, el margen
 de recompensa aumenta de forma gradual y la \textit{reward accuracy} se acerca a valores altos sin que
@@ -433,19 +430,21 @@ de preferencias, y de la diferencia en su dificultad.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{figures/chapter7/fig7_12_dpo_v2_lr1e5_training_dynamics.png}
+\includegraphics[width=0.92\textwidth]{figures/chapter7/fig7_12_dpo_v2_lr1e5_training_dynamics.png}
 \caption{Evolución de la pérdida, el margen de recompensa, la precisión de recompensa y la norma del
          gradiente durante el entrenamiento DPO v2. Las líneas verticales punteadas
          separan aproximadamente las tres épocas.}
 \label{fig:ch7_dpo_v2_lr1e5_training_dynamics}
 \end{figure}
 
-La Tabla~\ref{tab:ch7_dpo_v2_lr1e5_validation} recoge la comparación principal entre el baseline del que
-partimos, DPO v1 con \(\beta=0{,}30\) y DPO v2. La lectura más relevante es la comparación entre la
+La Tabla~\ref{tab:ch7_dpo_v2_lr1e5_validation} recoge la comparación principal entre el baseline de partida,
+DPO v1 con \(\beta=0{,}30\) y DPO v2. La lectura más relevante es la comparación entre la
 mejor variante de la primera iteración y el nuevo ajuste sobre el dataset v2.
 
 \begin{table}[htbp]
 \centering
+\caption{Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta=0{,}30\) y DPO v2.}
+\label{tab:ch7_dpo_v2_lr1e5_validation}
 \small
 \begin{tabularx}{\textwidth}{Xrrr}
 \toprule
@@ -467,9 +466,8 @@ Score KDV medio & 0,2538 & 0,8429 & 0,8632 \\
 Nivel KDV medio & 0,2308 & 4,0286 & 4,1944 \\
 \bottomrule
 \end{tabularx}
-\caption{Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta=0{,}30\) y DPO v2.}
-\label{tab:ch7_dpo_v2_lr1e5_validation}
 \end{table}
+\clearpage
 
 La primera lectura es clara: frente al baseline, DPO v2 mantiene su superioridad por completo en el régimen de calidad. La
 parseabilidad YAML pasa de 30,77\,\% a 98,57\,\%, el F1 de líneas sube de 0,2086 a 0,7986, la
@@ -493,7 +491,7 @@ DPO v1 en las métricas estructurales finas: baja ligeramente el F1 de líneas, 
 efecto del \textit{Alignment-Tax}
 que ya comentaban algunos autores: el ajuste por preferencias puede mejorar la adecuación
 y el dominio, pero si no se controla con cuidado puede degradar la fidelidad estructural. Aunque en este caso apenas
-hemos visto degradación.
+se observa degradación.
 
 Esta lectura se ve mejor al separar la validez Kubernetes por niveles. La
 Figura~\ref{fig:ch7_dpo_v2_lr1e5_kdv_levels} muestra que DPO v2 mantiene los niveles 0 y 1, queda
@@ -517,7 +515,7 @@ el último salto de validez Kubernetes exige señales más específicas que las 
 
 La segunda variante sobre el dataset DPO v2 mantiene la misma política de partida y el mismo valor
 de \(\beta=0{,}30\), pero aumenta la tasa de aprendizaje a \(1\times10^{-4}\). La intención de este experimento
-era explorar nuevas líneas de hiperparámetros que no había modificado en anteriores iteraciones, para comprobar
+era explorar nuevas líneas de hiperparámetros no modificadas en iteraciones anteriores, para comprobar
 si un ajuste más agresivo podía mejorar la convergencia o el cierre del experimento. Sin embargo, el resultado
 no fue positivo, sino que mostró una dinámica de entrenamiento inestable y una validación peor que el caso anterior.
 
@@ -537,12 +535,15 @@ estabilidad estructural del formato.
          separan aproximadamente las tres épocas.}
 \label{fig:ch7_dpo_v2_lr1e4_training_dynamics}
 \end{figure}
+\clearpage
 
 La Tabla~\ref{tab:ch7_dpo_v2_lr1e4_validation} compara esta variante con el baseline, DPO v1 con
 \(\beta=0{,}30\) y el DPO v2 conservador.
 
 \begin{table}[htbp]
 \centering
+\caption{Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta=0{,}30\) y las dos variantes DPO v2.}
+\label{tab:ch7_dpo_v2_lr1e4_validation}
 \scriptsize
 \begin{tabularx}{\textwidth}{Xrrrr}
 \toprule
@@ -564,15 +565,14 @@ Score KDV medio & 0,2538 & 0,8429 & 0,8632 & 0,7701 \\
 Nivel KDV medio & 0,2308 & 4,0286 & 4,1944 & 3,2241 \\
 \bottomrule
 \end{tabularx}
-\caption{Comparación en validación entre el baseline zero-shot, DPO v1 con \(\beta=0{,}30\) y las dos variantes DPO v2.}
-\label{tab:ch7_dpo_v2_lr1e4_validation}
 \end{table}
+\clearpage
 
-En la comparativa vemos como aquellas métricas más relacionadas con la fidelidad al prompt y la semántica
+En la comparativa se observa cómo aquellas métricas más relacionadas con la fidelidad al prompt y la semántica
 del dominio se mantienen por encima del baseline, aunque con una caída respecto a las otras variantes.
 Sin embargo, las métricas estructurales sufren un deterioro más acusado. La salida parseable baja a 82,86\,\%, la
 coincidencia en número de líneas cae a 12,07\,\%, la exactitud de \texttt{level} se reduce a 0,5358 y el MAE
-de \texttt{level} sube a 0,6066. De nuevo, esto confirma que el \textit{Aligment-Tax} es un fenómeno real y que
+de \texttt{level} sube a 0,6066. De nuevo, esto confirma que el \textit{Alignment-Tax} es un fenómeno real y que
 forzar demasiado la optimización por preferencias puede pagar un coste estructural que no compensa en las métricas
 de calidad.
 

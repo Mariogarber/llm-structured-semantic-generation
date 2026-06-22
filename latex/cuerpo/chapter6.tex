@@ -184,7 +184,7 @@ a 35,04\,\%, y las métricas de contenido también aumentan: el F1 de línea cre
 de 22,13\,\% a 42,06\,\%. La señal principal, por tanto, no es que el \texttt{THM v1} sea inferior a otras ramas supervisadas, sino que la separación explícita entre contenido textual
 y nivel jerárquico produce una mejora sustantiva frente al modelo sin ajuste.
 
-El error absoluto medio de nivel confirma esa lectura inicial: baja de 0,7896 en el baseline a 0,239 en el \texttt{THM v1}. Ahora bien, debemos de tener en cuenta que el MAE medio 
+El error absoluto medio de nivel confirma esa lectura inicial: baja de 0,7896 en el baseline a 0,239 en el \texttt{THM v1}. Ahora bien, conviene tener en cuenta que el MAE medio
 puede ser bajo si el modelo acierta muchos niveles frecuentes y, al mismo tiempo, ignora por completo la región profunda de la jerarquía.
 
 La Figura~\ref{fig:ch6_train_loss} muestra las curvas de entrenamiento. La pérdida LM desciende de forma estable: caída rápida en la primera época, refinamiento progresivo en las dos
@@ -203,7 +203,7 @@ distribución de niveles gold en el split de validación junto con la distribuci
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.82\textwidth]{figures/chapter6/fig6_5_level_distribution.png}
-\caption{Distribución comparada de niveles: ground truth de validación (azul) y predicciones
+\caption{Distribución comparada de niveles: referencia de validación (azul) y predicciones
          del \texttt{THM v1} (rojo). El modelo emite cero predicciones para los
          niveles 5 a 8; la zona sombreada marca la región de colapso.}
 \label{fig:ch6_level_dist}
@@ -220,7 +220,7 @@ proviene de las instancias de nivel 8 es aproximadamente 115 veces más débil q
 profundos: el coste de equivocarse en ellos es mínimo comparado con el coste de equivocarse en los niveles frecuentes.
 
 Las muestras con parseo YAML fallido presentan una tasa de presencia de contenedores (\texttt{containers}) del 97,2\,\%,
-frente al 79,4\,\% en las muestras parseables. Los manifests de tipo Deployment o StatefulSet son precisamente los que generan estructuras de nivel 5 o superior a través del
+frente al 79,4\,\% en las muestras parseables. Los manifiestos de tipo Deployment o StatefulSet son precisamente los que generan estructuras de nivel 5 o superior a través del
 anidamiento \texttt{spec\textrightarrow{}template\textrightarrow{}spec\textrightarrow{}containers\textrightarrow{}volumeMounts}.
 
 
@@ -350,7 +350,7 @@ nulo. La variante \textit{centered} activa el recall profundo pero destruye el p
 \section{Análisis de errores del THO centrado}
 
 A primera vista, el THO centrado podía leerse como una degradación clara: las métricas globales eran malas, el YAML generado era mayoritariamente inválido y la utilidad práctica del
-modelo quedaba muy por debajo del THM v1. Sin embargo, precisamente porque esta variante consiguió activar niveles profundos por primera vez, debíamos de analizar que había ocurrido. El
+modelo quedaba muy por debajo del THM v1. Sin embargo, precisamente porque esta variante consiguió activar niveles profundos por primera vez, era necesario analizar qué había ocurrido. El
 análisis cualitativo de las salidas mostró que el problema no era solo la aparición de etiquetas raras, sino la posición en la que esas etiquetas aparecían dentro de la trayectoria
 del manifiesto.
 \label{sec:ch6_positional_drift}
@@ -502,9 +502,9 @@ empieza a mover algunas métricas de reconstrucción, lo que justifica explorar 
 \label{fig:ch6_positional_v1_quartiles}
 \end{figure}
 
-También observé que el cabezal no parecía ser ignorado. El análisis final mostró que la rama posicional tenía un peso no trivial: la norma
+También se observó que el cabezal no parecía ser ignorado. El análisis final mostró que la rama posicional tenía un peso no trivial: la norma
 asociada a sus dimensiones representaba aproximadamente un 47\,\% de la norma de la rama latente. Además, la correlación entre la posición de línea y el score ordinal fue alta
-($r=0{,}8460$). Con estos resultados vemos que la posición sí estaba afectando al score, pero lo hacía principalmente como una rampa temporal añadida
+($r=0{,}8460$). Con estos resultados se observa que la posición sí estaba afectando al score, pero lo hacía principalmente como una rampa temporal añadida
 al valor ordinal. Dado que la interacción se produce en la última capa lineal, el modelo solo puede expresar una forma del tipo:
 
 \[

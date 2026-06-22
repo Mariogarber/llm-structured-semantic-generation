@@ -4,7 +4,7 @@
 \label{ch::AnexoEtico}
 
 Este anexo conserva el detalle normativo y operativo que respalda el
-Capítulo~\ref{ch::chapter8}. La información se separa del cuerpo principal para que el
+Capítulo~\ref{ch::chapter9}. La información se separa del cuerpo principal para que el
 capítulo de impacto social mantenga un hilo argumental más breve, pero sin perder trazabilidad
 sobre la clasificación regulatoria, los factores RGPD, la checklist ética ni la matriz de
 riesgos.
@@ -72,6 +72,16 @@ del tratamiento, y ausencia de prevalencia sobre los derechos e intereses de los
 
 \section{Checklist ética AI HLEG}
 
+La checklist ética del AI HLEG se utiliza aquí como una revisión cualitativa del sistema,
+no como una certificación externa de cumplimiento. En la
+Tabla~\ref{tab:ch8_checklist} se resumen los requisitos que resultan más relevantes para
+el prototipo desarrollado: supervisión humana, transparencia, trazabilidad, seguridad,
+sesgos y comunicación de limitaciones. La mayoría de criterios se consideran cubiertos
+por el alcance acotado del sistema y por la separación entre generación y despliegue,
+mientras que los estados parciales señalan límites todavía abiertos, especialmente la
+diversidad del dataset, la posible confianza excesiva en salidas técnicamente plausibles
+y la necesidad de documentación explícita para un uso fuera del entorno experimental.
+
 \begin{table}[htbp]
 \centering
 \caption{Resumen de cumplimiento de los requisitos éticos del AI HLEG para el sistema
@@ -116,9 +126,9 @@ Conflicto de licencias &
 Configuraciones inseguras &
     Configs sintácticamente válidas pero con antipatrones de seguridad; 470 instancias en 70 muestras de validación (Tabla~\ref{tab:ch5_error_profile}) &
     Alto\,/\,Alto &
-    Revisión experta obligatoria; alineación posterior mediante señales de preferencia \\
+    Revisión experta obligatoria; validación externa; alineación posterior como señal auxiliar \\
 Leak de datos personales &
-    Memorización de patrones del corpus en outputs &
+    Memorización de patrones del corpus en salidas &
     Bajo\,/\,Bajo &
     Dataset sin datos personales; regularización durante SFT \\
 Sesgo de evaluadores &
@@ -140,3 +150,7 @@ Sesgo estructural por tamaño de dataset &
 \bottomrule
 \end{tabular}
 \end{table}
+
+La alineación posterior mediante preferencias debe entenderse aquí como una mitigación parcial, no como una garantía de corrección. En este trabajo las preferencias se construyen a
+partir de señales automáticas y sirven para desplazar el modelo hacia salidas más compatibles con los criterios de evaluación definidos, pero no sustituyen la revisión experta ni
+equivalen a una validación completa de seguridad Kubernetes.

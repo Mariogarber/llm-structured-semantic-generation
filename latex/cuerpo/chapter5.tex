@@ -79,7 +79,7 @@ En el baseline, esta brecha alcanza \(0{,}9286 - 0{,}3077 = 0{,}6209\), es decir
 \label{fig:ch5_baseline_states}
 \end{figure}
 
-La paradoja se disuelve cuando se examina qué falla exactamente. El modelo produce un output
+La paradoja se disuelve cuando se examina qué falla exactamente. El modelo produce una salida
 estructurado reconocible, es decir, el bloque TSV se puede parsear. Sin embargo, la asignación de la columna
 \texttt{level} es inconsistente a medida que avanza la secuencia generada. En particular, los
 desajustes acumulativos en la indentación a lo largo de varias decenas de tokens introducen
@@ -97,7 +97,7 @@ claves semánticas esperadas aparecen en la predicción. El
 del prompt (el tipo de recurso solicitado, el nombre, el número de réplicas, el namespace, etc.)
 se satisfacen en apenas una de cada cinco muestras. Y solo el 70{,}59\,\% de las muestras
 produce recursos con todos los campos obligatorios presentes. En conjunto, el baseline refleja
-que el modelo reconoce el dominio a nivel de superficie, y produce un output con aspecto de
+que el modelo reconoce el dominio a nivel de superficie, y produce una salida con aspecto de
 manifiesto. Sin embargo, carece tanto del control jerárquico como de la cobertura semántica que
 necesita el parser para que ese manifiesto sea estructuralmente válido y funcionalmente completo.
 Ese es el suelo empírico a partir del cual operan las etapas supervisadas.
@@ -188,8 +188,8 @@ tres épocas de entrenamiento.
 
 La convergencia es rápida, especialmente en los primeros pasos. La pérdida cae de 1{,}32 a
 valores inferiores a 0{,}2 antes del fin de la primera época (paso~53), lo que sugiere que el
-modelo asimila la estructura del formato \texttt{blocks\_tsv\_v1} con pocas iteraciones. Las
-Las épocas segunda y tercera refinan los casos residuales ---posiblemente manifiestos con
+modelo asimila la estructura del formato \texttt{blocks\_tsv\_v1} con pocas iteraciones. A
+partir de ahí, las dos épocas posteriores refinan los casos residuales ---posiblemente manifiestos con
 mayor profundidad jerárquica o con múltiples documentos, aunque el log de entrenamiento no
 desglosa la pérdida por muestra--- sin descensos tan abruptos, sino con una reducción
 progresiva y ruidosa que es esperable en un entrenamiento con batch efectivo pequeño. Cabe
@@ -269,7 +269,7 @@ con las prácticas que el evaluador de dominio considera obligatorias.
 
 Un experimento adicional permite precisar esa afirmación. Se evaluó un run de entrenamiento
 independiente de una sola época con configuración idéntica
-(\texttt{serialized-sft-a-v1-1epoch-20260507-1528}), cuyo checkpoint final (paso~53)
+(\texttt{serialized-sft-a-v1-1epoch-}\allowbreak\texttt{20260507-1528}), cuyo checkpoint final (paso~53)
 corresponde al cierre de la primera época; el checkpoint equivalente del run de tres épocas
 fue descartado por la política de retención de checkpoints. El objetivo es desagregar cuánto
 del salto total produce cada fase de entrenamiento. Con una sola época el modelo ya alcanza una tasa de
@@ -338,21 +338,24 @@ el evaluador automático en el split de validación, acumulados sobre todos los 
          muestra puede contener varios recursos y contribuir con múltiples instancias
          del mismo tipo de error.}
 \label{tab:ch5_error_profile}
-\begin{tabular}{p{0.38\textwidth}p{0.29\textwidth}rp{0.12\textwidth}}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}p{0.31\textwidth}p{0.36\textwidth}rp{0.15\textwidth}@{}}
 \toprule
 \textbf{Tipo de error} & \textbf{Descripción} & \textbf{Inst.} & \textbf{Categoría} \\
 \midrule
-\texttt{missing\_resource\_requirement}
+\shortstack[l]{\texttt{missing\_resource}\\\texttt{\_requirement}}
     & Sin límites de CPU/memoria & 261 & Seguridad \\
-\texttt{missing\_run\_as\_non\_root}
+\shortstack[l]{\texttt{missing\_run}\\\texttt{\_as\_non\_root}}
     & Contenedor ejecutable como root & 71 & Seguridad \\
-\texttt{missing\_read\_only\_root\_filesystem}
+\shortstack[l]{\texttt{missing\_read\_only}\\\texttt{\_root\_filesystem}}
     & FS raíz no read-only & 71 & Seguridad \\
 \texttt{latest\_image\_tag}
     & Imagen con etiqueta \texttt{:latest} & 67 & Seguridad \\
-\texttt{volume\_mount\_without\_volume}
+\shortstack[l]{\texttt{volume\_mount}\\\texttt{\_without\_volume}}
     & Volumen montado sin declaración & 5 & Semántica \\
-\texttt{service\_selector\_without\_workload}
+\shortstack[l]{\texttt{service\_selector}\\\texttt{\_without\_workload}}
     & Selector sin workload asociado & 1 & Semántica \\
 \texttt{yaml\_parse}
     & Fallo residual de parseo YAML & 1 & Estructura \\
@@ -363,6 +366,7 @@ el evaluador automático en el split de validación, acumulados sobre todos los 
 \multicolumn{2}{l}{Errores estructurales y semánticos (subtotal)} & 8 & \\
 \bottomrule
 \end{tabular}
+\renewcommand{\arraystretch}{1}
 \end{table}
 
 La distribución es llamativa por su asimetría. Los cuatro antipatrones de seguridad acumulan
@@ -382,9 +386,9 @@ La Figura~\ref{fig:ch5_domain_errors} lo visualiza.
 \includegraphics[width=0.92\textwidth]{figures/chapter5/fig5_4_domain_errors.png}
 \caption{Distribución de errores de dominio del \texttt{serialized\_sft} en el split
          de validación. Los cuatro antipatrones de seguridad (rojo) acumulan 470 instancias;
-         los errores de semántica de dominio (verde) se limitan a 7 instancias. El perfil
-         refleja que el SFT ha resuelto el problema estructural pero ha heredado los patrones
-         inseguros presentes en los datos de entrenamiento.}
+         el resto de errores aparece con valores aislados frente a ese bloque dominante.
+         El perfil refleja que el SFT ha resuelto el problema estructural principal, pero ha
+         heredado patrones inseguros presentes en los datos de entrenamiento.}
 \label{fig:ch5_domain_errors}
 \end{figure}
 

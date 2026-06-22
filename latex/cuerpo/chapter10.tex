@@ -8,14 +8,14 @@
 \label{sec:ch10_conclusiones_principales}
 %----------------------------------------------------------------------
 
-Para cerrar el trabajo con las conclusiones, queremos recuperar la pregunta con la que se
+Para cerrar el trabajo con las conclusiones, conviene recuperar la pregunta con la que se
 inició el planteamiento. Y es que la pregunta que ha guiado este trabajo no era únicamente si un modelo de lenguaje puede
 generar texto con apariencia de YAML. Ese sería, en cierto modo, el planteamiento más
 superficial del problema. La cuestión de fondo era si un modelo autoregresivo, cuyo
 mecanismo natural consiste en producir una secuencia plana de tokens, puede generar una
 salida cuya corrección depende de una organización jerárquica: documentos, líneas, listas,
 claves, valores y niveles de indentación que deben encajar entre sí. Los resultados del
-Capítulo~\ref{ch::chapter9} permiten responder a esa pregunta con una conclusión matizada:
+Capítulo~\ref{ch::chapter8} permiten responder a esa pregunta con una conclusión matizada:
 la estructura puede hacerse mucho más fiable cuando se convierte en un objeto explícito de
 generación, reconstrucción y evaluación, pero eso no implica que cualquier mecanismo
 explícito de predicción jerárquica mejore automáticamente al aprendizaje serializado.
@@ -33,7 +33,7 @@ modelo aprende a producir una representación intermedia que un parser determini
 de forma estable en manifiestos YAML. En otras palabras, la supervisión no solo mejora la
 fluidez de la salida, sino que cambia el régimen del sistema: de generar texto
 aproximadamente estructurado pasa a generar bloques que conservan suficiente información
-jerárquica como para ser reconstruidos. De esta forma, hemos conseguido que un modelo autoregresivo, cuya
+jerárquica como para ser reconstruidos. De esta forma, se ha conseguido que un modelo autoregresivo, cuya
 naturaleza es secuencial, pueda producir una salida que respeta una jerarquía de niveles y
 listas, y que esa jerarquía sea observable, medible y evaluable.
 
@@ -120,21 +120,21 @@ consiguen mover el modelo en una dirección útil sin romper la superficie de sa
 alcanza el 100{,}00\,\% de parseabilidad YAML en test, mejora el F1 de requisitos del
 prompt hasta el 72{,}60\,\%, eleva el F1 de claves semánticas hasta el 94{,}50\,\% y
 obtiene el mejor \texttt{kubernetes\_domain\_score}, con un 84{,}62\,\%. A pesar de que la
-mejora no es absoluta, partimos de un modelo que ya era muy capaz, y el hecho de conseguir
+mejora no es absoluta, se parte de un modelo que ya era muy capaz, y el hecho de conseguir
 un avance adicional en métricas de contenido y adecuación al prompt es un resultado
 significativo. La conclusión es que, una vez que la jerarquía se ha estabilizado, la optimización
 de preferencias puede mejorar la adecuación al dominio y la fidelidad a los requisitos del
 prompt sin comprometer la estructura.
 
-Este paso fue importante además porque nos permitión obtener un modelo que genera manifiestos Kubernetes
+Este paso fue importante además porque permitió obtener un modelo que genera manifiestos Kubernetes
 más correctos que los que se encontraban en el propio conjunto de test. Este es un resultado
-muy favorable para esta técnica, ya que indica que el modelos se ha aprovechado de conocimiento externo
+muy favorable, ya que indica que el modelo se ha aprovechado de conocimiento externo
 al conjunto de datos, y que ha aprendido a generalizar más allá de los ejemplos, superando en calidad a las
 muestras contra las que se evaluaba.
 
-Por último, el planteamiento iterativo de DPO nos permitió explorar una posible estrategia de mejora online,
-manteniendo las ventajas de ligereza y eficiencia de la optimización de preferencias. Pudimos apreciar que
-la construcción del conjunto de preferencias en función del aprendizaje de tu política base, y tu objetivo de
+Por último, el planteamiento iterativo de DPO permitió explorar una posible estrategia de mejora \textit{online},
+manteniendo las ventajas de ligereza y eficiencia de la optimización de preferencias. Se pudo apreciar que
+la construcción del conjunto de preferencias en función del aprendizaje de la política base y del objetivo de
 entrenamiento, puede ser una estrategia muy efectiva para iterar sobre el modelo y mejorar su desempeño en 
 tareas específicas. Aunque por otro lado suponga un coste computacional adicional.
 
@@ -168,11 +168,11 @@ de preferencia humana ha permitido valorar mejor aspectos como la adecuación al
 manifiesto o la utilidad práctica de la configuración generada. Sin embargo, este tipo de anotación exige revisar
 salidas técnicas con detalle y aplicar criterios consistentes sobre un dominio que no siempre admite una decisión trivial.
 Esta dificultad explica que el trabajo se apoye en señales semiautomáticas de preferencia para las etapas
-posteriores de optimización, donde he necesitado el uso de métricas de apoyo para generar preferencias de forma más eficiente y escalable.
+posteriores de optimización, donde se han utilizado métricas de apoyo para generar preferencias de forma más eficiente y escalable.
 
 \section{Revisión de objetivos}
 
-A continuación vamos a revisitar los objetivos planteados en el Capítulo~\ref{ch::chapter1} y comprobar cómo se han completado a lo largo
+A continuación se revisan los objetivos planteados en el Capítulo~\ref{ch::chapter1} y se comprueba cómo se han completado a lo largo
 del trabajo.
 
 En primer lugar, el trabajo abordó la caracterización del conjunto de datos y la definición de una forma adecuada de evaluar el problema.
@@ -197,7 +197,7 @@ propuesta serializada resultó más robusta en la salida final, mientras que la 
 la dificultad de coordinar contenido, nivel predicho y reconstrucción YAML dentro de un mismo proceso generativo.
 
 La evaluación experimental completó esa comparación y permitió identificar tanto avances como límites. Los resultados del
-Capítulo~\ref{ch::chapter9} muestran una mejora clara respecto a la línea base en parseabilidad, estructura y adecuación al
+Capítulo~\ref{ch::chapter8} muestran una mejora clara respecto a la línea base en parseabilidad, estructura y adecuación al
 prompt, especialmente en la rama \texttt{serialized\_sft} y en la posterior optimización mediante DPO. Al mismo tiempo, los
 experimentos con predicción explícita de nivel, variantes ordinales y condicionamiento posicional muestran que introducir más
 estructura en la arquitectura no garantiza por sí solo una salida final más estable. Esta parte responde al objetivo de evaluar

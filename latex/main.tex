@@ -51,11 +51,11 @@ titlepage=on            % Separa las páginas con título
 
 \pagenumbering{roman}			    % roman page numbering 
 \pagestyle{plain}				    % empty header, just page number in footer
-\input{preliminares/3_dedicatoria}
-\cleardoublepage
-
-\input{preliminares/4_agradecimientos_y_financiacion}   % dedication & cknowledgement (optional)
-\cleardoublepage
+% Optional dedication and acknowledgements are omitted until final text exists.
+% \input{preliminares/3_dedicatoria}
+% \cleardoublepage
+% \input{preliminares/4_agradecimientos_y_financiacion}
+% \cleardoublepage
 
 \input{preliminares/5_resumen}  % abstract (in English and Spanish)
 \newpage
@@ -112,6 +112,9 @@ titlepage=on            % Separa las páginas con título
 % \printbibliography[title=Referencias, heading=bibintoc]
 
 \appendix
+\makeatletter
+\@mainmattertrue
+\makeatother
 \include{cuerpo/x-Anexos}
 \include{cuerpo/x-AnexoEtico}
 

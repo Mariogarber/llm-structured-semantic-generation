@@ -1,12 +1,7 @@
 % called by main.tex
 %
-\chapter{Introduction}
+\chapter{Introducción}
 \label{ch::chapter1}
-
-Esta plantilla sigue el formato de tesis de la \textit{Universidad Politécnica de Madrid} (UPM), que se encuentra disponible\href{https://www.upm.es/Estudiantes/Estudios_Titulaciones/Estudios_Doctorado/Tesis/NormasRedaccionTesis}{aquí}.
-
-
-En el siguiente capítulo se proporciona información acerca de las reglas parar preparar el documento de la tesis, así como la explicación del uso de esta plantilla.
 
 \section{Motivación}
 
@@ -60,18 +55,18 @@ x \xrightarrow{f_\theta} B = \bigl((d_i, j_i, \ell_i, t_i)\bigr)_{i=1}^{n}
 
 En esta notación, \(x\) representa el prompt de entrada, \(B\) la secuencia de bloques predicha, \(d_i\) el índice de documento, \(j_i\) la posición de línea, \(\ell_i\) el nivel jerárquico y \(t_i\) el texto de la línea. El operador \(\mathcal{P}\) representa el parser determinista que reconstruye el manifiesto YAML final \(y\), en una línea de trabajo relacionada con el uso de parsers y gramáticas como mecanismos de control estructural sobre la generación autoregresiva \citep{scholak2021picard, geng2023grammar}. La expresión no pretende fijar una arquitectura concreta, sino hacer visible la idea metodológica que atraviesa el trabajo: el modelo no se evalúa solo por producir texto, sino por producir una representación intermedia que pueda convertirse de forma segura en una estructura YAML.
 
-Metodológicamente, el proyecto se apoyará en un modelo base autoregresivo de tipo \textit{decoder-only}, adaptado mediante técnicas de ajuste fino eficiente, como LoRA, sobre un conjunto de pares \textit{prompt--salida} \citep{qwen2024qwen25, hu2021lora, dettmers2023qlora}. A partir de esa base, se 
-compararán dos estrategias principales para estudiar la robustez estructural del sistema. La primera, denominada en el repositorio \texttt{serialized\_sft}, mantendrá la jerarquía en la superficie textual de salida: el modelo generará una representación 
-serializada en la que cada línea contiene tanto el contenido YAML como su nivel jerárquico, y un parser determinista se encargará de reconstruir el manifiesto final sin inventar claves ni reparar errores semánticos de forma oculta.
+Metodológicamente, el proyecto se apoya en un modelo base autoregresivo de tipo \textit{decoder-only}, adaptado mediante técnicas de ajuste fino eficiente, como LoRA, sobre un conjunto de pares \textit{prompt--salida} \citep{qwen2024qwen25, hu2021lora, dettmers2023qlora}. A partir de esa base, se
+comparan dos estrategias principales para estudiar la robustez estructural del sistema. La primera, denominada en el repositorio \texttt{serialized\_sft}, mantiene la jerarquía en la superficie textual de salida: el modelo genera una representación
+serializada en la que cada línea contiene tanto el contenido YAML como su nivel jerárquico, y un parser determinista se encarga de reconstruir el manifiesto final sin inventar claves ni reparar errores semánticos de forma oculta.
 
 La segunda estrategia, denominada \texttt{two\_head\_sft}, parte de una intuición distinta. Si el YAML se interpreta como un árbol proyectado sobre una secuencia de líneas, el orden de los nodos queda dado por el propio orden de generación del modelo. 
-Lo que no queda determinado de forma fiable es la profundidad de cada entrada. Por ello, esta rama propone separar la predicción del contenido de la predicción de la jerarquía: el modelo generará el texto de cada línea, mientras que un cabezal estructural 
-explícito predecirá el valor \texttt{level}. La comparación entre ambas ramas permitirá estudiar si la jerarquía debe aprenderse como una parte más de la secuencia generada o si conviene modelarla como una señal estructural diferenciada.
+Lo que no queda determinado de forma fiable es la profundidad de cada entrada. Por ello, esta rama propone separar la predicción del contenido de la predicción de la jerarquía: el modelo genera el texto de cada línea, mientras que un cabezal estructural
+explícito predice el valor \texttt{level}. La comparación entre ambas ramas permite estudiar si la jerarquía debe aprenderse como una parte más de la secuencia generada o si conviene modelarla como una señal estructural diferenciada.
 
-La evaluación del sistema se diseñará específicamente para el problema de generación estructurada. Por ello, no se tomarán como referencia principal métricas textuales superficiales, una limitación ya observada en la evaluación de artefactos técnicos y salidas estructuradas generadas por LLMs \citep{chen2021evaluating, xu2024cloudevalyaml, yang2025structeval}, ya que dos configuraciones pueden diferir léxicamente y, sin embargo, 
-ser funcionalmente equivalentes, o parecer similares en texto y ser estructuralmente incorrectas. En su lugar, se definirán métricas en varios niveles: métricas sintácticas, como el porcentaje de salidas YAML parseables; métricas estructurales, como la 
+La evaluación del sistema se diseña específicamente para el problema de generación estructurada. Por ello, no se toman como referencia principal métricas textuales superficiales, una limitación ya observada en la evaluación de artefactos técnicos y salidas estructuradas generadas por LLMs \citep{chen2021evaluating, xu2024cloudevalyaml, yang2025structeval}, ya que dos configuraciones pueden diferir léxicamente y, sin embargo,
+ser funcionalmente equivalentes, o parecer similares en texto y ser estructuralmente incorrectas. En su lugar, se definen métricas en varios niveles: métricas sintácticas, como el porcentaje de salidas YAML parseables; métricas estructurales, como la
 reconstrucción segura desde bloques, la coincidencia de niveles \texttt{level} o la consistencia de la jerarquía; métricas de dominio Kubernetes, como la presencia de campos requeridos y la coherencia entre selectores, etiquetas, contenedores, puertos 
-o volúmenes; y métricas de adecuación al prompt, destinadas a medir si la configuración generada refleja correctamente la intención del usuario. Esta evaluación se complementará con un análisis sistemático de errores para identificar patrones recurrentes 
+o volúmenes; y métricas de adecuación al prompt, destinadas a medir si la configuración generada refleja correctamente la intención del usuario. Esta evaluación se complementa con un análisis sistemático de errores para identificar patrones recurrentes
 y comprender mejor las limitaciones de cada estrategia.
 
 \section{Objetivos}
@@ -80,7 +75,7 @@ El objetivo general de este Trabajo Fin de Máster es diseñar y evaluar un sist
 instrucciones en lenguaje natural, evaluando no solo la validez sintáctica 
 de la salida, sino también su coherencia estructural y semántica respecto al prompt de entrada.
 
-A partir de este objetivo general, se plantean los siguientes objetivos específicos:
+A partir de este objetivo general, se fijan los siguientes objetivos específicos:
 
 \begin{itemize}
     \item Analizar y caracterizar el dataset disponible, estudiando su tamaño, diversidad, complejidad estructural y posibles limitaciones para el entrenamiento del modelo.
@@ -91,7 +86,7 @@ A partir de este objetivo general, se plantean los siguientes objetivos específ
     
     \item Adaptar un modelo base de lenguaje al dominio de generación de configuraciones de Kubernetes mediante técnicas de ajuste fino eficientes.
     
-    \item Comparar una estrategia de ajuste supervisado que serializa el nivel jerárquico como texto, \texttt{serialized\_sft}, con una estrategia que incorpora un cabezal estructural explícito para predecir dicho nivel, \texttt{two\_head\_sft}.
+    \item Comparar una estrategia de ajuste supervisado que serializa el nivel jerárquico como texto, \texttt{serialized\_sft}, con una estrategia que incorpora un cabezal estructural explícito para predecir dicho nivel, \textit{Two-Head Model}.
     
     \item Evaluar experimentalmente el sistema propuesto sobre un conjunto de prueba representativo, identificando fortalezas, limitaciones y patrones de error tanto en el contenido generado como en la jerarquía predicha.
     

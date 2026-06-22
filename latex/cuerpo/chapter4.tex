@@ -160,7 +160,7 @@ trabajo) en las proyecciones de atención del modelo. Esto permite modificar su 
 recursos de un entrenamiento completo \citep{hu2021lora}.
 
 En este trabajo la principal diferencia entre ramas es la forma en la que se representa y
-supervisa la jerarquía. Recordemos que partimos de la hipótesis de que los errores de generación estructurada no se explican solo
+supervisa la jerarquía. Debe recordarse que se parte de la hipótesis de que los errores de generación estructurada no se explican solo
 por semántica de contenido, sino también por cómo la arquitectura aprende la señal de profundidad.
 
 \section{Métricas de evaluación: familias y utilidad}
@@ -344,7 +344,7 @@ Las métricas anteriores responden a preguntas locales: si una línea tiene el n
 Ninguna de ellas, por sí sola, dice si un manifiesto es operativamente aceptable. Para eso el sistema define una escala de validez de dominio
 estructurada en seis compuertas secuenciales, numeradas del 0 al 5, que se evalúan en orden y se detienen en la primera que falla.
 
-La idea es imitar la cadena de checks que un operador real aplicaría antes de aplicar un manifiesto a un clúster, teniendo en cuenta que los defectos de configuración no se reducen
+La idea es imitar la cadena de comprobaciones que un operador real aplicaría antes de aplicar un manifiesto a un clúster, teniendo en cuenta que los defectos de configuración no se reducen
 a errores de sintaxis y pueden requerir validaciones progresivas \citep{zhang2025kubernetesdefects, kakarla2024diffy}: primero que el YAML sea parseable,
 luego que la representación interna sea coherente, después que el recurso sea reconocible como Kubernetes, y así progresivamente hasta llegar a
 requisitos de calidad estática. El nivel que alcanza la predicción antes de fallar (o 5 si supera todas las compuertas) es el
@@ -377,7 +377,7 @@ la tasa de paso del nivel~\(\ell\) sobre un conjunto de evaluación \(S\) puede 
 \]
 
 Además del nivel alcanzado y de la tasa de paso de cada compuerta, el evaluador conserva una señal graduada denominada \texttt{kubernetes\_domain\_validity\_score}. Para cada
-muestra se construye un vector binario de seis componentes \(Q_i = (q_{i,0}, \ldots, q_{i,5})\), donde \(q_{i,r}=1\) si el check individual asociado al nivel \(r\) se satisface
+muestra se construye un vector binario de seis componentes \(Q_i = (q_{i,0}, \ldots, q_{i,5})\), donde \(q_{i,r}=1\) si la comprobación individual asociada al nivel \(r\) se satisface
 y \(q_{i,r}=0\) en caso contrario. El score KDV de la muestra y su media agregada se definen como:
 
 \[
@@ -391,7 +391,7 @@ y \(q_{i,r}=0\) en caso contrario. El score KDV de la muestra y su media agregad
 
 La media \(\overline{\mathrm{KDV}}\) se registra en los experimentos como \texttt{average\_\allowbreak kubernetes\_\allowbreak domain\_\allowbreak validity\_\allowbreak score}.
 Esta magnitud es más suave que \texttt{kubernetes\_\allowbreak domain\_\allowbreak gate\_\allowbreak pass\_\allowbreak rate}: una muestra que no alcanza el nivel~5 puede seguir
-recibiendo crédito parcial por los checks que sí satisface, aunque el nivel acumulativo se detenga en la primera compuerta fallida. Precisamente por eso resulta útil en comparaciones
+recibiendo crédito parcial por las comprobaciones que sí satisface, aunque el nivel acumulativo se detenga en la primera compuerta fallida. Precisamente por eso resulta útil en comparaciones
 intermedias y en la construcción de preferencias automáticas, donde muchas candidatas pueden fallar la compuerta final pero diferir claramente en calidad de dominio.
 
 La definición acumulativa de \(\mathrm{pass}_{\ell}\) convierte la escala en un criterio legible de comparación

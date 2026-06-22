@@ -1,12 +1,11 @@
 \babel@toc {english}{}\relax 
-\contentsline {section}{Agradecimientos}{iii}{section*.1}%
-\contentsline {section}{Abstract}{v}{section*.2}%
-\contentsline {section}{Resumen}{vi}{section*.3}%
+\contentsline {section}{Abstract}{i}{section*.1}%
+\contentsline {section}{Resumen}{ii}{section*.2}%
 \babel@toc {spanish}{}\relax 
-\contentsline {section}{Índice de figuras}{ix}{chapter*.4}%
-\contentsline {section}{Índice de tablas}{xiv}{chapter*.5}%
-\contentsline {section}{Abreviaturas y acrónimos}{xviii}{section*.7}%
-\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{Índice de figuras}{v}{chapter*.3}%
+\contentsline {section}{Índice de tablas}{x}{chapter*.4}%
+\contentsline {section}{Abreviaturas y acrónimos}{xiv}{section*.6}%
+\contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Motivación}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Descripción}{2}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Objetivos}{4}{section.1.3}%
@@ -34,8 +33,8 @@
 \contentsline {subsection}{\numberline {3.3.3}Requisitos capturados}{25}{subsection.3.3.3}%
 \contentsline {subsection}{\numberline {3.3.4}Correlación entre longitud y complejidad}{26}{subsection.3.3.4}%
 \contentsline {section}{\numberline {3.4}Observaciones con implicaciones de diseño}{26}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}La pared del nivel 5}{26}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Anti-patrones de seguridad presentes en el training data}{27}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.1}La pared del nivel 5}{27}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Anti-patrones de seguridad presentes en los datos de entrenamiento}{27}{subsection.3.4.2}%
 \contentsline {chapter}{\numberline {4}Diseño Experimental y Métricas de Evaluación}{29}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Planteamiento experimental y comparabilidad}{29}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Formulaciones supervisadas}{29}{subsection.4.1.1}%
@@ -61,47 +60,48 @@
 \contentsline {section}{\numberline {6.3}Resultados del experimento base: THM v1}{53}{section.6.3}%
 \contentsline {subsection}{\numberline {6.3.1}Colapso hacia los niveles superficiales}{55}{subsection.6.3.1}%
 \contentsline {section}{\numberline {6.4}Los modelos clasificadores ordinales}{56}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Variante inicial y tasa de aprendizaje de umbrales (lr25)}{58}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}MLP de tres capas (mlp3)}{58}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.1}Variante inicial y tasa de aprendizaje de umbrales (lr25)}{57}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}MLP de tres capas (mlp3)}{57}{subsection.6.4.2}%
 \contentsline {subsection}{\numberline {6.4.3}Umbrales centrados: el primer acceso a los niveles profundos}{58}{subsection.6.4.3}%
 \contentsline {section}{\numberline {6.5}Análisis de errores del THO centrado}{59}{section.6.5}%
-\contentsline {subsection}{\numberline {6.5.1}Condicionamiento posicional del cabezal ordinal}{62}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.1}Condicionamiento posicional del cabezal ordinal}{61}{subsection.6.5.1}%
 \contentsline {subsection}{\numberline {6.5.2}Segundo experimento posicional: modulación FiLM/gating}{64}{subsection.6.5.2}%
 \contentsline {chapter}{\numberline {7}Alineación Mediante Optimización de Preferencias Directa}{67}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Generación de candidatos para DPO}{67}{section.7.1}%
 \contentsline {section}{\numberline {7.2}Primer ajuste DPO sobre el dataset de preferencias V1}{71}{section.7.2}%
 \contentsline {section}{\numberline {7.3}Generación iterativa del dataset DPO v2}{72}{section.7.3}%
 \contentsline {subsection}{\numberline {7.3.1}Planteamiento del enfoque iterativo}{72}{subsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.3.2}Construcción del dataset DPO V2}{74}{subsection.7.3.2}%
-\contentsline {section}{\numberline {7.4}Segundo ajuste DPO sobre el dataset de preferencias v2}{76}{section.7.4}%
-\contentsline {subsection}{\numberline {7.4.1}Experimento con lr 1e-5}{76}{subsection.7.4.1}%
-\contentsline {subsection}{\numberline {7.4.2}Experimento con lr 1e-4}{79}{subsection.7.4.2}%
-\contentsline {chapter}{\numberline {8}Resultados}{83}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Resultados globales en conjunto test}{83}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Comentarios sobre la comparación}{84}{section.8.2}%
-\contentsline {chapter}{\numberline {9}Impacto Social y Ética}{87}{chapter.9}%
-\contentsline {section}{\numberline {9.1}Naturaleza y alcance del sistema}{87}{section.9.1}%
-\contentsline {section}{\numberline {9.2}Encaje regulatorio y jurídico}{88}{section.9.2}%
-\contentsline {section}{\numberline {9.3}Riesgos principales}{89}{section.9.3}%
-\contentsline {section}{\numberline {9.4}Medidas de mitigación y responsabilidad}{89}{section.9.4}%
-\contentsline {section}{\numberline {9.5}Resumen de impacto}{90}{section.9.5}%
-\contentsline {chapter}{\numberline {10}Conclusiones y Trabajo Futuro}{91}{chapter.10}%
-\contentsline {section}{\numberline {10.1}Conclusiones principales}{91}{section.10.1}%
-\contentsline {subsection}{\numberline {10.1.1}Análisis de la propuesta serializada}{91}{subsection.10.1.1}%
-\contentsline {subsection}{\numberline {10.1.2}Análisis de la propuesta Two-Head}{92}{subsection.10.1.2}%
-\contentsline {subsection}{\numberline {10.1.3}Análisis de la optimización por preferencias}{93}{subsection.10.1.3}%
-\contentsline {section}{\numberline {10.2}Limitaciones}{94}{section.10.2}%
-\contentsline {section}{\numberline {10.3}Revisión de objetivos}{95}{section.10.3}%
-\contentsline {section}{\numberline {10.4}Trabajo futuro}{96}{section.10.4}%
-\contentsline {chapter}{Configuración experimental y reproducibilidad}{105}{appendix*.74}%
-\contentsline {section}{\numberline {.1}Entorno de hardware y software}{105}{section.Alph0.1}%
-\contentsline {section}{\numberline {.2}Modelo base y cuantización}{106}{section.Alph0.2}%
-\contentsline {section}{\numberline {.3}Configuración LoRA}{106}{section.Alph0.3}%
-\contentsline {section}{\numberline {.4}Hiperparámetros de entrenamiento por variante}{108}{section.Alph0.4}%
-\contentsline {section}{\numberline {.5}Configuración de inferencia y evaluación}{114}{section.Alph0.5}%
-\contentsline {section}{\numberline {.6}Reproducibilidad y trazabilidad}{115}{section.Alph0.6}%
-\contentsline {chapter}{Evaluación ética y matriz de riesgos}{117}{appendix*.89}%
-\contentsline {section}{\numberline {.7}Clasificación bajo el AI Act}{117}{section.Alph0.7}%
-\contentsline {section}{\numberline {.8}Factores RGPD}{117}{section.Alph0.8}%
-\contentsline {section}{\numberline {.9}Checklist ética AI HLEG}{118}{section.Alph0.9}%
-\contentsline {section}{\numberline {.10}Matriz de riesgos}{118}{section.Alph0.10}%
+\contentsline {subsection}{\numberline {7.3.2}Construcción del dataset DPO V2}{73}{subsection.7.3.2}%
+\contentsline {section}{\numberline {7.4}Segundo ajuste DPO sobre el dataset de preferencias v2}{77}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Experimento con lr 1e-5}{77}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Experimento con lr 1e-4}{80}{subsection.7.4.2}%
+\contentsline {chapter}{\numberline {8}Resultados}{85}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Resultados globales en conjunto test}{85}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Comentarios sobre la comparación}{86}{section.8.2}%
+\contentsline {chapter}{\numberline {9}Impacto Social y Ética}{89}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Naturaleza y alcance del sistema}{89}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Encaje regulatorio y jurídico}{90}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Riesgos principales}{91}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Medidas de mitigación y responsabilidad}{91}{section.9.4}%
+\contentsline {section}{\numberline {9.5}Resumen de impacto}{92}{section.9.5}%
+\contentsline {chapter}{\numberline {10}Conclusiones y Trabajo Futuro}{93}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Conclusiones principales}{93}{section.10.1}%
+\contentsline {subsection}{\numberline {10.1.1}Análisis de la propuesta serializada}{93}{subsection.10.1.1}%
+\contentsline {subsection}{\numberline {10.1.2}Análisis de la propuesta Two-Head}{94}{subsection.10.1.2}%
+\contentsline {subsection}{\numberline {10.1.3}Análisis de la optimización por preferencias}{95}{subsection.10.1.3}%
+\contentsline {section}{\numberline {10.2}Limitaciones}{96}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Revisión de objetivos}{97}{section.10.3}%
+\contentsline {section}{\numberline {10.4}Trabajo futuro}{98}{section.10.4}%
+\contentsline {chapter}{\numberline {A}Configuración experimental y reproducibilidad}{107}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Entorno de hardware y software}{107}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Modelo base y cuantización}{108}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Configuración LoRA}{108}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Hiperparámetros de entrenamiento por variante}{110}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Configuración de inferencia y evaluación}{110}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Reproducibilidad y trazabilidad}{117}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Ejemplos de entrada y salida del mejor sistema}{117}{section.A.7}%
+\contentsline {chapter}{\numberline {B}Evaluación ética y matriz de riesgos}{121}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Clasificación bajo el AI Act}{121}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Factores RGPD}{121}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Checklist ética AI HLEG}{122}{section.B.3}%
+\contentsline {section}{\numberline {B.4}Matriz de riesgos}{122}{section.B.4}%

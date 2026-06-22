@@ -3,29 +3,29 @@
 \chapter{Análisis inicial}
 \label{ch::chapter3}
 
-El objetivo de este capítulo es caracterizar el conjunto de datos y los prompts con los que trabajamos,
+El objetivo de este capítulo es caracterizar el conjunto de datos y los prompts utilizados en el trabajo,
 un análisis que muestre las tensiones estructurales del problema \citep{yang2025structeval, li2023strucbench}. El análisis inicial sirve para anclar las decisiones de 
-diseño posteriores: explicará por qué
-ciertos modelos fallan de formas específicas, por qué ciertas métricas son necesarias y qué esperamos ver en los experimentos.
+diseño posteriores: explica por qué
+ciertos modelos fallan de formas específicas, por qué ciertas métricas son necesarias y qué se observa en los experimentos.
 
 Todos los manifiestos analizados aquí son \textit{canónicos}: han sido parseados, validados y serializados de forma determinista, partiendo del mismo tipo de pares
 prompt--manifiesto que emplean benchmarks recientes de generación de YAML cloud-native \citep{xu2024cloudevalyaml, cloudeval2023}. El proceso seguido es simple: dado un
 prompt en lenguaje natural, el modelo debe generar una secuencia de bloques estructurados (documento, índice de línea, nivel de indentación, texto) cuya
-reconstrucción mediante indentación produce un manifest YAML válido. Esto supone ya que el YAML está normalizado.
+reconstrucción mediante indentación produce un manifiesto YAML válido. Esto supone ya que el YAML está normalizado.
 
 \section{El conjunto de datos}
 
 \subsection{Descripción general}
 
 El dataset base está compuesto por 283 muestras que contienen un total de 338 manifiestos Kubernetes válidos. Cada muestra incluye dos variantes de prompt en lenguaje
-natural: una descripción más elaborada y una versión simplificada. Esto suma un total de 566 pares prompt-manifest en la distribución de entrenamiento. El dataset se
+natural: una descripción más elaborada y una versión simplificada. Esto suma un total de 566 pares prompt--manifiesto en la distribución de entrenamiento. El dataset se
 divide en tres conjuntos: 213 muestras para entrenamiento, 35 para validación y 35 para evaluación final.
 
 Un aspecto importante del preprocesado fue el control de fugas (\textit{leakage}). Se identificaron 51 muestras que contienen manifiestos exactamente duplicados, y
 todas ellas fueron agrupadas en el mismo conjunto (siempre entrenamiento). Además, se detectaron 51 pares de prompts duplicados exactamente y aproximadamente 15 pares
 con similitud mayor a 0.97, que también fueron agrupados para evitar que el modelo entrenara en una muestra y evaluara en su duplicado.
 
-Cabe destacar que cada muestra es usada 2 veces. Por un lado aparecerá como objetivo del promt más elaborado (question) y por otro como objetivo del prompt simplificado
+Cabe destacar que cada muestra se usa 2 veces. Por un lado aparece como objetivo del prompt más elaborado (question) y por otro como objetivo del prompt simplificado
 (simplified).
 
 \begin{table}[htbp]
@@ -38,7 +38,7 @@ Cabe destacar que cada muestra es usada 2 veces. Por un lado aparecerá como obj
 \midrule
 Muestras totales & 283 \\
 Documentos Kubernetes totales & 338 \\
-Pares prompt-manifest & 566 \\
+Pares prompt--manifiesto & 566 \\
 Muestras de entrenamiento & 213 \\
 Muestras de validación & 35 \\
 Muestras de test & 35 \\
@@ -61,7 +61,7 @@ Pares de prompt casi duplicado (similitud $>$ 0.97) & 15 \\
 Los manifiestos en el dataset corresponden a varios tipos de recursos Kubernetes (\textit{kinds}). La distribución no es uniforme. Los ocho tipos más frecuentes:
 (Pod (56), DaemonSet (55), Service (31), Deployment (21), Job (20), PersistentVolume (16), Secret (14), StatefulSet (14)) representan aproximadamente el 64\% del
 total de documentos. El resto distribuye entre tipos menos comunes: ConfigMap (12), ReplicaSet (9), Namespace (5), CronJob (4) y otros. Esta concentración tiene
-implicaciones para el aprendizaje del modelo, no solo en términos de frecuencia sino de complejidad estructural, que veremos luego.
+implicaciones para el aprendizaje del modelo, no solo en términos de frecuencia sino de complejidad estructural, que se analiza más adelante.
 
 La distribución de versiones de API refleja la variedad del ecosistema real de Kubernetes, un rasgo que se ve reflejado en estudios empíricos sobre configuraciones y defectos en manifiestos del dominio \citep{rahman2023securityk8s, zhang2025kubernetesdefects}: v1 (núcleo del API, 48\%), apps/v1 (workloads, 30\%), batch/v1 (tareas programadas, 8\%),
 rbac.authorization.k8s.io/v1 (control de acceso, 6\%) y otras versiones. Por último, respecto a la estructura de los manifiestos, casi todas las muestras (238 de 283)
@@ -91,12 +91,12 @@ de YAML canónico a formato tabular se desarrolla de forma completa en el capít
 
 \subsection{Estadísticas de profundidad y complejidad}
 
-Las muestras del dataset presentan variaciones significativas en tamaño y profundidad. El número de líneas por manifest (\texttt{block\_count}) varía desde un mínimo
-de 4 líneas hasta un máximo de 59, con mediana de 20 líneas. Esto refleja la heterogeneidad de los manifests: algunos son objetos de configuración simples (como un
+Las muestras del dataset presentan variaciones significativas en tamaño y profundidad. El número de líneas por manifiesto (\texttt{block\_count}) varía desde un mínimo
+de 4 líneas hasta un máximo de 59, con mediana de 20 líneas. Esto refleja la heterogeneidad de los manifiestos: algunos son objetos de configuración simples (como un
 ConfigMap con unos pocos pares clave-valor), mientras que otros son deployments complejos con especificaciones de plantillas, volúmenes y selectores.
 
 La profundidad máxima de indentación por muestra (\texttt{max\_block\_level}) también varía considerablemente, con mínimo de 3, percentil 75 en 9 y máximo de 13.
-Esto significa que algunos manifests tienen nesting profundo (caso típico: Deployment con spec \(\rightarrow\) template \(\rightarrow\) spec \(\rightarrow\) containers),
+Esto significa que algunos manifiestos tienen anidamiento profundo (caso típico: Deployment con spec \(\rightarrow\) template \(\rightarrow\) spec \(\rightarrow\) containers),
 mientras que otros permanecen en niveles superficiales.
 
 Pero el rasgo más importante es la \textit{distribución de niveles en el conjunto completo de bloques}. Si \(N_b\) denota el número total de bloques y \(\ell_i\)
@@ -110,7 +110,7 @@ Esta definición permite separar la intuición visual de la figura de una magnit
 cada nivel de indentación, emerge un patrón claro:
 
 \begin{itemize}
-\item Nivel 0: 1.443 bloques (primeras claves del manifest: \texttt{apiVersion}, \texttt{kind}, \texttt{metadata}, \texttt{spec})
+\item Nivel 0: 1.443 bloques (primeras claves del manifiesto: \texttt{apiVersion}, \texttt{kind}, \texttt{metadata}, \texttt{spec})
 \item Nivel 1: 1.541 bloques (contenido de \texttt{metadata} y \texttt{spec})
 \item Nivel 2: 1.045 bloques (subestructuras como \texttt{labels}, \texttt{selector}, \texttt{containers})
 \item Nivel 3: 818 bloques
@@ -148,7 +148,7 @@ cada nivel de indentación, emerge un patrón claro:
 \end{figure}
 
 \noindent Existe un \textit{desbalanceo severo} hacia niveles bajos. A partir del nivel 5, la cantidad de ejemplos cae de forma brusca. Este hecho tiene implicaciones
-directas para el aprendizaje: un modelo que intenta predecir \texttt{level} como un número dentro de una secuencia tendrá muy pocos ejemplos de niveles profundos y,
+directas para el aprendizaje: un modelo que intenta predecir \texttt{level} como un número dentro de una secuencia tiene muy pocos ejemplos de niveles profundos y,
 por tanto, poco incentivo para aprender a predecirlos correctamente.
 
 Precisamente en este punto se introdujo un experimento diagnóstico previo al entrenamiento estructural. Su objetivo fue verificar 
@@ -167,7 +167,7 @@ nivel estimado.
 
 El diseño del experimento se planteó de forma conservadora para evitar conclusiones infladas. Primero, la etiqueta \texttt{level} se eliminó de la superficie de entrada
 del modelo durante la extracción de representaciones, de modo que el clasificador no pudiera ``leer'' la respuesta directamente. Segundo, la evaluación se realizó sobre
-\textit{train} y \textit{validation}, reservando \textit{test} para fases posteriores del proyecto. Tercero, se contrastaron los modelos aprendidos frente a baselines simples
+\textit{train} y \textit{validation}, reservando \textit{test} para la evaluación final. Tercero, se contrastaron los modelos aprendidos frente a baselines simples
 (clase mayoritaria y nivel previo), precisamente para distinguir señal latente real de regularidades triviales del corpus.
 
 Bajo ese marco, los resultados más sólidos muestran un patrón coherente con el análisis de distribución de niveles: la recuperación de \texttt{level} es alta en zonas
@@ -193,22 +193,22 @@ de nivel en etapas posteriores.
 \subsection{Heterogeneidad estructural por tipo de recurso}
 
 Diferentes tipos de Kubernetes tienen ``firmas'' estructurales muy distintas. Un ConfigMap es una estructura plana: contiene solo claves y valores al nivel 1 bajo el
-campo \texttt{data}, lo que produce nesting de profundidad 3 - 4. Un Secret es similar. Por el contrario, un Deployment o StatefulSet introduce templating: el campo
+campo \texttt{data}, lo que produce anidamiento de profundidad 3 - 4. Un Secret es similar. Por el contrario, un Deployment o StatefulSet introduce templating: el campo
 \texttt{spec} contiene un \texttt{template}, que a su vez contiene otro \texttt{spec} para los pods, que contiene \texttt{containers}, que contiene \texttt{volumeMounts}.
-Esto produce nesting de profundidad 8 - 10 o más.
+Esto produce anidamiento de profundidad 8 - 10 o más.
 
-Esto significa que la dificultad estructural no es uniforme: cuando el modelo ve un Pod, tiene muchas más muestras de nesting profundo que cuando ve un ConfigMap.
+Esto significa que la dificultad estructural no es uniforme: cuando el modelo ve un Pod, tiene muchas más muestras de anidamiento profundo que cuando ve un ConfigMap.
 En este sentido, el sesgo de frecuencia en el dataset (Pod y DaemonSet dominan con 33\% del total) está correlacionado con una mayor complejidad estructural. Esto es un
 matiz importante: no es que el modelo tenga sesgo hacia tipos simples (que sería un problema de falta de cobertura), sino que ha visto muchos ejemplos de
 estructuras complejas.
 
 \subsection{Presencia de campos semánticos}
 
-Algunos campos Kubernetes son obligatorios en todos los manifests (como \texttt{metadata}), mientras que otros son opcionales y aparecen solo en ciertos tipos de recursos.
+Algunos campos Kubernetes son obligatorios en todos los manifiestos (como \texttt{metadata}), mientras que otros son opcionales y aparecen solo en ciertos tipos de recursos.
 Analizando el dataset:
 
 \begin{itemize}
-\item \texttt{metadata}: presente en el 100\% de los manifests (requerida por la API)
+\item \texttt{metadata}: presente en el 100\% de los manifiestos (requerida por la API)
 \item \texttt{spec}: presente en el 86.2\% (casi todos excepto Namespace y algunos objetos triviales)
 \item \texttt{containers}: presente en el 64.7\% (Pods, Deployments, y otros workloads)
 \item \texttt{image}: presente en el 64.7\% (corolario de containers)
@@ -224,8 +224,8 @@ Analizando el dataset:
 \label{fig:ch3_semantic_fields}
 \end{figure}
 
-\noindent Esta distribución refleja la naturaleza del dominio: la mayoría de manifests son workloads (Pods, Deployments, etc.) que necesitan \texttt{spec} y \texttt{containers},
-pero una minoría significativa son resources de configuración o red con campos mucho más específicos. La implicación para el modelo es que debe aprender patrones estructurales
+\noindent Esta distribución refleja la naturaleza del dominio: la mayoría de manifiestos son workloads (Pods, Deployments, etc.) que necesitan \texttt{spec} y \texttt{containers},
+pero una minoría significativa son recursos de configuración o red con campos mucho más específicos. La implicación para el modelo es que debe aprender patrones estructurales
 de alta varianza: a veces \texttt{spec} contiene containers, a veces contiene replicas, a veces contiene selector.
 
 \section{Análisis de los prompts}
@@ -281,24 +281,24 @@ respecto a requisitos expresados en lenguaje natural sigue la línea de otras ev
 \citep{ueno2024migrating, xu2024cloudevalyaml}. El grado en que estos
 requisitos aparecen explícitamente en el prompt varía. Algunos prompts especifican casi todos los requisitos; otros proporcionan solo los campos esenciales.
 Y de estos requisitos
-mencionados en el prompt, no todos aparecen en el manifest YAML ground truth. Un prompt puede especificar ``el contenedor debe ejecutarse como usuario no-root'',
-pero el manifest
+mencionados en el prompt, no todos aparecen en el manifiesto YAML de referencia. Un prompt puede especificar ``el contenedor debe ejecutarse como usuario no-root'',
+pero el manifiesto
 del dataset podría no incluir la sección \texttt{securityContext}, bien porque fue omitido deliberadamente o porque el contexto del dataset no cubre todos los requisitos
 mencionados.
 
-De esta extracción de requesitos construiremos métricas de cobertura semántica, que nos ayudarán a evaluar no solo si el manifest es sintácticamente correcto,
+De esta extracción de requisitos se construyen métricas de cobertura semántica, que permiten evaluar no solo si el manifiesto es sintácticamente correcto,
 sino si cumple con
-los requisitos explícitos del prompt. Por ejemplo, si el prompt menciona un puerto específico, ¿está ese puerto presente en el manifest generado? Si el prompt
+los requisitos explícitos del prompt. Por ejemplo, si el prompt menciona un puerto específico, ¿está ese puerto presente en el manifiesto generado? Si el prompt
 especifica un número 
-de replicas, ¿coincide con el valor en el YAML? Esto nos liberará del uso de métricas como BLEU o ROUGE, que no capturan adecuadamente la corrección semántica
+de replicas, ¿coincide con el valor en el YAML? Esto evita depender de métricas como BLEU o ROUGE, que no capturan adecuadamente la corrección semántica
 en este dominio cuando la salida es un artefacto técnico validable \citep{chen2021evaluating, xu2024cloudevalyaml}.
 
 \subsection{Correlación entre longitud y complejidad}
 
-Un aspecto relevante es si prompts más largos producen manifests más complejos. Existe una correlación positiva moderada entre la longitud del prompt (en palabras o tokens) y
-la complejidad del manifest, medida como número de líneas (\texttt{block\_count}) o número de nodos en el árbol parseado (\texttt{yaml\_total\_nodes}). Sin embargo,
-la correlación no es perfecta: hay prompts relativamente breves que generan manifests complejos
-(por ejemplo, ``crea un Deployment'' en un contexto donde Deployment implica naturalmente múltiples contenedores y volúmenes) y prompts largos con manifests simples (por ejemplo,
+Un aspecto relevante es si prompts más largos producen manifiestos más complejos. Existe una correlación positiva moderada entre la longitud del prompt (en palabras o tokens) y
+la complejidad del manifiesto, medida como número de líneas (\texttt{block\_count}) o número de nodos en el árbol parseado (\texttt{yaml\_total\_nodes}). Sin embargo,
+la correlación no es perfecta: hay prompts relativamente breves que generan manifiestos complejos
+(por ejemplo, ``crea un Deployment'' en un contexto donde Deployment implica naturalmente múltiples contenedores y volúmenes) y prompts largos con manifiestos simples (por ejemplo,
 explicaciones verbosas de un ConfigMap simple).
 
 \begin{figure}[htbp]
@@ -310,8 +310,8 @@ explicaciones verbosas de un ConfigMap simple).
 
 \section{Observaciones con implicaciones de diseño}
 
-El análisis anterior revela patrones del dataset que tienen consecuencias directas para cómo el modelo aprenderá a generar manifests. En esta sección contrastamos estas
-observaciones con los resultados de los experimentos realizados hasta ahora.
+El análisis anterior revela patrones del dataset que tienen consecuencias directas para cómo el modelo aprende a generar manifiestos. En esta sección se contrastan estas
+observaciones con los resultados experimentales.
 
 \subsection{La pared del nivel 5}
 
@@ -321,23 +321,16 @@ El dataset tiene <8\% de bloques en niveles de indentación $\geq 5$. En términ
 p_{\geq 5} = \sum_{k=5}^{8} p_k.
 \]
 
-\subsection{Anti-patrones de seguridad presentes en el training data}
+\subsection{Anti-patrones de seguridad presentes en los datos de entrenamiento}
 
-Los manifests del dataset no son perfectos desde el punto de vista de seguridad. El análisis realizado detecta varios anti-patrones en las salidas generadas, muchos de
+Los manifiestos del dataset no son perfectos desde el punto de vista de seguridad. El análisis realizado detecta varios anti-patrones en las salidas generadas, muchos de
 los cuales
-están presentes también en los targets del training data:
+están presentes también en los objetivos de los datos de entrenamiento:
 
 \begin{itemize}
 \item Ausencia de \texttt{resources.requests} y \texttt{resources.limits}: 261 ocurrencias en 70 muestras (3.7 por muestra en promedio)
 \item Ausencia de \texttt{runAsNonRoot} en \texttt{securityContext}: 71 ocurrencias
 \item Ausencia de \texttt{readOnlyRootFilesystem}: 71 ocurrencias
 \item Uso de tag \texttt{latest} de imagen o ausencia de tag específico: 67 ocurrencias
-\item Otras issues menores: volúmenes sin mounts correspondientes, etc.
+\item Otras incidencias menores: volúmenes sin montajes correspondientes, etc.
 \end{itemize}
-
-\noindent El evaluador de dominio de Kubernetes reporta que solo el 14.29\% de las muestras pasan todos los niveles de validación de buenas prácticas. Sin embargo, este número
-oculta un dato importante: el modelo *sí* genera configuraciones completamente conformes en algunas muestras (~10 de 70), lo que sugiere que posee la capacidad estructural de
-producir código seguro pero no está sesgado hacia ello. El modelo aprende de los datos y replica los anti-patrones que encuentra, un riesgo coherente con la literatura sobre
-errores y smells de seguridad en manifiestos Kubernetes \citep{rahman2023securityk8s, zhang2024generativeSmells}. Esto tiene implicación directa para fases posteriores:
-una señal explícita de preferencia o recompensa sobre seguridad, por ejemplo mediante optimización directa de preferencias, puede redirigir el comportamiento sin necesidad de
-reentrenamiento desde cero \citep{rafailov2023dpo}.

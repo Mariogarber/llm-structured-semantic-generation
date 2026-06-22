@@ -18,7 +18,8 @@ mayores, y el tamaño efectivo de batch. El hardware utilizado se detalla en la 
 \centering
 \caption{Especificaciones del entorno de hardware.}
 \label{tab:AnexoA_hardware}
-\begin{tabular}{ll}
+\small
+\begin{tabularx}{\textwidth}{lX}
 \toprule
 \textbf{Componente} & \textbf{Especificación} \\
 \midrule
@@ -28,7 +29,7 @@ GPU & NVIDIA GeForce RTX 3060 Laptop GPU, 6 GB VRAM GDDR6 \\
 VRAM en uso (inferencia) & $\approx$ 4.8 GB \\
 Sistema operativo & Windows 11 \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
 El entorno de software se gestiona con \texttt{uv} como gestor de dependencias, con un entorno virtual aislado por proyecto. La tabla~\ref{tab:AnexoA_software} recoge las versiones
@@ -91,7 +92,7 @@ Tipo de dato de cómputo & \texttt{float16} \\
 
 \section{Configuración LoRA}
 
-Todas las variantes de ajuste fino ---\texttt{serialized\_sft}, \texttt{two\_head\_sft} y sus derivados--- comparten la misma configuración de LoRA (\textit{Low-Rank Adaptation}).
+Todas las variantes de ajuste fino (\textit{Serialized SFT}, \textit{Two-Head Model} y sus derivados) comparten la misma configuración de LoRA (\textit{Low-Rank Adaptation}).
 Los adaptadores se insertan en las cuatro proyecciones de atención del transformer: \texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj} y \texttt{o\_proj}. No se adaptan los sesgos
 ni las capas de alimentación directa (\textit{feedforward}).
 
@@ -161,7 +162,7 @@ Recuperación ante OOM & omitir el microbatch problemático cuando la variante l
 \texttt{two\_head\_sft} & documentado & Se mantiene como rama supervisada principal con cabezal categórico. \\
 \shortstack[l]{\texttt{two\_head\_ordinal}\\\texttt{\_density}} & no documentado & Se añade como primera familia ordinal con pérdida ponderada por densidad. \\
 \shortstack[l]{\texttt{two\_head\_ordinal}\\\texttt{\_positional}} & documentado parcialmente & Se mantiene y se precisa como variante V1 con concatenación posicional final. \\
-\shortstack[l]{\texttt{two\_head\_ordinal\_film}\\\texttt{\_positional}} & no documentado & Se añade como experimento posterior en curso con modulación FiLM. \\
+\shortstack[l]{\texttt{two\_head\_ordinal\_film}\\\texttt{\_positional}} & no documentado & Se añade como extensión posterior ejecutada con modulación FiLM. \\
 \texttt{serialized\_sft\_dpo} & no documentado & Se añaden las ejecuciones DPO completas con \(\beta=0{,}10\) y \(\beta=0{,}30\), y se documenta la generación del dataset DPO v2. \\
 \bottomrule
 \end{tabularx}
@@ -272,11 +273,6 @@ Inicialización de umbrales & equidistante, centro 0, separación 0.5 \\
 \end{tabularx}
 \end{table}
 
-La diferencia más relevante entre \texttt{two\_head\_sft} y las variantes ordinales es la forma en que el cabezal aprende a predecir el nivel. En el primero, el clasificador MLP
-recibe únicamente el estado oculto del transformer en la posición de alineamiento y produce una distribución categórica sobre las nueve clases. En las variantes ordinales, en cambio,
-la salida se interpreta como una relación ordenada entre niveles, de modo que los errores cercanos y lejanos no tienen el mismo significado. La variante posicional V1 añade la posición
-absoluta mediante concatenación final; la variante V2 conserva la misma intuición, pero introduce la posición como una modulación FiLM intermedia.
-
 \begin{table}[htbp]
 \centering
 \caption{Parámetros específicos de las ejecuciones DPO sobre \texttt{serialized\_sft}.}
@@ -288,6 +284,11 @@ absoluta mediante concatenación final; la variante V2 conserva la misma intuici
 Variante de partida & \texttt{serialized\_sft}, \texttt{checkpoint-step-159} \\
 Formato de preferencia & pares \texttt{chosen}/\texttt{rejected} en \texttt{blocks\_tsv\_v1} \\
 Muestras de preferencia & 454 \\
+Candidatos por prompt para preferencias & 6 \\
+Temperaturas de muestreo de candidatos & 0.45, 0.65, 0.85, 1.0, 1.1, 1.2 \\
+\texttt{top\_p} en generación de candidatos & 0.95 \\
+Máximo de tokens nuevos en generación de candidatos & 512 \\
+Batch y semilla en generación de candidatos & batch 1; semilla 42 \\
 Épocas de entrenamiento & 1 \\
 Tamaño de batch & 1 \\
 Pasos de acumulación de gradiente & 8 \\
@@ -319,6 +320,10 @@ Split usado para generar candidatos & entrenamiento de \texttt{kubernetes\_v1} \
 Prompts considerados & 426 \\
 Candidatos por prompt & 6 \\
 Candidatos evaluados & 2556 \\
+Temperaturas de muestreo de candidatos & 0.45, 0.65, 0.85, 1.0, 1.1, 1.2 \\
+\texttt{top\_p} en generación de candidatos & 0.95 \\
+Máximo de tokens nuevos en generación de candidatos & 512 \\
+Batch y semilla en generación de candidatos & batch 1; semilla 42 \\
 Pares finales seleccionados & 229 \\
 Prompts con al menos un par & 193 \\
 Tipos de pares & \texttt{domain\_invariant}, \texttt{gate\_crossing}, \texttt{level5\_practice}, \texttt{prompt\_fidelity}, \texttt{structural\_fidelity} \\
@@ -362,6 +367,10 @@ elimina la varianza introducida por la temperatura y hace que los resultados sea
 nuevos varía según el formato de salida esperado: la línea base y el SFT serializado generan representaciones más compactas, mientras que el two-head genera únicamente contenido
 y metadatos de posición sin incluir el nivel en la cadena de texto, lo que puede requerir secuencias más largas para completar el mismo número de líneas.
 
+Esta configuración greedy se refiere a la evaluación comparativa de los modelos ya entrenados. La generación de candidatos para DPO se trata de forma separada: ahí sí se utiliza
+muestreo con varias temperaturas para obtener respuestas suficientemente distintas sobre un mismo prompt. Esta diferencia no introduce una segunda política de evaluación, sino que
+responde a dos usos distintos de la generación: medir modelos de forma determinista, por un lado, y construir contrastes de preferencia informativos, por otro.
+
 \begin{table}[htbp]
 \centering
 \caption{Configuración de inferencia por variante experimental.}
@@ -390,3 +399,97 @@ Cuando un microbatch provoca un error de memoria de GPU (\textit{CUDA out of mem
 del paso de optimización y continúa con el siguiente. Este mecanismo evita que un único ejemplo problemático interrumpa la ejecución, a costa de que ese ejemplo no contribuya
 a la actualización del modelo en ese paso. Finalmente, todas las ejecuciones de entrenamiento y validación intermedia se registran en la plataforma Weights \& Biases bajo el
 proyecto \texttt{llm-structured-semantic-generation}, con logs de pérdida, métricas de validación por paso de \textit{checkpoint} y configuración completa del experimento.
+
+\section{Ejemplos de entrada y salida del mejor sistema}
+
+Para complementar la comparación agregada del Capítulo~\ref{ch::chapter8}, esta sección recoge tres ejemplos concretos generados por la variante DPO v2 evaluada sobre el split de test. En todos los casos se usa el \textit{checkpoint} \texttt{checkpoint-step-87}; la inferencia se realiza en modo greedy y el modelo produce internamente una secuencia \texttt{blocks\_tsv\_v1}. Por tanto, las salidas que se muestran no son una edición manual posterior, sino el YAML reconstruido por el parser a partir de esos bloques estructurados.
+
+Los ejemplos se han seleccionado para mostrar tres tipos de petición distintos: un objeto RBAC compacto, una modificación estructural sobre un \texttt{DaemonSet} y un recurso \texttt{Endpoints} relacionado con la comunicación entre espacios de nombres. Su objetivo no es sustituir a las métricas, sino hacer visible cómo se materializa la salida final del sistema en casos concretos del conjunto de test.
+
+\subsection*{Ejemplo 1: RoleBinding RBAC compacto}
+
+\noindent\textit{Identificador:} \texttt{q224::question\_simplified}.
+
+\noindent\textbf{Prompt.}
+\begin{lstlisting}[style=yamlblock]
+Craft a k8s yaml for RoleBinding "testadminbinding" in "test3" ns. Grant "myaccount" SA from "test" ns "cluster-admin" CR permissions.
+\end{lstlisting}
+
+\noindent\textbf{Predicción.}
+\begin{lstlisting}[style=yamlblock]
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: testadminbinding
+  namespace: test3
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- apiGroup: ''
+  kind: ServiceAccount
+  name: myaccount
+  namespace: test
+\end{lstlisting}
+
+\subsection*{Ejemplo 2: DaemonSet con \texttt{nodeSelector}}
+
+\noindent\textit{Identificador:} \texttt{q18::question\_simplified}.
+
+\noindent\textbf{Prompt.}
+\begin{lstlisting}[style=yamlblock]
+Add a nodeSelector to the given DaemonSet YAML to ensure Pods run only on nodes labeled "disktype=ssd".
+\end{lstlisting}
+
+\noindent\textbf{Predicción.}
+\begin{lstlisting}[style=yamlblock]
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nodeselector-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: nodeselector-daemonset
+  template:
+    metadata:
+      labels:
+        app: nodeselector-daemonset
+    spec:
+      containers:
+      - command:
+        - sleep
+        - '3600'
+        image: busybox
+        name: busybox
+      nodeSelector:
+        disktype: ssd
+\end{lstlisting}
+
+\subsection*{Ejemplo 3: Endpoints entre espacios de nombres}
+
+\noindent\textit{Identificador:} \texttt{q257::question\_simplified}.
+
+\noindent\textbf{Prompt.}
+\begin{lstlisting}[style=yamlblock]
+How can I define a service in one namespace that links to a Pod running in another namespace without the code inside the container needing to know about the location of the service?
+\end{lstlisting}
+
+\noindent\textbf{Predicción.}
+\begin{lstlisting}[style=yamlblock]
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: service-x
+  namespace: namespace-a
+subsets:
+- addresses:
+  - targetRef:
+      kind: Service
+      namespace: namespace-b
+      name: service-x
+      apiVersion: v1
+  ports:
+  - port: 80
+\end{lstlisting}
